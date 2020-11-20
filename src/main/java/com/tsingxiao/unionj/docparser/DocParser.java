@@ -1,8 +1,9 @@
 package com.tsingxiao.unionj.docparser;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.tsingxiao.unionj.docparser.entity.*;
-import com.tsingxiao.unionj.schemafaker.DefaultSchemaFakerImpl;
+import com.tsingxiao.unionj.schemafaker.DefaultSchemaFaker;
 import com.tsingxiao.unionj.schemafaker.SchemaFaker;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
+import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
 import io.swagger.v3.oas.models.responses.ApiResponse;
 import io.swagger.v3.oas.models.responses.ApiResponses;
@@ -18,6 +20,7 @@ import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -34,7 +37,7 @@ public class DocParser {
 
   private static String[] redundantPorts = new String[]{":80", ":443"};
   private String doc;
-  private SchemaFaker faker = new DefaultSchemaFakerImpl();
+  private SchemaFaker faker = new DefaultSchemaFaker();
 
 
   public DocParser(String doc) {
@@ -66,15 +69,20 @@ public class DocParser {
     api.setBaseUrl(host);
 
     List<ApiItem> apiItems = new ArrayList<>();
+    Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+    this.faker.setSchemas(schemas);
     Paths paths = openAPI.getPaths();
     for (Map.Entry<String, PathItem> pathItemEntry : paths.entrySet()) {
       String key = pathItemEntry.getKey();
       key = StringUtils.replace(key, "{", ":");
       key = StringUtils.replace(key, "}", "");
       PathItem pathItem = pathItemEntry.getValue();
-      Set<ApiParam> apiParams = pathItem.getParameters().stream()
-          .map(para -> new ApiParam(para.getName(), para.getIn()))
-          .collect(Collectors.toSet());
+      Set<ApiParam> apiParams = Sets.newHashSet();
+      if (CollectionUtils.isNotEmpty(pathItem.getParameters())) {
+        apiParams.addAll(pathItem.getParameters().stream()
+            .map(para -> new ApiParam(para.getName(), para.getIn()))
+            .collect(Collectors.toSet()));
+      }
       Map<PathItem.HttpMethod, Operation> operationMap = pathItem.readOperationsMap();
       for (Map.Entry<PathItem.HttpMethod, Operation> entry : operationMap.entrySet()) {
         ApiItem apiItem = new ApiItem();
@@ -82,13 +90,18 @@ public class DocParser {
         apiItem.setMethod(entry.getKey().name().toLowerCase());
 
         Operation operation = entry.getValue();
-        apiParams.addAll(operation.getParameters().stream()
-            .map(para -> new ApiParam(para.getName(), para.getIn()))
-            .collect(Collectors.toSet()));
-        Map<String, List<String>> apiParamMap = apiParams.stream()
-            .collect(Collectors.groupingBy(ApiParam::getIn, Collectors.mapping(ApiParam::getName, Collectors.toList())));
-        apiItem.setPathParams(apiParamMap.get(ParameterIn.PATH.toString()));
-        apiItem.setQueryParams(apiParamMap.get(ParameterIn.QUERY.toString()));
+        if (CollectionUtils.isNotEmpty(operation.getParameters())) {
+          apiParams.addAll(operation.getParameters().stream()
+              .map(para -> new ApiParam(para.getName(), para.getIn()))
+              .collect(Collectors.toSet()));
+        }
+
+        if (CollectionUtils.isNotEmpty(apiParams)) {
+          Map<String, List<String>> apiParamMap = apiParams.stream()
+              .collect(Collectors.groupingBy(ApiParam::getIn, Collectors.mapping(ApiParam::getName, Collectors.toList())));
+          apiItem.setPathParams(apiParamMap.get(ParameterIn.PATH.toString()));
+          apiItem.setQueryParams(apiParamMap.get(ParameterIn.QUERY.toString()));
+        }
 
         RequestBody requestBody = operation.getRequestBody();
         if (requestBody != null) {
@@ -96,7 +109,9 @@ public class DocParser {
           if (content != null) {
             MediaType mediaType = content.get(ApiMediaType.JSON);
             if (mediaType != null) {
-              apiItem.setBodyParams(Lists.newArrayList(mediaType.getSchema().getProperties().keySet()));
+              if (MapUtils.isNotEmpty(mediaType.getSchema().getProperties())) {
+                apiItem.setBodyParams(Lists.newArrayList(mediaType.getSchema().getProperties().keySet()));
+              }
             }
           }
         }
@@ -114,9 +129,12 @@ public class DocParser {
             }
           }
         }
+
+        apiItems.add(apiItem);
       }
     }
 
+    api.setItems(apiItems);
     return api;
   }
 
