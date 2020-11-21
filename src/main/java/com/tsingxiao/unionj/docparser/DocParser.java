@@ -88,7 +88,9 @@ public class DocParser {
         ApiItem apiItem = new ApiItem();
         apiItem.setEndpoint(key);
         apiItem.setMethod(entry.getKey().name().toLowerCase());
-
+        if (CollectionUtils.isNotEmpty(entry.getValue().getTags())) {
+          apiItem.setTag(entry.getValue().getTags().get(0));
+        }
         Operation operation = entry.getValue();
         if (CollectionUtils.isNotEmpty(operation.getParameters())) {
           apiParams.addAll(operation.getParameters().stream()
@@ -134,7 +136,8 @@ public class DocParser {
       }
     }
 
-    api.setItems(apiItems);
+    Map<String, List<ApiItem>> apiItemMap = apiItems.stream().collect(Collectors.groupingBy(ApiItem::getTag, Collectors.toList()));
+    api.setItems(apiItemMap);
     return api;
   }
 

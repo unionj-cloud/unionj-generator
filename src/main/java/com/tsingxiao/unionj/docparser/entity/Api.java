@@ -3,6 +3,7 @@ package com.tsingxiao.unionj.docparser.entity;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: created by wubin
@@ -13,5 +14,5 @@ import java.util.List;
 @Data
 public class Api {
   private String baseUrl;
-  private List<ApiItem> items;
+  private Map<String, List<ApiItem>> items;
 }

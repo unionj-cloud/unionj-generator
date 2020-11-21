@@ -62,6 +62,9 @@ public enum FormatConstants {
   @Faker(IntFaker.class)
   BIGDECIMAL("bigdecimal"),
 
+  @Faker(CodeFaker.class)
+  CODE("code"),
+
   TESTONLY("testonly");
 
   private String format;
