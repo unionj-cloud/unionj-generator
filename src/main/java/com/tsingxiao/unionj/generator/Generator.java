@@ -8,7 +8,7 @@ import java.util.Map;
  * @description: com.tsingxiao.unionj.generator
  * @date:2020/11/21
  */
-public interface ApiGenerator {
+public interface Generator {
 
   Map<String, Object> getInput();
 

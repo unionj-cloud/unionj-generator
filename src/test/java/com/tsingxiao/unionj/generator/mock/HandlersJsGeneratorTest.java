@@ -1,8 +1,9 @@
-package com.tsingxiao.unionj.generator;
+package com.tsingxiao.unionj.generator.mock;
 
 import com.tsingxiao.unionj.docparser.DocParser;
 import com.tsingxiao.unionj.docparser.DocParserTest;
 import com.tsingxiao.unionj.docparser.entity.Api;
+import com.tsingxiao.unionj.generator.mock.HandlersJsGenerator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -14,14 +15,14 @@ import java.io.File;
  * @description: com.tsingxiao.unionj.generator
  * @date:2020/11/22
  */
-public class DefaultGeneratorTest {
+public class HandlersJsGeneratorTest {
 
   @Test
   public void generate() {
     String testFilePath = DocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
     DocParser docParser = new DocParser(testFilePath);
     Api api = docParser.parse();
-    HandlersGenerator handlersGenerator = new HandlersGenerator(api);
+    HandlersJsGenerator handlersGenerator = new HandlersJsGenerator(api);
     String outputFile = handlersGenerator.generate();
     File file = new File(outputFile);
     Assert.assertTrue(file.exists());

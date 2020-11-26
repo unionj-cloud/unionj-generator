@@ -1,10 +1,10 @@
-package com.tsingxiao.unionj.generator;
+package com.tsingxiao.unionj.generator.mock;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tsingxiao.unionj.docparser.entity.Api;
 import com.tsingxiao.unionj.docparser.entity.ApiItem;
-import org.apache.commons.lang3.StringUtils;
+import com.tsingxiao.unionj.generator.ApiItemVo;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,25 +17,18 @@ import java.util.stream.Collectors;
  * @description: com.tsingxiao.unionj.generator
  * @date:2020/11/22
  */
-public class HandlersGenerator extends DefaultApiGenerator {
+public class HandlersJsGenerator extends MockGenerator {
 
   private Api api;
-  private String outputDir;
-  private ObjectMapper objectMapper = new ObjectMapper();
+  private String outputDir = OUTPUT_DIR;
 
-  public HandlersGenerator(Api api) {
+  public HandlersJsGenerator(Api api) {
     this.api = api;
   }
 
-  public HandlersGenerator(Api api, String outputDir) {
+  public HandlersJsGenerator(Api api, String outputDir) {
     this.api = api;
     this.outputDir = outputDir;
-  }
-
-  public HandlersGenerator(Api api, String outputDir, ObjectMapper objectMapper) {
-    this.api = api;
-    this.outputDir = outputDir;
-    this.objectMapper = objectMapper;
   }
 
   @Override
@@ -54,15 +47,12 @@ public class HandlersGenerator extends DefaultApiGenerator {
 
   @Override
   public String getTemplate() {
-    return "handlers.js.ftl";
+    return OUTPUT_DIR + File.separator + "handlers.js.ftl";
   }
 
   @Override
   public String getOutputFile() {
-    String outputDir = this.outputDir;
-    if (StringUtils.isBlank(outputDir)) {
-      outputDir = System.getProperty("user.dir");
-    }
-    return outputDir + "/handlers.js";
+    return getOutputDir(this.outputDir) + File.separator + "handlers.js";
   }
+
 }

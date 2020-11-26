@@ -5,12 +5,12 @@ import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.Version;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * @author: created by wubin
@@ -18,16 +18,23 @@ import java.util.Map;
  * @description: com.tsingxiao.unionj.generator
  * @date:2020/11/21
  */
-public abstract class DefaultApiGenerator implements ApiGenerator {
+public abstract class DefaultGenerator implements Generator {
 
-  @Override
-  public abstract Map<String, Object> getInput();
-
-  @Override
-  public abstract String getTemplate();
-
-  @Override
-  public abstract String getOutputFile();
+  protected String getOutputDir(String outputDir) {
+    if (StringUtils.isBlank(outputDir)) {
+      outputDir = System.getProperty("user.dir");
+    } else {
+      File file = new File(outputDir);
+      if (!file.isAbsolute()) {
+        outputDir = System.getProperty("user.dir") + File.separator + outputDir;
+      }
+      file = new File(outputDir);
+      if (!file.exists()) {
+        file.mkdirs();
+      }
+    }
+    return outputDir;
+  }
 
   @SneakyThrows
   @Override
@@ -40,7 +47,7 @@ public abstract class DefaultApiGenerator implements ApiGenerator {
     Configuration cfg = new Configuration(new Version(2, 3, 20));
 
     // Where do we load the templates from:
-    cfg.setClassForTemplateLoading(DefaultApiGenerator.class, "/templates");
+    cfg.setClassForTemplateLoading(DefaultGenerator.class, "/templates");
 
     // Some other recommended settings:
     cfg.setDefaultEncoding("UTF-8");

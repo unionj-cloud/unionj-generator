@@ -53,6 +53,12 @@ public enum FormatConstants {
   @Faker(NameFaker.class)
   NAME("name"),
 
+  @Faker(TitleFaker.class)
+  TITLE("title"),
+
+  @Faker(SentenceFaker.class)
+  SENTENCE("sentence"),
+
   @Faker(PhoneFaker.class)
   PHONE("phone"),
 
