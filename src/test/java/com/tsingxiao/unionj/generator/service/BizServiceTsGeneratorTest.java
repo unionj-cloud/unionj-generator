@@ -1,14 +1,6 @@
 package com.tsingxiao.unionj.generator.service;
 
-import com.tsingxiao.unionj.generator.mock.docparser.DocParser;
-import com.tsingxiao.unionj.generator.mock.docparser.DocParserTest;
-import com.tsingxiao.unionj.generator.mock.docparser.entity.Api;
-import com.tsingxiao.unionj.generator.GeneratorUtils;
-import com.tsingxiao.unionj.generator.service.entity.Server;
-import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.File;
 
 /**
  * @author: created by wubin

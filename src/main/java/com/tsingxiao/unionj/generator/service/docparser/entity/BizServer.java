@@ -1,6 +1,8 @@
-package com.tsingxiao.unionj.generator.service.entity;
+package com.tsingxiao.unionj.generator.service.docparser.entity;
 
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author: created by wubin
@@ -9,9 +11,8 @@ import lombok.Data;
  * @date:2020/11/18
  */
 @Data
-public class Property {
-
+public class BizServer {
   private String name;
-  private String type;
-
+  private List<BizService> services;
+  private List<BizType> types;
 }

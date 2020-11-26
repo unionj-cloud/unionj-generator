@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.service.entity;
+package com.tsingxiao.unionj.generator.service.docparser.entity;
 
 import lombok.Data;
 
@@ -11,18 +11,18 @@ import java.util.List;
  * @date:2020/11/18
  */
 @Data
-public class Router {
+public class BizRouter {
 
   private String name;
   private String endpoint;
   private String httpMethod;
 
-  private ReqBody reqBody;
-  private List<Property> pathParams;
-  private List<Property> queryParams;
+  private BizType reqBody;
+  private List<BizProperty> pathParams;
+  private List<BizProperty> queryParams;
 
 
   // TODO need implementation
-  private List<Property> headerParams;
+  private List<BizProperty> headerParams;
 
 }

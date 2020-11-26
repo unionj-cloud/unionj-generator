@@ -1,9 +1,11 @@
 package com.tsingxiao.unionj.generator.service;
 
 import com.tsingxiao.unionj.generator.GeneratorUtils;
+import com.tsingxiao.unionj.generator.service.docparser.entity.BizType;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -12,35 +14,35 @@ import java.util.Map;
  * @description: com.tsingxiao.unionj.generator
  * @date:2020/11/22
  */
-public class BizServiceTsGenerator extends ServiceGenerator {
+public class TypesTsGenerator extends ServiceGenerator {
 
-  private String serverName;
+  private List<BizType> types;
   private String outputDir = OUTPUT_DIR;
 
-  public BizServiceTsGenerator(String serverName) {
-    this.serverName = serverName;
+  public TypesTsGenerator(List<BizType> types) {
+    this.types = types;
   }
 
-  public BizServiceTsGenerator(String serverName, String outputDir) {
-    this.serverName = serverName;
+  public TypesTsGenerator(List<BizType> types, String outputDir) {
+    this.types = types;
     this.outputDir = outputDir;
   }
 
   @Override
   public Map<String, Object> getInput() {
     Map<String, Object> input = new HashMap<>();
-    input.put("serverName", this.serverName);
+    input.put("types", this.types);
     return input;
   }
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "BizService.ts.ftl";
+    return OUTPUT_DIR + File.separator + "types.ts.ftl";
   }
 
   @Override
   public String getOutputFile() {
-    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + "BizService.ts";
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + "types.ts";
   }
 
 }

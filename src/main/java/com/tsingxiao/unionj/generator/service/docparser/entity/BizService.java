@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.service.entity;
+package com.tsingxiao.unionj.generator.service.docparser.entity;
 
 import lombok.Data;
 
@@ -10,14 +10,9 @@ import java.util.List;
  * @description: com.tsingxiao.unionj.generator.mock.docparser.entity
  * @date:2020/11/18
  */
-
-/**
- * ReqBody typescript interface representation
- */
 @Data
-public class ReqBody {
-
+public class BizService {
   private String name;
-  private List<Property> properties;
-
+  private List<BizRouter> routers;
+  private List<String> reqBodyList;
 }
