@@ -1,9 +1,8 @@
 package com.tsingxiao.unionj.generator.mock;
 
-import com.tsingxiao.unionj.docparser.DocParser;
-import com.tsingxiao.unionj.docparser.DocParserTest;
-import com.tsingxiao.unionj.docparser.entity.Api;
-import com.tsingxiao.unionj.generator.mock.HandlersJsGenerator;
+import com.tsingxiao.unionj.generator.mock.docparser.DocParser;
+import com.tsingxiao.unionj.generator.mock.docparser.DocParserTest;
+import com.tsingxiao.unionj.generator.mock.docparser.entity.Api;
 import org.junit.Assert;
 import org.junit.Test;
 

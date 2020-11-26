@@ -5,7 +5,6 @@ import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.Version;
 import lombok.SneakyThrows;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,22 +18,6 @@ import java.util.Locale;
  * @date:2020/11/21
  */
 public abstract class DefaultGenerator implements Generator {
-
-  protected String getOutputDir(String outputDir) {
-    if (StringUtils.isBlank(outputDir)) {
-      outputDir = System.getProperty("user.dir");
-    } else {
-      File file = new File(outputDir);
-      if (!file.isAbsolute()) {
-        outputDir = System.getProperty("user.dir") + File.separator + outputDir;
-      }
-      file = new File(outputDir);
-      if (!file.exists()) {
-        file.mkdirs();
-      }
-    }
-    return outputDir;
-  }
 
   @SneakyThrows
   @Override

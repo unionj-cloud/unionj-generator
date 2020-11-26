@@ -1,6 +1,6 @@
 package com.tsingxiao.unionj.generator.mock;
 
-import com.tsingxiao.unionj.docparser.entity.Api;
+import com.tsingxiao.unionj.generator.mock.docparser.entity.Api;
 import com.tsingxiao.unionj.generator.GeneratorUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
@@ -66,7 +66,7 @@ public class MockFolderGenerator extends MockGenerator {
 
   @Override
   public String getOutputFile() {
-    return getOutputDir(this.outputDir);
+    return GeneratorUtils.getOutputDir(this.outputDir);
   }
 
   @SneakyThrows
@@ -79,7 +79,7 @@ public class MockFolderGenerator extends MockGenerator {
     handlersGenerator.generate();
 
     if (this.zip) {
-      String zipFileName = getOutputDir("output") + File.separator + "mocks.zip";
+      String zipFileName = GeneratorUtils.getOutputDir("output") + File.separator + OUTPUT_DIR + ".zip";
       String sourceFile = getOutputFile();
       FileOutputStream fos = new FileOutputStream(zipFileName);
       ZipOutputStream zipOut = new ZipOutputStream(fos);

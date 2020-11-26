@@ -1,8 +1,9 @@
 package com.tsingxiao.unionj.generator.mock;
 
-import com.tsingxiao.unionj.docparser.entity.Api;
-import com.tsingxiao.unionj.docparser.entity.ApiItem;
+import com.tsingxiao.unionj.generator.mock.docparser.entity.Api;
+import com.tsingxiao.unionj.generator.mock.docparser.entity.ApiItem;
 import com.tsingxiao.unionj.generator.ApiItemVo;
+import com.tsingxiao.unionj.generator.GeneratorUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class HandlersJsGenerator extends MockGenerator {
 
   @Override
   public String getOutputFile() {
-    return getOutputDir(this.outputDir) + File.separator + "handlers.js";
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + "handlers.js";
   }
 
 }

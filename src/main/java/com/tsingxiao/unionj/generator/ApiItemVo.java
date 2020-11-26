@@ -1,6 +1,6 @@
 package com.tsingxiao.unionj.generator;
 
-import com.tsingxiao.unionj.docparser.entity.ApiItem;
+import com.tsingxiao.unionj.generator.mock.docparser.entity.ApiItem;
 import lombok.Data;
 
 /**

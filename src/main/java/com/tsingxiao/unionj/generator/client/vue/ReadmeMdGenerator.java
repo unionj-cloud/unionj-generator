@@ -1,5 +1,7 @@
 package com.tsingxiao.unionj.generator.client.vue;
 
+import com.tsingxiao.unionj.generator.GeneratorUtils;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class ReadmeMdGenerator extends VueGenerator {
 
   @Override
   public String getOutputFile() {
-    return getOutputDir(this.outputDir) + File.separator + "README.md";
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + "README.md";
   }
 
 }

@@ -1,5 +1,7 @@
 package com.tsingxiao.unionj.generator.client.vue;
 
+import com.tsingxiao.unionj.generator.GeneratorUtils;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class PackageJsonGenerator extends VueGenerator {
 
   @Override
   public String getOutputFile() {
-    return getOutputDir(this.outputDir) + File.separator + "package.json";
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + "package.json";
   }
 
 }

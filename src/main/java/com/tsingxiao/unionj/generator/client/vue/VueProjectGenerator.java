@@ -41,7 +41,7 @@ public class VueProjectGenerator extends VueGenerator {
 
   @Override
   public String getOutputFile() {
-    return getOutputDir(this.outputDir);
+    return GeneratorUtils.getOutputDir(this.outputDir);
   }
 
   @SneakyThrows
@@ -58,7 +58,7 @@ public class VueProjectGenerator extends VueGenerator {
     PackageJsonGenerator packageJsonGenerator = new PackageJsonGenerator(this.projectName);
     packageJsonGenerator.generate();
 
-    String zipFileName = getOutputDir("output") + File.separator + this.projectName + "_vue.zip";
+    String zipFileName = GeneratorUtils.getOutputDir("output") + File.separator + this.projectName + "_vue.zip";
     String sourceFile = getOutputFile();
     FileOutputStream fos = new FileOutputStream(zipFileName);
     ZipOutputStream zipOut = new ZipOutputStream(fos);
