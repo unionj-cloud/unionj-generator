@@ -1,14 +1,13 @@
 package com.tsingxiao.unionj.generator.service;
 
 import com.tsingxiao.unionj.generator.GeneratorUtils;
-import com.tsingxiao.unionj.generator.apidoc.IndexHtmlMdGenerator;
+import com.tsingxiao.unionj.generator.service.docparser.ServiceDocParser;
+import com.tsingxiao.unionj.generator.service.docparser.entity.BizServer;
+import com.tsingxiao.unionj.generator.service.docparser.entity.BizService;
 import lombok.SneakyThrows;
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Map;
-import java.util.zip.ZipOutputStream;
 
 /**
  * @author: created by wubin
@@ -48,28 +47,22 @@ public class ServiceFolderGenerator extends ServiceGenerator {
   @SneakyThrows
   @Override
   public String generate() {
-    File file = new File(ServiceFolderGenerator.class.getClassLoader().getResource(OUTPUT_DIR).getPath());
-    FileUtils.copyDirectory(file, new File(getOutputFile()));
+    ServiceDocParser docParser = new ServiceDocParser(this.doc);
+    BizServer bizServer = docParser.parse();
 
-    // generate index.html.md
-    IndexHtmlMdGenerator indexHtmlMdGenerator = new IndexHtmlMdGenerator(this.doc);
-    indexHtmlMdGenerator.generate();
+    BizServiceTsGenerator bizServiceTsGenerator = new BizServiceTsGenerator(bizServer.getName());
+    bizServiceTsGenerator.generate();
 
-    String zipFileName = GeneratorUtils.getOutputDir("output") + File.separator + OUTPUT_DIR + ".zip";
-    String sourceFile = getOutputFile();
-    FileOutputStream fos = new FileOutputStream(zipFileName);
-    ZipOutputStream zipOut = new ZipOutputStream(fos);
-    File fileToZip = new File(sourceFile);
+    TypesTsGenerator typesTsGenerator = new TypesTsGenerator(bizServer.getTypes());
+    typesTsGenerator.generate();
 
-    try {
-      GeneratorUtils.zipFile(fileToZip, fileToZip.getName(), zipOut);
-    } catch (Exception exception) {
-      throw exception;
-    } finally {
-      zipOut.close();
-      fos.close();
+    for (BizService bizService : bizServer.getServices()) {
+      ServiceTsGenerator serviceTsGenerator = new ServiceTsGenerator(bizService);
+      serviceTsGenerator.generate();
     }
 
-    return zipFileName;
+    String outputFile = GeneratorUtils.getOutputDir("output") + File.separator + OUTPUT_DIR + ".zip";
+    String sourceFile = getOutputFile();
+    return GeneratorUtils.generateFolder(sourceFile, outputFile);
   }
 }

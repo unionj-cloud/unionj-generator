@@ -1,6 +1,6 @@
 package com.tsingxiao.unionj.generator.apidoc;
 
-import com.tsingxiao.unionj.generator.mock.docparser.DocParserTest;
+import com.tsingxiao.unionj.generator.mock.docparser.MockDocParserTest;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class IndexHtmlMdGeneratorTest {
 
   @Test
   public void generate() {
-    String api = DocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    String api = MockDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
     IndexHtmlMdGenerator indexHtmlMdGenerator = new IndexHtmlMdGenerator(api);
     String outputFile = indexHtmlMdGenerator.generate();
     File file = new File(outputFile);

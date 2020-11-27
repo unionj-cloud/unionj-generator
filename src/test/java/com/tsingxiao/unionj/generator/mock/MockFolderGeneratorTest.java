@@ -1,7 +1,7 @@
 package com.tsingxiao.unionj.generator.mock;
 
-import com.tsingxiao.unionj.generator.mock.docparser.DocParser;
-import com.tsingxiao.unionj.generator.mock.docparser.DocParserTest;
+import com.tsingxiao.unionj.generator.mock.docparser.MockDocParser;
+import com.tsingxiao.unionj.generator.mock.docparser.MockDocParserTest;
 import com.tsingxiao.unionj.generator.mock.docparser.entity.Api;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,8 +18,8 @@ public class MockFolderGeneratorTest {
 
   @Test
   public void generate() {
-    String testFilePath = DocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
-    DocParser docParser = new DocParser(testFilePath);
+    String testFilePath = MockDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    MockDocParser docParser = new MockDocParser(testFilePath);
     Api api = docParser.parse();
     MockFolderGenerator mockFolderGenerator = new MockFolderGenerator.Builder(api).zip(true).build();
     String outputFile = mockFolderGenerator.generate();

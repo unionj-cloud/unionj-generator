@@ -3,51 +3,55 @@
 */
 import BizService from "./BizService";
 import type {
-<#list reqBodyList as reqBody>
-  ${reqBody.name?capitalize},
+  Result,
+<#list types as type>
+  ${type},
 </#list>
-} from "./types.ts"
+} from "./types"
 
 
-export default class ${name?capitalize} extends BizService{
+export default class ${name} extends BizService{
 
   constructor(axios: any) {
     super(axios);
   }
 
-  <#list routers as router>
-    ${router.name}(
-    <#if router.pathParams??>
-      <#list router.pathParams as pathParam>
-        ${pathParam.name}: ${pathParam.type},
-      </#list>
-    </#if>
-    <#if router.queryParams??>
-      <#list router.queryParams as queryParam>
-        ${queryParam.name}: ${queryParam.type},
-      </#list>
-    </#if>
-    <#if router.reqBody??>
-      payload: ${router.reqBody.name?capitalize},
-    </#if>
-    ) :Promise<any> {
+<#list routers as router>
+  ${router.name}(
+  <#if router.pathParams??>
+    <#list router.pathParams as pathParam>
+      ${pathParam.name}: ${pathParam.type},
+    </#list>
+  </#if>
+  <#if router.queryParams??>
+    <#list router.queryParams as queryParam>
+      ${queryParam.name}: ${queryParam.type},
+    </#list>
+  </#if>
+  <#if router.reqBody??>
+    ${router.reqBody.name}: ${router.reqBody.type},
+  </#if>
+  ) :Promise<Result> {
     let client = this.axios.${router.httpMethod?lower_case}
     if(this.axios.$${router.httpMethod?lower_case}) {
       client = this.axios.$${router.httpMethod?lower_case}
     }
     return client(this.addPrefix("${router.endpoint}"),
-    <#if router.reqBody??>
-      payload,
-    </#if>
-  <#if router.queryParams??>
-    {
-      params: {
-    <#list router.queryParams as queryParam>
-      ${queryParam.name},
-    </#list>
-    },
-    }
-  </#if>
-  )}
-  </#list>
+        <#if router.reqBody??>
+          payload,
+        </#if>
+        <#if router.queryParams??>
+          {
+            params: {
+            <#list router.queryParams as queryParam>
+              ${queryParam.name},
+            </#list>
+            },
+          }
+        </#if>
+        )
+  }
+
+</#list>
 }
+

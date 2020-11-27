@@ -56,4 +56,5 @@ public abstract class DefaultGenerator implements Generator {
     }
     return getOutputFile();
   }
+
 }

@@ -33,18 +33,18 @@ import java.util.stream.Collectors;
  * @date:2020/11/18
  */
 @Data
-public class DocParser {
+public class MockDocParser {
 
   private static String[] redundantPorts = new String[]{":80", ":443"};
   private String doc;
   private SchemaFaker faker = new DefaultSchemaFaker();
 
 
-  public DocParser(String doc) {
+  public MockDocParser(String doc) {
     this.doc = doc;
   }
 
-  public DocParser(String doc, SchemaFaker faker) {
+  public MockDocParser(String doc, SchemaFaker faker) {
     this.doc = doc;
     this.faker = faker;
   }
@@ -77,14 +77,14 @@ public class DocParser {
       key = StringUtils.replace(key, "{", ":");
       key = StringUtils.replace(key, "}", "");
       PathItem pathItem = pathItemEntry.getValue();
-      Set<ApiParam> apiParams = Sets.newHashSet();
-      if (CollectionUtils.isNotEmpty(pathItem.getParameters())) {
-        apiParams.addAll(pathItem.getParameters().stream()
-            .map(para -> new ApiParam(para.getName(), para.getIn()))
-            .collect(Collectors.toSet()));
-      }
       Map<PathItem.HttpMethod, Operation> operationMap = pathItem.readOperationsMap();
       for (Map.Entry<PathItem.HttpMethod, Operation> entry : operationMap.entrySet()) {
+        Set<ApiParam> apiParams = Sets.newHashSet();
+        if (CollectionUtils.isNotEmpty(pathItem.getParameters())) {
+          apiParams.addAll(pathItem.getParameters().stream()
+              .map(para -> new ApiParam(para.getName(), para.getIn()))
+              .collect(Collectors.toSet()));
+        }
         ApiItem apiItem = new ApiItem();
         apiItem.setEndpoint(key);
         apiItem.setMethod(entry.getKey().name().toLowerCase());

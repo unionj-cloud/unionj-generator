@@ -17,4 +17,5 @@ public interface Generator {
   String getOutputFile();
 
   String generate();
+
 }

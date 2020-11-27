@@ -32,7 +32,7 @@ public class ServiceTsGenerator extends ServiceGenerator {
   public Map<String, Object> getInput() {
     Map<String, Object> input = new HashMap<>();
     input.put("name", StringUtils.capitalize(this.bizService.getName()));
-    input.put("reqBodyList", this.bizService.getReqBodyList());
+    input.put("types", this.bizService.getTypes());
     input.put("routers", this.bizService.getRouters());
     return input;
   }
@@ -44,7 +44,7 @@ public class ServiceTsGenerator extends ServiceGenerator {
 
   @Override
   public String getOutputFile() {
-    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + StringUtils.capitalize(this.bizService.getName()) + ".ts.ftl";
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + StringUtils.capitalize(this.bizService.getName()) + ".ts";
   }
 
 }

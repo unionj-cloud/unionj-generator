@@ -12,17 +12,17 @@ import java.io.File;
  * @author: created by wubin
  * @version: v0.1
  * @description: com.tsingxiao.unionj.generator.service
- * @date:2020/11/26
+ * @date:2020/11/27
  */
-public class BizServiceTsGeneratorTest {
+public class TypesTsGeneratorTest {
 
   @Test
   public void generate() {
     String testFilePath = ServiceDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
     ServiceDocParser docParser = new ServiceDocParser(testFilePath);
     BizServer bizServer = docParser.parse();
-    BizServiceTsGenerator bizServiceTsGenerator = new BizServiceTsGenerator(bizServer.getName());
-    String outputFile = bizServiceTsGenerator.generate();
+    TypesTsGenerator typesTsGenerator = new TypesTsGenerator(bizServer.getTypes());
+    String outputFile = typesTsGenerator.generate();
     File file = new File(outputFile);
     Assert.assertTrue(file.exists());
   }

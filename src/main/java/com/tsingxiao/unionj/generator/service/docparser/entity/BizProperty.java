@@ -1,5 +1,6 @@
 package com.tsingxiao.unionj.generator.service.docparser.entity;
 
+import com.google.common.base.Objects;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
@@ -17,15 +18,47 @@ public class BizProperty {
 
   private String name;
   private String type;
+  private String in;
   private int level;
 
-  private String getSchemaNameByRef(String ref) {
-    return ref.substring(ref.lastIndexOf("/") + 1);
+  public BizProperty(String name, String type, String in, int level) {
+    this.name = name;
+    this.type = type;
+    this.in = in;
+    this.level = level;
   }
 
-  public void deepSetType(Schema schema) {
+  public BizProperty(String name, String type, String in) {
+    this.name = name;
+    this.type = type;
+    this.in = in;
+  }
+
+  public BizProperty() {
+  }
+
+  private String getTypeByRef(String ref) {
+    String key = ref.substring(ref.lastIndexOf("/") + 1);
+    if (StringUtils.isBlank(key)) {
+      return TsTypeConstants.ANY;
+    }
+    return key.replaceAll("[^a-zA-Z]", "");
+  }
+
+  public void setType(Schema schema) {
+    String tsType = this.deepSetType(schema);
+    for (int i = 0; i < this.level; i++) {
+      tsType += "[]";
+    }
+    this.type = tsType;
+  }
+
+  private String deepSetType(Schema schema) {
     String type = schema.getType();
-    String tsType = "";
+    if (StringUtils.isBlank(type)) {
+      return this.getTypeByRef(schema.get$ref());
+    }
+    String tsType;
     switch (type) {
       case SchemaTypeUtil.BOOLEAN_TYPE: {
         tsType = "boolean";
@@ -39,26 +72,41 @@ public class BizProperty {
         tsType = "number";
         break;
       }
+      case SchemaTypeUtil.STRING_TYPE: {
+        tsType = "string";
+        break;
+      }
       case "array": {
         this.level++;
         ArraySchema arraySchema = (ArraySchema) schema;
         Schema<?> items = arraySchema.getItems();
         if (StringUtils.isNotBlank(items.get$ref())) {
-          tsType = this.getSchemaNameByRef(items.get$ref());
+          tsType = this.getTypeByRef(items.get$ref());
         } else {
-          this.deepSetType(items);
+          tsType = this.deepSetType(items);
         }
         break;
       }
       default: {
-        tsType = "string";
-        break;
+        tsType = TsTypeConstants.ANY;
       }
     }
-    for (int i = 0; i < this.level; i++) {
-      tsType += "[]";
-    }
-    this.setType(tsType);
+    return tsType;
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    BizProperty that = (BizProperty) o;
+    return level == that.level &&
+        Objects.equal(name, that.name) &&
+        Objects.equal(type, that.type) &&
+        Objects.equal(in, that.in);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(name, type, in, level);
+  }
 }

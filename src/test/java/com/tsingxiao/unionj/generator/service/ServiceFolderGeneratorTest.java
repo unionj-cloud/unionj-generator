@@ -1,8 +1,6 @@
 package com.tsingxiao.unionj.generator.service;
 
-import com.tsingxiao.unionj.generator.service.docparser.ServiceDocParser;
 import com.tsingxiao.unionj.generator.service.docparser.ServiceDocParserTest;
-import com.tsingxiao.unionj.generator.service.docparser.entity.BizServer;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -12,17 +10,15 @@ import java.io.File;
  * @author: created by wubin
  * @version: v0.1
  * @description: com.tsingxiao.unionj.generator.service
- * @date:2020/11/26
+ * @date:2020/11/27
  */
-public class BizServiceTsGeneratorTest {
+public class ServiceFolderGeneratorTest {
 
   @Test
   public void generate() {
     String testFilePath = ServiceDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
-    ServiceDocParser docParser = new ServiceDocParser(testFilePath);
-    BizServer bizServer = docParser.parse();
-    BizServiceTsGenerator bizServiceTsGenerator = new BizServiceTsGenerator(bizServer.getName());
-    String outputFile = bizServiceTsGenerator.generate();
+    ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator(testFilePath);
+    String outputFile = serviceFolderGenerator.generate();
     File file = new File(outputFile);
     Assert.assertTrue(file.exists());
   }

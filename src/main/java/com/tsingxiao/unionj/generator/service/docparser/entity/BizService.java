@@ -14,5 +14,5 @@ import java.util.List;
 public class BizService {
   private String name;
   private List<BizRouter> routers;
-  private List<String> reqBodyList;
+  private List<String> types;
 }

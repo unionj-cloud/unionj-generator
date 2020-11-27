@@ -13,13 +13,13 @@ import org.junit.Test;
  * @description: com.tsingxiao.unionj.generator.mock.docparser
  * @date:2020/11/18
  */
-public class DocParserTest {
+public class MockDocParserTest {
 
   @SneakyThrows
   @Test
   public void parse() {
-    String testFilePath = DocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
-    DocParser docParser = new DocParser(testFilePath);
+    String testFilePath = MockDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    MockDocParser docParser = new MockDocParser(testFilePath);
     Api api = docParser.parse();
     Assert.assertNotNull(api);
     ApiItem apiItem = api.getItems().get("任务大厅").stream().filter(item -> item.getEndpoint().equals("/hall/latestOrder")).findAny().get();

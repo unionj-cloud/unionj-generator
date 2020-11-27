@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -62,50 +63,22 @@ public class GeneratorUtils {
     fis.close();
   }
 
-//  public static Server api2server(Api api) {
-//    Server server = new Server();
-//    List<Service> services = new ArrayList<>();
-//
-//    List<ApiItemVo> apiItemVoList = api.getItems().values().stream().reduce(new ArrayList<>(), (x, y) -> {
-//      x.addAll(y);
-//      return x;
-//    }).stream().map(ApiItem::toApiItemVo).collect(Collectors.toList());
-//
-//    Map<String, List<ApiItemVo>> serviceMap = apiItemVoList.stream().collect(Collectors.groupingBy(apiItemVo -> {
-//      String endpoint = StringUtils.stripStart(apiItemVo.getEndpoint(), "/");
-//      if (StringUtils.isBlank(endpoint)) {
-//        return "unknown";
-//      }
-//      String[] split = endpoint.split("/");
-//      if (ArrayUtils.isEmpty(split)) {
-//        return "unknown";
-//      }
-//      return split[0];
-//    }, Collectors.toList()));
-//
-//    for(Map.Entry<String, List<ApiItemVo>> entry: serviceMap.entrySet()) {
-//      Service service = new Service();
-//      service.setName(entry.getKey());
-//
-//      List<ReqBody> reqBodyList = new ArrayList<>();
-//
-//      List<ApiItemVo> apiItemVos = entry.getValue();
-//      for (ApiItemVo vo: apiItemVos) {
-//        ReqBody reqBody = new ReqBody();
-//
-//
-//        reqBody.setName();
-//
-//
-//      }
-//
-//
-//    }
-//
-//
-//
-//    return server;
-//  }
+  @SneakyThrows
+  public static String generateFolder(String sourceFile, String outputFile) {
+    FileOutputStream fos = new FileOutputStream(outputFile);
+    ZipOutputStream zipOut = new ZipOutputStream(fos);
+    File fileToZip = new File(sourceFile);
 
+    try {
+      zipFile(fileToZip, fileToZip.getName(), zipOut);
+    } catch (Exception exception) {
+      throw exception;
+    } finally {
+      zipOut.close();
+      fos.close();
+    }
+
+    return outputFile;
+  }
 
 }
