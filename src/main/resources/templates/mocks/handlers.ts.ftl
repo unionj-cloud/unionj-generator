@@ -39,7 +39,7 @@ export const handlers = [
             ctx.status(200),
             ctx.set('Content-Type', 'application/json'),
         <#if api.responseStr??>
-            ctx.body(`${api.responseStr}`),
+            ctx.body(${api.responseStr}),
         </#if>
         )
     }),
