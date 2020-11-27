@@ -1,8 +1,16 @@
 package com.tsingxiao.unionj.generator.client.vue;
 
 import com.tsingxiao.unionj.generator.GeneratorUtils;
+import com.tsingxiao.unionj.generator.apidoc.ApiDocFolderGenerator;
+import com.tsingxiao.unionj.generator.mock.MockFolderGenerator;
+import com.tsingxiao.unionj.generator.mock.docparser.MockDocParser;
+import com.tsingxiao.unionj.generator.mock.docparser.entity.Api;
+import com.tsingxiao.unionj.generator.service.ServiceFolderGenerator;
+import com.tsingxiao.unionj.generator.service.docparser.ServiceDocParser;
+import com.tsingxiao.unionj.generator.service.docparser.entity.BizServer;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.util.Map;
@@ -15,16 +23,36 @@ import java.util.Map;
  */
 public class VueProjectGenerator extends VueGenerator {
 
+  private String doc;
   private String projectName;
-  private String outputDir = OUTPUT_DIR;
+  private String outputDir;
 
-  public VueProjectGenerator(String projectName) {
-    this.projectName = projectName;
-  }
+  public static final class Builder {
+    private String doc;
+    private String projectName;
+    private String outputDir = OUTPUT_DIR;
 
-  public VueProjectGenerator(String projectName, String outputDir) {
-    this.projectName = projectName;
-    this.outputDir = outputDir;
+    public Builder(String projectName) {
+      this.projectName = projectName;
+    }
+
+    public Builder outputDir(String outputDir) {
+      this.outputDir = outputDir;
+      return this;
+    }
+
+    public Builder doc(String doc) {
+      this.doc = doc;
+      return this;
+    }
+
+    public VueProjectGenerator build() {
+      VueProjectGenerator vueProjectGenerator = new VueProjectGenerator();
+      vueProjectGenerator.projectName = this.projectName;
+      vueProjectGenerator.outputDir = this.outputDir;
+      vueProjectGenerator.doc = this.doc;
+      return vueProjectGenerator;
+    }
   }
 
   @Override
@@ -55,6 +83,21 @@ public class VueProjectGenerator extends VueGenerator {
     // generate package.json
     PackageJsonGenerator packageJsonGenerator = new PackageJsonGenerator(this.projectName);
     packageJsonGenerator.generate();
+
+    if (StringUtils.isNotBlank(this.doc)) {
+      MockDocParser mockDocParser = new MockDocParser(this.doc);
+      Api api = mockDocParser.parse();
+      MockFolderGenerator mockFolderGenerator = new MockFolderGenerator.Builder(api).outputDir(getOutputFile() + "/src/mocks").zip(false).build();
+      mockFolderGenerator.generate();
+
+      ServiceDocParser serviceDocParser = new ServiceDocParser(this.doc);
+      BizServer bizServer = serviceDocParser.parse();
+      ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).outputDir(getOutputFile() + "/src/services").zip(false).build();
+      serviceFolderGenerator.generate();
+
+      ApiDocFolderGenerator apiDocFolderGenerator = new ApiDocFolderGenerator.Builder(this.doc).outputDir(getOutputFile() + "/apidoc").zip(false).build();
+      apiDocFolderGenerator.generate();
+    }
 
     String outputFile = GeneratorUtils.getOutputDir("output") + File.separator + this.projectName + "_vue.zip";
     String sourceFile = getOutputFile();

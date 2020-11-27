@@ -65,19 +65,19 @@ public class BizProperty {
     String tsType;
     switch (type) {
       case SchemaTypeUtil.BOOLEAN_TYPE: {
-        tsType = "boolean";
+        tsType = TsTypeConstants.BOOLEAN;
         break;
       }
       case SchemaTypeUtil.INTEGER_TYPE: {
-        tsType = "number";
+        tsType = TsTypeConstants.NUMBER;
         break;
       }
       case SchemaTypeUtil.NUMBER_TYPE: {
-        tsType = "number";
+        tsType = TsTypeConstants.NUMBER;
         break;
       }
       case SchemaTypeUtil.STRING_TYPE: {
-        tsType = "string";
+        tsType = TsTypeConstants.STRING;
         break;
       }
       case "array": {

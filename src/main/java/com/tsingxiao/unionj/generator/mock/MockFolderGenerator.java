@@ -73,7 +73,7 @@ public class MockFolderGenerator extends MockGenerator {
     File file = new File(MockFolderGenerator.class.getClassLoader().getResource(OUTPUT_DIR).getPath());
     FileUtils.copyDirectory(file, new File(getOutputFile()));
 
-    HandlersJsGenerator handlersGenerator = new HandlersJsGenerator(this.api);
+    HandlersJsGenerator handlersGenerator = new HandlersJsGenerator(this.api, this.outputDir);
     handlersGenerator.generate();
 
     if (this.zip) {

@@ -69,3 +69,7 @@ node_modules
 
 ### sonar ###
 .scannerwork
+client
+apidoc
+services
+mocks

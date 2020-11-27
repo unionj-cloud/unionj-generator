@@ -70,14 +70,14 @@ public class ServiceFolderGenerator extends ServiceGenerator {
   @SneakyThrows
   @Override
   public String generate() {
-    BizServiceTsGenerator bizServiceTsGenerator = new BizServiceTsGenerator(bizServer.getName());
+    BizServiceTsGenerator bizServiceTsGenerator = new BizServiceTsGenerator(bizServer.getName(), this.outputDir);
     bizServiceTsGenerator.generate();
 
-    TypesTsGenerator typesTsGenerator = new TypesTsGenerator(bizServer.getTypes());
+    TypesTsGenerator typesTsGenerator = new TypesTsGenerator(bizServer.getTypes(), this.outputDir);
     typesTsGenerator.generate();
 
     for (BizService bizService : bizServer.getServices()) {
-      ServiceTsGenerator serviceTsGenerator = new ServiceTsGenerator(bizService);
+      ServiceTsGenerator serviceTsGenerator = new ServiceTsGenerator(bizService, this.outputDir);
       serviceTsGenerator.generate();
     }
 

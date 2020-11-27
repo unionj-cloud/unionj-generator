@@ -208,26 +208,32 @@ public class ServiceDocParser {
       bizService.setRouters(bizRouters);
 
       Set<String> serviceTypes = bizRouters.stream()
-          .filter(bizRouter -> bizRouter.getReqBody() != null)
+          .filter(bizRouter -> bizRouter.getReqBody() != null && !bizRouter.getReqBody().getType().equals(TsTypeConstants.ANY))
           .map(bizRouter -> {
             String type = bizRouter.getReqBody().getType();
             int index = type.indexOf("[]");
             if (index >= 0) {
               type = type.substring(0, index);
             }
+            if (TsTypeConstants.values().contains(type)) {
+              return null;
+            }
             return type;
-          }).collect(Collectors.toSet());
+          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet());
 
       serviceTypes.addAll(bizRouters.stream()
-          .filter(bizRouter -> bizRouter.getRespData() != null && !bizRouter.getRespData().equals(TsTypeConstants.ANY))
+          .filter(bizRouter -> bizRouter.getRespData() != null && !bizRouter.getRespData().getType().equals(TsTypeConstants.ANY))
           .map(bizRouter -> {
             String type = bizRouter.getRespData().getType();
             int index = type.indexOf("[]");
             if (index >= 0) {
               type = type.substring(0, index);
             }
+            if (TsTypeConstants.values().contains(type)) {
+              return null;
+            }
             return type;
-          }).collect(Collectors.toSet()));
+          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet()));
 
       bizService.setTypes(Lists.newArrayList(serviceTypes));
 

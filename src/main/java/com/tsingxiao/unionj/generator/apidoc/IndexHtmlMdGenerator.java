@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public class IndexHtmlMdGenerator extends ApiDocGenerator {
 
-  private static final String CMD_TEMPL = "widdershins --search false --language_tabs 'shell:Shell' 'javascript:Javascript' 'java:Java' 'go:Go' --summary ${doc} -o ${md}";
+  private static final String CMD_TEMPL = "widdershins --search false --language_tabs shell:Shell javascript:Javascript java:Java go:Go --summary ${doc} -o ${md}";
 
   private String doc;
   private String outputDir = OUTPUT_DIR;

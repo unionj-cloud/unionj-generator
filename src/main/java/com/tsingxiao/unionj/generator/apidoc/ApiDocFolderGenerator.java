@@ -70,7 +70,7 @@ public class ApiDocFolderGenerator extends ApiDocGenerator {
     FileUtils.copyDirectory(file, new File(getOutputFile()));
 
     // generate index.html.md
-    IndexHtmlMdGenerator indexHtmlMdGenerator = new IndexHtmlMdGenerator(this.doc);
+    IndexHtmlMdGenerator indexHtmlMdGenerator = new IndexHtmlMdGenerator(this.doc, this.outputDir);
     indexHtmlMdGenerator.generate();
 
     if (this.zip) {
