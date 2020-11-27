@@ -34,6 +34,10 @@ public class BizProperty {
     this.in = in;
   }
 
+  public BizProperty(String type) {
+    this.type = type;
+  }
+
   public BizProperty() {
   }
 

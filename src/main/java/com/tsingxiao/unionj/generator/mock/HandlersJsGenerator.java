@@ -48,12 +48,12 @@ public class HandlersJsGenerator extends MockGenerator {
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "handlers.js.ftl";
+    return OUTPUT_DIR + File.separator + "handlers.ts.ftl";
   }
 
   @Override
   public String getOutputFile() {
-    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + "handlers.js";
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + "handlers.ts";
   }
 
 }

@@ -3,6 +3,7 @@ package com.tsingxiao.unionj.generator.service.docparser;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.tsingxiao.unionj.generator.mock.docparser.entity.ApiMediaType;
+import com.tsingxiao.unionj.generator.mock.docparser.entity.ApiStatusCode;
 import com.tsingxiao.unionj.generator.service.docparser.entity.*;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -13,6 +14,8 @@ import io.swagger.v3.oas.models.media.Content;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.oas.models.parameters.RequestBody;
+import io.swagger.v3.oas.models.responses.ApiResponse;
+import io.swagger.v3.oas.models.responses.ApiResponses;
 import io.swagger.v3.oas.models.servers.Server;
 import io.swagger.v3.parser.OpenAPIV3Parser;
 import lombok.Data;
@@ -179,13 +182,32 @@ public class ServiceDocParser {
             }
           }
 
+          ApiResponses responses = operation.getResponses();
+          if (responses != null) {
+            ApiResponse okResponse = responses.get(ApiStatusCode.OK);
+            if (okResponse != null) {
+              Content content = okResponse.getContent();
+              if (content != null) {
+                Optional<MediaType> first = content.values().stream().findFirst();
+                if (first.isPresent()) {
+                  Schema schema = first.get().getSchema();
+                  BizProperty bizProperty = new BizProperty();
+                  bizProperty.setName("data");
+                  bizProperty.setIn("responseBody");
+                  bizProperty.setType(schema);
+                  bizRouter.setRespData(bizProperty);
+                }
+              }
+            }
+          }
+
           bizRouters.add(bizRouter);
         }
       }
 
       bizService.setRouters(bizRouters);
 
-      List<String> reqBodyTypes = bizRouters.stream()
+      Set<String> serviceTypes = bizRouters.stream()
           .filter(bizRouter -> bizRouter.getReqBody() != null)
           .map(bizRouter -> {
             String type = bizRouter.getReqBody().getType();
@@ -194,9 +216,20 @@ public class ServiceDocParser {
               type = type.substring(0, index);
             }
             return type;
-          }).collect(Collectors.toList());
+          }).collect(Collectors.toSet());
 
-      bizService.setTypes(reqBodyTypes);
+      serviceTypes.addAll(bizRouters.stream()
+          .filter(bizRouter -> bizRouter.getRespData() != null && !bizRouter.getRespData().equals(TsTypeConstants.ANY))
+          .map(bizRouter -> {
+            String type = bizRouter.getRespData().getType();
+            int index = type.indexOf("[]");
+            if (index >= 0) {
+              type = type.substring(0, index);
+            }
+            return type;
+          }).collect(Collectors.toSet()));
+
+      bizService.setTypes(Lists.newArrayList(serviceTypes));
 
       bizServiceList.add(bizService);
     }

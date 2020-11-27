@@ -26,6 +26,9 @@ public class BizRouter {
   private BizProperty reqBody;
   @Setter
   @Getter
+  private BizProperty respData = new BizProperty(TsTypeConstants.ANY);
+  @Setter
+  @Getter
   private List<BizProperty> pathParams;
   @Setter
   @Getter

@@ -13,7 +13,7 @@ export default class BizService {
 
   protected addPrefix(endpoint: string){
     if(BizService.serverName) {
-      if(BizService.serverName.startsWith("/") || BizService.serverName.startsWith("http")) {
+      if(BizService.serverName.indexOf("/") === 0 || BizService.serverName.indexOf("http") === 0) {
         return BizService.serverName + endpoint
       }
       return "/" + BizService.serverName + endpoint

@@ -3,7 +3,6 @@
 */
 import BizService from "./BizService";
 import type {
-  Result,
 <#list types as type>
   ${type},
 </#list>
@@ -31,7 +30,7 @@ export default class ${name} extends BizService{
   <#if router.reqBody??>
     ${router.reqBody.name}: ${router.reqBody.type},
   </#if>
-  ) :Promise<Result> {
+  ) :Promise<${router.respData.type}> {
     let client = this.axios.${router.httpMethod?lower_case}
     if(this.axios.$${router.httpMethod?lower_case}) {
       client = this.axios.$${router.httpMethod?lower_case}
