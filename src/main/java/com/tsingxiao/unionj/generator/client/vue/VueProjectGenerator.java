@@ -5,9 +5,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Map;
-import java.util.zip.ZipOutputStream;
 
 /**
  * @author: created by wubin
@@ -58,21 +56,8 @@ public class VueProjectGenerator extends VueGenerator {
     PackageJsonGenerator packageJsonGenerator = new PackageJsonGenerator(this.projectName);
     packageJsonGenerator.generate();
 
-    String zipFileName = GeneratorUtils.getOutputDir("output") + File.separator + this.projectName + "_vue.zip";
+    String outputFile = GeneratorUtils.getOutputDir("output") + File.separator + this.projectName + "_vue.zip";
     String sourceFile = getOutputFile();
-    FileOutputStream fos = new FileOutputStream(zipFileName);
-    ZipOutputStream zipOut = new ZipOutputStream(fos);
-    File fileToZip = new File(sourceFile);
-
-    try {
-      GeneratorUtils.zipFile(fileToZip, fileToZip.getName(), zipOut);
-    } catch (Exception exception) {
-      throw exception;
-    } finally {
-      zipOut.close();
-      fos.close();
-    }
-
-    return zipFileName;
+    return GeneratorUtils.generateFolder(sourceFile, outputFile);
   }
 }

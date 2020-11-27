@@ -5,9 +5,7 @@ import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Map;
-import java.util.zip.ZipOutputStream;
 
 /**
  * @author: created by wubin
@@ -18,15 +16,36 @@ import java.util.zip.ZipOutputStream;
 public class ApiDocFolderGenerator extends ApiDocGenerator {
 
   private String doc;
-  private String outputDir = OUTPUT_DIR;
+  private String outputDir;
+  private boolean zip;
 
-  public ApiDocFolderGenerator(String doc) {
-    this.doc = doc;
-  }
+  public static final class Builder {
+    private String doc;
+    private String outputDir = OUTPUT_DIR;
+    private boolean zip = false;
 
-  public ApiDocFolderGenerator(String doc, String outputDir) {
-    this.doc = doc;
-    this.outputDir = outputDir;
+    public Builder(String doc) {
+      this.doc = doc;
+    }
+
+    public Builder outputDir(String outputDir) {
+      this.outputDir = outputDir;
+      return this;
+    }
+
+    public Builder zip(boolean zip) {
+      this.zip = zip;
+      return this;
+    }
+
+    public ApiDocFolderGenerator build() {
+      ApiDocFolderGenerator apiDocFolderGenerator = new ApiDocFolderGenerator();
+      apiDocFolderGenerator.doc = this.doc;
+      apiDocFolderGenerator.outputDir = this.outputDir;
+      apiDocFolderGenerator.zip = this.zip;
+      return apiDocFolderGenerator;
+    }
+
   }
 
   @Override
@@ -54,21 +73,12 @@ public class ApiDocFolderGenerator extends ApiDocGenerator {
     IndexHtmlMdGenerator indexHtmlMdGenerator = new IndexHtmlMdGenerator(this.doc);
     indexHtmlMdGenerator.generate();
 
-    String zipFileName = GeneratorUtils.getOutputDir("output") + File.separator + OUTPUT_DIR + ".zip";
-    String sourceFile = getOutputFile();
-    FileOutputStream fos = new FileOutputStream(zipFileName);
-    ZipOutputStream zipOut = new ZipOutputStream(fos);
-    File fileToZip = new File(sourceFile);
-
-    try {
-      GeneratorUtils.zipFile(fileToZip, fileToZip.getName(), zipOut);
-    } catch (Exception exception) {
-      throw exception;
-    } finally {
-      zipOut.close();
-      fos.close();
+    if (this.zip) {
+      String outputFile = GeneratorUtils.getOutputDir("output") + File.separator + OUTPUT_DIR + ".zip";
+      String sourceFile = getOutputFile();
+      return GeneratorUtils.generateFolder(sourceFile, outputFile);
     }
 
-    return zipFileName;
+    return getOutputFile();
   }
 }

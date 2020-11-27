@@ -1,14 +1,12 @@
 package com.tsingxiao.unionj.generator.mock;
 
-import com.tsingxiao.unionj.generator.mock.docparser.entity.Api;
 import com.tsingxiao.unionj.generator.GeneratorUtils;
+import com.tsingxiao.unionj.generator.mock.docparser.entity.Api;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Map;
-import java.util.zip.ZipOutputStream;
 
 /**
  * @author: created by wubin
@@ -79,22 +77,9 @@ public class MockFolderGenerator extends MockGenerator {
     handlersGenerator.generate();
 
     if (this.zip) {
-      String zipFileName = GeneratorUtils.getOutputDir("output") + File.separator + OUTPUT_DIR + ".zip";
+      String outputFile = GeneratorUtils.getOutputDir("output") + File.separator + OUTPUT_DIR + ".zip";
       String sourceFile = getOutputFile();
-      FileOutputStream fos = new FileOutputStream(zipFileName);
-      ZipOutputStream zipOut = new ZipOutputStream(fos);
-      File fileToZip = new File(sourceFile);
-
-      try {
-        GeneratorUtils.zipFile(fileToZip, fileToZip.getName(), zipOut);
-      } catch (Exception exception) {
-        throw exception;
-      } finally {
-        zipOut.close();
-        fos.close();
-      }
-
-      return zipFileName;
+      return GeneratorUtils.generateFolder(sourceFile, outputFile);
     }
 
     return getOutputFile();

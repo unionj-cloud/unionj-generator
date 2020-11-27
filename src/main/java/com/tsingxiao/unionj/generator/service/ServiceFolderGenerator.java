@@ -1,7 +1,6 @@
 package com.tsingxiao.unionj.generator.service;
 
 import com.tsingxiao.unionj.generator.GeneratorUtils;
-import com.tsingxiao.unionj.generator.service.docparser.ServiceDocParser;
 import com.tsingxiao.unionj.generator.service.docparser.entity.BizServer;
 import com.tsingxiao.unionj.generator.service.docparser.entity.BizService;
 import lombok.SneakyThrows;
@@ -17,16 +16,40 @@ import java.util.Map;
  */
 public class ServiceFolderGenerator extends ServiceGenerator {
 
-  private String doc;
-  private String outputDir = OUTPUT_DIR;
+  private BizServer bizServer;
+  private String outputDir;
+  private boolean zip;
 
-  public ServiceFolderGenerator(String doc) {
-    this.doc = doc;
+  public static final class Builder {
+    private BizServer bizServer;
+    private String outputDir = OUTPUT_DIR;
+    private boolean zip = false;
+
+    public Builder(BizServer bizServer) {
+      this.bizServer = bizServer;
+    }
+
+    public Builder outputDir(String outputDir) {
+      this.outputDir = outputDir;
+      return this;
+    }
+
+    public Builder zip(boolean zip) {
+      this.zip = zip;
+      return this;
+    }
+
+    public ServiceFolderGenerator build() {
+      ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator();
+      serviceFolderGenerator.bizServer = this.bizServer;
+      serviceFolderGenerator.outputDir = this.outputDir;
+      serviceFolderGenerator.zip = this.zip;
+      return serviceFolderGenerator;
+    }
+
   }
 
-  public ServiceFolderGenerator(String doc, String outputDir) {
-    this.doc = doc;
-    this.outputDir = outputDir;
+  private ServiceFolderGenerator() {
   }
 
   @Override
@@ -47,9 +70,6 @@ public class ServiceFolderGenerator extends ServiceGenerator {
   @SneakyThrows
   @Override
   public String generate() {
-    ServiceDocParser docParser = new ServiceDocParser(this.doc);
-    BizServer bizServer = docParser.parse();
-
     BizServiceTsGenerator bizServiceTsGenerator = new BizServiceTsGenerator(bizServer.getName());
     bizServiceTsGenerator.generate();
 
@@ -61,8 +81,12 @@ public class ServiceFolderGenerator extends ServiceGenerator {
       serviceTsGenerator.generate();
     }
 
-    String outputFile = GeneratorUtils.getOutputDir("output") + File.separator + OUTPUT_DIR + ".zip";
-    String sourceFile = getOutputFile();
-    return GeneratorUtils.generateFolder(sourceFile, outputFile);
+    if (this.zip) {
+      String outputFile = GeneratorUtils.getOutputDir("output") + File.separator + OUTPUT_DIR + ".zip";
+      String sourceFile = getOutputFile();
+      return GeneratorUtils.generateFolder(sourceFile, outputFile);
+    }
+
+    return getOutputFile();
   }
 }
