@@ -1,10 +1,9 @@
 package com.tsingxiao.unionj.generator.mock.schemafaker;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.UnknownFormatException;
 import io.swagger.v3.oas.models.media.Schema;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,7 +13,9 @@ import java.util.Map;
  * @date:2020/11/19
  */
 public interface SchemaFaker {
-  JsonNode fakeFormat(String format) throws UnknownFormatException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException;
+  JsonNode fakeFormat(String format);
+
+  <T> JsonNode fakeEnum(List<T> enums, String type);
 
   JsonNode fakePrimitiveType(String type);
 

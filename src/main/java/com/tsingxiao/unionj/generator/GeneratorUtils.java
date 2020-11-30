@@ -35,9 +35,6 @@ public class GeneratorUtils {
 
   @SneakyThrows
   public static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) {
-    if (fileToZip.isHidden()) {
-      return;
-    }
     if (fileToZip.isDirectory()) {
       if (fileName.endsWith("/")) {
         zipOut.putNextEntry(new ZipEntry(fileName));

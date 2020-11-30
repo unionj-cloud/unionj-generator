@@ -18,7 +18,7 @@ public class TypesTsGeneratorTest {
 
   @Test
   public void generate() {
-    String testFilePath = ServiceDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    String testFilePath = ServiceDocParserTest.class.getClassLoader().getResource("petstore3.json").getPath();
     ServiceDocParser docParser = new ServiceDocParser(testFilePath);
     BizServer bizServer = docParser.parse();
     TypesTsGenerator typesTsGenerator = new TypesTsGenerator(bizServer.getTypes());

@@ -19,7 +19,7 @@ public class ServiceDocParserTest {
 
   @Test
   public void parse() {
-    String testFilePath = ServiceDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    String testFilePath = ServiceDocParserTest.class.getClassLoader().getResource("petstore3.json").getPath();
     ServiceDocParser docParser = new ServiceDocParser(testFilePath);
     BizServer bizServer = docParser.parse();
     Assert.assertNotNull(bizServer);

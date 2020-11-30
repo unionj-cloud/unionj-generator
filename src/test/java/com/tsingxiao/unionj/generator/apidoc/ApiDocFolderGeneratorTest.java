@@ -16,7 +16,7 @@ public class ApiDocFolderGeneratorTest {
 
   @Test
   public void generate() {
-    String doc = MockDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    String doc = MockDocParserTest.class.getClassLoader().getResource("petstore3.json").getPath();
     ApiDocFolderGenerator apiDocFolderGenerator = new ApiDocFolderGenerator.Builder(doc).zip(false).build();
     String outputFile = apiDocFolderGenerator.generate();
     File file = new File(outputFile);

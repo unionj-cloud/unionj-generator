@@ -74,7 +74,8 @@ public class VueProjectGenerator extends VueGenerator {
   @Override
   public String generate() {
     File file = new File(VueProjectGenerator.class.getClassLoader().getResource(OUTPUT_DIR).getPath());
-    FileUtils.copyDirectory(file, new File(getOutputFile()));
+    File dest = new File(getOutputFile());
+    FileUtils.copyDirectory(file, dest);
 
     // generate README.md
     ReadmeMdGenerator readmeMdGenerator = new ReadmeMdGenerator(this.projectName);
@@ -83,6 +84,10 @@ public class VueProjectGenerator extends VueGenerator {
     // generate package.json
     PackageJsonGenerator packageJsonGenerator = new PackageJsonGenerator(this.projectName);
     packageJsonGenerator.generate();
+
+    // generate mockServiceWorker.js
+//    MockServiceWorkerJsGenerator mockServiceWorkerJsGenerator = new MockServiceWorkerJsGenerator();
+//    mockServiceWorkerJsGenerator.generate();
 
     if (StringUtils.isNotBlank(this.doc)) {
       MockDocParser mockDocParser = new MockDocParser(this.doc);

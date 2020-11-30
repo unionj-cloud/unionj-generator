@@ -16,7 +16,7 @@ public class IndexHtmlMdGeneratorTest {
 
   @Test
   public void generate() {
-    String api = MockDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    String api = MockDocParserTest.class.getClassLoader().getResource("petstore3.json").getPath();
     IndexHtmlMdGenerator indexHtmlMdGenerator = new IndexHtmlMdGenerator(api);
     String outputFile = indexHtmlMdGenerator.generate();
     File file = new File(outputFile);

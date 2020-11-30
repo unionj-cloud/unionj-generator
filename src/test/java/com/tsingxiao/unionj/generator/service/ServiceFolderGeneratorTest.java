@@ -17,7 +17,7 @@ public class ServiceFolderGeneratorTest {
 
   @Test
   public void generate() {
-    String testFilePath = ServiceFolderGeneratorTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    String testFilePath = ServiceFolderGeneratorTest.class.getClassLoader().getResource("petstore3.json").getPath();
     ServiceDocParser docParser = new ServiceDocParser(testFilePath);
     BizServer bizServer = docParser.parse();
     ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).zip(false).build();

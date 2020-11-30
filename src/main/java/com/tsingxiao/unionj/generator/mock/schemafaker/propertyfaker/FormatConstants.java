@@ -56,6 +56,9 @@ public enum FormatConstants {
   @Faker(TitleFaker.class)
   TITLE("title"),
 
+  @Faker(TagFaker.class)
+  TAG("tag"),
+
   @Faker(SentenceFaker.class)
   SENTENCE("sentence"),
 
@@ -70,6 +73,21 @@ public enum FormatConstants {
 
   @Faker(CodeFaker.class)
   CODE("code"),
+
+  @Faker(AvatarFaker.class)
+  AVATAR("avatar"),
+
+  @Faker(ImageFaker.class)
+  IMAGE("image"),
+
+  @Faker(AnimalFaker.class)
+  ANIMAL("animal"),
+
+  @Faker(DogFaker.class)
+  DOG("dog"),
+
+  @Faker(CatFaker.class)
+  CAT("cat"),
 
   TESTONLY("testonly");
 

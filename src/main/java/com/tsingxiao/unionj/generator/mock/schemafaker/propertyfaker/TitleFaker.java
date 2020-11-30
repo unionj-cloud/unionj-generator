@@ -28,7 +28,7 @@ public class TitleFaker implements PropertyFaker {
     int sentenceLength = this.faker.number().numberBetween(5, 20);
     String sentence = "";
     for (int i = 0; i < sentenceLength; i++) {
-      sentence += characters.charAt(this.faker.number().numberBetween(0, sentenceLength));
+      sentence += characters.charAt(this.faker.number().numberBetween(0, characters.length()));
     }
     return TextNode.valueOf(sentence);
   }

@@ -3,18 +3,17 @@ package com.tsingxiao.unionj.generator.mock.schemafaker;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.*;
-import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.Faker;
-import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.FakerNotFoundException;
-import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.FormatConstants;
-import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.PropertyFaker;
+import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.*;
 import io.swagger.v3.oas.models.media.ArraySchema;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.util.SchemaTypeUtil;
 import lombok.Data;
 import lombok.SneakyThrows;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -52,6 +51,43 @@ public class DefaultSchemaFaker implements SchemaFaker {
     return propertyFaker.fake();
   }
 
+  @SneakyThrows
+  @Override
+  public <T> JsonNode fakeEnum(List<T> enums, String type) {
+    int i = this.faker.number().numberBetween(0, enums.size());
+    JsonNode jsonNode = null;
+    switch (type) {
+      case SchemaTypeUtil.BOOLEAN_TYPE: {
+        if (enums.get(i) instanceof Boolean) {
+          jsonNode = BooleanNode.valueOf((Boolean) enums.get(i));
+        } else {
+          throw new EnumMismatchTypeException("enum element type is not " + type);
+        }
+        break;
+      }
+      case SchemaTypeUtil.INTEGER_TYPE: {
+        if (enums.get(i) instanceof Integer) {
+          jsonNode = IntNode.valueOf((Integer) enums.get(i));
+        } else {
+          throw new EnumMismatchTypeException("enum element type is not " + type);
+        }
+        break;
+      }
+      case SchemaTypeUtil.NUMBER_TYPE: {
+        if (enums.get(i) instanceof Double) {
+          jsonNode = DoubleNode.valueOf((Double) enums.get(i));
+        } else {
+          throw new EnumMismatchTypeException("enum element type is not " + type);
+        }
+        break;
+      }
+      default: {
+        jsonNode = TextNode.valueOf(enums.get(i).toString());
+      }
+    }
+    return jsonNode;
+  }
+
   @Override
   public JsonNode fakePrimitiveType(String type) {
     JsonNode jsonNode = null;
@@ -79,13 +115,16 @@ public class DefaultSchemaFaker implements SchemaFaker {
   private JsonNode convertSchema2JsonNode(Schema value) {
     JsonNode result = null;
     String format = value.getFormat();
+    List enums = value.getEnum();
+    String type = value.getType();
     if (StringUtils.isNotBlank(format)) {
       result = this.fakeFormat(format);
+    } else if (CollectionUtils.isNotEmpty(enums)) {
+      result = this.fakeEnum(enums, type);
     } else {
       if (StringUtils.isNotBlank(value.get$ref())) {
         result = this.convertSchema2JsonNode(this.getSchemaByRef(value.get$ref()));
       } else {
-        String type = value.getType();
         if (StringUtils.isNotBlank(type)) {
           if (type.equals("array")) {
             ArraySchema arraySchema = (ArraySchema) value;

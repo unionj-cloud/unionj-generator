@@ -18,7 +18,7 @@ public class MockFolderGeneratorTest {
 
   @Test
   public void generate() {
-    String testFilePath = MockDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    String testFilePath = MockDocParserTest.class.getClassLoader().getResource("petstore3.json").getPath();
     MockDocParser docParser = new MockDocParser(testFilePath);
     Api api = docParser.parse();
     MockFolderGenerator mockFolderGenerator = new MockFolderGenerator.Builder(api).zip(false).build();

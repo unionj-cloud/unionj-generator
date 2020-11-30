@@ -18,7 +18,7 @@ public class MockDocParserTest {
   @SneakyThrows
   @Test
   public void parse() {
-    String testFilePath = MockDocParserTest.class.getClassLoader().getResource("test-openapi.json").getPath();
+    String testFilePath = MockDocParserTest.class.getClassLoader().getResource("petstore3.json").getPath();
     MockDocParser docParser = new MockDocParser(testFilePath);
     Api api = docParser.parse();
     Assert.assertNotNull(api);

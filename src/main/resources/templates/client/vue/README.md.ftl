@@ -5,6 +5,16 @@
 yarn install
 ```
 
+### Init msw mock service worker
+```
+make mock
+```
+
+### Start local api documentation. Then open http://localhost:4567 from browser
+```
+make doc
+```
+
 ### Compiles and hot-reloads for development
 ```
 yarn serve
