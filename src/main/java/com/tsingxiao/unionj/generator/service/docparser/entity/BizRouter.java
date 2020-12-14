@@ -45,6 +45,16 @@ public class BizRouter {
     this.setName();
   }
 
+  public BizRouter(String endpoint, String httpMethod, String name) {
+    this.endpoint = endpoint;
+    this.httpMethod = httpMethod;
+    if (StringUtils.isNotBlank(name)) {
+      this.name = name;
+    } else {
+      this.setName();
+    }
+  }
+
   private void setName() {
     if (StringUtils.isBlank(this.getEndpoint()) || StringUtils.isBlank(this.getHttpMethod())) {
       return;

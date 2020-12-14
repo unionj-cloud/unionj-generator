@@ -35,7 +35,7 @@ export default class ${name} extends BizService{
     if(this.axios.$${router.httpMethod?lower_case}) {
       client = this.axios.$${router.httpMethod?lower_case}
     }
-    return client(this.addPrefix("${router.endpoint}"),
+    return client(this.addPrefix(`${router.endpoint}`),
         <#if router.reqBody??>
           payload,
         </#if>

@@ -111,7 +111,6 @@ public class ServiceDocParser {
       wrapper.setServiceName(serviceName);
 
       key = StringUtils.replace(key, "{", "${");
-      key = StringUtils.replace(key, "}", "");
       wrapper.setEndpoint(key);
       wrapper.setPathItem(pathItemEntry.getValue());
 
@@ -134,7 +133,8 @@ public class ServiceDocParser {
           if (StringUtils.isBlank(wrapper.getEndpoint())) {
             continue;
           }
-          BizRouter bizRouter = new BizRouter(wrapper.getEndpoint(), entry.getKey().name().toLowerCase());
+          Operation operation = entry.getValue();
+          BizRouter bizRouter = new BizRouter(wrapper.getEndpoint(), entry.getKey().name().toLowerCase(), operation.getOperationId());
           Set<BizProperty> bizPropertySet = Sets.newHashSet();
           if (CollectionUtils.isNotEmpty(pathItem.getParameters())) {
             bizPropertySet.addAll(pathItem.getParameters().stream()
@@ -147,7 +147,6 @@ public class ServiceDocParser {
                 })
                 .collect(Collectors.toSet()));
           }
-          Operation operation = entry.getValue();
           if (CollectionUtils.isNotEmpty(operation.getParameters())) {
             bizPropertySet.addAll(operation.getParameters().stream()
                 .map(para -> {
