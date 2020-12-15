@@ -10,4 +10,26 @@ import lombok.Data;
  */
 @Data
 public class Parameter {
+
+  private String name;
+  private String in;
+  private String description;
+  private boolean required;
+  private boolean deprecated;
+  private Object example;
+  public Schema schema;
+
+  // TODO
+  private String style;
+
+  // TODO
+  private boolean explode;
+
+  // TODO
+  private boolean allowReserved;
+
+  // TODO
+  private Content content;
+
+
 }

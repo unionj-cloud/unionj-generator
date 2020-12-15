@@ -1,7 +1,7 @@
 package com.tsingxiao.unionj.generator.openapi3.dsl.info;
 
 import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
-import com.tsingxiao.unionj.generator.openapi3.expression.ContactBuilder;
+import com.tsingxiao.unionj.generator.openapi3.expression.info.ContactBuilder;
 
 /**
  * @author: created by wubin

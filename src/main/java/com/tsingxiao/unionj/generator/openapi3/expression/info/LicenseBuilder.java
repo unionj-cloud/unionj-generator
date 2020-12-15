@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.openapi3.expression;
+package com.tsingxiao.unionj.generator.openapi3.expression.info;
 
 import com.tsingxiao.unionj.generator.openapi3.model.info.License;
 

@@ -2,7 +2,7 @@ package com.tsingxiao.unionj.generator.openapi3.dsl.info;
 
 import com.tsingxiao.unionj.generator.openapi3.dsl.Openapi3;
 import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
-import com.tsingxiao.unionj.generator.openapi3.expression.InfoBuilder;
+import com.tsingxiao.unionj.generator.openapi3.expression.info.InfoBuilder;
 
 /**
  * @author: created by wubin

@@ -2,7 +2,7 @@ package com.tsingxiao.unionj.generator.openapi3.dsl.paths;
 
 import com.tsingxiao.unionj.generator.openapi3.dsl.Openapi3;
 import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
-import com.tsingxiao.unionj.generator.openapi3.expression.PathBuilder;
+import com.tsingxiao.unionj.generator.openapi3.expression.paths.PathBuilder;
 
 /**
  * @author: created by wubin
@@ -14,7 +14,7 @@ public class Path extends Openapi3 {
 
   protected static PathBuilder pathBuilder;
 
-  public static void server(Evaluator evaluator) {
+  public static void path(Evaluator evaluator) {
     pathBuilder = new PathBuilder();
     evaluator.eval();
     com.tsingxiao.unionj.generator.openapi3.model.paths.Path path = pathBuilder.build();

@@ -1,7 +1,8 @@
-package com.tsingxiao.unionj.generator.openapi3.expression;
+package com.tsingxiao.unionj.generator.openapi3.expression.paths;
 
 
-import com.tsingxiao.unionj.generator.openapi3.model.paths.*;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.Operation;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.Path;
 
 /**
  * @author: created by wubin
@@ -21,19 +22,19 @@ public class PathBuilder {
     this.path.setEndpoint(endpoint);
   }
 
-  public void get(Get get) {
+  public void get(Operation get) {
     this.path.setGet(get);
   }
 
-  public void post(Post post) {
+  public void post(Operation post) {
     this.path.setPost(post);
   }
 
-  public void put(Put put) {
+  public void put(Operation put) {
     this.path.setPut(put);
   }
 
-  public void delete(Delete delete) {
+  public void delete(Operation delete) {
     this.path.setDelete(delete);
   }
 

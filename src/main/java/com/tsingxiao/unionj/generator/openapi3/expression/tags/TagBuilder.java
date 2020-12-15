@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.openapi3.expression;
+package com.tsingxiao.unionj.generator.openapi3.expression.tags;
 
 
 import com.tsingxiao.unionj.generator.openapi3.model.tags.Tag;

@@ -1,7 +1,6 @@
 package com.tsingxiao.unionj.generator.openapi3.model.paths;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 /**
@@ -16,15 +15,11 @@ public class Path {
   @JsonIgnore
   private String endpoint;
 
-  @JsonProperty("get")
-  private Get get;
+  private Operation get;
 
-  @JsonProperty("post")
-  private Post post;
+  private Operation post;
 
-  @JsonProperty("put")
-  private Put put;
+  private Operation put;
 
-  @JsonProperty("delete")
-  private Delete delete;
+  private Operation delete;
 }

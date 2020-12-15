@@ -2,7 +2,7 @@ package com.tsingxiao.unionj.generator.openapi3.dsl.tags;
 
 import com.tsingxiao.unionj.generator.openapi3.dsl.Openapi3;
 import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
-import com.tsingxiao.unionj.generator.openapi3.expression.TagBuilder;
+import com.tsingxiao.unionj.generator.openapi3.expression.tags.TagBuilder;
 
 /**
  * @author: created by wubin
