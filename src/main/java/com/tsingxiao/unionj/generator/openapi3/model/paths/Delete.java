@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.openapi3.model;
+package com.tsingxiao.unionj.generator.openapi3.model.paths;
 
 import lombok.Data;
 
@@ -9,9 +9,5 @@ import lombok.Data;
  * @date:2020/12/14
  */
 @Data
-public class Tag {
-
-  private String name;
-  private String description;
-  private ExternalDocs externalDocs;
+public class Delete {
 }

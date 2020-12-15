@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.openapi3.model;
+package com.tsingxiao.unionj.generator.openapi3.model.info;
 
 import lombok.Data;
 
@@ -9,5 +9,7 @@ import lombok.Data;
  * @date:2020/12/14
  */
 @Data
-public class Get {
+public class Contact {
+
+  private String email;
 }

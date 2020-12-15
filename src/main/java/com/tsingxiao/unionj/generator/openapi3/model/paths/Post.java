@@ -1,5 +1,8 @@
-package com.tsingxiao.unionj.generator.openapi3.model;
+package com.tsingxiao.unionj.generator.openapi3.model.paths;
 
+import com.tsingxiao.unionj.generator.openapi3.model.RequestBody;
+import com.tsingxiao.unionj.generator.openapi3.model.Responses;
+import com.tsingxiao.unionj.generator.openapi3.model.Security;
 import lombok.Data;
 
 import java.util.List;

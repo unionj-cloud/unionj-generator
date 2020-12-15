@@ -1,8 +1,7 @@
-package com.tsingxiao.unionj.generator.openapi3.dsl;
+package com.tsingxiao.unionj.generator.openapi3.dsl.info;
 
 import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
 import com.tsingxiao.unionj.generator.openapi3.expression.ContactBuilder;
-import com.tsingxiao.unionj.generator.openapi3.model.Contact;
 
 /**
  * @author: created by wubin
@@ -10,14 +9,14 @@ import com.tsingxiao.unionj.generator.openapi3.model.Contact;
  * @description: com.tsingxiao.unionj.generator.openapi3.dsl
  * @date:2020/12/14
  */
-public class contact extends Info {
+public class Contact extends Info {
 
   private static ContactBuilder contactBuilder;
 
   public static void contact(Evaluator evaluator) {
     contactBuilder = new ContactBuilder();
     evaluator.eval();
-    Contact contact = contactBuilder.build();
+    com.tsingxiao.unionj.generator.openapi3.model.info.Contact contact = contactBuilder.build();
     infoBuilder.contact(contact);
   }
 

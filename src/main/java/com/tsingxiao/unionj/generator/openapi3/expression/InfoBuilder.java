@@ -1,9 +1,9 @@
 package com.tsingxiao.unionj.generator.openapi3.expression;
 
 
-import com.tsingxiao.unionj.generator.openapi3.model.Contact;
-import com.tsingxiao.unionj.generator.openapi3.model.Info;
-import com.tsingxiao.unionj.generator.openapi3.model.License;
+import com.tsingxiao.unionj.generator.openapi3.model.info.Contact;
+import com.tsingxiao.unionj.generator.openapi3.model.info.Info;
+import com.tsingxiao.unionj.generator.openapi3.model.info.License;
 
 /**
  * @author: created by wubin

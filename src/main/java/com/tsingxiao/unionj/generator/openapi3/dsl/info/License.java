@@ -1,8 +1,7 @@
-package com.tsingxiao.unionj.generator.openapi3.dsl;
+package com.tsingxiao.unionj.generator.openapi3.dsl.info;
 
 import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
 import com.tsingxiao.unionj.generator.openapi3.expression.LicenseBuilder;
-import com.tsingxiao.unionj.generator.openapi3.model.License;
 
 /**
  * @author: created by wubin
@@ -10,14 +9,14 @@ import com.tsingxiao.unionj.generator.openapi3.model.License;
  * @description: com.tsingxiao.unionj.generator.openapi3.dsl
  * @date:2020/12/14
  */
-public class license extends Info {
+public class License extends Info {
 
   private static LicenseBuilder licenseBuilder;
 
-  public static void contact(Evaluator evaluator) {
+  public static void license(Evaluator evaluator) {
     licenseBuilder = new LicenseBuilder();
     evaluator.eval();
-    License license = licenseBuilder.build();
+    com.tsingxiao.unionj.generator.openapi3.model.info.License license = licenseBuilder.build();
     infoBuilder.license(license);
   }
 

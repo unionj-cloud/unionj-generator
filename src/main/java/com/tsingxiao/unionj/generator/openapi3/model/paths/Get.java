@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.openapi3.model;
+package com.tsingxiao.unionj.generator.openapi3.model.paths;
 
 import lombok.Data;
 
@@ -9,7 +9,5 @@ import lombok.Data;
  * @date:2020/12/14
  */
 @Data
-public class Server {
-
-  private String url;
+public class Get {
 }

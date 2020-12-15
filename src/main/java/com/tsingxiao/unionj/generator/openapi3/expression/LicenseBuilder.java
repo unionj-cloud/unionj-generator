@@ -1,6 +1,6 @@
 package com.tsingxiao.unionj.generator.openapi3.expression;
 
-import com.tsingxiao.unionj.generator.openapi3.model.License;
+import com.tsingxiao.unionj.generator.openapi3.model.info.License;
 
 /**
  * @author: created by wubin

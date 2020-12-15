@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.openapi3.model;
+package com.tsingxiao.unionj.generator.openapi3.model.info;
 
 import lombok.Data;
 
