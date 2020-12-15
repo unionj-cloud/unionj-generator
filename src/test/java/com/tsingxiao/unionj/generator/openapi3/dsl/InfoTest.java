@@ -5,7 +5,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
-import static com.tsingxiao.unionj.generator.openapi3.dsl.Info.info;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.Info.*;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.contact.contact;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.contact.email;
 
 /**
  * @author: created by wubin
@@ -16,12 +18,12 @@ import static com.tsingxiao.unionj.generator.openapi3.dsl.Info.info;
 public class InfoTest {
 
   @Test
-  public void TestInfo() throws JsonProcessingException {
-    com.tsingxiao.unionj.generator.openapi3.model.Info info = info(b -> {
-      b.title("测试Info dsl");
-      b.description("test test");
-      b.contact(c -> {
-        c.email("328454505@qq.com");
+  public void TestInfo1() throws JsonProcessingException {
+    com.tsingxiao.unionj.generator.openapi3.model.Info info = info(() -> {
+      title("测试Info dsl");
+      description("test test");
+      contact(() -> {
+        email("328454505@qq.com");
       });
     });
     ObjectMapper objectMapper = new ObjectMapper();

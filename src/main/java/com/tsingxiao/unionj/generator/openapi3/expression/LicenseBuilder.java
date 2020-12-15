@@ -16,6 +16,14 @@ public class LicenseBuilder {
     this.license = new License();
   }
 
+  public void name(String name) {
+    this.license.setName(name);
+  }
+
+  public void url(String url) {
+    this.license.setUrl(url);
+  }
+
   public License build() {
     return this.license;
   }

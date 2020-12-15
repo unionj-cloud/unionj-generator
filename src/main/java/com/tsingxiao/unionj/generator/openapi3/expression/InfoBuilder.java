@@ -5,8 +5,6 @@ import com.tsingxiao.unionj.generator.openapi3.model.Contact;
 import com.tsingxiao.unionj.generator.openapi3.model.Info;
 import com.tsingxiao.unionj.generator.openapi3.model.License;
 
-import java.util.function.Consumer;
-
 /**
  * @author: created by wubin
  * @version: v0.1
@@ -37,17 +35,11 @@ public class InfoBuilder {
     this.info.setVersion(version);
   }
 
-  public void contact(Consumer<ContactBuilder> contactBuilderConsumer) {
-    ContactBuilder contactBuilder = new ContactBuilder();
-    contactBuilderConsumer.accept(contactBuilder);
-    Contact contact = contactBuilder.build();
+  public void contact(Contact contact) {
     this.info.setContact(contact);
   }
 
-  public void license(Consumer<LicenseBuilder> licenseBuilderConsumer) {
-    LicenseBuilder licenseBuilder = new LicenseBuilder();
-    licenseBuilderConsumer.accept(licenseBuilder);
-    License license = licenseBuilder.build();
+  public void license(License license) {
     this.info.setLicense(license);
   }
 
