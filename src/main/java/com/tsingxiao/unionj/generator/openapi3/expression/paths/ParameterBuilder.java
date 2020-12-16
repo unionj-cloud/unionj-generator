@@ -1,9 +1,7 @@
 package com.tsingxiao.unionj.generator.openapi3.expression.paths;
 
 import com.tsingxiao.unionj.generator.openapi3.model.Parameter;
-import com.tsingxiao.unionj.generator.openapi3.model.RequestBody;
-import com.tsingxiao.unionj.generator.openapi3.model.Responses;
-import com.tsingxiao.unionj.generator.openapi3.model.paths.Parameter;
+import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 
 /**
  * @author: created by wubin
@@ -19,19 +17,32 @@ public class ParameterBuilder {
     this.parameter = new Parameter();
   }
 
-  /**
-   * private String name;
-   *   private String in;
-   *   private String description;
-   *   private boolean required;
-   *   private boolean deprecated;
-   *   private Object example;
-   *   public Schema schema;
-   * @param summary
-   */
+  public void name(String name) {
+    this.parameter.setName(name);
+  }
 
-  public void summary(String summary) {
-    this.parameter.setExplode(summary);
+  public void in(String in) {
+    this.parameter.setIn(in);
+  }
+
+  public void description(String description) {
+    this.parameter.setDescription(description);
+  }
+
+  public void required(boolean required) {
+    this.parameter.setRequired(required);
+  }
+
+  public void deprecated(boolean deprecated) {
+    this.parameter.setDeprecated(deprecated);
+  }
+
+  public void example(Object example) {
+    this.parameter.setExample(example);
+  }
+
+  public void schema(Schema schema) {
+    this.parameter.setSchema(schema);
   }
 
   public Parameter build() {

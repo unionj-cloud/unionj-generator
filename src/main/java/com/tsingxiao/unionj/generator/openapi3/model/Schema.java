@@ -3,6 +3,7 @@ package com.tsingxiao.unionj.generator.openapi3.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +17,7 @@ import java.util.Map;
 public class Schema {
 
   private String type;
-  private Map<String, Schema> properties;
+  private Map<String, Schema> properties = new HashMap<>();
   private String format;
   private Schema items;
   private String description;
@@ -53,5 +54,9 @@ public class Schema {
 
   // TODO
   private Object pattern;
+
+  public void setProperties(String property, Schema schema) {
+    this.properties.put(property, schema);
+  }
 
 }
