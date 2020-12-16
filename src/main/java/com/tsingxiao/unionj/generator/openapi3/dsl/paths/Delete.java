@@ -1,7 +1,8 @@
 package com.tsingxiao.unionj.generator.openapi3.dsl.paths;
 
-import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
 import com.tsingxiao.unionj.generator.openapi3.expression.paths.OperationBuilder;
+
+import java.util.function.Consumer;
 
 /**
  * @author: created by wubin
@@ -11,9 +12,9 @@ import com.tsingxiao.unionj.generator.openapi3.expression.paths.OperationBuilder
  */
 public class Delete extends Operation {
 
-  public static void delete(Evaluator evaluator) {
+  public static void delete(Consumer<OperationBuilder> consumer) {
     operationBuilder = new OperationBuilder();
-    evaluator.eval();
+    consumer.accept(operationBuilder);
     com.tsingxiao.unionj.generator.openapi3.model.paths.Operation delete = operationBuilder.build();
     pathBuilder.delete(delete);
   }

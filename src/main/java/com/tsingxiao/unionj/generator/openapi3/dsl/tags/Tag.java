@@ -1,8 +1,9 @@
 package com.tsingxiao.unionj.generator.openapi3.dsl.tags;
 
 import com.tsingxiao.unionj.generator.openapi3.dsl.Openapi3;
-import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
 import com.tsingxiao.unionj.generator.openapi3.expression.tags.TagBuilder;
+
+import java.util.function.Consumer;
 
 /**
  * @author: created by wubin
@@ -14,18 +15,10 @@ public class Tag extends Openapi3 {
 
   protected static TagBuilder tagBuilder;
 
-  public static void server(Evaluator evaluator) {
+  public static void tag(Consumer<TagBuilder> consumer) {
     tagBuilder = new TagBuilder();
-    evaluator.eval();
+    consumer.accept(tagBuilder);
     com.tsingxiao.unionj.generator.openapi3.model.tags.Tag tag = tagBuilder.build();
     openapi3Builder.tags(tag);
-  }
-
-  public static void name(String name) {
-    tagBuilder.name(name);
-  }
-
-  public static void description(String description) {
-    tagBuilder.description(description);
   }
 }

@@ -3,6 +3,7 @@ package com.tsingxiao.unionj.generator.openapi3.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,13 +36,13 @@ public class Schema {
   private Object exclusiveMinimum;
   private Integer maxLength;
   private Integer minLength;
-  private List<String> required;
+  private List<String> required = new ArrayList<>();
 
   @JsonProperty("enum")
-  private List<String> enumValue;
+  private List<String> enumValue = new ArrayList<>();
 
-  private List<Schema> allOf;
-  private List<Schema> oneOf;
+  private List<Schema> allOf = new ArrayList<>();
+  private List<Schema> oneOf = new ArrayList<>();
 
   // TODO
   private List<Schema> anyOf;
@@ -57,6 +58,22 @@ public class Schema {
 
   public void setProperties(String property, Schema schema) {
     this.properties.put(property, schema);
+  }
+
+  public void setRequired(String required) {
+    this.required.add(required);
+  }
+
+  public void setEnumValue(String enumValue) {
+    this.enumValue.add(enumValue);
+  }
+
+  public void setAllOf(Schema schema) {
+    this.allOf.add(schema);
+  }
+
+  public void setOneOf(Schema schema) {
+    this.oneOf.add(schema);
   }
 
 }

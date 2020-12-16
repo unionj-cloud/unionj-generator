@@ -1,7 +1,8 @@
 package com.tsingxiao.unionj.generator.openapi3.dsl;
 
-import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
 import com.tsingxiao.unionj.generator.openapi3.expression.SchemaBuilder;
+
+import java.util.function.Consumer;
 
 /**
  * @author: created by wubin
@@ -10,14 +11,10 @@ import com.tsingxiao.unionj.generator.openapi3.expression.SchemaBuilder;
  * @date:2020/12/16
  */
 public class Schema {
-
-  private static SchemaBuilder schemaBuilder;
-
-  public static com.tsingxiao.unionj.generator.openapi3.model.Schema Schema(Evaluator evaluator) {
-    schemaBuilder = new SchemaBuilder();
-    evaluator.eval();
+  public static com.tsingxiao.unionj.generator.openapi3.model.Schema schema(Consumer<SchemaBuilder> consumer) {
+    SchemaBuilder schemaBuilder = new SchemaBuilder();
+    consumer.accept(schemaBuilder);
     com.tsingxiao.unionj.generator.openapi3.model.Schema schema = schemaBuilder.build();
     return schema;
   }
-
 }

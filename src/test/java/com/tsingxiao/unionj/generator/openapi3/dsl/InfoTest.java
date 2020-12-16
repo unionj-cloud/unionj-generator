@@ -7,9 +7,9 @@ import com.tsingxiao.unionj.generator.openapi3.model.Openapi3;
 import org.junit.Test;
 
 import static com.tsingxiao.unionj.generator.openapi3.dsl.info.Contact.contact;
-import static com.tsingxiao.unionj.generator.openapi3.dsl.info.Contact.email;
-import static com.tsingxiao.unionj.generator.openapi3.dsl.info.Info.*;
-import static com.tsingxiao.unionj.generator.openapi3.dsl.info.License.*;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.info.Info.info;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.info.Info.openapi3;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.info.License.license;
 
 /**
  * @author: created by wubin
@@ -21,17 +21,17 @@ public class InfoTest {
 
   @Test
   public void TestInfo1() throws JsonProcessingException {
-    Openapi3 openapi3 = openapi3(() -> {
-      info(() -> {
-        title("测试Info dsl");
-        description("test test");
-        version("v0.0.1");
-        contact(() -> {
-          email("328454505@qq.com");
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试Info dsl");
+        ib.description("test test");
+        ib.version("v0.0.1");
+        contact(cb -> {
+          cb.email("328454505@qq.com");
         });
-        license(() -> {
-          url("www.unionj.com");
-          name("unionj");
+        license(lb -> {
+          lb.url("www.unionj.com");
+          lb.name("unionj");
         });
       });
     });

@@ -1,7 +1,8 @@
 package com.tsingxiao.unionj.generator.openapi3.dsl.paths;
 
-import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
 import com.tsingxiao.unionj.generator.openapi3.expression.paths.OperationBuilder;
+
+import java.util.function.Consumer;
 
 /**
  * @author: created by wubin
@@ -11,9 +12,9 @@ import com.tsingxiao.unionj.generator.openapi3.expression.paths.OperationBuilder
  */
 public class Put extends Operation {
 
-  public static void put(Evaluator evaluator) {
+  public static void put(Consumer<OperationBuilder> consumer) {
     operationBuilder = new OperationBuilder();
-    evaluator.eval();
+    consumer.accept(operationBuilder);
     com.tsingxiao.unionj.generator.openapi3.model.paths.Operation put = operationBuilder.build();
     pathBuilder.put(put);
   }

@@ -12,21 +12,11 @@ import lombok.Data;
 @Data
 public class Content {
 
-  @Data
-  public static class ApplicationJson {
-    private Schema schema;
-  }
-
-  @Data
-  public class ApplicationXWwwFormUrlencoded {
-    private Schema schema;
-  }
-
   @JsonProperty("application/json")
-  private ApplicationJson applicationJson;
+  private Schema applicationJson;
 
 
   @JsonProperty("application/x-www-form-urlencoded")
-  private ApplicationXWwwFormUrlencoded applicationXWwwFormUrlencoded;
+  private Schema applicationXWwwFormUrlencoded;
 
 }

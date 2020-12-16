@@ -1,7 +1,8 @@
 package com.tsingxiao.unionj.generator.openapi3.dsl.info;
 
-import com.tsingxiao.unionj.generator.openapi3.eval.Evaluator;
 import com.tsingxiao.unionj.generator.openapi3.expression.info.LicenseBuilder;
+
+import java.util.function.Consumer;
 
 /**
  * @author: created by wubin
@@ -13,18 +14,10 @@ public class License extends Info {
 
   private static LicenseBuilder licenseBuilder;
 
-  public static void license(Evaluator evaluator) {
+  public static void license(Consumer<LicenseBuilder> consumer) {
     licenseBuilder = new LicenseBuilder();
-    evaluator.eval();
+    consumer.accept(licenseBuilder);
     com.tsingxiao.unionj.generator.openapi3.model.info.License license = licenseBuilder.build();
     infoBuilder.license(license);
-  }
-
-  public static void name(String name) {
-    licenseBuilder.name(name);
-  }
-
-  public static void url(String url) {
-    licenseBuilder.url(url);
   }
 }

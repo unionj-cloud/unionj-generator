@@ -2,6 +2,7 @@ package com.tsingxiao.unionj.generator.openapi3.model;
 
 import lombok.Data;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,7 +14,11 @@ import java.util.Map;
 @Data
 public class Components {
 
-  private Map<String, Schema> schemas;
+  private Map<String, Schema> schemas = new HashMap<>();
+
+  public void setSchemas(String key, Schema schema) {
+    this.schemas.put(key, schema);
+  }
 
   // TODO
   private Map<String, Response> responses;
