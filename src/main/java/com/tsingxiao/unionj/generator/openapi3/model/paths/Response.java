@@ -1,6 +1,8 @@
-package com.tsingxiao.unionj.generator.openapi3.model;
+package com.tsingxiao.unionj.generator.openapi3.model.paths;
 
 import lombok.Data;
+
+import java.util.Map;
 
 /**
  * @author: created by wubin
@@ -9,11 +11,17 @@ import lombok.Data;
  * @date:2020/12/14
  */
 @Data
-public class RequestBody {
+public class Response {
 
+  // REQUIRED
   private String description;
-  private Content content;
-  private boolean required;
 
+  private Content content;
+
+  // TODO
+  private Map<String, Header> headers;
+
+  // TODO
+  private Map<String, Link> links;
 
 }

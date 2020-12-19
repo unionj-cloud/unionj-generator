@@ -17,6 +17,9 @@ import java.util.Map;
 @Data
 public class Schema {
 
+  @JsonProperty("$ref")
+  private String ref;
+
   private String type;
   private Map<String, Schema> properties = new HashMap<>();
   private String format;

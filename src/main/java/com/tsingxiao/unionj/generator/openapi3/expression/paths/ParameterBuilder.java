@@ -1,6 +1,6 @@
 package com.tsingxiao.unionj.generator.openapi3.expression.paths;
 
-import com.tsingxiao.unionj.generator.openapi3.model.Parameter;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.Parameter;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 
 /**

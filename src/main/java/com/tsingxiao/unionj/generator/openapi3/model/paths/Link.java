@@ -1,6 +1,4 @@
-package com.tsingxiao.unionj.generator.openapi3.model;
-
-import lombok.Data;
+package com.tsingxiao.unionj.generator.openapi3.model.paths;
 
 /**
  * @author: created by wubin
@@ -8,6 +6,5 @@ import lombok.Data;
  * @description: com.tsingxiao.unionj.generator.openapi3.model
  * @date:2020/12/14
  */
-@Data
-public class Header {
+public class Link {
 }

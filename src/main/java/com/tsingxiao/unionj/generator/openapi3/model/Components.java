@@ -1,5 +1,6 @@
 package com.tsingxiao.unionj.generator.openapi3.model;
 
+import com.tsingxiao.unionj.generator.openapi3.model.paths.*;
 import lombok.Data;
 
 import java.util.HashMap;

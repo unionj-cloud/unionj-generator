@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.openapi3.model;
+package com.tsingxiao.unionj.generator.openapi3.model.paths;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -23,4 +23,8 @@ public class Responses {
 
   @JsonProperty("405")
   private Response response405;
+
+  // TODO
+  @JsonProperty("default")
+  private Response defaultResp;
 }

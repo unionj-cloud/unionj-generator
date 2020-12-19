@@ -1,7 +1,7 @@
 package com.tsingxiao.unionj.generator.openapi3.expression.paths;
 
-import com.tsingxiao.unionj.generator.openapi3.model.Content;
-import com.tsingxiao.unionj.generator.openapi3.model.Schema;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.Content;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.MediaType;
 
 /**
  * @author: created by wubin
@@ -16,12 +16,12 @@ public class ContentBuilder {
   public ContentBuilder() {
     this.content = new Content();
   }
-  
-  public void applicationJson(Schema applicationJson) {
+
+  public void applicationJson(MediaType applicationJson) {
     this.content.setApplicationJson(applicationJson);
   }
 
-  public void applicationXWwwFormUrlencoded(Schema applicationXWwwFormUrlencoded) {
+  public void applicationXWwwFormUrlencoded(MediaType applicationXWwwFormUrlencoded) {
     this.content.setApplicationXWwwFormUrlencoded(applicationXWwwFormUrlencoded);
   }
 

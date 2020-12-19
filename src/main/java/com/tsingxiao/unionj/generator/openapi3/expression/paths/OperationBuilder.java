@@ -1,8 +1,8 @@
 package com.tsingxiao.unionj.generator.openapi3.expression.paths;
 
-import com.tsingxiao.unionj.generator.openapi3.model.Parameter;
-import com.tsingxiao.unionj.generator.openapi3.model.RequestBody;
-import com.tsingxiao.unionj.generator.openapi3.model.Responses;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.Parameter;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.RequestBody;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.Responses;
 import com.tsingxiao.unionj.generator.openapi3.model.paths.Operation;
 
 /**

@@ -1,7 +1,6 @@
 package com.tsingxiao.unionj.generator.openapi3.dsl.paths;
 
 import com.tsingxiao.unionj.generator.openapi3.expression.paths.ParameterBuilder;
-import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 
 import java.util.function.Consumer;
 
@@ -18,7 +17,7 @@ public class Parameter extends Operation {
   public static void parameter(Consumer<ParameterBuilder> consumer) {
     parameterBuilder = new ParameterBuilder();
     consumer.accept(parameterBuilder);
-    com.tsingxiao.unionj.generator.openapi3.model.Parameter parameter = parameterBuilder.build();
+    com.tsingxiao.unionj.generator.openapi3.model.paths.Parameter parameter = parameterBuilder.build();
     operationBuilder.parameters(parameter);
   }
 }

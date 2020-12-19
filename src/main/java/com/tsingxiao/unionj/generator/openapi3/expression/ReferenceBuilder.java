@@ -1,6 +1,6 @@
 package com.tsingxiao.unionj.generator.openapi3.expression;
 
-import com.tsingxiao.unionj.generator.openapi3.model.Reference;
+import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 
 /**
  * @author: created by wubin
@@ -10,17 +10,17 @@ import com.tsingxiao.unionj.generator.openapi3.model.Reference;
  */
 public class ReferenceBuilder {
 
-  private Reference reference;
+  private Schema reference;
 
   public ReferenceBuilder() {
-    this.reference = new Reference();
+    this.reference = new Schema();
   }
 
   public void ref(String ref) {
     this.reference.setRef("#/components/schemas/" + ref);
   }
 
-  public Reference build() {
+  public Schema build() {
     return this.reference;
   }
 }

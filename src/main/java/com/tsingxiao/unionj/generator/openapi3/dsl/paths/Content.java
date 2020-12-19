@@ -14,10 +14,10 @@ public class Content {
 
   protected static ContentBuilder contentBuilder;
 
-  public static com.tsingxiao.unionj.generator.openapi3.model.Content content(Consumer<ContentBuilder> consumer) {
+  public static com.tsingxiao.unionj.generator.openapi3.model.paths.Content content(Consumer<ContentBuilder> consumer) {
     contentBuilder = new ContentBuilder();
     consumer.accept(contentBuilder);
-    com.tsingxiao.unionj.generator.openapi3.model.Content content = contentBuilder.build();
+    com.tsingxiao.unionj.generator.openapi3.model.paths.Content content = contentBuilder.build();
     return content;
   }
 }

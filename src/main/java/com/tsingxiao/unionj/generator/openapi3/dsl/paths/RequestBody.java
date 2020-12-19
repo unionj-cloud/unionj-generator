@@ -17,7 +17,7 @@ public class RequestBody extends Operation {
   public static void requestBody(Consumer<RequestBodyBuilder> consumer) {
     requestBodyBuilder = new RequestBodyBuilder();
     consumer.accept(requestBodyBuilder);
-    com.tsingxiao.unionj.generator.openapi3.model.RequestBody requestBody = requestBodyBuilder.build();
+    com.tsingxiao.unionj.generator.openapi3.model.paths.RequestBody requestBody = requestBodyBuilder.build();
     operationBuilder.requestBody(requestBody);
   }
 

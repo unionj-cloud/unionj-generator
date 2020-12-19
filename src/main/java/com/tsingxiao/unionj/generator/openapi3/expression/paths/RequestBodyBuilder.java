@@ -1,7 +1,7 @@
 package com.tsingxiao.unionj.generator.openapi3.expression.paths;
 
-import com.tsingxiao.unionj.generator.openapi3.model.Content;
-import com.tsingxiao.unionj.generator.openapi3.model.RequestBody;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.Content;
+import com.tsingxiao.unionj.generator.openapi3.model.paths.RequestBody;
 
 /**
  * @author: created by wubin
