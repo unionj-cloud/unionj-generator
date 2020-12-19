@@ -70,6 +70,6 @@ node_modules
 ### sonar ###
 .scannerwork
 client
-apidoc
+unionj-generator-apidoc
 services
 mocks
