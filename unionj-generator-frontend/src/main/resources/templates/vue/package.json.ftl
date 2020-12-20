@@ -8,7 +8,8 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint --fix",
-    "doc": "make doc"
+    "doc": "make doc",
+    "mock": "make mock"
   },
   "dependencies": {
     "ant-design-vue": "1.6.5",
@@ -48,8 +49,6 @@
     "jquery": "3.5.1",
     "less": "3.12.2",
     "less-loader": "5.0.0",
-    "nodemon": "1.18.9",
-    "qrcodejs2": "0.0.2",
     "script-loader": "0.7.2",
     "surge": "0.20.3",
     "ts-jest": "24.0.0",
