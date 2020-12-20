@@ -36,7 +36,7 @@ export default Vue.extend({
   methods: {
     getData() {
       const petService = new PetService(this.$http);
-      petService.getPetFindbystatus("pending").then((resp: Pet[]) => {
+      petService.findPetsByStatus("pending").then((resp: Pet[]) => {
         this.pets = resp
           .filter(
             (pet) =>

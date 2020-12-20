@@ -13,6 +13,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Map;
 
 /**
@@ -90,15 +91,27 @@ public class VueProjectGenerator extends VueGenerator {
 //    mockServiceWorkerJsGenerator.generate();
 
     if (StringUtils.isNotBlank(this.doc)) {
-      MockDocParser mockDocParser = new MockDocParser(this.doc);
-      Api api = mockDocParser.parse();
-      MockFolderGenerator mockFolderGenerator = new MockFolderGenerator.Builder(api).outputDir(getOutputFile() + "/src/mocks").zip(false).build();
-      mockFolderGenerator.generate();
+      Api api;
+      if (this.doc.startsWith("http")) {
+        api = MockDocParser.parse(new URL(this.doc));
+      } else {
+        api = MockDocParser.parse(new File(this.doc));
+      }
+      if (api != null) {
+        MockFolderGenerator mockFolderGenerator = new MockFolderGenerator.Builder(api).outputDir(getOutputFile() + "/src/mocks").zip(false).build();
+        mockFolderGenerator.generate();
+      }
 
-      ServiceDocParser serviceDocParser = new ServiceDocParser(this.doc);
-      BizServer bizServer = serviceDocParser.parse();
-      ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).outputDir(getOutputFile() + "/src/services").zip(false).build();
-      serviceFolderGenerator.generate();
+      BizServer bizServer;
+      if (this.doc.startsWith("http")) {
+        bizServer = ServiceDocParser.parse(new URL(this.doc));
+      } else {
+        bizServer = ServiceDocParser.parse(new File(this.doc));
+      }
+      if (bizServer != null) {
+        ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).outputDir(getOutputFile() + "/src/services").zip(false).build();
+        serviceFolderGenerator.generate();
+      }
 
       ApiDocFolderGenerator apiDocFolderGenerator = new ApiDocFolderGenerator.Builder(this.doc).outputDir(getOutputFile() + "/apidoc").zip(false).build();
       apiDocFolderGenerator.generate();

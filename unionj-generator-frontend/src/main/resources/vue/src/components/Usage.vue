@@ -37,7 +37,7 @@ export default Vue.extend({
   },
   mounted() {
     const petService = new PetService(this.$http);
-    petService.getPetFindbystatus("pending").then((resp) => {
+    petService.findPetsByStatus("pending").then((resp) => {
       console.log(resp);
     });
   },
