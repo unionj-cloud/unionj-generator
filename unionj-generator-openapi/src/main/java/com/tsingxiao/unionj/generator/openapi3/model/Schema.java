@@ -59,24 +59,23 @@ public class Schema {
   // TODO
   private Object pattern;
 
-  public void setProperties(String property, Schema schema) {
+  public void properties(String property, Schema schema) {
     this.properties.put(property, schema);
   }
 
-  public void setRequired(String required) {
+  public void required(String required) {
     this.required.add(required);
   }
 
-  public void setEnumValue(String enumValue) {
+  public void enumValue(String enumValue) {
     this.enumValue.add(enumValue);
   }
 
-  public void setAllOf(Schema schema) {
+  public void allOf(Schema schema) {
     this.allOf.add(schema);
   }
 
-  public void setOneOf(Schema schema) {
+  public void oneOf(Schema schema) {
     this.oneOf.add(schema);
   }
-
 }

@@ -3,6 +3,8 @@ package com.tsingxiao.unionj.generator.openapi3.model.paths;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author: created by wubin
  * @version: v0.1
@@ -22,4 +24,7 @@ public class Path {
   private Operation put;
 
   private Operation delete;
+
+  // TODO
+  private List<Parameter> parameters;
 }

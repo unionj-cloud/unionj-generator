@@ -40,11 +40,11 @@ public class Operation {
   // TODO
   private List<Server> servers;
 
-  public void setTags(String tag) {
+  public void tags(String tag) {
     this.tags.add(tag);
   }
 
-  public void setParameters(Parameter parameter) {
+  public void parameters(Parameter parameter) {
     this.parameters.add(parameter);
   }
 

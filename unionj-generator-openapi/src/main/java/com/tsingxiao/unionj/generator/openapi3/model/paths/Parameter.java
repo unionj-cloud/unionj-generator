@@ -1,5 +1,6 @@
 package com.tsingxiao.unionj.generator.openapi3.model.paths;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
 
@@ -11,6 +12,9 @@ import lombok.Data;
  */
 @Data
 public class Parameter {
+
+  @JsonProperty("$ref")
+  private String ref;
 
   private String name;
   private String in;

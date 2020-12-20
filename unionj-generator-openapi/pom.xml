@@ -13,4 +13,12 @@
   <artifactId>unionj-generator-openapi</artifactId>
   <version>1.0-SNAPSHOT</version>
   <name>unionj-generator-openapi</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.tsingxiao.unionj</groupId>
+      <artifactId>unionj-generator-core</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
 </project>

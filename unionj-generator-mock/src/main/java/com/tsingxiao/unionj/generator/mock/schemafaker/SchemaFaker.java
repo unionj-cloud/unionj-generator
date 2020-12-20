@@ -1,7 +1,7 @@
 package com.tsingxiao.unionj.generator.mock.schemafaker;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.v3.oas.models.media.Schema;
+import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,7 @@ import java.util.Map;
 public interface SchemaFaker {
   JsonNode fakeFormat(String format);
 
-  <T> JsonNode fakeEnum(List<T> enums, String type);
+  JsonNode fakeEnum(List<String> enums);
 
   JsonNode fakePrimitiveType(String type);
 

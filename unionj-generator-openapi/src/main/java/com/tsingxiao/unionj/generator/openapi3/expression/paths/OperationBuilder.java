@@ -36,11 +36,11 @@ public class OperationBuilder {
   }
 
   public void tags(String tag) {
-    this.operation.setTags(tag);
+    this.operation.tags(tag);
   }
 
   public void parameters(Parameter parameter) {
-    this.operation.setParameters(parameter);
+    this.operation.parameters(parameter);
   }
 
   public void requestBody(RequestBody requestBody) {

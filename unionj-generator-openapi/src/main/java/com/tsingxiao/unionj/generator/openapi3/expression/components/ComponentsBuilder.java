@@ -18,7 +18,7 @@ public class ComponentsBuilder {
   }
 
   public void schemas(String key, Schema schema) {
-    this.components.setSchemas(key, schema);
+    this.components.schemas(key, schema);
   }
 
   public Components build() {

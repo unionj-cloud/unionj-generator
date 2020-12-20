@@ -22,7 +22,7 @@ public class SchemaBuilder {
   }
 
   public void properties(String property, Schema schema) {
-    this.schema.setProperties(property, schema);
+    this.schema.properties(property, schema);
   }
 
   public void format(String format) {
@@ -78,19 +78,19 @@ public class SchemaBuilder {
   }
 
   public void required(String required) {
-    this.schema.setRequired(required);
+    this.schema.required(required);
   }
 
   public void enumValue(String enumValue) {
-    this.schema.setEnumValue(enumValue);
+    this.schema.enumValue(enumValue);
   }
 
   public void allOf(Schema schema) {
-    this.schema.setAllOf(schema);
+    this.schema.allOf(schema);
   }
 
   public void oneOf(Schema schema) {
-    this.schema.setOneOf(schema);
+    this.schema.oneOf(schema);
   }
 
   public void discriminator(Discriminator discriminator) {

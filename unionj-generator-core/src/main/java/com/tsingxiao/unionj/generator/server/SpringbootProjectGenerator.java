@@ -1,8 +1,6 @@
 package com.tsingxiao.unionj.generator.server;
 
 import com.tsingxiao.unionj.generator.GeneratorUtils;
-import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.OpenAPIV3Parser;
 import lombok.SneakyThrows;
 
 import java.io.File;

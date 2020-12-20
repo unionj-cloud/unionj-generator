@@ -3,9 +3,11 @@ package com.tsingxiao.unionj.generator.mock.docparser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tsingxiao.unionj.generator.mock.docparser.entity.Api;
 import com.tsingxiao.unionj.generator.mock.docparser.entity.ApiItem;
-import lombok.SneakyThrows;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.BufferedInputStream;
+import java.io.IOException;
 
 /**
  * @author: created by wubin
@@ -15,16 +17,11 @@ import org.junit.Test;
  */
 public class MockDocParserTest {
 
-  @SneakyThrows
   @Test
-  public void parse() {
-    String testFilePath = ClassLoader.getSystemResource("petstore3.json").getPath();
-    MockDocParser docParser = new MockDocParser(testFilePath);
-    Api api = docParser.parse();
-    Assert.assertNotNull(api);
-    ApiItem apiItem = api.getItems().get("任务大厅").stream().filter(item -> item.getEndpoint().equals("/hall/latestOrder")).findAny().get();
-    Assert.assertFalse(apiItem.getResponse().isEmpty());
-    ObjectMapper objectMapper = new ObjectMapper();
-    System.out.println(objectMapper.writeValueAsString(apiItem));
+  public void parse() throws IOException {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("petstore3.json"))) {
+      Api api = MockDocParser.parse(is);
+      Assert.assertNotNull(api);
+    }
   }
 }

@@ -1,7 +1,7 @@
 package com.tsingxiao.unionj.generator.openapi3.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
@@ -20,9 +20,11 @@ public class Openapi3Test {
   public void parse() throws IOException {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
     try (InputStream is = ClassLoader.getSystemResourceAsStream("petstore3.json")) {
-      JsonNode jsonNode = objectMapper.readTree(is);
-      System.out.println(jsonNode);
+      Openapi3 openapi3 = objectMapper.readValue(is, Openapi3.class);
+      System.out.println(openapi3);
     }
   }
 }

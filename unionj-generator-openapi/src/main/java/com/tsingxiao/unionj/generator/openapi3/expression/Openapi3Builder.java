@@ -24,15 +24,15 @@ public class Openapi3Builder {
   }
 
   public void servers(Server server) {
-    this.openapi3.setServers(server);
+    this.openapi3.servers(server);
   }
 
   public void tags(Tag tag) {
-    this.openapi3.setTags(tag);
+    this.openapi3.tags(tag);
   }
 
   public void paths(Path path) {
-    this.openapi3.setPaths(path);
+    this.openapi3.paths(path);
   }
 
   public void info(Info info) {

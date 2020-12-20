@@ -3,10 +3,11 @@ package com.tsingxiao.unionj.generator.mock.schemafaker;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.*;
-import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.*;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.Faker;
+import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.FakerNotFoundException;
+import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.FormatConstants;
+import com.tsingxiao.unionj.generator.mock.schemafaker.propertyfaker.PropertyFaker;
+import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
@@ -51,40 +52,10 @@ public class DefaultSchemaFaker implements SchemaFaker {
     return propertyFaker.fake();
   }
 
-  @SneakyThrows
   @Override
-  public <T> JsonNode fakeEnum(List<T> enums, String type) {
+  public JsonNode fakeEnum(List<String> enums) {
     int i = this.faker.number().numberBetween(0, enums.size());
-    JsonNode jsonNode = null;
-    switch (type) {
-      case SchemaTypeUtil.BOOLEAN_TYPE: {
-        if (enums.get(i) instanceof Boolean) {
-          jsonNode = BooleanNode.valueOf((Boolean) enums.get(i));
-        } else {
-          throw new EnumMismatchTypeException("enum element type is not " + type);
-        }
-        break;
-      }
-      case SchemaTypeUtil.INTEGER_TYPE: {
-        if (enums.get(i) instanceof Integer) {
-          jsonNode = IntNode.valueOf((Integer) enums.get(i));
-        } else {
-          throw new EnumMismatchTypeException("enum element type is not " + type);
-        }
-        break;
-      }
-      case SchemaTypeUtil.NUMBER_TYPE: {
-        if (enums.get(i) instanceof Double) {
-          jsonNode = DoubleNode.valueOf((Double) enums.get(i));
-        } else {
-          throw new EnumMismatchTypeException("enum element type is not " + type);
-        }
-        break;
-      }
-      default: {
-        jsonNode = TextNode.valueOf(enums.get(i).toString());
-      }
-    }
+    TextNode jsonNode = TextNode.valueOf(enums.get(i));
     return jsonNode;
   }
 
@@ -92,15 +63,15 @@ public class DefaultSchemaFaker implements SchemaFaker {
   public JsonNode fakePrimitiveType(String type) {
     JsonNode jsonNode = null;
     switch (type) {
-      case SchemaTypeUtil.BOOLEAN_TYPE: {
+      case "boolean": {
         jsonNode = BooleanNode.valueOf(this.faker.bool().bool());
         break;
       }
-      case SchemaTypeUtil.INTEGER_TYPE: {
+      case "integer": {
         jsonNode = IntNode.valueOf(this.faker.random().nextInt(0, 10000));
         break;
       }
-      case SchemaTypeUtil.NUMBER_TYPE: {
+      case "number": {
         jsonNode = DoubleNode.valueOf(this.faker.random().nextDouble());
         break;
       }
@@ -115,26 +86,25 @@ public class DefaultSchemaFaker implements SchemaFaker {
   private JsonNode convertSchema2JsonNode(Schema value) {
     JsonNode result = null;
     String format = value.getFormat();
-    List enums = value.getEnum();
+    List<String> enums = value.getEnumValue();
     String type = value.getType();
     if (StringUtils.isNotBlank(format)) {
       result = this.fakeFormat(format);
-    } else if (CollectionUtils.isNotEmpty(enums)) {
-      result = this.fakeEnum(enums, type);
+    } else if (CollectionUtils.isNotEmpty(enums) && type.equals("string")) {
+      result = this.fakeEnum(enums);
     } else {
-      if (StringUtils.isNotBlank(value.get$ref())) {
-        result = this.convertSchema2JsonNode(this.getSchemaByRef(value.get$ref()));
+      if (StringUtils.isNotBlank(value.getRef())) {
+        result = this.convertSchema2JsonNode(this.getSchemaByRef(value.getRef()));
       } else {
         if (StringUtils.isNotBlank(type)) {
           if (type.equals("array")) {
-            ArraySchema arraySchema = (ArraySchema) value;
-            Schema<?> items = arraySchema.getItems();
+            Schema items = value.getItems();
             ArrayNode arrayNode = this.objectMapper.createArrayNode();
             for (int i = 0; i < 15; i++) {
               arrayNode.add(this.convertSchema2JsonNode(items));
             }
             result = arrayNode;
-          } else if (type.equals(SchemaTypeUtil.OBJECT_TYPE)) {
+          } else if (type.equals("object")) {
             ObjectNode rootObjectNode = this.objectMapper.createObjectNode();
             Map<String, Schema> properties = value.getProperties();
             if (properties != null) {
