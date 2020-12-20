@@ -1,12 +1,13 @@
 package com.tsingxiao.unionj.generator.service.docparser;
 
-import com.tsingxiao.unionj.generator.service.docparser.entity.BizProperty;
 import com.tsingxiao.unionj.generator.service.docparser.entity.BizRouter;
 import com.tsingxiao.unionj.generator.service.docparser.entity.BizServer;
 import com.tsingxiao.unionj.generator.service.docparser.entity.BizService;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -18,21 +19,16 @@ import java.util.List;
 public class ServiceDocParserTest {
 
   @Test
-  public void parse() {
-    String testFilePath = ClassLoader.getSystemResource("petstore3.json").getPath();
-    ServiceDocParser docParser = new ServiceDocParser(testFilePath);
-    BizServer bizServer = docParser.parse();
-    Assert.assertNotNull(bizServer);
-    List<BizService> services = bizServer.getServices();
-    for (BizService bizService : services) {
-      List<BizRouter> routers = bizService.getRouters();
-      for (BizRouter bizRouter : routers) {
-        String httpMethod = bizRouter.getHttpMethod();
-        Assert.assertNotNull(httpMethod);
-        if (httpMethod.toLowerCase().equals("post") && bizRouter.getEndpoint().equals("/hall/event/list")) {
-          BizProperty reqBody = bizRouter.getReqBody();
-          Assert.assertNotNull(reqBody);
-          return;
+  public void parse() throws IOException {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("petstore3.json"))) {
+      BizServer bizServer = ServiceDocParser.parse(is);
+      Assert.assertNotNull(bizServer);
+      List<BizService> services = bizServer.getServices();
+      for (BizService bizService : services) {
+        List<BizRouter> routers = bizService.getRouters();
+        for (BizRouter bizRouter : routers) {
+          String httpMethod = bizRouter.getHttpMethod();
+          Assert.assertNotNull(httpMethod);
         }
       }
     }

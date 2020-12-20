@@ -5,7 +5,9 @@ import com.tsingxiao.unionj.generator.service.docparser.entity.BizServer;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author: created by wubin
@@ -16,13 +18,13 @@ import java.io.File;
 public class ServiceFolderGeneratorTest {
 
   @Test
-  public void generate() {
-    String testFilePath = ClassLoader.getSystemResource("petstore3.json").getPath();
-    ServiceDocParser docParser = new ServiceDocParser(testFilePath);
-    BizServer bizServer = docParser.parse();
-    ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).zip(false).build();
-    String outputFile = serviceFolderGenerator.generate();
-    File file = new File(outputFile);
-    Assert.assertTrue(file.exists());
+  public void generate() throws IOException {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("petstore3.json"))) {
+      BizServer bizServer = ServiceDocParser.parse(is);
+      ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).zip(false).build();
+      String outputFile = serviceFolderGenerator.generate();
+      File file = new File(outputFile);
+      Assert.assertTrue(file.exists());
+    }
   }
 }

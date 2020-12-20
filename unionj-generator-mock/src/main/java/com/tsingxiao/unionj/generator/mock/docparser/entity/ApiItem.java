@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.tsingxiao.unionj.generator.ApiItemVo;
 import com.tsingxiao.unionj.generator.mock.schemafaker.SchemaFaker;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
@@ -15,9 +16,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -50,7 +51,7 @@ public class ApiItem {
     if (CollectionUtils.isNotEmpty(operation.getTags())) {
       apiItem.setTag(operation.getTags().get(0));
     }
-    List<ApiParam> apiParams = new ArrayList<>();
+    Set<ApiParam> apiParams = Sets.newHashSet();
     if (CollectionUtils.isNotEmpty(operation.getParameters())) {
       apiParams.addAll(operation.getParameters().stream()
           .map(para -> new ApiParam(para.getName(), para.getIn()))

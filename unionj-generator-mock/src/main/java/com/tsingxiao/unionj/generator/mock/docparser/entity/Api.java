@@ -1,6 +1,5 @@
 package com.tsingxiao.unionj.generator.mock.docparser.entity;
 
-import com.google.common.collect.Sets;
 import com.tsingxiao.unionj.generator.mock.schemafaker.DefaultSchemaFaker;
 import com.tsingxiao.unionj.generator.mock.schemafaker.SchemaFaker;
 import com.tsingxiao.unionj.generator.openapi3.model.Openapi3;
@@ -14,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -62,13 +60,6 @@ public class Api {
       key = StringUtils.replace(key, "{", ":");
       key = StringUtils.replace(key, "}", "");
       Path pathItem = pathEntry.getValue();
-
-      Set<ApiParam> apiParams = Sets.newHashSet();
-      if (CollectionUtils.isNotEmpty(pathItem.getParameters())) {
-        apiParams.addAll(pathItem.getParameters().stream()
-            .map(para -> new ApiParam(para.getName(), para.getIn()))
-            .collect(Collectors.toSet()));
-      }
       if (pathItem.getGet() != null) {
         ApiItem apiItem = ApiItem.of(key, "get", pathItem.getGet(), faker);
         apiItems.add(apiItem);

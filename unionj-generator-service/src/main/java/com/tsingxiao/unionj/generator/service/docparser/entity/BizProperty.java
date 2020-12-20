@@ -1,9 +1,7 @@
 package com.tsingxiao.unionj.generator.service.docparser.entity;
 
 import com.google.common.base.Objects;
-import io.swagger.v3.oas.models.media.ArraySchema;
-import io.swagger.v3.oas.models.media.Schema;
-import io.swagger.v3.parser.util.SchemaTypeUtil;
+import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -60,32 +58,31 @@ public class BizProperty {
   private String deepSetType(Schema schema) {
     String type = schema.getType();
     if (StringUtils.isBlank(type)) {
-      return this.getTypeByRef(schema.get$ref());
+      return this.getTypeByRef(schema.getRef());
     }
     String tsType;
     switch (type) {
-      case SchemaTypeUtil.BOOLEAN_TYPE: {
+      case "boolean": {
         tsType = TsTypeConstants.BOOLEAN;
         break;
       }
-      case SchemaTypeUtil.INTEGER_TYPE: {
+      case "integer": {
         tsType = TsTypeConstants.NUMBER;
         break;
       }
-      case SchemaTypeUtil.NUMBER_TYPE: {
+      case "number": {
         tsType = TsTypeConstants.NUMBER;
         break;
       }
-      case SchemaTypeUtil.STRING_TYPE: {
+      case "string": {
         tsType = TsTypeConstants.STRING;
         break;
       }
       case "array": {
         this.level++;
-        ArraySchema arraySchema = (ArraySchema) schema;
-        Schema<?> items = arraySchema.getItems();
-        if (StringUtils.isNotBlank(items.get$ref())) {
-          tsType = this.getTypeByRef(items.get$ref());
+        Schema items = schema.getItems();
+        if (StringUtils.isNotBlank(items.getRef())) {
+          tsType = this.getTypeByRef(items.getRef());
         } else {
           tsType = this.deepSetType(items);
         }
