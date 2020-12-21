@@ -13,6 +13,7 @@ import java.util.List;
 public class TsTypeConstants {
 
   public static final String ANY = "any";
+  public static final String FORMDATA = "FormData";
   public static final String STRING = "string";
   public static final String NUMBER = "number";
   public static final String BOOLEAN = "boolean";

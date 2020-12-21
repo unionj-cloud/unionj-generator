@@ -55,6 +55,10 @@ public class BizProperty {
     this.type = tsType;
   }
 
+  public void setType(String type) {
+    this.type = type;
+  }
+
   private String deepSetType(Schema schema) {
     String type = schema.getType();
     if (StringUtils.isBlank(type)) {

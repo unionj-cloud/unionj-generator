@@ -55,6 +55,35 @@ public class BizRouter {
     } else {
       bizRouter.setName();
     }
+
+    boolean hasFormData = false;
+    RequestBody requestBody = operation.getRequestBody();
+    if (requestBody != null) {
+      Content content = requestBody.getContent();
+      if (content != null) {
+        if (content.getApplicationJson() != null) {
+          MediaType mediaType = content.getApplicationJson();
+          if (mediaType.getSchema() != null) {
+            BizProperty bizProperty = new BizProperty();
+            bizProperty.setName("payload");
+            bizProperty.setIn("requestBody");
+            bizProperty.setType(mediaType.getSchema());
+            bizRouter.setReqBody(bizProperty);
+          }
+        } else if (content.getApplicationOctetStream() != null) {
+          MediaType mediaType = content.getApplicationOctetStream();
+          if (mediaType.getSchema() != null) {
+            BizProperty bizProperty = new BizProperty();
+            bizProperty.setName("formData");
+            bizProperty.setIn("requestBody");
+            bizProperty.setType(TsTypeConstants.FORMDATA);
+            bizRouter.setReqBody(bizProperty);
+            hasFormData = true;
+          }
+        }
+      }
+    }
+
     Set<BizProperty> bizPropertySet = Sets.newHashSet();
     if (CollectionUtils.isNotEmpty(operation.getParameters())) {
       bizPropertySet.addAll(operation.getParameters().stream()
@@ -67,26 +96,12 @@ public class BizRouter {
           })
           .collect(Collectors.toSet()));
     }
-
     if (CollectionUtils.isNotEmpty(bizPropertySet)) {
       Map<String, List<BizProperty>> bizPropertyGroupByIn = bizPropertySet.stream()
           .collect(Collectors.groupingBy(BizProperty::getIn, Collectors.toList()));
       bizRouter.setPathParams(bizPropertyGroupByIn.get("path"));
-      bizRouter.setQueryParams(bizPropertyGroupByIn.get("query"));
-    }
-
-    RequestBody requestBody = operation.getRequestBody();
-    if (requestBody != null) {
-      Content content = requestBody.getContent();
-      if (content != null) {
-        MediaType mediaType = content.getApplicationJson();
-        if (mediaType != null && mediaType.getSchema() != null) {
-          BizProperty bizProperty = new BizProperty();
-          bizProperty.setName("payload");
-          bizProperty.setIn("requestBody");
-          bizProperty.setType(mediaType.getSchema());
-          bizRouter.setReqBody(bizProperty);
-        }
+      if (!hasFormData) {
+        bizRouter.setQueryParams(bizPropertyGroupByIn.get("query"));
       }
     }
 

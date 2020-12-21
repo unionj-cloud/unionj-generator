@@ -22,6 +22,7 @@
     <module>unionj-generator-mock</module>
     <module>unionj-generator-service</module>
     <module>unionj-generator-frontend</module>
+    <module>unionj-generator-backend</module>
     <module>unionj-generator-openapi</module>
   </modules>
 

@@ -137,7 +137,10 @@ public class BizServer {
       bizService.setRouters(bizRouters);
 
       Set<String> serviceTypes = bizRouters.stream()
-          .filter(bizRouter -> bizRouter.getReqBody() != null && !bizRouter.getReqBody().getType().equals(TsTypeConstants.ANY))
+          .filter(bizRouter -> bizRouter.getReqBody() != null
+              && !bizRouter.getReqBody().getType().equals(TsTypeConstants.ANY)
+              && !bizRouter.getReqBody().getType().equals(TsTypeConstants.FORMDATA)
+          )
           .map(bizRouter -> {
             String type = bizRouter.getReqBody().getType();
             int index = type.indexOf("[]");
