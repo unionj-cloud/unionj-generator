@@ -1,9 +1,14 @@
-package com.tsingxiao.unionj.demo.vo;
+package ${packageName};
 
 import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+<#if imports??>
+<#list imports as import>
+import ${import};
+</#list>
+</#if>
 
 @Data
 public class ${name}   {
@@ -13,6 +18,7 @@ public class ${name}   {
     private ${property.type} ${property.name};
 </#list>
 
+<#if enumTypes??>
 <#list enumTypes as enumType>
     public enum ${enumType.name} {
     <#list enumType.enums as enum>
@@ -42,5 +48,5 @@ public class ${name}   {
         }
     }
 </#list>
-
+</#if>
 }

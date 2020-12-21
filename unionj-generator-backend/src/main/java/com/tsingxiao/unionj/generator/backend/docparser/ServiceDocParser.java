@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.backend.springboot.docparser;
+package com.tsingxiao.unionj.generator.backend.docparser;
 
 import com.tsingxiao.unionj.generator.openapi3.model.Openapi3;
 import com.tsingxiao.unionj.generator.openapi3.parser.Openapi3Parser;

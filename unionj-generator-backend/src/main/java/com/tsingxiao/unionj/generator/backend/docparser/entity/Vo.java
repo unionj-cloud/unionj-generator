@@ -1,4 +1,4 @@
-package com.tsingxiao.unionj.generator.backend.springboot.docparser.entity;
+package com.tsingxiao.unionj.generator.backend.docparser.entity;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * @author: created by wubin
  * @version: v0.1
- * @description: com.tsingxiao.unionj.generator.backend.springboot.docparser.entity
+ * @description: com.tsingxiao.unionj.generator.backend.docparser.entity
  * @date:2020/12/21
  */
 @Data
@@ -16,5 +16,6 @@ public class Vo {
   private String name;
   private List<VoProperty> properties;
   private List<VoEnumType> enumTypes;
+  private List<String> imports;
 
 }

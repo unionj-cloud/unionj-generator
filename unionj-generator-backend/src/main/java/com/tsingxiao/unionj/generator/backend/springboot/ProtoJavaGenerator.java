@@ -2,7 +2,7 @@ package com.tsingxiao.unionj.generator.backend.springboot;
 
 import com.tsingxiao.unionj.generator.DefaultGenerator;
 import com.tsingxiao.unionj.generator.GeneratorUtils;
-import com.tsingxiao.unionj.generator.backend.docparser.entity.Vo;
+import com.tsingxiao.unionj.generator.backend.docparser.entity.Proto;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -17,36 +17,36 @@ import static com.tsingxiao.unionj.generator.backend.springboot.Constants.OUTPUT
  * @description: com.tsingxiao.unionj.generator
  * @date:2020/11/22
  */
-public class VoJavaGenerator extends DefaultGenerator {
+public class ProtoJavaGenerator extends DefaultGenerator {
 
-  private Vo vo;
-  private String outputDir = OUTPUT_DIR + File.separator + "vo";
+  private Proto proto;
+  private String outputDir = OUTPUT_DIR + File.separator + "proto";
   private String packageName;
 
-  public VoJavaGenerator(Vo vo, String packageName) {
-    this.vo = vo;
-    this.packageName = packageName + ".vo";
+  public ProtoJavaGenerator(Proto proto, String packageName) {
+    this.proto = proto;
+    this.packageName = packageName + ".proto";
   }
 
   @Override
   public Map<String, Object> getInput() {
     Map<String, Object> input = new HashMap<>();
     input.put("packageName", this.packageName);
-    input.put("name", StringUtils.capitalize(this.vo.getName()));
-    input.put("properties", this.vo.getProperties());
-    input.put("enumTypes", this.vo.getEnumTypes());
-    input.put("imports", this.vo.getImports());
+    input.put("base", this.proto.getBase());
+    input.put("name", StringUtils.capitalize(this.proto.getName()));
+    input.put("routers", this.proto.getRouters());
+    input.put("imports", this.proto.getImports());
     return input;
   }
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "vo.java.ftl";
+    return OUTPUT_DIR + File.separator + "proto.java.ftl";
   }
 
   @Override
   public String getOutputFile() {
-    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + StringUtils.capitalize(this.vo.getName()) + ".java";
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + StringUtils.capitalize(this.proto.getName()) + ".java";
   }
 
 }
