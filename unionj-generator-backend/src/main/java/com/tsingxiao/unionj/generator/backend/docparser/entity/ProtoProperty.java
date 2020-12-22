@@ -14,11 +14,11 @@ import org.apache.commons.lang3.StringUtils;
 @Data
 public class ProtoProperty {
 
-  private String name;
-  private String type;
-  private String in;
-  private boolean required;
-  private int level;
+  protected String name;
+  protected String type;
+  protected String in;
+  protected boolean required;
+  protected int level;
 
   public ProtoProperty(String name, String type, String in, int level) {
     this.name = name;

@@ -29,9 +29,9 @@ public class SpringbootFolderGeneratorTest {
     List<VoProperty> voPropertyList = Lists.newArrayList(
         new VoProperty("id", "id", Long.class.getSimpleName()),
         new VoProperty("name", "name", String.class.getSimpleName()),
-        new VoProperty("category", "category", "Category"),
+        new VoProperty("category", "category", "CategoryVo"),
         new VoProperty("photoUrls", "photoUrls", "List<String>"),
-        new VoProperty("tags", "tags", "List<Tag>"),
+        new VoProperty("tags", "tags", "List<TagVo>"),
         new VoProperty("status", "status", "StatusEnum")
     );
     vo.setProperties(voPropertyList);
@@ -50,7 +50,7 @@ public class SpringbootFolderGeneratorTest {
 
 
     vo = new Vo();
-    vo.setName("Category");
+    vo.setName("CategoryVo");
     voPropertyList = Lists.newArrayList(
         new VoProperty("id", "id", Long.class.getSimpleName()),
         new VoProperty("name", "name", String.class.getSimpleName())
@@ -59,10 +59,20 @@ public class SpringbootFolderGeneratorTest {
     voList.add(vo);
 
     vo = new Vo();
-    vo.setName("Tag");
+    vo.setName("TagVo");
     voPropertyList = Lists.newArrayList(
         new VoProperty("id", "id", Long.class.getSimpleName()),
         new VoProperty("name", "name", String.class.getSimpleName())
+    );
+    vo.setProperties(voPropertyList);
+    voList.add(vo);
+
+    vo = new Vo();
+    vo.setName("ApiResponse");
+    voPropertyList = Lists.newArrayList(
+        new VoProperty("code", "code", Integer.class.getSimpleName()),
+        new VoProperty("type", "type", String.class.getSimpleName()),
+        new VoProperty("message", "message", String.class.getSimpleName())
     );
     vo.setProperties(voPropertyList);
     voList.add(vo);
@@ -75,7 +85,8 @@ public class SpringbootFolderGeneratorTest {
     proto.setName("PetProto");
     proto.setImports(Lists.newArrayList(
         List.class.getName(),
-        VO_PACKAGE_NAME + ".PetVo"
+        VO_PACKAGE_NAME + ".PetVo",
+        VO_PACKAGE_NAME + ".ApiResponse"
     ));
     List<ProtoRouter> routers = Lists.newArrayList(
         new ProtoRouter.Builder("/pet", "addPet", "post")
@@ -88,8 +99,18 @@ public class SpringbootFolderGeneratorTest {
                 new ProtoProperty.Builder(Long.class.getSimpleName()).name("petId").build()
             ))
             .queryParams(Lists.newArrayList(
-                new ProtoProperty.Builder(String.class.getSimpleName()).name("name").build(),
-                new ProtoProperty.Builder(String.class.getSimpleName()).name("status").build()
+                new ProtoProperty.Builder(String.class.getSimpleName()).name("name").required(false).build(),
+                new ProtoProperty.Builder(String.class.getSimpleName()).name("status").required(false).build()
+            ))
+            .build(),
+        new ProtoRouter.Builder("/pet/{petId}/uploadImage", "uploadFile", "post")
+            .file(new ProtoFile.Builder().required(false).build())
+            .respData(new ProtoProperty.Builder("ApiResponse").build())
+            .pathParams(Lists.newArrayList(
+                new ProtoProperty.Builder(Long.class.getSimpleName()).name("petId").build()
+            ))
+            .queryParams(Lists.newArrayList(
+                new ProtoProperty.Builder(String.class.getSimpleName()).name("additionalMetadata").required(false).build()
             ))
             .build()
     );

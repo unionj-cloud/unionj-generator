@@ -1,6 +1,5 @@
 package ${packageName};
 
-import org.springframework.core.io.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,16 +21,19 @@ public interface ${name} {
         <#assign x>
             <#if router.pathParams??>
                 <#list router.pathParams as pathParam>
-        @PathVariable ${pathParam.type} ${pathParam.name},
+        <#if pathParam.required>@PathVariable("${pathParam.name}")<#else>@PathVariable(value="${pathParam.name}", required=false)</#if> ${pathParam.type} ${pathParam.name},
                 </#list>
             </#if>
             <#if router.queryParams??>
                 <#list router.queryParams as queryParam>
-        @RequestParam ${queryParam.type} ${queryParam.name},
+        <#if queryParam.required>@RequestParam("${queryParam.name}")<#else>@RequestParam(value="${queryParam.name}", required=false)</#if> ${queryParam.type} ${queryParam.name},
                 </#list>
             </#if>
             <#if router.reqBody??>
-        @RequestBody ${router.reqBody.type} ${router.reqBody.name},
+        <#if router.reqBody.required>@RequestBody<#else>@RequestBody(required=false)</#if> ${router.reqBody.type} ${router.reqBody.name},
+            </#if>
+            <#if router.file??>
+        <#if router.file.required>@RequestPart("${router.file.name}")<#else>@RequestPart(value="${router.file.name}", required=false)</#if> ${router.file.type} ${router.file.name},
             </#if>
         </#assign>
         ${x?keep_before_last(",")?trim}
