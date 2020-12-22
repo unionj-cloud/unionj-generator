@@ -1,8 +1,8 @@
 package com.tsingxiao.unionj.generator.backend.docparser;
 
+import com.tsingxiao.unionj.generator.backend.docparser.entity.Backend;
 import com.tsingxiao.unionj.generator.openapi3.model.Openapi3;
 import com.tsingxiao.unionj.generator.openapi3.parser.Openapi3Parser;
-import com.tsingxiao.unionj.generator.service.docparser.entity.BizServer;
 import lombok.Data;
 
 import java.io.File;
@@ -19,18 +19,22 @@ import java.net.URL;
 @Data
 public class ServiceDocParser {
 
-  public static BizServer parse(File doc) throws IOException {
+  public static Backend parse(File doc) throws IOException {
     Openapi3 openAPI = new Openapi3Parser().parse(doc);
-    return BizServer.convert(openAPI);
+    return Backend.convert(openAPI);
   }
 
-  public static BizServer parse(URL doc) throws IOException {
+  public static Backend parse(URL doc) throws IOException {
     Openapi3 openAPI = new Openapi3Parser().parse(doc);
-    return BizServer.convert(openAPI);
+    return Backend.convert(openAPI);
   }
 
-  public static BizServer parse(InputStream doc) throws IOException {
+  public static Backend parse(InputStream doc) throws IOException {
     Openapi3 openAPI = new Openapi3Parser().parse(doc);
-    return BizServer.convert(openAPI);
+    return Backend.convert(openAPI);
+  }
+
+  public static Backend parse(Openapi3 openAPI) throws IOException {
+    return Backend.convert(openAPI);
   }
 }

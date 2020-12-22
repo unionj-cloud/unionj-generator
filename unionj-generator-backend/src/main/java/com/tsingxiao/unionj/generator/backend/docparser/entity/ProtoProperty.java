@@ -85,7 +85,7 @@ public class ProtoProperty {
   private String getTypeByRef(String ref) {
     String key = ref.substring(ref.lastIndexOf("/") + 1);
     if (StringUtils.isBlank(key)) {
-      return TsTypeConstants.ANY;
+      return JavaTypeConstants.ANY;
     }
     return key.replaceAll("[^a-zA-Z]", "");
   }
@@ -110,19 +110,19 @@ public class ProtoProperty {
     String tsType;
     switch (type) {
       case "boolean": {
-        tsType = TsTypeConstants.BOOLEAN;
+        tsType = JavaTypeConstants.BOOLEAN;
         break;
       }
       case "integer": {
-        tsType = TsTypeConstants.NUMBER;
+        tsType = JavaTypeConstants.NUMBER;
         break;
       }
       case "number": {
-        tsType = TsTypeConstants.NUMBER;
+        tsType = JavaTypeConstants.NUMBER;
         break;
       }
       case "string": {
-        tsType = TsTypeConstants.STRING;
+        tsType = JavaTypeConstants.STRING;
         break;
       }
       case "array": {
@@ -136,7 +136,7 @@ public class ProtoProperty {
         break;
       }
       default: {
-        tsType = TsTypeConstants.ANY;
+        tsType = JavaTypeConstants.ANY;
       }
     }
     return tsType;
