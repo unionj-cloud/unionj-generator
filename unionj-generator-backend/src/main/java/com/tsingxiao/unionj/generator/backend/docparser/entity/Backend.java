@@ -5,11 +5,14 @@ import com.tsingxiao.unionj.generator.openapi3.model.Openapi3;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import com.tsingxiao.unionj.generator.openapi3.model.paths.Path;
 import lombok.Data;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.tsingxiao.unionj.generator.backend.springboot.Constants.PACKAGE_NAME;
 
 /**
  * @author: created by wubin
@@ -20,8 +23,17 @@ import java.util.stream.Collectors;
 @Data
 public class Backend {
 
+  private static final String VO_PACKAGE_NAME = PACKAGE_NAME + ".vo";
+
   List<Vo> voList;
   List<Proto> protoList;
+
+  @Data
+  public static class PathWrapper {
+    private Path path;
+    private String endpoint;
+    private String protoName;
+  }
 
   public static Backend convert(Openapi3 openAPI) {
     Backend backend = new Backend();
@@ -38,21 +50,37 @@ public class Backend {
       Schema schema = schemaEntry.getValue();
       Map<String, Schema> properties = schema.getProperties();
 
+      List<VoEnumType> enumTypeList = new ArrayList<>();
       for (Map.Entry<String, Schema> property : properties.entrySet()) {
-        VoProperty voProperty = new VoProperty(property.getKey(), property.getKey(), property.getValue());
+        Schema value = property.getValue();
+        VoProperty voProperty = null;
+        if (CollectionUtils.isNotEmpty(value.getEnumValue())) {
+          String type = StringUtils.capitalize(property.getKey()) + "Enum";
+          voProperty = new VoProperty(property.getKey(), property.getKey(), type);
+
+          List<VoEnum> voEnumList = value.getEnumValue().stream().map(item -> new VoEnum(item.toUpperCase(), item)).collect(Collectors.toList());
+          VoEnumType voEnumType = new VoEnumType(voEnumList, type);
+          enumTypeList.add(voEnumType);
+        } else {
+          voProperty = new VoProperty(property.getKey(), property.getKey(), value);
+        }
         voPropertyList.add(voProperty);
       }
 
       vo.setProperties(voPropertyList);
+      vo.setEnumTypes(enumTypeList);
+
       voList.add(vo);
     }
 
     backend.setVoList(voList);
 
+    List<String> voNameList = voList.stream().map(vo -> vo.getName()).collect(Collectors.toList());
+
     Map<String, Path> paths = openAPI.getPaths();
-    Map<String, List<PathItemWrapper>> pathItemWrapperMap = new HashMap<>();
-    for (Map.Entry<String, Path> pathItemEntry : paths.entrySet()) {
-      String key = pathItemEntry.getKey();
+    Map<String, List<PathWrapper>> pathWrapperMap = new HashMap<>();
+    for (Map.Entry<String, Path> pathEntry : paths.entrySet()) {
+      String key = pathEntry.getKey();
       String _key = StringUtils.stripStart(key, "/");
       if (StringUtils.isBlank(_key)) {
         continue;
@@ -61,88 +89,81 @@ public class Backend {
       if (ArrayUtils.isEmpty(split)) {
         continue;
       }
-      PathItemWrapper wrapper = new PathItemWrapper();
-      String serviceName = StringUtils.capitalize(split[0]) + "Service";
-      wrapper.setServiceName(serviceName);
+      PathWrapper wrapper = new PathWrapper();
+      String protoName = StringUtils.capitalize(split[0]) + "Proto";
+      wrapper.setProtoName(protoName);
 
-      key = StringUtils.replace(key, "{", "${");
       wrapper.setEndpoint(key);
-      wrapper.setPathItem(pathItemEntry.getValue());
+      wrapper.setPath(pathEntry.getValue());
 
-      List<PathItemWrapper> wrappers = pathItemWrapperMap.getOrDefault(serviceName, Lists.newArrayList());
+      List<PathWrapper> wrappers = pathWrapperMap.getOrDefault(protoName, Lists.newArrayList());
       wrappers.add(wrapper);
-      pathItemWrapperMap.put(serviceName, wrappers);
+      pathWrapperMap.put(protoName, wrappers);
     }
 
-    List<BizService> bizServiceList = new ArrayList<>();
-    for (Map.Entry<String, List<PathItemWrapper>> wrapperEntry : pathItemWrapperMap.entrySet()) {
-      BizService bizService = new BizService();
-      bizService.setName(wrapperEntry.getKey());
+    List<Proto> protoList = new ArrayList<>();
+    for (Map.Entry<String, List<PathWrapper>> wrapperEntry : pathWrapperMap.entrySet()) {
+      Proto proto = new Proto();
+      proto.setName(wrapperEntry.getKey());
 
-      List<BizRouter> bizRouters = new ArrayList<>();
-      List<PathItemWrapper> wrappers = wrapperEntry.getValue();
-      for (PathItemWrapper wrapper : wrappers) {
-        if (StringUtils.isBlank(wrapper.getEndpoint())) {
+      List<ProtoRouter> routers = new ArrayList<>();
+      List<PathWrapper> wrappers = wrapperEntry.getValue();
+      for (PathWrapper wrapper : wrappers) {
+        String key = wrapper.getEndpoint();
+        if (StringUtils.isBlank(key)) {
           continue;
         }
-        Path pathItem = wrapper.getPathItem();
-        if (pathItem.getGet() != null) {
-          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "get", pathItem.getGet());
-          bizRouters.add(bizRouter);
+        Path path = wrapper.getPath();
+        if (path.getGet() != null) {
+          routers.add(ProtoRouter.of(key, "get", path.getGet()));
         }
-        if (pathItem.getPost() != null) {
-          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "post", pathItem.getPost());
-          bizRouters.add(bizRouter);
+        if (path.getPost() != null) {
+          routers.add(ProtoRouter.of(key, "post", path.getPost()));
         }
-        if (pathItem.getPut() != null) {
-          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "put", pathItem.getPut());
-          bizRouters.add(bizRouter);
+        if (path.getPut() != null) {
+          routers.add(ProtoRouter.of(key, "put", path.getPut()));
         }
-        if (pathItem.getDelete() != null) {
-          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "delete", pathItem.getDelete());
-          bizRouters.add(bizRouter);
+        if (path.getDelete() != null) {
+          routers.add(ProtoRouter.of(key, "delete", path.getDelete()));
         }
       }
 
-      bizService.setRouters(bizRouters);
+      proto.setRouters(routers);
 
-      Set<String> serviceTypes = bizRouters.stream()
-          .filter(bizRouter -> bizRouter.getReqBody() != null
-              && !bizRouter.getReqBody().getType().equals(JavaTypeConstants.ANY)
-              && !bizRouter.getReqBody().getType().equals(JavaTypeConstants.FORMDATA)
-          )
-          .map(bizRouter -> {
-            String type = bizRouter.getReqBody().getType();
+      Set<String> protoTypes = routers.stream()
+          .filter(router -> router.getReqBody() != null)
+          .map(router -> {
+            String type = router.getReqBody().getType();
             int index = type.indexOf("[]");
             if (index >= 0) {
               type = type.substring(0, index);
             }
-            if (JavaTypeConstants.values().contains(type)) {
-              return null;
+            if (voNameList.contains(type)) {
+              return type;
             }
-            return type;
+            return null;
           }).filter(StringUtils::isNotBlank).collect(Collectors.toSet());
 
-      serviceTypes.addAll(bizRouters.stream()
-          .filter(bizRouter -> bizRouter.getRespData() != null && !bizRouter.getRespData().getType().equals(JavaTypeConstants.ANY))
-          .map(bizRouter -> {
-            String type = bizRouter.getRespData().getType();
+      protoTypes.addAll(routers.stream()
+          .filter(router -> router.getRespData() != null)
+          .map(router -> {
+            String type = router.getRespData().getType();
             int index = type.indexOf("[]");
             if (index >= 0) {
               type = type.substring(0, index);
             }
-            if (JavaTypeConstants.values().contains(type)) {
-              return null;
+            if (voNameList.contains(type)) {
+              return type;
             }
-            return type;
+            return null;
           }).filter(StringUtils::isNotBlank).collect(Collectors.toSet()));
 
-      bizService.setTypes(Lists.newArrayList(serviceTypes));
-
-      bizServiceList.add(bizService);
+      List<String> imports = protoTypes.stream().map(type -> VO_PACKAGE_NAME + "." + type).collect(Collectors.toList());
+      proto.setImports(imports);
+      protoList.add(proto);
     }
 
-    backend.setServices(bizServiceList);
+    backend.setProtoList(protoList);
     return backend;
   }
 }

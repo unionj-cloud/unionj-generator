@@ -17,7 +17,7 @@ import java.net.URL;
  * @date:2020/11/18
  */
 @Data
-public class ServiceDocParser {
+public class BackendDocParser {
 
   public static Backend parse(File doc) throws IOException {
     Openapi3 openAPI = new Openapi3Parser().parse(doc);

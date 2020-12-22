@@ -1,7 +1,10 @@
 package com.tsingxiao.unionj.generator.openapi3.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,5 +80,71 @@ public class Schema {
 
   public void oneOf(Schema schema) {
     this.oneOf.add(schema);
+  }
+
+  @JsonIgnore
+  private int level;
+
+  public String javaType() {
+    String tsType = this.deepSetType();
+    for (int i = 0; i < this.level; i++) {
+      tsType += "[]";
+    }
+    this.level = 0;
+    return tsType;
+  }
+
+  private String getTypeByRef(String ref) {
+    String key = ref.substring(ref.lastIndexOf("/") + 1);
+    if (StringUtils.isBlank(key)) {
+      return Object.class.getSimpleName();
+    }
+    return key.replaceAll("[^a-zA-Z]", "");
+  }
+
+  private String deepSetType() {
+    if (StringUtils.isBlank(type)) {
+      return this.getTypeByRef(ref);
+    }
+    String tsType;
+    switch (type) {
+      case "boolean": {
+        tsType = "boolean";
+        break;
+      }
+      case "integer": {
+        if (format.equals("int32")) {
+          tsType = Integer.class.getSimpleName();
+        } else {
+          tsType = Long.class.getSimpleName();
+        }
+        break;
+      }
+      case "number": {
+        if (format.equals("float")) {
+          tsType = Float.class.getSimpleName();
+        } else {
+          tsType = Double.class.getSimpleName();
+        }
+        break;
+      }
+      case "string": {
+        tsType = String.class.getSimpleName();
+        break;
+      }
+      case "array": {
+        this.level++;
+        if (StringUtils.isNotBlank(items.getRef())) {
+          tsType = this.getTypeByRef(items.getRef());
+        } else {
+          tsType = items.deepSetType();
+        }
+        break;
+      }
+      default: {
+        tsType = Object.class.getSimpleName();
+      }
+    }
+    return tsType;
   }
 }

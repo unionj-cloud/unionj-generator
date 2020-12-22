@@ -1,9 +1,7 @@
 package com.tsingxiao.unionj.generator.backend.docparser.entity;
 
-import com.google.common.base.Objects;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author: created by wubin
@@ -14,41 +12,29 @@ import org.apache.commons.lang3.StringUtils;
 @Data
 public class ProtoProperty {
 
-  protected String name;
-  protected String type;
-  protected String in;
-  protected boolean required;
-  protected int level;
+  public static final Builder UPLOAD_FILE_BUILDER = new Builder("MultipartFile").name("file");
+  public static final ProtoProperty STREAM = new Builder("ResponseEntity<byte[]>").build();
 
-  public ProtoProperty(String name, String type, String in, int level) {
-    this.name = name;
-    this.type = type;
-    this.in = in;
-    this.level = level;
-  }
+  private String name;
+  private String in;
+  private String type;
+  private boolean required;
 
-  public ProtoProperty(String name, String type, String in) {
-    this.name = name;
-    this.type = type;
-    this.in = in;
-  }
-
-  public ProtoProperty(String type) {
-    this.type = type;
-  }
-
-  public ProtoProperty() {
+  private ProtoProperty() {
   }
 
   public static class Builder {
     private String name;
-    private String type;
     private String in;
+    private String type;
     private boolean required = true;
-    private int level;
 
     public Builder(String type) {
       this.type = type;
+    }
+
+    public Builder(Schema type) {
+      this.type = type.javaType();
     }
 
     public Builder name(String name) {
@@ -66,95 +52,14 @@ public class ProtoProperty {
       return this;
     }
 
-    public Builder level(int level) {
-      this.level = level;
-      return this;
-    }
-
     public ProtoProperty build() {
       ProtoProperty property = new ProtoProperty();
       property.name = this.name;
       property.type = this.type;
       property.in = this.in;
       property.required = this.required;
-      property.level = this.level;
       return property;
     }
   }
 
-  private String getTypeByRef(String ref) {
-    String key = ref.substring(ref.lastIndexOf("/") + 1);
-    if (StringUtils.isBlank(key)) {
-      return JavaTypeConstants.ANY;
-    }
-    return key.replaceAll("[^a-zA-Z]", "");
-  }
-
-  public void setType(Schema schema) {
-    String tsType = this.deepSetType(schema);
-    for (int i = 0; i < this.level; i++) {
-      tsType += "[]";
-    }
-    this.type = tsType;
-  }
-
-  public void setType(String type) {
-    this.type = type;
-  }
-
-  private String deepSetType(Schema schema) {
-    String type = schema.getType();
-    if (StringUtils.isBlank(type)) {
-      return this.getTypeByRef(schema.getRef());
-    }
-    String tsType;
-    switch (type) {
-      case "boolean": {
-        tsType = JavaTypeConstants.BOOLEAN;
-        break;
-      }
-      case "integer": {
-        tsType = JavaTypeConstants.NUMBER;
-        break;
-      }
-      case "number": {
-        tsType = JavaTypeConstants.NUMBER;
-        break;
-      }
-      case "string": {
-        tsType = JavaTypeConstants.STRING;
-        break;
-      }
-      case "array": {
-        this.level++;
-        Schema items = schema.getItems();
-        if (StringUtils.isNotBlank(items.getRef())) {
-          tsType = this.getTypeByRef(items.getRef());
-        } else {
-          tsType = this.deepSetType(items);
-        }
-        break;
-      }
-      default: {
-        tsType = JavaTypeConstants.ANY;
-      }
-    }
-    return tsType;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ProtoProperty that = (ProtoProperty) o;
-    return level == that.level &&
-        Objects.equal(name, that.name) &&
-        Objects.equal(type, that.type) &&
-        Objects.equal(in, that.in);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(name, type, in, level);
-  }
 }

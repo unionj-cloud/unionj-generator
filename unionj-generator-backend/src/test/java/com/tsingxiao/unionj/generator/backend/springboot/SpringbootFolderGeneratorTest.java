@@ -1,9 +1,12 @@
 package com.tsingxiao.unionj.generator.backend.springboot;
 
 import com.google.common.collect.Lists;
+import com.tsingxiao.unionj.generator.backend.docparser.BackendDocParser;
 import com.tsingxiao.unionj.generator.backend.docparser.entity.*;
 import org.junit.Test;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -104,7 +107,7 @@ public class SpringbootFolderGeneratorTest {
             ))
             .build(),
         new ProtoRouter.Builder("/pet/{petId}/uploadImage", "uploadFile", "post")
-            .file(new ProtoFile.Builder().required(false).build())
+            .file(ProtoProperty.UPLOAD_FILE_BUILDER.required(false).build())
             .respData(new ProtoProperty.Builder("ApiResponse").build())
             .pathParams(Lists.newArrayList(
                 new ProtoProperty.Builder(Long.class.getSimpleName()).name("petId").build()
@@ -121,5 +124,15 @@ public class SpringbootFolderGeneratorTest {
 
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
     springbootFolderGenerator.generate();
+  }
+
+
+  @Test
+  public void generateByDoc() throws IOException {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("petstore3.json"))) {
+      Backend backend = BackendDocParser.parse(is);
+      SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+      springbootFolderGenerator.generate();
+    }
   }
 }

@@ -14,8 +14,10 @@ import java.util.List;
 public class Proto {
 
   private List<String> imports;
-  private String base;
   private String name;
   private List<ProtoRouter> routers;
+
+  // TODO
+  private String base;
 
 }
