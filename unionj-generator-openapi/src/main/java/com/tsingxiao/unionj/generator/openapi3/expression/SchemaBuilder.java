@@ -17,6 +17,10 @@ public class SchemaBuilder {
     this.schema = new Schema();
   }
 
+  public void title(String title) {
+    this.schema.setTitle(title);
+  }
+
   public void type(String type) {
     this.schema.setType(type);
   }

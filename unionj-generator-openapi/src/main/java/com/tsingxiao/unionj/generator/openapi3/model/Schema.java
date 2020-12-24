@@ -3,8 +3,8 @@ package com.tsingxiao.unionj.generator.openapi3.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +22,9 @@ public class Schema {
 
   @JsonProperty("$ref")
   private String ref;
+
+  @JsonIgnore
+  private String title;
 
   private String type;
   private Map<String, Schema> properties = new HashMap<>();
@@ -146,5 +149,12 @@ public class Schema {
       }
     }
     return tsType;
+  }
+
+
+  @Override
+  public String toString() {
+    return new ToStringBuilder(this)
+        .toString();
   }
 }
