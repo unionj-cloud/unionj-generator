@@ -1,6 +1,5 @@
 package com.tsingxiao.unionj.generator.openapi3.expression.paths;
 
-import com.tsingxiao.unionj.generator.openapi3.model.Example;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import com.tsingxiao.unionj.generator.openapi3.model.paths.MediaType;
 
@@ -22,7 +21,7 @@ public class MediaTypeBuilder {
     this.mediaType.setSchema(schema);
   }
 
-  public void example(Example example) {
+  public void example(Object example) {
     this.mediaType.setExample(example);
   }
 
