@@ -29,7 +29,7 @@ public class GeneratorUtils {
       }
       file = new File(outputDir);
       if (!file.exists()) {
-        file.mkdirs();
+        file.getParentFile().mkdirs();
       }
     }
     return outputDir;

@@ -7,6 +7,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: created by wubin
@@ -15,6 +18,9 @@ import java.io.InputStream;
  * @date:2020/12/19
  */
 public class Openapi3Test {
+
+  public static Schema MAGIC = new Schema();
+  private static String privateMagic = "privateMagic";
 
   @Test
   public void parse() throws IOException {
@@ -26,5 +32,17 @@ public class Openapi3Test {
       Openapi3 openapi3 = objectMapper.readValue(is, Openapi3.class);
       System.out.println(openapi3);
     }
+  }
+
+  @Test
+  public void reflectionTest() throws IllegalAccessException {
+    Field[] declaredFields = Openapi3Test.class.getDeclaredFields();
+    List<Field> staticFields = new ArrayList<>();
+    for (Field field : declaredFields) {
+      if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
+        staticFields.add(field);
+      }
+    }
+    System.out.println(staticFields.get(0).get(null));
   }
 }
