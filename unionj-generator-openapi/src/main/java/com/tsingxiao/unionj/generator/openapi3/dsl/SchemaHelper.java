@@ -69,4 +69,13 @@ public class SchemaHelper {
     });
   }
 
+  public static Schema enums(String description, String[] values) {
+    return schema(enums -> {
+      enums.type("string");
+      enums.description(description);
+      for (String value : values) {
+        enums.enumValue(value);
+      }
+    });
+  }
 }
