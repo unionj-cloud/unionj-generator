@@ -59,6 +59,14 @@ public class SchemaHelper {
     });
   }
 
+  public static Schema dateTime(String description) {
+    return schema(dateTime -> {
+      dateTime.type("string");
+      dateTime.format("date-time");
+      dateTime.description(description);
+    });
+  }
+
   public static Schema stringArray(String description) {
     return schema(array -> {
       array.type("array");
@@ -104,6 +112,14 @@ public class SchemaHelper {
       array.type("array");
       array.description(description);
       array.items(bool(description));
+    });
+  }
+
+  public static Schema dateTimeArray(String description) {
+    return schema(array -> {
+      array.type("array");
+      array.description(description);
+      array.items(dateTime(description));
     });
   }
 
@@ -179,6 +195,15 @@ public class SchemaHelper {
     });
   }
 
+  public static Schema dateTime(String description, String example) {
+    return schema(dateTime -> {
+      dateTime.type("string");
+      dateTime.format("date-time");
+      dateTime.description(description);
+      dateTime.example(example);
+    });
+  }
+
   public static Schema stringArray(String description, String[] example) {
     return schema(array -> {
       array.type("array");
@@ -229,6 +254,15 @@ public class SchemaHelper {
       array.type("array");
       array.description(description);
       array.items(bool(description));
+      array.example(example);
+    });
+  }
+
+  public static Schema dateTimeArray(String description, String[] example) {
+    return schema(array -> {
+      array.type("array");
+      array.description(description);
+      array.items(dateTime(description));
       array.example(example);
     });
   }
