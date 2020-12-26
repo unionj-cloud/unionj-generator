@@ -32,6 +32,9 @@ public class Schema {
   private Schema items;
   private String description;
 
+  // TODO
+  private boolean uniqueItems;
+
   @JsonProperty("default")
   private Object defaultValue;
 

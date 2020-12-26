@@ -37,6 +37,14 @@ public class SchemaBuilder {
     this.schema.setItems(items);
   }
 
+  public void additionalProperties(Schema additionalProperties) {
+    this.schema.setAdditionalProperties(additionalProperties);
+  }
+
+  public void uniqueItems(boolean uniqueItems) {
+    this.schema.setUniqueItems(uniqueItems);
+  }
+
   public void description(String description) {
     this.schema.setDescription(description);
   }
