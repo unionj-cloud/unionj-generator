@@ -13,6 +13,83 @@ import static com.tsingxiao.unionj.generator.openapi3.dsl.Schema.schema;
  */
 public class SchemaHelper {
 
+  public static final Schema int32 = schema(int32 -> {
+    int32.type("integer");
+    int32.format("int32");
+  });
+
+  public static final Schema int64 = schema(int64 -> {
+    int64.type("integer");
+    int64.format("int32");
+  });
+
+  public static final Schema string = schema(string -> {
+    string.type("string");
+  });
+
+  public static final Schema bool = schema(string -> {
+    string.type("boolean");
+  });
+
+  public static final Schema floatNumber = schema(floatNumer -> {
+    floatNumer.type("number");
+    floatNumer.format("float");
+  });
+
+  public static final Schema doubleNumer = schema(doubleNumer -> {
+    doubleNumer.type("number");
+    doubleNumer.format("double");
+  });
+
+  public static final Schema dateTime = schema(dateTime -> {
+    dateTime.type("string");
+    dateTime.format("date-time");
+  });
+
+  public static final Schema stringArray = schema(array -> {
+    array.type("array");
+    array.items(string);
+  });
+
+  public static final Schema int32Array = schema(array -> {
+    array.type("array");
+    array.items(int32);
+  });
+
+  public static final Schema int64Array = schema(array -> {
+    array.type("array");
+    array.items(int64);
+  });
+
+  public static final Schema floatArray = schema(array -> {
+    array.type("array");
+    array.items(floatNumber);
+  });
+
+  public static final Schema doubleArray = schema(array -> {
+    array.type("array");
+    array.items(doubleNumer);
+  });
+
+  public static final Schema boolArray = schema(array -> {
+    array.type("array");
+    array.items(bool);
+  });
+
+  public static final Schema dateTimeArray = schema(array -> {
+    array.type("array");
+    array.items(dateTime);
+  });
+
+  public static Schema refArray(String ref) {
+    return schema(array -> {
+      array.type("array");
+      array.items(reference(items -> {
+        items.ref(ref);
+      }));
+    });
+  }
+
   public static Schema int32(String description) {
     return schema(int32 -> {
       int32.type("integer");
