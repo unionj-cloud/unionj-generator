@@ -88,16 +88,8 @@ public class Schema {
     this.oneOf.add(schema);
   }
 
-  @JsonIgnore
-  private int level;
-
   public String javaType() {
-    String tsType = this.deepSetType();
-    for (int i = 0; i < this.level; i++) {
-      tsType += "[]";
-    }
-    this.level = 0;
-    return tsType;
+    return this.deepSetType();
   }
 
   private String getTypeByRef(String ref) {
@@ -149,12 +141,13 @@ public class Schema {
       }
       case "array": {
         if (!uniqueItems) {
-          this.level++;
+          String elementType;
           if (StringUtils.isNotBlank(items.getRef())) {
-            tsType = this.getTypeByRef(items.getRef());
+            elementType = this.getTypeByRef(items.getRef());
           } else {
-            tsType = items.deepSetType();
+            elementType = items.deepSetType();
           }
+          tsType = "List<" + elementType + ">";
         } else {
           String elementType;
           if (StringUtils.isNotBlank(items.getRef())) {

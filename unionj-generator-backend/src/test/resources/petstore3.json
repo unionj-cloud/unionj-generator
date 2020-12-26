@@ -1047,12 +1047,14 @@
           },
           "address": {
             "type": "array",
-            "xml": {
-              "name": "addresses",
-              "wrapped": true
-            },
             "items": {
-              "$ref": "#/components/schemas/Address"
+              "type": "array",
+              "items": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/Address"
+                }
+              }
             }
           }
         },
