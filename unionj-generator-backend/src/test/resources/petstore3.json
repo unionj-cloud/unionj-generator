@@ -933,6 +933,66 @@
   },
   "components": {
     "schemas": {
+      "ResultDTOMapStringString": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "返回标记：成功标记=0，失败标记=1",
+            "format": "int32"
+          },
+          "msg": {
+            "type": "string",
+            "description": "返回信息"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string",
+                "description": "数据"
+              },
+              "description": "数据"
+            },
+            "description": "数据"
+          },
+          "ok": {
+            "type": "boolean"
+          }
+        }
+      },
+      "ResultDTOSetString": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "description": "返回标记：成功标记=0，失败标记=1",
+            "format": "int32"
+          },
+          "msg": {
+            "type": "string",
+            "description": "返回信息"
+          },
+          "data": {
+            "uniqueItems": true,
+            "type": "array",
+            "description": "数据",
+            "items": {
+              "uniqueItems": true,
+              "type": "array",
+              "description": "数据",
+              "items": {
+                "type": "string",
+                "description": "数据"
+              }
+            }
+          },
+          "ok": {
+            "type": "boolean"
+          }
+        }
+      },
       "Order": {
         "type": "object",
         "properties": {

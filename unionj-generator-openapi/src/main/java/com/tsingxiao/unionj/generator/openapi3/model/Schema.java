@@ -114,6 +114,15 @@ public class Schema {
     }
     String tsType;
     switch (type) {
+      case "object": {
+        if (additionalProperties != null) {
+          String valueType = additionalProperties.deepSetType();
+          tsType = "Map<String, " + valueType + ">";
+        } else {
+          tsType = Object.class.getSimpleName();
+        }
+        break;
+      }
       case "boolean": {
         tsType = "boolean";
         break;
@@ -139,11 +148,21 @@ public class Schema {
         break;
       }
       case "array": {
-        this.level++;
-        if (StringUtils.isNotBlank(items.getRef())) {
-          tsType = this.getTypeByRef(items.getRef());
+        if (!uniqueItems) {
+          this.level++;
+          if (StringUtils.isNotBlank(items.getRef())) {
+            tsType = this.getTypeByRef(items.getRef());
+          } else {
+            tsType = items.deepSetType();
+          }
         } else {
-          tsType = items.deepSetType();
+          String elementType;
+          if (StringUtils.isNotBlank(items.getRef())) {
+            elementType = this.getTypeByRef(items.getRef());
+          } else {
+            elementType = items.deepSetType();
+          }
+          tsType = "Set<" + elementType + ">";
         }
         break;
       }
