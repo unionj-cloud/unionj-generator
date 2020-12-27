@@ -91,10 +91,14 @@ public class ProtoRouter {
             router.setRespData(new ProtoProperty.Builder(mediaType.getSchema()).build());
           } else if (content.getApplicationOctetStream() != null) {
             router.setRespData(ProtoProperty.STREAM);
+          } else {
+            router.setRespData(new ProtoProperty.Builder("void").build());
           }
+        } else {
+          router.setRespData(new ProtoProperty.Builder("void").build());
         }
       } else {
-        router.setRespData(new ProtoProperty.Builder("ResponseEntity<Void>").build());
+        router.setRespData(new ProtoProperty.Builder("void").build());
       }
     }
 
