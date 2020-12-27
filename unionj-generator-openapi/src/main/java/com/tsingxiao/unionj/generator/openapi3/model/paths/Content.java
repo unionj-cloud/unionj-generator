@@ -12,6 +12,9 @@ import lombok.Data;
 @Data
 public class Content {
 
+  @JsonProperty("text/plain")
+  private MediaType textPlain;
+
   @JsonProperty("application/json")
   private MediaType applicationJson;
 

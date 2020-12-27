@@ -59,7 +59,6 @@ target/
 ### system ignore ###
 .DS_Store
 Thumbs.db
-Servers
 .metadata
 upload
 gen_code
@@ -69,8 +68,3 @@ node_modules
 
 ### sonar ###
 .scannerwork
-client
-unionj-generator-apidoc
-services
-mocks
-**/backend/

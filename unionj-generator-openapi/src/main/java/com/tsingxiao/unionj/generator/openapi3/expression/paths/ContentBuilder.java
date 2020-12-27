@@ -17,6 +17,10 @@ public class ContentBuilder {
     this.content = new Content();
   }
 
+  public void textPlain(MediaType textPlain) {
+    this.content.setTextPlain(textPlain);
+  }
+
   public void applicationJson(MediaType applicationJson) {
     this.content.setApplicationJson(applicationJson);
   }

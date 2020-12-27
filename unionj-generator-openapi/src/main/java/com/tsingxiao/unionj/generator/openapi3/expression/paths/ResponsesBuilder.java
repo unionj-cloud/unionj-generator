@@ -25,6 +25,14 @@ public class ResponsesBuilder {
     this.responses.setResponse400(response400);
   }
 
+  public void response401(Response response401) {
+    this.responses.setResponse401(response401);
+  }
+
+  public void response403(Response response403) {
+    this.responses.setResponse403(response403);
+  }
+
   public void response404(Response response404) {
     this.responses.setResponse404(response404);
   }
