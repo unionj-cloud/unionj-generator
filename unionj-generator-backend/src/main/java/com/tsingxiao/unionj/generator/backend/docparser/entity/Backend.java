@@ -75,7 +75,7 @@ public class Backend {
 
     backend.setVoList(voList);
 
-    List<String> voNameList = voList.stream().map(vo -> vo.getName()).collect(Collectors.toList());
+//    List<String> voNameList = voList.stream().map(vo -> vo.getName()).collect(Collectors.toList());
 
     Map<String, Path> paths = openAPI.getPaths();
     Map<String, List<PathWrapper>> pathWrapperMap = new HashMap<>();
@@ -130,36 +130,36 @@ public class Backend {
 
       proto.setRouters(routers);
 
-      Set<String> protoTypes = routers.stream()
-          .filter(router -> router.getReqBody() != null)
-          .map(router -> {
-            String type = router.getReqBody().getType();
-            int index = type.indexOf("[]");
-            if (index >= 0) {
-              type = type.substring(0, index);
-            }
-            if (voNameList.contains(type)) {
-              return type;
-            }
-            return null;
-          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet());
+//      Set<String> protoTypes = routers.stream()
+//          .filter(router -> router.getReqBody() != null)
+//          .map(router -> {
+//            String type = router.getReqBody().getType();
+//            int index = type.indexOf("[]");
+//            if (index >= 0) {
+//              type = type.substring(0, index);
+//            }
+//            if (voNameList.contains(type)) {
+//              return type;
+//            }
+//            return null;
+//          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet());
+//
+//      protoTypes.addAll(routers.stream()
+//          .filter(router -> router.getRespData() != null)
+//          .map(router -> {
+//            String type = router.getRespData().getType();
+//            int index = type.indexOf("[]");
+//            if (index >= 0) {
+//              type = type.substring(0, index);
+//            }
+//            if (voNameList.contains(type)) {
+//              return type;
+//            }
+//            return null;
+//          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet()));
 
-      protoTypes.addAll(routers.stream()
-          .filter(router -> router.getRespData() != null)
-          .map(router -> {
-            String type = router.getRespData().getType();
-            int index = type.indexOf("[]");
-            if (index >= 0) {
-              type = type.substring(0, index);
-            }
-            if (voNameList.contains(type)) {
-              return type;
-            }
-            return null;
-          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet()));
-
-      List<String> imports = protoTypes.stream().map(type -> VO_PACKAGE_NAME + "." + type).collect(Collectors.toList());
-      proto.setImports(imports);
+//      List<String> imports = protoTypes.stream().map(type -> VO_PACKAGE_NAME + "." + type).collect(Collectors.toList());
+//      proto.setImports(imports);
       protoList.add(proto);
     }
 

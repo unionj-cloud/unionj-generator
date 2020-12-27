@@ -1,14 +1,15 @@
-package ${packageName};
+package ${packageName}.proto;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
-<#if imports??>
-    <#list imports as import>
-import ${import};
-    </#list>
-</#if>
+import ${packageName}.vo.*;
+<#--<#if imports??>-->
+<#--    <#list imports as import>-->
+<#--import ${import};-->
+<#--    </#list>-->
+<#--</#if>-->
 
 <#if base??>
 @RequestMapping("${base}")

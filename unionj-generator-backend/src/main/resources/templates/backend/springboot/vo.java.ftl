@@ -5,11 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.*;
-<#if imports??>
-<#list imports as import>
-import ${import};
-</#list>
-</#if>
 
 @Data
 public class ${name}   {

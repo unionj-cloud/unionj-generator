@@ -25,7 +25,7 @@ public class ProtoJavaGenerator extends DefaultGenerator {
 
   public ProtoJavaGenerator(Proto proto, String packageName) {
     this.proto = proto;
-    this.packageName = packageName + ".proto";
+    this.packageName = packageName;
   }
 
   @Override
