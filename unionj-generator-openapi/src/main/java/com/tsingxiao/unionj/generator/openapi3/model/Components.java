@@ -18,7 +18,6 @@ public class Components {
   private Map<String, Schema> schemas = new HashMap<>();
 
   public void schemas(String key, Schema schema) {
-    schema.setTitle(key);
     this.schemas.put(key, schema);
   }
 
