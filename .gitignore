@@ -69,3 +69,8 @@ node_modules
 ### sonar ###
 .scannerwork
 
+/unionj-generator-backend/backend/
+/unionj-generator-apidoc/apidoc
+/unionj-generator-frontend/output
+/unionj-generator-mock/mocks
+/unionj-generator-service/services
