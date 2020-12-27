@@ -18,6 +18,12 @@ public class Responses {
   @JsonProperty("400")
   private Response response400;
 
+  @JsonProperty("401")
+  private Response response401;
+
+  @JsonProperty("403")
+  private Response response403;
+
   @JsonProperty("404")
   private Response response404;
 
