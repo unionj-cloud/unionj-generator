@@ -35,6 +35,10 @@ public class MockDocParser {
     return Api.convert(openAPI);
   }
 
+  public static Api parse(Openapi3 openAPI) throws IOException {
+    return Api.convert(openAPI);
+  }
+
   public static Api parse(File doc, SchemaFaker faker) throws IOException {
     Openapi3 openAPI = new Openapi3Parser().parse(doc);
     return Api.convert(openAPI, faker);
@@ -47,6 +51,10 @@ public class MockDocParser {
 
   public static Api parse(InputStream doc, SchemaFaker faker) throws IOException {
     Openapi3 openAPI = new Openapi3Parser().parse(doc);
+    return Api.convert(openAPI, faker);
+  }
+
+  public static Api parse(Openapi3 openAPI, SchemaFaker faker) throws IOException {
     return Api.convert(openAPI, faker);
   }
 

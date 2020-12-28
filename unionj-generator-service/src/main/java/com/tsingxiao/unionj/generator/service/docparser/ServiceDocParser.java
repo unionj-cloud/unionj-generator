@@ -33,4 +33,8 @@ public class ServiceDocParser {
     Openapi3 openAPI = new Openapi3Parser().parse(doc);
     return BizServer.convert(openAPI);
   }
+
+  public static BizServer parse(Openapi3 openAPI) throws IOException {
+    return BizServer.convert(openAPI);
+  }
 }
