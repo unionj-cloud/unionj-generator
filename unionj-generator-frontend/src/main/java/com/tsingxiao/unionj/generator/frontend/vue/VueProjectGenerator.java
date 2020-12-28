@@ -86,10 +86,6 @@ public class VueProjectGenerator extends VueGenerator {
       return null;
     }
 
-//    File file = new File(VueProjectGenerator.class.getClassLoader().getResource(OUTPUT_DIR).getPath());
-//    File dest = new File(getOutputFile());
-//    FileUtils.copyDirectory(file, dest);
-
     File folderZip = new File(getOutputFile() + ".zip");
     FileUtils.copyInputStreamToFile(ClassLoader.getSystemResourceAsStream(OUTPUT_DIR + ".zip"), folderZip);
     GeneratorUtils.unzip(folderZip.getAbsolutePath(), new File(GeneratorUtils.getOutputDir("")));

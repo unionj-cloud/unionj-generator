@@ -38,7 +38,6 @@ nbdist/
 target/
 *.war
 *.ear
-*.zip
 *.tar
 *.tar.gz
 
