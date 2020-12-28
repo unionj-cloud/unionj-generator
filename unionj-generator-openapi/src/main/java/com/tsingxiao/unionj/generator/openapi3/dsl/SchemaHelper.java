@@ -2,6 +2,8 @@ package com.tsingxiao.unionj.generator.openapi3.dsl;
 
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 
+import java.util.Date;
+
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Reference.reference;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Schema.schema;
 
@@ -15,70 +17,96 @@ public class SchemaHelper {
 
   public static final Schema int32 = schema(int32 -> {
     int32.type("integer");
+    int32.title(Integer.class.getSimpleName());
     int32.format("int32");
   });
 
   public static final Schema int64 = schema(int64 -> {
     int64.type("integer");
-    int64.format("int32");
+    int64.title(Long.class.getSimpleName());
+    int64.format("int64");
   });
 
   public static final Schema string = schema(string -> {
     string.type("string");
+    string.title(String.class.getSimpleName());
   });
 
-  public static final Schema bool = schema(string -> {
-    string.type("boolean");
+  public static final Schema bool = schema(bool -> {
+    bool.type("boolean");
+    bool.title(Boolean.class.getSimpleName());
   });
 
   public static final Schema floatNumber = schema(floatNumer -> {
     floatNumer.type("number");
     floatNumer.format("float");
+    floatNumer.title(Float.class.getSimpleName());
   });
 
   public static final Schema doubleNumer = schema(doubleNumer -> {
     doubleNumer.type("number");
     doubleNumer.format("double");
+    doubleNumer.title(Double.class.getSimpleName());
   });
 
   public static final Schema dateTime = schema(dateTime -> {
     dateTime.type("string");
     dateTime.format("date-time");
+    dateTime.title(Date.class.getSimpleName());
+  });
+
+  public static final Schema T = schema(t -> {
+    t.type("T");
+  });
+
+  public static final Schema list = schema(a -> {
+    a.title("List");
+  });
+
+  public static final Schema set = schema(a -> {
+    a.title("Set");
   });
 
   public static final Schema stringArray = schema(array -> {
     array.type("array");
     array.items(string);
+    array.title("List<String>");
   });
 
   public static final Schema int32Array = schema(array -> {
     array.type("array");
     array.items(int32);
+    array.title("List<Integer>");
   });
 
   public static final Schema int64Array = schema(array -> {
     array.type("array");
     array.items(int64);
+    array.title("List<Long>");
   });
 
   public static final Schema floatArray = schema(array -> {
     array.type("array");
     array.items(floatNumber);
+    array.title("List<Float>");
   });
 
   public static final Schema doubleArray = schema(array -> {
     array.type("array");
     array.items(doubleNumer);
+    array.title("List<Double>");
   });
 
   public static final Schema boolArray = schema(array -> {
     array.type("array");
     array.items(bool);
+    array.title("List<Boolean>");
   });
 
   public static final Schema dateTimeArray = schema(array -> {
     array.type("array");
     array.items(dateTime);
+    array.title("List<Date>");
   });
 
   public static Schema refArray(String ref) {
@@ -87,6 +115,7 @@ public class SchemaHelper {
       array.items(reference(items -> {
         items.ref(ref);
       }));
+      array.title("List<" + ref + ">");
     });
   }
 
@@ -95,14 +124,16 @@ public class SchemaHelper {
       int32.type("integer");
       int32.format("int32");
       int32.description(description);
+      int32.title(Integer.class.getSimpleName());
     });
   }
 
   public static Schema int64(String description) {
     return schema(int64 -> {
       int64.type("integer");
-      int64.format("int32");
+      int64.format("int64");
       int64.description(description);
+      int64.title(Long.class.getSimpleName());
     });
   }
 
@@ -110,13 +141,15 @@ public class SchemaHelper {
     return schema(string -> {
       string.type("string");
       string.description(description);
+      string.title(String.class.getSimpleName());
     });
   }
 
   public static Schema bool(String description) {
-    return schema(string -> {
-      string.type("boolean");
-      string.description(description);
+    return schema(bool -> {
+      bool.type("boolean");
+      bool.description(description);
+      bool.title(Boolean.class.getSimpleName());
     });
   }
 
@@ -125,6 +158,7 @@ public class SchemaHelper {
       floatNumer.type("number");
       floatNumer.format("float");
       floatNumer.description(description);
+      floatNumer.title(Float.class.getSimpleName());
     });
   }
 
@@ -133,6 +167,7 @@ public class SchemaHelper {
       doubleNumer.type("number");
       doubleNumer.format("double");
       doubleNumer.description(description);
+      doubleNumer.title(Double.class.getSimpleName());
     });
   }
 
@@ -141,6 +176,7 @@ public class SchemaHelper {
       dateTime.type("string");
       dateTime.format("date-time");
       dateTime.description(description);
+      dateTime.title(Date.class.getSimpleName());
     });
   }
 
@@ -149,6 +185,7 @@ public class SchemaHelper {
       array.type("array");
       array.description(description);
       array.items(string(description));
+      array.title("List<String>");
     });
   }
 
@@ -157,6 +194,7 @@ public class SchemaHelper {
       array.type("array");
       array.description(description);
       array.items(int32(description));
+      array.title("List<Integer>");
     });
   }
 
@@ -165,6 +203,7 @@ public class SchemaHelper {
       array.type("array");
       array.description(description);
       array.items(int64(description));
+      array.title("List<Long>");
     });
   }
 
@@ -173,6 +212,7 @@ public class SchemaHelper {
       array.type("array");
       array.description(description);
       array.items(floatNumber(description));
+      array.title("List<Float>");
     });
   }
 
@@ -181,6 +221,7 @@ public class SchemaHelper {
       array.type("array");
       array.description(description);
       array.items(doubleNumer(description));
+      array.title("List<Double>");
     });
   }
 
@@ -189,6 +230,7 @@ public class SchemaHelper {
       array.type("array");
       array.description(description);
       array.items(bool(description));
+      array.title("List<Boolean>");
     });
   }
 
@@ -197,6 +239,7 @@ public class SchemaHelper {
       array.type("array");
       array.description(description);
       array.items(dateTime(description));
+      array.title("List<Date>");
     });
   }
 
@@ -207,6 +250,7 @@ public class SchemaHelper {
       array.items(reference(items -> {
         items.ref(ref);
       }));
+      array.title("List<" + ref + ">");
     });
   }
 
@@ -226,6 +270,7 @@ public class SchemaHelper {
       int32.format("int32");
       int32.description(description);
       int32.example(example);
+      int32.title(Integer.class.getSimpleName());
     });
   }
 
@@ -235,6 +280,7 @@ public class SchemaHelper {
       int64.format("int64");
       int64.description(description);
       int64.example(example);
+      int64.title(Long.class.getSimpleName());
     });
   }
 
@@ -243,6 +289,7 @@ public class SchemaHelper {
       string.type("string");
       string.description(description);
       string.example(example);
+      string.title(String.class.getSimpleName());
     });
   }
 
@@ -251,6 +298,7 @@ public class SchemaHelper {
       bool.type("boolean");
       bool.description(description);
       bool.example(example);
+      bool.title(Boolean.class.getSimpleName());
     });
   }
 
@@ -260,6 +308,7 @@ public class SchemaHelper {
       floatNumer.format("float");
       floatNumer.description(description);
       floatNumer.example(example);
+      floatNumer.title(Float.class.getSimpleName());
     });
   }
 
@@ -269,6 +318,7 @@ public class SchemaHelper {
       doubleNumer.format("double");
       doubleNumer.description(description);
       doubleNumer.example(example);
+      doubleNumer.title(Double.class.getSimpleName());
     });
   }
 
@@ -278,6 +328,7 @@ public class SchemaHelper {
       dateTime.format("date-time");
       dateTime.description(description);
       dateTime.example(example);
+      dateTime.title(Date.class.getSimpleName());
     });
   }
 
@@ -287,6 +338,7 @@ public class SchemaHelper {
       array.description(description);
       array.items(string(description));
       array.example(example);
+      array.title("List<String>");
     });
   }
 
@@ -296,6 +348,7 @@ public class SchemaHelper {
       array.description(description);
       array.items(int32(description));
       array.example(example);
+      array.title("List<Integer>");
     });
   }
 
@@ -305,6 +358,7 @@ public class SchemaHelper {
       array.description(description);
       array.items(int64(description));
       array.example(example);
+      array.title("List<Long>");
     });
   }
 
@@ -314,6 +368,7 @@ public class SchemaHelper {
       array.description(description);
       array.items(floatNumber(description));
       array.example(example);
+      array.title("List<Float>");
     });
   }
 
@@ -323,6 +378,7 @@ public class SchemaHelper {
       array.description(description);
       array.items(doubleNumer(description));
       array.example(example);
+      array.title("List<Double>");
     });
   }
 
@@ -332,6 +388,7 @@ public class SchemaHelper {
       array.description(description);
       array.items(bool(description));
       array.example(example);
+      array.title("List<Boolean>");
     });
   }
 
@@ -341,6 +398,7 @@ public class SchemaHelper {
       array.description(description);
       array.items(dateTime(description));
       array.example(example);
+      array.title("List<Date>");
     });
   }
 
@@ -352,6 +410,7 @@ public class SchemaHelper {
         items.ref(ref);
       }));
       array.example(example);
+      array.title("List<" + ref + ">");
     });
   }
 }

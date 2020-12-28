@@ -28,6 +28,7 @@ public class Schema {
   private String title;
 
   private String type;
+  private String javaType;
   private Map<String, Schema> properties = new HashMap<>();
   private String format;
   private Schema items;
@@ -167,6 +168,18 @@ public class Schema {
     return tsType;
   }
 
+  public Generic generic(Schema schema) {
+    Generic ret = new Generic();
+    if (StringUtils.isNotBlank(schema.getTitle())) {
+      ret.setTitle(this.title + "<" + schema.getTitle() + ">");
+    } else if (StringUtils.isNotBlank(schema.getJavaType())) {
+      String javaType = schema.getJavaType();
+      String[] split = StringUtils.split(javaType, ".");
+      String type = split[split.length - 1];
+      ret.setTitle(this.title + "<" + type + ">");
+    }
+    return ret;
+  }
 
   @Override
   public String toString() {

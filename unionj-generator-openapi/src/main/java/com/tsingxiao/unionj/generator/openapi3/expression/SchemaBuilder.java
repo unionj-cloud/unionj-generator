@@ -29,6 +29,14 @@ public class SchemaBuilder {
     this.schema.setType(type);
   }
 
+  public void javaType(String canonical) {
+    this.schema.setJavaType(canonical);
+  }
+
+  public void javaType(Class<?> javaType) {
+    this.schema.setJavaType(javaType.getCanonicalName());
+  }
+
   public void properties(String property, Schema schema) {
     this.schema.properties(property, schema);
   }
