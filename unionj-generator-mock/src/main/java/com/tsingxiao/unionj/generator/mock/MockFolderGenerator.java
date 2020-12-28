@@ -72,7 +72,7 @@ public class MockFolderGenerator extends MockGenerator {
   public String generate() {
     File folderZip = new File(getOutputFile() + ".zip");
     FileUtils.copyInputStreamToFile(ClassLoader.getSystemResourceAsStream(OUTPUT_DIR + ".zip"), folderZip);
-    GeneratorUtils.unzip(folderZip.getAbsolutePath(), new File(GeneratorUtils.getOutputDir("")));
+    GeneratorUtils.unzip(folderZip.getAbsolutePath(), new File(getOutputFile()).getParentFile());
     folderZip.delete();
 
     HandlersJsGenerator handlersGenerator = new HandlersJsGenerator(this.api, this.outputDir);

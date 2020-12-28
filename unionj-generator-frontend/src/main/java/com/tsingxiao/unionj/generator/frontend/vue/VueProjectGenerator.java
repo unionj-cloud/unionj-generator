@@ -28,12 +28,14 @@ public class VueProjectGenerator extends VueGenerator {
   private Openapi3 openAPI;
   private String projectName;
   private String outputDir;
+  private boolean scaffold;
 
   public static final class Builder {
     private String doc;
     private Openapi3 openAPI;
     private String projectName;
     private String outputDir = OUTPUT_DIR;
+    private boolean scaffold;
 
     public Builder(String projectName) {
       this.projectName = projectName;
@@ -54,12 +56,18 @@ public class VueProjectGenerator extends VueGenerator {
       return this;
     }
 
+    public Builder scaffold(boolean scaffold) {
+      this.scaffold = scaffold;
+      return this;
+    }
+
     public VueProjectGenerator build() {
       VueProjectGenerator vueProjectGenerator = new VueProjectGenerator();
       vueProjectGenerator.projectName = this.projectName;
       vueProjectGenerator.outputDir = this.outputDir;
       vueProjectGenerator.doc = this.doc;
       vueProjectGenerator.openAPI = this.openAPI;
+      vueProjectGenerator.scaffold = this.scaffold;
       return vueProjectGenerator;
     }
   }
@@ -86,10 +94,12 @@ public class VueProjectGenerator extends VueGenerator {
       return null;
     }
 
-    File folderZip = new File(getOutputFile() + ".zip");
-    FileUtils.copyInputStreamToFile(ClassLoader.getSystemResourceAsStream(OUTPUT_DIR + ".zip"), folderZip);
-    GeneratorUtils.unzip(folderZip.getAbsolutePath(), new File(GeneratorUtils.getOutputDir("")));
-    folderZip.delete();
+    if (scaffold) {
+      File folderZip = new File(getOutputFile() + ".zip");
+      FileUtils.copyInputStreamToFile(ClassLoader.getSystemResourceAsStream(OUTPUT_DIR + ".zip"), folderZip);
+      GeneratorUtils.unzip(folderZip.getAbsolutePath(), new File(GeneratorUtils.getOutputDir("")));
+      folderZip.delete();
+    }
 
     // generate README.md
     com.tsingxiao.unionj.generator.frontend.vue.ReadmeMdGenerator readmeMdGenerator = new ReadmeMdGenerator(this.projectName);
