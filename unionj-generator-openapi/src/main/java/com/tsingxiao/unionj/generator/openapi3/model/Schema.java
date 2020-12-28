@@ -1,6 +1,5 @@
 package com.tsingxiao.unionj.generator.openapi3.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
@@ -23,7 +22,9 @@ public class Schema {
   @JsonProperty("$ref")
   private String ref;
 
-  @JsonIgnore
+  @JsonProperty("tree")
+  private boolean tree;
+
   private String title;
 
   private String type;

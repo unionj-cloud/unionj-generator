@@ -15,7 +15,7 @@ public class VueProjectGeneratorTest {
 
   @Test
   public void generate() {
-    String testFilePath = ClassLoader.getSystemResource("petstore3.json").getPath();
+    String testFilePath = ClassLoader.getSystemResource("openapi3.json").getPath();
     VueProjectGenerator vueProjectGenerator = new VueProjectGenerator.Builder("my-awesome-project").doc(testFilePath).build();
     String outputFile = vueProjectGenerator.generate();
     File file = new File(outputFile);

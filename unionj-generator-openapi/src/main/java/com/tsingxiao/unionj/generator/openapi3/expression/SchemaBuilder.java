@@ -17,6 +17,10 @@ public class SchemaBuilder {
     this.schema = new Schema();
   }
 
+  public void isTree(boolean isTree) {
+    this.schema.setTree(isTree);
+  }
+
   public void title(String title) {
     this.schema.setTitle(title);
   }

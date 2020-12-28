@@ -84,6 +84,9 @@ public class DefaultSchemaFaker implements SchemaFaker {
   }
 
   private JsonNode convertSchema2JsonNode(Schema value) {
+    if (value.isTree()) {
+      return null;
+    }
     JsonNode result = null;
     String format = value.getFormat();
     List<String> enums = value.getEnumValue();
@@ -109,6 +112,9 @@ public class DefaultSchemaFaker implements SchemaFaker {
             Map<String, Schema> properties = value.getProperties();
             if (properties != null) {
               properties.forEach((k, v) -> {
+                if (k.equals("children")) {
+                  System.out.println(123);
+                }
                 rootObjectNode.set(k, this.convertSchema2JsonNode(v));
               });
             }
