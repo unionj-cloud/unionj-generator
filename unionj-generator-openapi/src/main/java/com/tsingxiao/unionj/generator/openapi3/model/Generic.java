@@ -33,17 +33,26 @@ public class Generic extends Schema {
     });
     if (StringUtils.isNotBlank(schema.getTitle())) {
       deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + schema.getTitle() + SchemaHelper.RIGHT_ARROW);
-    } else if (StringUtils.isNotBlank(schema.getJavaType())) {
-      String javaType = schema.getJavaType();
-      String[] split = StringUtils.split(javaType, ".");
-      String type = split[split.length - 1];
-      deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
-    } else if (StringUtils.isNotBlank(schema.getRef())) {
-      String ref = schema.getRef();
-      String[] split = StringUtils.split(ref, "/");
-      String type = split[split.length - 1];
+    } else {
+      String type = schema.javaType();
       deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
     }
+//    if (StringUtils.isNotBlank(schema.getTitle())) {
+//      deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + schema.getTitle() + SchemaHelper.RIGHT_ARROW);
+//    } else if (StringUtils.isNotBlank(schema.getJavaType())) {
+//      String javaType = schema.getJavaType();
+//      String[] split = StringUtils.split(javaType, ".");
+//      String type = split[split.length - 1];
+//      deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
+//    } else if (StringUtils.isNotBlank(schema.getRef())) {
+//      String ref = schema.getRef();
+//      String[] split = StringUtils.split(ref, "/");
+//      String type = split[split.length - 1];
+//      deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
+//    } else if(schema.getType().equals("array")) {
+//      Schema items = schema.getItems();
+//
+//    }
     return deepCopy;
   }
 

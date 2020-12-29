@@ -1,11 +1,8 @@
 package com.tsingxiao.unionj.generator.openapi3.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.tsingxiao.unionj.generator.openapi3.ExceptionHelper;
 import com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper;
 import lombok.Data;
-import lombok.SneakyThrows;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -103,7 +100,8 @@ public class Schema {
     if (StringUtils.isBlank(key)) {
       return Object.class.getSimpleName();
     }
-    return key.replaceAll("[^a-zA-Z]", "");
+//    return key.replaceAll("[^a-zA-Z]", "");
+    return key;
   }
 
   private String deepSetType() {
@@ -115,14 +113,14 @@ public class Schema {
       case "object": {
         if (additionalProperties != null) {
           String valueType = additionalProperties.deepSetType();
-          tsType = "Map<String, " + valueType + ">";
+          tsType = "Map" + SchemaHelper.LEFT_ARROW + String.class.getSimpleName() + ", " + valueType + SchemaHelper.RIGHT_ARROW;
         } else {
           tsType = Object.class.getSimpleName();
         }
         break;
       }
       case "boolean": {
-        tsType = "boolean";
+        tsType = Boolean.class.getSimpleName();
         break;
       }
       case "integer": {
@@ -142,7 +140,11 @@ public class Schema {
         break;
       }
       case "string": {
-        tsType = String.class.getSimpleName();
+        if (format.equals("date-time")) {
+          tsType = java.util.Date.class.getSimpleName();
+        } else {
+          tsType = String.class.getSimpleName();
+        }
         break;
       }
       case "array": {
@@ -153,7 +155,7 @@ public class Schema {
           } else {
             elementType = items.deepSetType();
           }
-          tsType = "List<" + elementType + ">";
+          tsType = "List" + SchemaHelper.LEFT_ARROW + elementType + SchemaHelper.RIGHT_ARROW;
         } else {
           String elementType;
           if (StringUtils.isNotBlank(items.getRef())) {
@@ -161,7 +163,7 @@ public class Schema {
           } else {
             elementType = items.deepSetType();
           }
-          tsType = "Set<" + elementType + ">";
+          tsType = "Set" + SchemaHelper.LEFT_ARROW + elementType + SchemaHelper.RIGHT_ARROW;
         }
         break;
       }

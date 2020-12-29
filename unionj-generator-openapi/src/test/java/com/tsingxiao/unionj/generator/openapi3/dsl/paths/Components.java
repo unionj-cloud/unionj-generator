@@ -3,15 +3,10 @@ package com.tsingxiao.unionj.generator.openapi3.dsl.paths;
 import com.tsingxiao.unionj.generator.openapi3.model.Generic;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Generic.generic;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Reference.reference;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Schema.schema;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper.*;
-import static com.tsingxiao.unionj.generator.openapi3.dsl.components.Components.components;
 
 /**
  * @author: created by wubin
@@ -77,29 +72,28 @@ public class Components {
 
   public static Generic ResultDTOListUser = ResultDTO.generic(schema(sb -> {
     sb.type("array");
-    sb.title("Set<User>");
+    sb.uniqueItems(true);
     sb.items(reference(rb -> {
       rb.ref(User.getTitle());
     }));
   }));
 
-  public static void importComponents() {
-    Field[] declaredFields = Components.class.getDeclaredFields();
-    List<Field> staticPublicFields = new ArrayList<>();
-    for (Field field : declaredFields) {
-      if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
-        staticPublicFields.add(field);
-      }
-    }
-    components(cb -> {
-      for (Field field : staticPublicFields) {
-        try {
-          Schema schema = (Schema) field.get(null);
-          cb.schemas(schema.getTitle(), schema);
-        } catch (IllegalAccessException e) {
-          e.printStackTrace();
-        }
-      }
-    });
-  }
+  public static Generic UserDate = User.generic(dateTime);
+  public static Generic UserInteger = User.generic(int32);
+
+  public static Generic ResultDTOListUserDate = ResultDTO.generic(schema(sb -> {
+    sb.type("array");
+    sb.uniqueItems(true);
+    sb.items(reference(rb -> {
+      rb.ref(UserDate.getTitle());
+    }));
+  }));
+
+  public static Generic ResultDTOListUserInteger = ResultDTO.generic(schema(sb -> {
+    sb.type("array");
+    sb.uniqueItems(true);
+    sb.items(reference(rb -> {
+      rb.ref(UserInteger.getTitle());
+    }));
+  }));
 }
