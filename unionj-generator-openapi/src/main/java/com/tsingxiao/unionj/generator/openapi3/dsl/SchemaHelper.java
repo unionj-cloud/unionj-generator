@@ -15,6 +15,12 @@ import static com.tsingxiao.unionj.generator.openapi3.dsl.Schema.schema;
  */
 public class SchemaHelper {
 
+//  public static final String LEFT_ARROW = "«";
+//  public static final String RIGHT_ARROW = "»";
+
+  public static final String LEFT_ARROW = "<";
+  public static final String RIGHT_ARROW = ">";
+
   public static final Schema int32 = schema(int32 -> {
     int32.type("integer");
     int32.title(Integer.class.getSimpleName());
@@ -56,15 +62,8 @@ public class SchemaHelper {
   });
 
   public static final Schema T = schema(t -> {
-    t.type("T");
-  });
-
-  public static final Schema list = schema(a -> {
-    a.title("List");
-  });
-
-  public static final Schema set = schema(a -> {
-    a.title("Set");
+    t.type("object");
+    t.title("T");
   });
 
   public static final Schema stringArray = schema(array -> {

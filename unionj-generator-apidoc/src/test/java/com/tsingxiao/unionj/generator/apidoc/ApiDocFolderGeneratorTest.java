@@ -15,7 +15,7 @@ public class ApiDocFolderGeneratorTest {
 
   @Test
   public void generate() {
-    String doc = ClassLoader.getSystemResource("petstore3.json").getPath();
+    String doc = ClassLoader.getSystemResource("api-docs.json").getPath();
     ApiDocFolderGenerator apiDocFolderGenerator = new ApiDocFolderGenerator.Builder(doc).zip(false).build();
     String outputFile = apiDocFolderGenerator.generate();
     File file = new File(outputFile);

@@ -1,7 +1,11 @@
 package com.tsingxiao.unionj.generator.openapi3.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.tsingxiao.unionj.generator.openapi3.ExceptionHelper;
+import com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper;
 import lombok.Data;
+import lombok.SneakyThrows;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -166,19 +170,6 @@ public class Schema {
       }
     }
     return tsType;
-  }
-
-  public Generic generic(Schema schema) {
-    Generic ret = new Generic();
-    if (StringUtils.isNotBlank(schema.getTitle())) {
-      ret.setTitle(this.title + "<" + schema.getTitle() + ">");
-    } else if (StringUtils.isNotBlank(schema.getJavaType())) {
-      String javaType = schema.getJavaType();
-      String[] split = StringUtils.split(javaType, ".");
-      String type = split[split.length - 1];
-      ret.setTitle(this.title + "<" + type + ">");
-    }
-    return ret;
   }
 
   @Override

@@ -1,11 +1,14 @@
 package com.tsingxiao.unionj.generator.openapi3.dsl.paths;
 
+import com.tsingxiao.unionj.generator.openapi3.model.Generic;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tsingxiao.unionj.generator.openapi3.dsl.Generic.generic;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.Reference.reference;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Schema.schema;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper.*;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.components.Components.components;
@@ -39,6 +42,7 @@ public class Components {
 
   public static Schema ShopRecommendApplyDetailCondition = schema(sb -> {
     sb.type("object");
+    sb.title("ShopRecommendApplyDetailCondition");
     sb.properties("total", totalProperty);
     sb.properties("size", sizeProperty);
     sb.properties("current", currentProperty);
@@ -52,6 +56,33 @@ public class Components {
     sb.properties("offset", offsetProperty);
   });
 
+  public static Generic ResultDTO = generic(sb -> {
+    sb.type("object");
+    sb.title("ResultDTO");
+    sb.properties("code", int32);
+    sb.properties("msg", string);
+    sb.properties("data", T);
+  });
+
+  public static Generic User = generic(sb -> {
+    sb.type("object");
+    sb.title("User");
+    sb.properties("name", string);
+    sb.properties("info", T);
+  });
+
+  public static Generic ResultDTOUser = ResultDTO.generic(reference(rb -> {
+    rb.ref(User.getTitle());
+  }));
+
+  public static Generic ResultDTOListUser = ResultDTO.generic(schema(sb -> {
+    sb.type("array");
+    sb.title("Set<User>");
+    sb.items(reference(rb -> {
+      rb.ref(User.getTitle());
+    }));
+  }));
+
   public static void importComponents() {
     Field[] declaredFields = Components.class.getDeclaredFields();
     List<Field> staticPublicFields = new ArrayList<>();
@@ -63,7 +94,8 @@ public class Components {
     components(cb -> {
       for (Field field : staticPublicFields) {
         try {
-          cb.schemas(field.getName(), (Schema) field.get(null));
+          Schema schema = (Schema) field.get(null);
+          cb.schemas(schema.getTitle(), schema);
         } catch (IllegalAccessException e) {
           e.printStackTrace();
         }

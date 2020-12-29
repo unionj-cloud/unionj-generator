@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
 import org.junit.Test;
 
+import static com.tsingxiao.unionj.generator.openapi3.dsl.Generic.generic;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.Reference.reference;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Schema.schema;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper.*;
 
@@ -44,7 +46,7 @@ public class GenericTest {
 
   @Test
   public void Test2() throws JsonProcessingException {
-    com.tsingxiao.unionj.generator.openapi3.model.Schema ResultDTO = schema(sb -> {
+    com.tsingxiao.unionj.generator.openapi3.model.Generic ResultDTO = generic(sb -> {
       sb.type("object");
       sb.title("ResultDTO");
       sb.properties("code", int32);
@@ -53,7 +55,7 @@ public class GenericTest {
     });
     System.out.println(ResultDTO);
 
-    com.tsingxiao.unionj.generator.openapi3.model.Schema User = schema(sb -> {
+    com.tsingxiao.unionj.generator.openapi3.model.Generic User = generic(sb -> {
       sb.type("object");
       sb.title("User");
       sb.properties("name", string);
@@ -64,13 +66,65 @@ public class GenericTest {
       sb.javaType(org.joda.time.DateTime.class.getCanonicalName());
     });
 
-    String title = ResultDTO.generic(User.generic(stringArray)).getTitle();
-    System.out.println(title);
+    com.tsingxiao.unionj.generator.openapi3.model.Generic ResultDTOUserListString = ResultDTO.generic(User.generic(stringArray));
 
-    title = ResultDTO.generic(list.generic(User)).getTitle();
+    String title = ResultDTOUserListString.getTitle();
     System.out.println(title);
+  }
 
-    title = ResultDTO.generic(list.generic(DateTime)).getTitle();
+  @Test
+  public void Test3() throws JsonProcessingException {
+    com.tsingxiao.unionj.generator.openapi3.model.Generic ResultDTO = generic(sb -> {
+      sb.type("object");
+      sb.title("ResultDTO");
+      sb.properties("code", int32);
+      sb.properties("msg", string);
+      sb.properties("data", T);
+    });
+    System.out.println(ResultDTO);
+
+    com.tsingxiao.unionj.generator.openapi3.model.Generic User = generic(sb -> {
+      sb.type("object");
+      sb.title("User");
+      sb.properties("name", string);
+      sb.properties("info", T);
+    });
+
+    com.tsingxiao.unionj.generator.openapi3.model.Generic ResultDTOUser = ResultDTO.generic(reference(rb -> {
+      rb.ref(User.getTitle());
+    }));
+
+    String title = ResultDTOUser.getTitle();
+    System.out.println(title);
+  }
+
+  @Test
+  public void Test4() throws JsonProcessingException {
+    com.tsingxiao.unionj.generator.openapi3.model.Generic ResultDTO = generic(sb -> {
+      sb.type("object");
+      sb.title("ResultDTO");
+      sb.properties("code", int32);
+      sb.properties("msg", string);
+      sb.properties("data", T);
+    });
+    System.out.println(ResultDTO);
+
+    com.tsingxiao.unionj.generator.openapi3.model.Generic User = generic(sb -> {
+      sb.type("object");
+      sb.title("User");
+      sb.properties("name", string);
+      sb.properties("info", T);
+    });
+
+    com.tsingxiao.unionj.generator.openapi3.model.Generic ResultDTOListUser = ResultDTO.generic(schema(sb -> {
+      sb.type("array");
+      sb.title("Set<User>");
+      sb.items(reference(rb -> {
+        rb.ref(User.getTitle());
+      }));
+    }));
+
+    String title = ResultDTOListUser.getTitle();
     System.out.println(title);
   }
 }

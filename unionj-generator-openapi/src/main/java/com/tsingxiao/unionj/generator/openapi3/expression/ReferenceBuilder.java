@@ -17,7 +17,6 @@ public class ReferenceBuilder {
   }
 
   public void ref(String ref) {
-    ref = ref.replaceAll("[^a-zA-Z]", "");
     this.reference.setRef("#/components/schemas/" + ref);
   }
 

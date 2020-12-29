@@ -11,7 +11,7 @@ import com.tsingxiao.unionj.generator.openapi3.model.Schema;
  */
 public class SchemaBuilder {
 
-  private Schema schema;
+  protected Schema schema;
 
   public SchemaBuilder() {
     this.schema = new Schema();
