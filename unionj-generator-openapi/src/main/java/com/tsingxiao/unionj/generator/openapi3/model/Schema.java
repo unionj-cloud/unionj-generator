@@ -119,7 +119,7 @@ public class Schema {
         if (additionalProperties != null) {
           String valueType = additionalProperties.deepSetType();
           tsType = "Map" + SchemaHelper.LEFT_ARROW + String.class.getSimpleName() + ", " + valueType + SchemaHelper.RIGHT_ARROW;
-        } else if (format.equals("T")) {
+        } else if (format != null && format.equals("T")) {
           tsType = "T";
         } else {
           tsType = Object.class.getSimpleName();
@@ -131,7 +131,7 @@ public class Schema {
         break;
       }
       case "integer": {
-        if (format.equals("int32")) {
+        if (format != null && format.equals("int32")) {
           tsType = Integer.class.getSimpleName();
         } else {
           tsType = Long.class.getSimpleName();
@@ -139,7 +139,7 @@ public class Schema {
         break;
       }
       case "number": {
-        if (format.equals("float")) {
+        if (format != null && format.equals("float")) {
           tsType = Float.class.getSimpleName();
         } else {
           tsType = Double.class.getSimpleName();

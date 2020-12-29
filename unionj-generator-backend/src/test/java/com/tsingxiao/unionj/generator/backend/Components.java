@@ -116,4 +116,32 @@ public class Components {
   public static Generic PageSetVOUserDate = PageSetVO.generic(reference(rb -> {
     rb.ref(UserDate.getTitle());
   }));
+
+  public static Schema ResultDTOMapStringString = ResultDTO.generic(schema(data -> {
+    data.type("object");
+    data.additionalProperties(schema(ab -> {
+      ab.type("string");
+    }));
+  }));
+
+  public static Schema ResultDTOSetString = ResultDTO.generic(schema(data -> {
+    data.uniqueItems(true);
+    data.type("array");
+    data.items(schema(items -> {
+      items.type("string");
+    }));
+  }));
+
+  public static Schema RankVO = schema(sb -> {
+    sb.type("object");
+    sb.title("RankVO");
+    sb.properties("serialNo", int32);
+    sb.properties("avatar", string("头像url",
+        "https://treeyee-spire.oss-cn-beijing.aliyuncs.com/cddf0ecc-a03e-4c16-8757-92bd7c4800ba1592982748849.jpg"));
+    sb.properties("name", string);
+    sb.properties("income", doubleNumer("累计收入"));
+    sb.properties("quantity", int32("完成任务数量"));
+  });
+
+  public static Schema ResultDTOListRankAwardResultVO = ResultDTO.generic(refArray(RankVO.getTitle()));
 }
