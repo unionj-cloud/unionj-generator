@@ -21,104 +21,129 @@ public class SchemaBuilder {
     this.schema.setTree(isTree);
   }
 
-  public void title(String title) {
+  public SchemaBuilder title(String title) {
     this.schema.setTitle(title);
+    return this;
   }
 
-  public void type(String type) {
+  public SchemaBuilder type(String type) {
     this.schema.setType(type);
+    return this;
   }
 
-  public void javaType(String canonical) {
+  public SchemaBuilder javaType(String canonical) {
     this.schema.setJavaType(canonical);
+    return this;
   }
 
-  public void javaType(Class<?> javaType) {
+  public SchemaBuilder javaType(Class<?> javaType) {
     this.schema.setJavaType(javaType.getCanonicalName());
+    return this;
   }
 
-  public void properties(String property, Schema schema) {
+  public SchemaBuilder properties(String property, Schema schema) {
     this.schema.properties(property, schema);
+    return this;
   }
 
-  public void format(String format) {
+  public SchemaBuilder format(String format) {
     this.schema.setFormat(format);
+    return this;
   }
 
-  public void items(Schema items) {
+  public SchemaBuilder items(Schema items) {
     this.schema.setItems(items);
+    return this;
   }
 
-  public void additionalProperties(Schema additionalProperties) {
+  public SchemaBuilder additionalProperties(Schema additionalProperties) {
     this.schema.setAdditionalProperties(additionalProperties);
+    return this;
   }
 
-  public void uniqueItems(boolean uniqueItems) {
+  public SchemaBuilder uniqueItems(boolean uniqueItems) {
     this.schema.setUniqueItems(uniqueItems);
+    return this;
   }
 
-  public void description(String description) {
+  public SchemaBuilder description(String description) {
     this.schema.setDescription(description);
+    return this;
   }
 
-  public void defaultValue(Object defaultValue) {
+  public SchemaBuilder defaultValue(Object defaultValue) {
     this.schema.setDefaultValue(defaultValue);
+    return this;
   }
 
-  public void example(Object example) {
+  public SchemaBuilder example(Object example) {
     this.schema.setExample(example);
+    return this;
   }
 
-  public void deprecated(boolean deprecated) {
+  public SchemaBuilder deprecated(boolean deprecated) {
     this.schema.setDeprecated(deprecated);
+    return this;
   }
 
-  public void nullable(boolean nullable) {
+  public SchemaBuilder nullable(boolean nullable) {
     this.schema.setNullable(nullable);
+    return this;
   }
 
-  public void maximum(Object maximum) {
+  public SchemaBuilder maximum(Object maximum) {
     this.schema.setMaximum(maximum);
+    return this;
   }
 
-  public void minimum(Object minimum) {
+  public SchemaBuilder minimum(Object minimum) {
     this.schema.setMinimum(minimum);
+    return this;
   }
 
-  public void exclusiveMaximum(Object exclusiveMaximum) {
+  public SchemaBuilder exclusiveMaximum(Object exclusiveMaximum) {
     this.schema.setExclusiveMaximum(exclusiveMaximum);
+    return this;
   }
 
-  public void exclusiveMinimum(Object exclusiveMinimum) {
+  public SchemaBuilder exclusiveMinimum(Object exclusiveMinimum) {
     this.schema.setExclusiveMinimum(exclusiveMinimum);
+    return this;
   }
 
-  public void maxLength(Integer maxLength) {
+  public SchemaBuilder maxLength(Integer maxLength) {
     this.schema.setMaxLength(maxLength);
+    return this;
   }
 
-  public void minLength(Integer minLength) {
+  public SchemaBuilder minLength(Integer minLength) {
     this.schema.setMinLength(minLength);
+    return this;
   }
 
-  public void required(String required) {
+  public SchemaBuilder required(String required) {
     this.schema.required(required);
+    return this;
   }
 
-  public void enumValue(String enumValue) {
+  public SchemaBuilder enumValue(String enumValue) {
     this.schema.enumValue(enumValue);
+    return this;
   }
 
-  public void allOf(Schema schema) {
+  public SchemaBuilder allOf(Schema schema) {
     this.schema.allOf(schema);
+    return this;
   }
 
-  public void oneOf(Schema schema) {
+  public SchemaBuilder oneOf(Schema schema) {
     this.schema.oneOf(schema);
+    return this;
   }
 
-  public void discriminator(Discriminator discriminator) {
+  public SchemaBuilder discriminator(Discriminator discriminator) {
     this.schema.setDiscriminator(discriminator);
+    return this;
   }
 
   public Schema build() {

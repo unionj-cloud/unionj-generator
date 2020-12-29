@@ -58,6 +58,18 @@ public class Components {
     sb.properties("data", T);
   });
 
+  public static Schema PageResultVO = schema(sb -> {
+    sb.type("object");
+    sb.title("PageResultVO");
+    sb.properties("items", ListT);
+    sb.properties("total", totalProperty);
+    sb.properties("size", sizeProperty);
+    sb.properties("current", currentProperty);
+    sb.properties("searchCount", bool);
+    sb.properties("pages", int32("当前分页总页数"));
+    sb.properties("offset", offsetProperty);
+  });
+
   public static Schema User = schema(sb -> {
     sb.type("object");
     sb.title("User");
@@ -82,5 +94,9 @@ public class Components {
     sb.items(reference(rb -> {
       rb.ref(UserInteger.getTitle());
     }));
+  }));
+
+  public static Generic PageResultVOShopRecommendApplyDetailVO = PageResultVO.generic(reference(rb -> {
+    rb.ref(UserDate.getTitle());
   }));
 }

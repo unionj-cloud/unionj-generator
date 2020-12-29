@@ -3,6 +3,7 @@ package com.tsingxiao.unionj.generator.openapi3.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
 import com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper;
+import com.tsingxiao.unionj.generator.openapi3.expression.SchemaBuilder;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -184,14 +185,14 @@ public class Schema {
   public Generic generic(Schema schema) {
     Gson gson = new Gson();
     Generic deepCopy = gson.fromJson(gson.toJson(this), Generic.class);
-    List<String> genericPropertyList = new ArrayList<>();
     deepCopy.getProperties().forEach((k, v) -> {
       if (v.equals(SchemaHelper.T)) {
-        genericPropertyList.add(k);
+        deepCopy.properties(k, schema);
+      } else if (v.equals(SchemaHelper.ListT)) {
+        deepCopy.properties(k, new SchemaBuilder().type("array").items(schema).build());
+      } else if (v.equals(SchemaHelper.SetT)) {
+        deepCopy.properties(k, new SchemaBuilder().type("array").items(schema).uniqueItems(true).build());
       }
-    });
-    genericPropertyList.stream().forEach(property -> {
-      deepCopy.properties(property, schema);
     });
     if (StringUtils.isNotBlank(schema.getTitle())) {
       deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + schema.getTitle() + SchemaHelper.RIGHT_ARROW);

@@ -53,7 +53,7 @@ public class Backend {
       String name = schemaEntry.getKey();
       List<String> genericPropertyList = new ArrayList<>();
       schema.getProperties().forEach((k, v) -> {
-        if (v.equals(SchemaHelper.T)) {
+        if (v.equals(SchemaHelper.T) || v.equals(SchemaHelper.ListT) || v.equals(SchemaHelper.SetT)) {
           genericPropertyList.add(k);
         }
       });
