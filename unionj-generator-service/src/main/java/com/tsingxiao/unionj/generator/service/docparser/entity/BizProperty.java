@@ -1,6 +1,5 @@
 package com.tsingxiao.unionj.generator.service.docparser.entity;
 
-import com.google.common.base.Objects;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
@@ -17,14 +16,6 @@ public class BizProperty {
   private String name;
   private String type;
   private String in;
-  private int level;
-
-  public BizProperty(String name, String type, String in, int level) {
-    this.name = name;
-    this.type = type;
-    this.in = in;
-    this.level = level;
-  }
 
   public BizProperty(String name, String type, String in) {
     this.name = name;
@@ -48,11 +39,7 @@ public class BizProperty {
   }
 
   public void setType(Schema schema) {
-    String tsType = this.deepSetType(schema);
-    for (int i = 0; i < this.level; i++) {
-      tsType += "[]";
-    }
-    this.type = tsType;
+    this.type = this.deepSetType(schema);
   }
 
   public void setType(String type) {
@@ -83,13 +70,13 @@ public class BizProperty {
         break;
       }
       case "array": {
-        this.level++;
         Schema items = schema.getItems();
         if (StringUtils.isNotBlank(items.getRef())) {
           tsType = this.getTypeByRef(items.getRef());
         } else {
           tsType = this.deepSetType(items);
         }
+        tsType += "[]";
         break;
       }
       default: {
@@ -97,21 +84,5 @@ public class BizProperty {
       }
     }
     return tsType;
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    BizProperty that = (BizProperty) o;
-    return level == that.level &&
-        Objects.equal(name, that.name) &&
-        Objects.equal(type, that.type) &&
-        Objects.equal(in, that.in);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(name, type, in, level);
   }
 }

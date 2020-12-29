@@ -1,5 +1,6 @@
 package com.tsingxiao.unionj.generator.backend.docparser.entity;
 
+import com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
 
@@ -34,7 +35,7 @@ public class ProtoProperty {
     }
 
     public Builder(Schema type) {
-      this.type = type.javaType();
+      this.type = type.javaType().replaceAll(SchemaHelper.LEFT_ARROW, "<").replaceAll(SchemaHelper.RIGHT_ARROW, ">");
     }
 
     public Builder name(String name) {

@@ -3,7 +3,6 @@ package com.tsingxiao.unionj.generator.openapi3.dsl.paths;
 import com.tsingxiao.unionj.generator.openapi3.model.Generic;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 
-import static com.tsingxiao.unionj.generator.openapi3.dsl.Generic.generic;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Reference.reference;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Schema.schema;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper.*;
@@ -51,7 +50,7 @@ public class Components {
     sb.properties("offset", offsetProperty);
   });
 
-  public static Generic ResultDTO = generic(sb -> {
+  public static Schema ResultDTO = schema(sb -> {
     sb.type("object");
     sb.title("ResultDTO");
     sb.properties("code", int32);
@@ -59,24 +58,12 @@ public class Components {
     sb.properties("data", T);
   });
 
-  public static Generic User = generic(sb -> {
+  public static Schema User = schema(sb -> {
     sb.type("object");
     sb.title("User");
     sb.properties("name", string);
     sb.properties("info", T);
   });
-
-  public static Generic ResultDTOUser = ResultDTO.generic(reference(rb -> {
-    rb.ref(User.getTitle());
-  }));
-
-  public static Generic ResultDTOListUser = ResultDTO.generic(schema(sb -> {
-    sb.type("array");
-    sb.uniqueItems(true);
-    sb.items(reference(rb -> {
-      rb.ref(User.getTitle());
-    }));
-  }));
 
   public static Generic UserDate = User.generic(dateTime);
   public static Generic UserInteger = User.generic(int32);

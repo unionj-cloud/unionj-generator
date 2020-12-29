@@ -92,6 +92,7 @@ public class Backend {
 
     backend.setVoList(voList);
 
+    // TODO
 //    List<String> voNameList = voList.stream().map(vo -> vo.getName()).collect(Collectors.toList());
 
     Map<String, Path> paths = openAPI.getPaths();
@@ -147,6 +148,7 @@ public class Backend {
 
       proto.setRouters(routers);
 
+      // TODO
 //      Set<String> protoTypes = routers.stream()
 //          .filter(router -> router.getReqBody() != null)
 //          .map(router -> {

@@ -105,7 +105,6 @@ public class Schema {
     if (StringUtils.isBlank(key)) {
       return Object.class.getSimpleName();
     }
-//    return key.replaceAll("[^a-zA-Z]", "");
     return key;
   }
 
