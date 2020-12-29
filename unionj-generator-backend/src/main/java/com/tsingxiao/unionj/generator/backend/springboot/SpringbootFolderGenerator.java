@@ -67,8 +67,10 @@ public class SpringbootFolderGenerator {
   @SneakyThrows
   public String generate() {
     for (Vo vo : backend.getVoList()) {
-      VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.packageName);
-      voJavaGenerator.generate();
+      if (vo.isOutput()) {
+        VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.packageName);
+        voJavaGenerator.generate();
+      }
     }
 
     for (Proto proto : backend.getProtoList()) {

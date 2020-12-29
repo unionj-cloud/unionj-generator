@@ -46,7 +46,7 @@ public class VoJavaGenerator extends DefaultGenerator {
 
   @Override
   public String getOutputFile() {
-    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + StringUtils.capitalize(this.vo.getName()) + ".java";
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + StringUtils.capitalize(this.vo.getName()).replaceAll("<.*>", "") + ".java";
   }
 
 }

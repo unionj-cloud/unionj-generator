@@ -1,8 +1,10 @@
 package com.tsingxiao.unionj.generator.openapi3.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.Gson;
 import com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper;
 import lombok.Data;
+import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
@@ -92,6 +94,9 @@ public class Schema {
   }
 
   public String javaType() {
+    if (this instanceof Generic) {
+      return this.title;
+    }
     return this.deepSetType();
   }
 
@@ -114,6 +119,8 @@ public class Schema {
         if (additionalProperties != null) {
           String valueType = additionalProperties.deepSetType();
           tsType = "Map" + SchemaHelper.LEFT_ARROW + String.class.getSimpleName() + ", " + valueType + SchemaHelper.RIGHT_ARROW;
+        } else if (format.equals("T")) {
+          tsType = "T";
         } else {
           tsType = Object.class.getSimpleName();
         }
@@ -140,7 +147,7 @@ public class Schema {
         break;
       }
       case "string": {
-        if (format.equals("date-time")) {
+        if (format != null && format.equals("date-time")) {
           tsType = java.util.Date.class.getSimpleName();
         } else {
           tsType = String.class.getSimpleName();
@@ -172,6 +179,28 @@ public class Schema {
       }
     }
     return tsType;
+  }
+
+  @SneakyThrows
+  public Generic generic(Schema schema) {
+    Gson gson = new Gson();
+    Generic deepCopy = gson.fromJson(gson.toJson(this), Generic.class);
+    List<String> genericPropertyList = new ArrayList<>();
+    deepCopy.getProperties().forEach((k, v) -> {
+      if (v.equals(SchemaHelper.T)) {
+        genericPropertyList.add(k);
+      }
+    });
+    genericPropertyList.stream().forEach(property -> {
+      deepCopy.properties(property, schema);
+    });
+    if (StringUtils.isNotBlank(schema.getTitle())) {
+      deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + schema.getTitle() + SchemaHelper.RIGHT_ARROW);
+    } else {
+      String type = schema.javaType();
+      deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
+    }
+    return deepCopy;
   }
 
   @Override

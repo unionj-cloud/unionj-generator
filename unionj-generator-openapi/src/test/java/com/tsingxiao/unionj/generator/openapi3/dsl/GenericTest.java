@@ -127,4 +127,20 @@ public class GenericTest {
     String title = ResultDTOListUser.getTitle();
     System.out.println(title);
   }
+
+  @Test
+  public void Test5() throws JsonProcessingException {
+    com.tsingxiao.unionj.generator.openapi3.model.Generic ResultDTO = generic(sb -> {
+      sb.type("object");
+      sb.title("ResultDTO");
+      sb.properties("code", int32);
+      sb.properties("msg", string);
+      sb.properties("data", T);
+    }).generic(T);
+
+    String title = ResultDTO.getTitle();
+    System.out.println(title);
+
+    System.out.println(ResultDTO.javaType());
+  }
 }

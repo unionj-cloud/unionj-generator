@@ -1,6 +1,8 @@
 package com.tsingxiao.unionj.generator.backend.docparser.entity;
 
 import com.google.common.collect.Lists;
+import com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper;
+import com.tsingxiao.unionj.generator.openapi3.model.Generic;
 import com.tsingxiao.unionj.generator.openapi3.model.Openapi3;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import com.tsingxiao.unionj.generator.openapi3.model.paths.Path;
@@ -9,7 +11,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.tsingxiao.unionj.generator.backend.springboot.Constants.PACKAGE_NAME;
@@ -41,15 +46,27 @@ public class Backend {
     Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
     for (Map.Entry<String, Schema> schemaEntry : schemas.entrySet()) {
       Vo vo = new Vo();
-      String key = schemaEntry.getKey();
-      key = key.replaceAll("[^a-zA-Z]", "");
-      vo.setName(key);
+      Schema schema = schemaEntry.getValue();
+      if (schema instanceof Generic) {
+        vo.setOutput(false);
+      }
+      String name = schemaEntry.getKey();
+      List<String> genericPropertyList = new ArrayList<>();
+      schema.getProperties().forEach((k, v) -> {
+        if (v.equals(SchemaHelper.T)) {
+          genericPropertyList.add(k);
+        }
+      });
+      if (CollectionUtils.isNotEmpty(genericPropertyList)) {
+        name += "<T>";
+      } else {
+        name = name.replaceAll(SchemaHelper.LEFT_ARROW, "<").replaceAll(SchemaHelper.RIGHT_ARROW, ">");
+      }
+
+      vo.setName(name);
 
       List<VoProperty> voPropertyList = new ArrayList<>();
-
-      Schema schema = schemaEntry.getValue();
       Map<String, Schema> properties = schema.getProperties();
-
       List<VoEnumType> enumTypeList = new ArrayList<>();
       for (Map.Entry<String, Schema> property : properties.entrySet()) {
         Schema value = property.getValue();

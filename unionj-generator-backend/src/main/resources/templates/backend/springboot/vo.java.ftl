@@ -4,10 +4,13 @@ import lombok.Data;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import java.io.Serializable;
 import java.util.*;
 
 @Data
-public class ${name}   {
+public class ${name} implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
 <#list properties as property>
     @JsonProperty("${property.jsonProperty}")

@@ -17,5 +17,6 @@ public class Vo {
   private List<VoProperty> properties;
   private List<VoEnumType> enumTypes;
   private List<String> imports;
+  private boolean output = true;
 
 }
