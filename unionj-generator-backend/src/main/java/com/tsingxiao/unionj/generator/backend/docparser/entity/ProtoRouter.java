@@ -9,10 +9,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -96,7 +93,7 @@ public class ProtoRouter {
     }
 
     List<Parameter> parameters = operation.getParameters();
-    Set<ProtoProperty> protoPropertySet = Sets.newHashSet();
+    Set<ProtoProperty> protoPropertySet = Sets.newLinkedHashSet();
     if (CollectionUtils.isNotEmpty(parameters)) {
       protoPropertySet.addAll(parameters.stream()
           .map(para -> {
@@ -113,7 +110,7 @@ public class ProtoRouter {
             }
             return property;
           })
-          .collect(Collectors.toSet()));
+          .collect(Collectors.toCollection(LinkedHashSet::new)));
     }
     if (CollectionUtils.isNotEmpty(protoPropertySet)) {
       Map<String, List<ProtoProperty>> protoPropertyMap = protoPropertySet.stream().collect(Collectors.groupingBy(ProtoProperty::getIn, Collectors.toList()));

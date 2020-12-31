@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +33,7 @@ public class Schema {
 
   private String type;
   private String javaType;
-  private Map<String, Schema> properties = new HashMap<>();
+  private Map<String, Schema> properties = new LinkedHashMap<>();
   private String format;
   private Schema items;
   private String description;

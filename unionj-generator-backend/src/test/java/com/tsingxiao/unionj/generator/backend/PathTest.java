@@ -400,8 +400,8 @@ public class PathTest {
                       file.format("binary");
                     }));
                   }));
-                  upload.properties("username", string);
                   upload.properties("password", string);
+                  upload.properties("username", string);
                 }));
               }));
             }));
@@ -542,6 +542,62 @@ public class PathTest {
 
   @Test
   public void TestRequestParamDefaultValue() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/shop/info", pb -> {
+        get(ppb -> {
+          ppb.summary("店铺详情");
+          ppb.tags("shop");
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("id");
+            para.schema(int32);
+          });
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("queryStat");
+            para.description("是否查询统计信息");
+            para.schema(schema(queryStat -> {
+              queryStat.type("boolean");
+              queryStat.defaultValue(false);
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOMapStringString.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @Test
+  public void TestParameterOrder() throws IOException {
     Openapi3 openapi3 = openapi3(ob -> {
       info(ib -> {
         ib.title("测试");
