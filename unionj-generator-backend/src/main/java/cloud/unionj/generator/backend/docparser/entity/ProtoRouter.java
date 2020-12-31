@@ -1,12 +1,11 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
+import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.*;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
-import cloud.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
@@ -79,7 +78,7 @@ public class ProtoRouter {
                   .name(k)
                   .in("formData")
                   .required(schema.getRequired().contains(k))
-                  .defaultValue(ObjectUtils.defaultIfNull(v.getDefaultValue(), "").toString())
+                  .defaultValue(Optional.ofNullable(v.getDefaultValue()).orElse("").toString())
                   .build());
             }
           });
@@ -95,7 +94,7 @@ public class ProtoRouter {
     List<Parameter> parameters = operation.getParameters();
     Set<ProtoProperty> protoPropertySet = Sets.newLinkedHashSet();
     if (CollectionUtils.isNotEmpty(parameters)) {
-      protoPropertySet.addAll(parameters.stream()
+      LinkedHashSet<ProtoProperty> protoProperties = parameters.stream()
           .map(para -> {
             ProtoProperty property;
             if (para.getIn().equals("query")) {
@@ -103,19 +102,25 @@ public class ProtoRouter {
                   .name(para.getName())
                   .in(para.getIn())
                   .required(para.isRequired())
-                  .defaultValue(ObjectUtils.defaultIfNull(para.getSchema().getDefaultValue(), "").toString())
+                  .defaultValue(Optional.ofNullable(para.getSchema().getDefaultValue()).orElse("").toString())
                   .build();
             } else {
               property = new ProtoProperty.Builder(para.getSchema()).name(para.getName()).in(para.getIn()).required(para.isRequired()).build();
             }
             return property;
           })
-          .collect(Collectors.toCollection(LinkedHashSet::new)));
+          .collect(Collectors.toCollection(LinkedHashSet::new));
+      if (protoProperties != null) {
+        protoPropertySet.addAll(protoProperties);
+      }
     }
     if (CollectionUtils.isNotEmpty(protoPropertySet)) {
       Map<String, List<ProtoProperty>> protoPropertyMap = protoPropertySet.stream().collect(Collectors.groupingBy(ProtoProperty::getIn, Collectors.toList()));
       router.setPathParams(protoPropertyMap.get("path"));
-      queryParams.addAll(protoPropertyMap.get("query"));
+      List<ProtoProperty> query = protoPropertyMap.get("query");
+      if (query != null) {
+        queryParams.addAll(query);
+      }
       router.setQueryParams(queryParams);
     }
 

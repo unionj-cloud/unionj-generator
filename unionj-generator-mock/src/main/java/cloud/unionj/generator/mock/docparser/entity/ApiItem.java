@@ -1,6 +1,7 @@
 package cloud.unionj.generator.mock.docparser.entity;
 
 import cloud.unionj.generator.ApiItemVo;
+import cloud.unionj.generator.mock.schemafaker.SchemaFaker;
 import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.*;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -9,14 +10,13 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import cloud.unionj.generator.mock.schemafaker.SchemaFaker;
-import cloud.unionj.generator.openapi3.model.paths.*;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,11 +52,14 @@ public class ApiItem {
     if (CollectionUtils.isNotEmpty(operation.getTags())) {
       apiItem.setTag(operation.getTags().get(0));
     }
-    Set<ApiParam> apiParams = Sets.newHashSet();
+    Set<ApiParam> apiParams = Sets.newLinkedHashSet();
     if (CollectionUtils.isNotEmpty(operation.getParameters())) {
-      apiParams.addAll(operation.getParameters().stream()
+      LinkedHashSet<ApiParam> apiParamSet = operation.getParameters().stream()
           .map(para -> new ApiParam(para.getName(), para.getIn()))
-          .collect(Collectors.toSet()));
+          .collect(Collectors.toCollection(LinkedHashSet::new));
+      if (apiParamSet != null) {
+        apiParams.addAll(apiParamSet);
+      }
     }
 
     if (CollectionUtils.isNotEmpty(apiParams)) {

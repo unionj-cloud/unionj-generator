@@ -21,11 +21,7 @@ public class IndexHtmlMdGenerator extends ApiDocGenerator {
   private static final String CMD_TEMPL = "widdershins --search false --language_tabs shell:Shell javascript:Javascript java:Java go:Go --summary ${doc} -o ${md}";
 
   private String doc;
-  private String outputDir = OUTPUT_DIR;
-
-  public IndexHtmlMdGenerator(String doc) {
-    this.doc = doc;
-  }
+  private String outputDir;
 
   public IndexHtmlMdGenerator(String doc, String outputDir) {
     this.doc = doc;
@@ -50,7 +46,7 @@ public class IndexHtmlMdGenerator extends ApiDocGenerator {
   @SneakyThrows
   @Override
   public String generate() {
-    Map<String, String> data = new HashMap<String, String>();
+    Map<String, String> data = new HashMap<>();
     data.put("doc", GeneratorUtils.getOutputDir(this.doc));
     data.put("md", getOutputFile());
 

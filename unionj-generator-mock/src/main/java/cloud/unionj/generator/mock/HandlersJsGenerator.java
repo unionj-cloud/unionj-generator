@@ -1,9 +1,9 @@
 package cloud.unionj.generator.mock;
 
 import cloud.unionj.generator.ApiItemVo;
+import cloud.unionj.generator.GeneratorUtils;
 import cloud.unionj.generator.mock.docparser.entity.Api;
 import cloud.unionj.generator.mock.docparser.entity.ApiItem;
-import cloud.unionj.generator.GeneratorUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -38,7 +38,9 @@ public class HandlersJsGenerator extends MockGenerator {
     input.put("baseUrl", this.api.getBaseUrl());
 
     List<ApiItemVo> apiItemVoList = this.api.getItems().values().stream().reduce(new ArrayList<>(), (x, y) -> {
-      x.addAll(y);
+      if (y != null) {
+        x.addAll(y);
+      }
       return x;
     }).stream().map(ApiItem::toApiItemVo).collect(Collectors.toList());
 

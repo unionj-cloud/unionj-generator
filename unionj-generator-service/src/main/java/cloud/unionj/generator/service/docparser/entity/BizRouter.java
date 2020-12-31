@@ -1,15 +1,15 @@
 package cloud.unionj.generator.service.docparser.entity;
 
+import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.*;
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
-import cloud.unionj.generator.openapi3.model.Schema;
-import cloud.unionj.generator.openapi3.model.paths.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -85,9 +85,9 @@ public class BizRouter {
       }
     }
 
-    Set<BizProperty> bizPropertySet = Sets.newHashSet();
+    Set<BizProperty> bizPropertySet = Sets.newLinkedHashSet();
     if (CollectionUtils.isNotEmpty(operation.getParameters())) {
-      bizPropertySet.addAll(operation.getParameters().stream()
+      LinkedHashSet<BizProperty> bizProperties = operation.getParameters().stream()
           .map(para -> {
             BizProperty bizProperty = new BizProperty();
             bizProperty.setIn(para.getIn());
@@ -95,7 +95,10 @@ public class BizRouter {
             bizProperty.setType(para.getSchema());
             return bizProperty;
           })
-          .collect(Collectors.toSet()));
+          .collect(Collectors.toCollection(LinkedHashSet::new));
+      if (bizProperties != null) {
+        bizPropertySet.addAll(bizProperties);
+      }
     }
     if (CollectionUtils.isNotEmpty(bizPropertySet)) {
       Map<String, List<BizProperty>> bizPropertyGroupByIn = bizPropertySet.stream()

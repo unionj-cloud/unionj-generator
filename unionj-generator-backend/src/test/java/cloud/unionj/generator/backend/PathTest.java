@@ -1,7 +1,7 @@
 package cloud.unionj.generator.backend;
 
-import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.docparser.BackendDocParser;
+import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.springboot.SpringbootFolderGenerator;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Openapi3;
@@ -13,6 +13,7 @@ import static cloud.unionj.generator.backend.Components.*;
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
 import static cloud.unionj.generator.openapi3.dsl.Reference.reference;
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
+import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
 import static cloud.unionj.generator.openapi3.dsl.paths.Content.content;
 import static cloud.unionj.generator.openapi3.dsl.paths.Get.get;

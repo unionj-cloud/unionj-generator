@@ -1,12 +1,13 @@
 package cloud.unionj.generator.openapi3.dsl;
 
 import cloud.unionj.generator.openapi3.dsl.components.Components;
-import cloud.unionj.generator.openapi3.model.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+
+import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 
 /**
  * @author: created by wubin
@@ -19,92 +20,92 @@ public class SchemaHelper {
   public static final String LEFT_ARROW = "«";
   public static final String RIGHT_ARROW = "»";
 
-  public static final cloud.unionj.generator.openapi3.model.Schema int32 = Schema.schema(int32 -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema int32 = schema(int32 -> {
     int32.type("integer");
     int32.format("int32");
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema int64 = Schema.schema(int64 -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema int64 = schema(int64 -> {
     int64.type("integer");
     int64.format("int64");
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema string = Schema.schema(string -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema string = schema(string -> {
     string.type("string");
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema bool = Schema.schema(bool -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema bool = schema(bool -> {
     bool.type("boolean");
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema floatNumber = Schema.schema(floatNumer -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema floatNumber = schema(floatNumer -> {
     floatNumer.type("number");
     floatNumer.format("float");
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema doubleNumer = Schema.schema(doubleNumer -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema doubleNumer = schema(doubleNumer -> {
     doubleNumer.type("number");
     doubleNumer.format("double");
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema dateTime = Schema.schema(dateTime -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema dateTime = schema(dateTime -> {
     dateTime.type("string");
     dateTime.format("date-time");
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema T = Schema.schema(t -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema T = schema(t -> {
     t.type("object");
     t.format("T");
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema ListT = Schema.schema(t -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema ListT = schema(t -> {
     t.type("array");
     t.items(T);
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema SetT = Schema.schema(t -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema SetT = schema(t -> {
     t.type("array");
     t.items(T);
     t.uniqueItems(true);
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema stringArray = Schema.schema(array -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema stringArray = schema(array -> {
     array.type("array");
     array.items(string);
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema int32Array = Schema.schema(array -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema int32Array = schema(array -> {
     array.type("array");
     array.items(int32);
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema int64Array = Schema.schema(array -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema int64Array = schema(array -> {
     array.type("array");
     array.items(int64);
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema floatArray = Schema.schema(array -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema floatArray = schema(array -> {
     array.type("array");
     array.items(floatNumber);
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema doubleArray = Schema.schema(array -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema doubleArray = schema(array -> {
     array.type("array");
     array.items(doubleNumer);
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema boolArray = Schema.schema(array -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema boolArray = schema(array -> {
     array.type("array");
     array.items(bool);
   });
 
-  public static final cloud.unionj.generator.openapi3.model.Schema dateTimeArray = Schema.schema(array -> {
+  public static final cloud.unionj.generator.openapi3.model.Schema dateTimeArray = schema(array -> {
     array.type("array");
     array.items(dateTime);
   });
 
   public static cloud.unionj.generator.openapi3.model.Schema refArray(String ref) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.items(Reference.reference(items -> {
         items.ref(ref);
@@ -113,7 +114,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema uniqueRefArray(String ref) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.uniqueItems(true);
       array.items(Reference.reference(items -> {
@@ -123,7 +124,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema int32(String description) {
-    return Schema.schema(int32 -> {
+    return schema(int32 -> {
       int32.type("integer");
       int32.format("int32");
       int32.description(description);
@@ -131,7 +132,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema int64(String description) {
-    return Schema.schema(int64 -> {
+    return schema(int64 -> {
       int64.type("integer");
       int64.format("int64");
       int64.description(description);
@@ -139,21 +140,21 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema string(String description) {
-    return Schema.schema(string -> {
+    return schema(string -> {
       string.type("string");
       string.description(description);
     });
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema bool(String description) {
-    return Schema.schema(bool -> {
+    return schema(bool -> {
       bool.type("boolean");
       bool.description(description);
     });
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema floatNumber(String description) {
-    return Schema.schema(floatNumer -> {
+    return schema(floatNumer -> {
       floatNumer.type("number");
       floatNumer.format("float");
       floatNumer.description(description);
@@ -161,7 +162,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema doubleNumer(String description) {
-    return Schema.schema(doubleNumer -> {
+    return schema(doubleNumer -> {
       doubleNumer.type("number");
       doubleNumer.format("double");
       doubleNumer.description(description);
@@ -169,7 +170,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema dateTime(String description) {
-    return Schema.schema(dateTime -> {
+    return schema(dateTime -> {
       dateTime.type("string");
       dateTime.format("date-time");
       dateTime.description(description);
@@ -177,7 +178,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema stringArray(String description) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(string(description));
@@ -185,7 +186,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema int32Array(String description) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(int32(description));
@@ -193,7 +194,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema int64Array(String description) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(int64(description));
@@ -201,7 +202,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema floatArray(String description) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(floatNumber(description));
@@ -209,7 +210,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema doubleArray(String description) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(doubleNumer(description));
@@ -217,7 +218,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema boolArray(String description) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(bool(description));
@@ -225,7 +226,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema dateTimeArray(String description) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(dateTime(description));
@@ -233,7 +234,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema refArray(String description, String ref) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(Reference.reference(items -> {
@@ -243,7 +244,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema enums(String description, String[] values) {
-    return Schema.schema(enums -> {
+    return schema(enums -> {
       enums.type("string");
       enums.description(description);
       for (String value : values) {
@@ -253,7 +254,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema int32(String description, int example) {
-    return Schema.schema(int32 -> {
+    return schema(int32 -> {
       int32.type("integer");
       int32.format("int32");
       int32.description(description);
@@ -262,7 +263,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema int64(String description, long example) {
-    return Schema.schema(int64 -> {
+    return schema(int64 -> {
       int64.type("integer");
       int64.format("int64");
       int64.description(description);
@@ -271,7 +272,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema string(String description, String example) {
-    return Schema.schema(string -> {
+    return schema(string -> {
       string.type("string");
       string.description(description);
       string.example(example);
@@ -279,7 +280,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema bool(String description, boolean example) {
-    return Schema.schema(bool -> {
+    return schema(bool -> {
       bool.type("boolean");
       bool.description(description);
       bool.example(example);
@@ -287,7 +288,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema floatNumber(String description, float example) {
-    return Schema.schema(floatNumer -> {
+    return schema(floatNumer -> {
       floatNumer.type("number");
       floatNumer.format("float");
       floatNumer.description(description);
@@ -296,7 +297,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema doubleNumer(String description, double example) {
-    return Schema.schema(doubleNumer -> {
+    return schema(doubleNumer -> {
       doubleNumer.type("number");
       doubleNumer.format("double");
       doubleNumer.description(description);
@@ -305,7 +306,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema dateTime(String description, String example) {
-    return Schema.schema(dateTime -> {
+    return schema(dateTime -> {
       dateTime.type("string");
       dateTime.format("date-time");
       dateTime.description(description);
@@ -314,7 +315,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema stringArray(String description, String[] example) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(string(description));
@@ -323,7 +324,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema int32Array(String description, int[] example) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(int32(description));
@@ -332,7 +333,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema int64Array(String description, long[] example) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(int64(description));
@@ -341,7 +342,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema floatArray(String description, float[] example) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(floatNumber(description));
@@ -350,7 +351,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema doubleArray(String description, double[] example) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(doubleNumer(description));
@@ -359,7 +360,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema boolArray(String description, boolean[] example) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(bool(description));
@@ -368,7 +369,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema dateTimeArray(String description, String[] example) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(dateTime(description));
@@ -377,7 +378,7 @@ public class SchemaHelper {
   }
 
   public static cloud.unionj.generator.openapi3.model.Schema refArray(String description, String ref, Object[] example) {
-    return Schema.schema(array -> {
+    return schema(array -> {
       array.type("array");
       array.description(description);
       array.items(Reference.reference(items -> {

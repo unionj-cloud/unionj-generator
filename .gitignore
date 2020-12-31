@@ -74,3 +74,4 @@ node_modules
 /unionj-generator-mock/mocks
 /unionj-generator-service/services
 /unionj-generator-frontend/vue/
+/unionj-generator-frontend/__MACOSX/

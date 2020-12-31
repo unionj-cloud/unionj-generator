@@ -5,6 +5,7 @@ import cloud.unionj.generator.openapi3.model.Schema;
 
 import static cloud.unionj.generator.openapi3.dsl.Reference.reference;
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
+import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 
 /**
  * @author: created by wubin

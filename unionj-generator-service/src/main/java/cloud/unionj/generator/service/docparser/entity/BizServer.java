@@ -1,10 +1,10 @@
 package cloud.unionj.generator.service.docparser.entity;
 
 import cloud.unionj.generator.openapi3.model.Openapi3;
+import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.Path;
 import cloud.unionj.generator.openapi3.model.servers.Server;
 import com.google.common.collect.Lists;
-import cloud.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -151,9 +151,9 @@ public class BizServer {
               return null;
             }
             return type;
-          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet());
+          }).filter(StringUtils::isNotBlank).collect(Collectors.toCollection(LinkedHashSet::new));
 
-      serviceTypes.addAll(bizRouters.stream()
+      LinkedHashSet<String> collect = bizRouters.stream()
           .filter(bizRouter -> bizRouter.getRespData() != null && !bizRouter.getRespData().getType().equals(TsTypeConstants.ANY))
           .map(bizRouter -> {
             String type = bizRouter.getRespData().getType();
@@ -165,7 +165,10 @@ public class BizServer {
               return null;
             }
             return type;
-          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet()));
+          }).filter(StringUtils::isNotBlank).collect(Collectors.toCollection(LinkedHashSet::new));
+      if (collect != null) {
+        serviceTypes.addAll(collect);
+      }
 
       bizService.setTypes(Lists.newArrayList(serviceTypes));
 
