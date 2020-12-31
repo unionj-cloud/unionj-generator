@@ -12,9 +12,13 @@ import java.io.IOException;
 import static com.tsingxiao.unionj.generator.backend.Components.*;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Openapi3.openapi3;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Reference.reference;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.Schema.schema;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper.*;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.info.Info.info;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Content.content;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Get.get;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.MediaType.mediaType;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Parameter.parameter;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Path.path;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Post.post;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.RequestBody.requestBody;
@@ -114,5 +118,481 @@ public class PathTest {
     String name = "ResultDTO<List<User<Integer>>>.java";
     String s = name.replaceAll("<.*>", "");
     System.out.println(s);
+  }
+
+  @Test
+  public void Test2() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/oss/upload", pb -> {
+        post(ppb -> {
+          ppb.summary("上传附件");
+          ppb.tags("attachment");
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("returnKey");
+            para.schema(bool);
+          });
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.applicationOctetStream(mediaType(mb -> {
+                mb.schema(schema(upload -> {
+                  upload.type("string");
+                  upload.format("binary");
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @Test
+  public void TestFileRequired() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/oss/upload", pb -> {
+        post(ppb -> {
+          ppb.summary("上传附件");
+          ppb.tags("attachment");
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("returnKey");
+            para.schema(bool);
+          });
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.multipartFormData(mediaType(mb -> {
+                mb.schema(schema(upload -> {
+                  upload.type("object");
+                  upload.required("file");
+                  upload.properties("file", schema(file -> {
+                    file.type("string");
+                    file.format("binary");
+                  }));
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @Test
+  public void TestFileNotRequired() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/oss/upload", pb -> {
+        post(ppb -> {
+          ppb.summary("上传附件");
+          ppb.tags("attachment");
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("returnKey");
+            para.schema(bool);
+          });
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.multipartFormData(mediaType(mb -> {
+                mb.schema(schema(upload -> {
+                  upload.type("object");
+                  upload.properties("file", schema(file -> {
+                    file.type("string");
+                    file.format("binary");
+                  }));
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @Test
+  public void TestFiles() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/oss/upload", pb -> {
+        post(ppb -> {
+          ppb.summary("上传附件");
+          ppb.tags("attachment");
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("returnKey");
+            para.schema(bool);
+          });
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.multipartFormData(mediaType(mb -> {
+                mb.schema(schema(upload -> {
+                  upload.type("object");
+                  upload.properties("files", schema(files -> {
+                    files.type("array");
+                    files.items(schema(file -> {
+                      file.type("string");
+                      file.format("binary");
+                    }));
+                  }));
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @Test
+  public void TestFilesWithOtherFields() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/oss/upload", pb -> {
+        post(ppb -> {
+          ppb.summary("上传附件");
+          ppb.tags("attachment");
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("returnKey");
+            para.schema(bool);
+          });
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.multipartFormData(mediaType(mb -> {
+                mb.schema(schema(upload -> {
+                  upload.type("object");
+                  upload.properties("files", schema(files -> {
+                    files.type("array");
+                    files.items(schema(file -> {
+                      file.type("string");
+                      file.format("binary");
+                    }));
+                  }));
+                  upload.properties("username", string);
+                  upload.properties("password", string);
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @Test
+  public void TestFilesWithOtherFieldsRequired() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/oss/upload", pb -> {
+        post(ppb -> {
+          ppb.summary("上传附件");
+          ppb.tags("attachment");
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("returnKey");
+            para.schema(bool);
+          });
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.multipartFormData(mediaType(mb -> {
+                mb.schema(schema(upload -> {
+                  upload.type("object");
+                  upload.required("username");
+                  upload.properties("files", schema(files -> {
+                    files.type("array");
+                    files.items(schema(file -> {
+                      file.type("string");
+                      file.format("binary");
+                    }));
+                  }));
+                  upload.properties("username", string);
+                  upload.properties("password", string);
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @Test
+  public void TestRequestBodyPlainText() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/shortLink", pb -> {
+        post(ppb -> {
+          ppb.summary("获取短链接");
+          ppb.tags("survey");
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.textPlain(mediaType(mb -> {
+                mb.schema(string);
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.description("OK");
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOListUserDate.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @Test
+  public void TestRequestParamDefaultValue() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/shop/info", pb -> {
+        get(ppb -> {
+          ppb.summary("店铺详情");
+          ppb.tags("shop");
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("id");
+            para.schema(int32);
+          });
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("queryStat");
+            para.description("是否查询统计信息");
+            para.schema(schema(queryStat -> {
+              queryStat.type("boolean");
+              queryStat.defaultValue(false);
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOMapStringString.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
   }
 }

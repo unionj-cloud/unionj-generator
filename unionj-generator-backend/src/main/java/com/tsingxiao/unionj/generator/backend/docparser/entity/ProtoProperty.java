@@ -3,6 +3,7 @@ package com.tsingxiao.unionj.generator.backend.docparser.entity;
 import com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper;
 import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author: created by wubin
@@ -14,12 +15,14 @@ import lombok.Data;
 public class ProtoProperty {
 
   public static final Builder UPLOAD_FILE_BUILDER = new Builder("MultipartFile").name("file");
+  public static final Builder UPLOAD_FILES_BUILDER = new Builder("MultipartFile[]").name("files");
   public static final ProtoProperty STREAM = new Builder("ResponseEntity<byte[]>").build();
 
   private String name;
   private String in;
   private String type;
   private boolean required;
+  private String defaultValue;
 
   private ProtoProperty() {
   }
@@ -29,6 +32,7 @@ public class ProtoProperty {
     private String in;
     private String type;
     private boolean required = true;
+    private String defaultValue;
 
     public Builder(String type) {
       this.type = type;
@@ -53,12 +57,20 @@ public class ProtoProperty {
       return this;
     }
 
+    public Builder defaultValue(String defaultValue) {
+      if (StringUtils.isNotBlank(defaultValue)) {
+        this.defaultValue = defaultValue;
+      }
+      return this;
+    }
+
     public ProtoProperty build() {
       ProtoProperty property = new ProtoProperty();
       property.name = this.name;
       property.type = this.type;
       property.in = this.in;
       property.required = this.required;
+      property.defaultValue = this.defaultValue;
       return property;
     }
   }

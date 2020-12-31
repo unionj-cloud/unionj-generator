@@ -29,6 +29,14 @@ public class ContentBuilder {
     this.content.setApplicationXWwwFormUrlencoded(applicationXWwwFormUrlencoded);
   }
 
+  public void applicationOctetStream(MediaType applicationOctetStream) {
+    this.content.setApplicationOctetStream(applicationOctetStream);
+  }
+
+  public void multipartFormData(MediaType multipartFormData) {
+    this.content.setMultipartFormData(multipartFormData);
+  }
+
   public Content build() {
     return this.content;
   }

@@ -99,4 +99,6 @@ public class Components {
   public static Generic PageResultVOShopRecommendApplyDetailVO = PageResultVO.generic(reference(rb -> {
     rb.ref(UserDate.getTitle());
   }));
+
+  public static Schema ResultDTOString = ResultDTO.generic(string);
 }

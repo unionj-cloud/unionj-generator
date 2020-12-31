@@ -10,10 +10,13 @@ import org.junit.Test;
 
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Openapi3.openapi3;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.Reference.reference;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.Schema.schema;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.SchemaHelper.bool;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.info.Info.info;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Components.*;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Content.content;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.MediaType.mediaType;
+import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Parameter.parameter;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Path.path;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.Post.post;
 import static com.tsingxiao.unionj.generator.openapi3.dsl.paths.RequestBody.requestBody;
@@ -95,6 +98,67 @@ public class PathTest {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
                     rrrb.ref(ResultDTOListUserInteger.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+    objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    System.out.println(objectMapper.writeValueAsString(openapi3));
+  }
+
+  @Test
+  public void TestPath2() throws JsonProcessingException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/oss/upload", pb -> {
+        post(ppb -> {
+          ppb.summary("上传附件");
+          ppb.tags("attachment");
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("returnKey");
+            para.schema(bool);
+          });
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.multipartFormData(mediaType(mb -> {
+                mb.schema(schema(upload -> {
+                  upload.type("object");
+                  upload.properties("file", schema(file -> {
+                    file.type("string");
+                    file.format("binary");
+                  }));
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOString.getTitle());
                   }));
                 }));
               }));

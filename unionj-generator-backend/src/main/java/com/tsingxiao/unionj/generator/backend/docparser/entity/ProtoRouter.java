@@ -2,11 +2,14 @@ package com.tsingxiao.unionj.generator.backend.docparser.entity;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
+import com.tsingxiao.unionj.generator.openapi3.model.Schema;
 import com.tsingxiao.unionj.generator.openapi3.model.paths.*;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -52,6 +55,7 @@ public class ProtoRouter {
       }
     }
 
+    List<ProtoProperty> queryParams = new ArrayList<>();
     RequestBody requestBody = operation.getRequestBody();
     if (requestBody != null) {
       Content content = requestBody.getContent();
@@ -63,6 +67,30 @@ public class ProtoRouter {
           }
         } else if (content.getApplicationOctetStream() != null) {
           router.setFile(ProtoProperty.UPLOAD_FILE_BUILDER.required(requestBody.isRequired()).build());
+        } else if (content.getMultipartFormData() != null) {
+          MediaType formData = content.getMultipartFormData();
+          Schema schema = formData.getSchema();
+          schema.getProperties().forEach((k, v) -> {
+            if (k.contains("file")) {
+              if (v.getType().equals("array")) {
+                router.setFile(ProtoProperty.UPLOAD_FILES_BUILDER.required(schema.getRequired().contains(k)).build());
+              } else {
+                router.setFile(ProtoProperty.UPLOAD_FILE_BUILDER.required(schema.getRequired().contains(k)).build());
+              }
+            } else {
+              queryParams.add(new ProtoProperty.Builder(v)
+                  .name(k)
+                  .in("formData")
+                  .required(schema.getRequired().contains(k))
+                  .defaultValue(ObjectUtils.defaultIfNull(v.getDefaultValue(), "").toString())
+                  .build());
+            }
+          });
+        } else if (content.getTextPlain() != null) {
+          MediaType mediaType = content.getTextPlain();
+          if (mediaType.getSchema() != null) {
+            router.setReqBody(new ProtoProperty.Builder(mediaType.getSchema()).name("body").required(requestBody.isRequired()).build());
+          }
         }
       }
     }
@@ -71,13 +99,27 @@ public class ProtoRouter {
     Set<ProtoProperty> protoPropertySet = Sets.newHashSet();
     if (CollectionUtils.isNotEmpty(parameters)) {
       protoPropertySet.addAll(parameters.stream()
-          .map(para -> new ProtoProperty.Builder(para.getSchema()).name(para.getName()).in(para.getIn()).required(para.isRequired()).build())
+          .map(para -> {
+            ProtoProperty property;
+            if (para.getIn().equals("query")) {
+              property = new ProtoProperty.Builder(para.getSchema())
+                  .name(para.getName())
+                  .in(para.getIn())
+                  .required(para.isRequired())
+                  .defaultValue(ObjectUtils.defaultIfNull(para.getSchema().getDefaultValue(), "").toString())
+                  .build();
+            } else {
+              property = new ProtoProperty.Builder(para.getSchema()).name(para.getName()).in(para.getIn()).required(para.isRequired()).build();
+            }
+            return property;
+          })
           .collect(Collectors.toSet()));
     }
     if (CollectionUtils.isNotEmpty(protoPropertySet)) {
       Map<String, List<ProtoProperty>> protoPropertyMap = protoPropertySet.stream().collect(Collectors.groupingBy(ProtoProperty::getIn, Collectors.toList()));
       router.setPathParams(protoPropertyMap.get("path"));
-      router.setQueryParams(protoPropertyMap.get("query"));
+      queryParams.addAll(protoPropertyMap.get("query"));
+      router.setQueryParams(queryParams);
     }
 
     Responses responses = operation.getResponses();
