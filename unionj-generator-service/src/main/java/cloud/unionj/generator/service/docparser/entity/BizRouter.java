@@ -81,6 +81,25 @@ public class BizRouter {
             bizRouter.setReqBody(bizProperty);
             hasFormData = true;
           }
+        } else if (content.getMultipartFormData() != null) {
+          MediaType formData = content.getMultipartFormData();
+          if (formData.getSchema() != null) {
+            BizProperty bizProperty = new BizProperty();
+            bizProperty.setName("formData");
+            bizProperty.setIn("requestBody");
+            bizProperty.setType(TsTypeConstants.FORMDATA);
+            bizRouter.setReqBody(bizProperty);
+            hasFormData = true;
+          }
+        } else if (content.getTextPlain() != null) {
+          MediaType mediaType = content.getTextPlain();
+          if (mediaType.getSchema() != null) {
+            BizProperty bizProperty = new BizProperty();
+            bizProperty.setName("payload");
+            bizProperty.setIn("requestBody");
+            bizProperty.setType(mediaType.getSchema());
+            bizRouter.setReqBody(bizProperty);
+          }
         }
       }
     }
