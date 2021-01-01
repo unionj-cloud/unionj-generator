@@ -1,10 +1,10 @@
 package cloud.unionj.generator.backend.springboot;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.backend.springboot
- * @date:2020/12/22
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.backend.springboot
+ * @date 2020/12/22
  */
 public class Constants {
 

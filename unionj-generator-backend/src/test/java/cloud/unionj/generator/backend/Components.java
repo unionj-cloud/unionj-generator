@@ -8,10 +8,10 @@ import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.openapi3.dsl.paths
- * @date:2020/12/19
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.openapi3.dsl.paths
+ * @date 2020/12/19
  */
 public class Components {
 

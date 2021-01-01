@@ -14,10 +14,10 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.mock.docparser.entity
- * @date:2020/11/18
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.mock.docparser.entity
+ * @date 2020/11/18
  */
 @Data
 public class BizServer {

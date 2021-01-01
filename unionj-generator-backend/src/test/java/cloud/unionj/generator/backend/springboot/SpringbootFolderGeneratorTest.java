@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.backend.springboot
- * @date:2020/12/21
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.backend.springboot
+ * @date 2020/12/21
  */
 public class SpringbootFolderGeneratorTest {
 

@@ -5,10 +5,10 @@ import cloud.unionj.generator.openapi3.expression.paths.MediaTypeBuilder;
 import java.util.function.Consumer;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.openapi3.dsl.paths
- * @date:2020/12/19
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.openapi3.dsl.paths
+ * @date 2020/12/19
  */
 public class MediaType {
 

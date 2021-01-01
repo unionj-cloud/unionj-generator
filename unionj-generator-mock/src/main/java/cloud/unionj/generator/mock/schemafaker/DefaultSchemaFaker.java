@@ -19,10 +19,10 @@ import java.util.Locale;
 import java.util.Map;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.mock.schemafaker
- * @date:2020/11/19
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.mock.schemafaker
+ * @date 2020/11/19
  */
 @Data
 public class DefaultSchemaFaker implements SchemaFaker {

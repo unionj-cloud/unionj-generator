@@ -10,10 +10,10 @@ import java.io.File;
 import java.nio.charset.StandardCharsets;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.mock.schemafaker
- * @date:2020/11/20
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.mock.schemafaker
+ * @date 2020/11/20
  */
 // TODO need test
 public class FileFaker implements PropertyFaker {

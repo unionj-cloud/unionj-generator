@@ -4,10 +4,10 @@ import cloud.unionj.generator.openapi3.model.paths.Content;
 import cloud.unionj.generator.openapi3.model.paths.MediaType;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.openapi3.expression
- * @date:2020/12/16
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.openapi3.expression
+ * @date 2020/12/16
  */
 public class ContentBuilder {
 

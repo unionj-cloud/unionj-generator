@@ -1,10 +1,10 @@
 package cloud.unionj.generator.openapi3;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.openapi3
- * @date:2020/12/29
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.openapi3
+ * @date 2020/12/29
  */
 public class ExceptionHelper {
 

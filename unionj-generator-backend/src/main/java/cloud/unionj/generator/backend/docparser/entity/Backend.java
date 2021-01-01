@@ -19,10 +19,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.backend.docparser.entity
- * @date:2020/12/21
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.backend.docparser.entity
+ * @date 2020/12/21
  */
 @Data
 public class Backend {

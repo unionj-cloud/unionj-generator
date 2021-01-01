@@ -7,10 +7,10 @@ import lombok.Data;
 import java.util.Map;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.openapi3.model.paths
- * @date:2020/12/19
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.openapi3.model.paths
+ * @date 2020/12/19
  */
 @Data
 public class MediaType {

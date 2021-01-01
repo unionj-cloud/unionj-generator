@@ -6,10 +6,10 @@ import cloud.unionj.generator.openapi3.expression.components.ComponentsBuilder;
 import java.util.function.Consumer;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.openapi3.dsl.components
- * @date:2020/12/16
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.openapi3.dsl.components
+ * @date 2020/12/16
  */
 public class Components extends Openapi3 {
 

@@ -12,10 +12,10 @@ import java.io.InputStream;
 import java.net.URL;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.mock.docparser
- * @date:2020/11/18
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.mock.docparser
+ * @date 2020/11/18
  */
 @Data
 public class MockDocParser {

@@ -9,10 +9,10 @@ import java.io.*;
 import java.net.URL;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.openapi3.parser
- * @date:2020/12/20
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.openapi3.parser
+ * @date 2020/12/20
  */
 public class Openapi3Parser {
 
