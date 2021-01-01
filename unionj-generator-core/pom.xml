@@ -7,11 +7,9 @@
   <parent>
     <groupId>cloud.unionj</groupId>
     <artifactId>unionj-generator</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
-  <groupId>cloud.unionj</groupId>
   <artifactId>unionj-generator-core</artifactId>
-  <version>1.0-SNAPSHOT</version>
   <name>unionj-generator-core</name>
 
   <dependencies>
