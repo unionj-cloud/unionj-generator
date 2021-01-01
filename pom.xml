@@ -56,16 +56,6 @@
       <email>328454505@qq.com</email>
       <organization>Tsingxiao</organization>
     </developer>
-    <developer>
-      <name>dingxu</name>
-      <email>JohnnyTing2DingXu@gmail.com</email>
-      <organization>Tsingxiao</organization>
-    </developer>
-    <developer>
-      <name>tangqingchang</name>
-      <email>qingchang96@sina.com</email>
-      <organization>Tsingxiao</organization>
-    </developer>
   </developers>
 
   <build>
