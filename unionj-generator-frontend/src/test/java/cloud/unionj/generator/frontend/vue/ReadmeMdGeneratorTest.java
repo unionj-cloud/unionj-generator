@@ -9,7 +9,7 @@ import java.io.File;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.frontend.vue
- * @date 2020/11/26
+ *  date 2020/11/26
  */
 public class ReadmeMdGeneratorTest {
 

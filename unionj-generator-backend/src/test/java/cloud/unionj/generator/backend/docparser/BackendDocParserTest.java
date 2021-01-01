@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.backend.docparser
- * @date 2020/12/22
+ *  date 2020/12/22
  */
 public class BackendDocParserTest {
 

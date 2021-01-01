@@ -9,7 +9,7 @@ import java.util.Optional;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.mock.docparser.entity
- * @date 2020/11/19
+ *  date 2020/11/19
  */
 @Getter
 public enum FormatConstants {

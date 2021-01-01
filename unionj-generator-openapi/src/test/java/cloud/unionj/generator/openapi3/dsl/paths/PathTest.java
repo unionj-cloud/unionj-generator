@@ -21,7 +21,7 @@ import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.openapi3.dsl.paths
- * @date 2020/12/16
+ *  date 2020/12/16
  */
 public class PathTest {
 

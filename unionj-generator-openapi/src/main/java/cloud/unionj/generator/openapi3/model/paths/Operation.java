@@ -14,7 +14,7 @@ import java.util.Map;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.openapi3.model.paths
- * @date 2020/12/15
+ *  date 2020/12/15
  */
 @Data
 public class Operation {

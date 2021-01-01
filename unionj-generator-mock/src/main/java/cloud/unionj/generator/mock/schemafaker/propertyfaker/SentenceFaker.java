@@ -8,7 +8,7 @@ import com.github.javafaker.Faker;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.mock.schemafaker.propertyfaker
- * @date 2020/11/26
+ *  date 2020/11/26
  */
 public class SentenceFaker implements PropertyFaker {
 

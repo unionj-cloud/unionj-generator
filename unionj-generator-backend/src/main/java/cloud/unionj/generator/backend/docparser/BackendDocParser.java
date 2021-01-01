@@ -14,7 +14,7 @@ import java.net.URL;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.mock.docparser
- * @date 2020/11/18
+ *  date 2020/11/18
  */
 @Data
 public class BackendDocParser {

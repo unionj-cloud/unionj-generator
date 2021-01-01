@@ -8,7 +8,7 @@ import lombok.Data;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.backend.docparser.entity
- * @date 2020/12/21
+ *  date 2020/12/21
  */
 @Data
 public class VoProperty {

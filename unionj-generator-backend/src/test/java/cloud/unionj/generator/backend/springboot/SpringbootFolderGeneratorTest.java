@@ -15,7 +15,7 @@ import java.util.List;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.backend.springboot
- * @date 2020/12/21
+ *  date 2020/12/21
  */
 public class SpringbootFolderGeneratorTest {
 

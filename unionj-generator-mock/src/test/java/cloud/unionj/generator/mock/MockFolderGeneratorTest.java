@@ -13,7 +13,7 @@ import java.io.IOException;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.mock
- * @date 2020/11/26
+ *  date 2020/11/26
  */
 public class MockFolderGeneratorTest {
 

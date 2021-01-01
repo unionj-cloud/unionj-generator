@@ -4,7 +4,7 @@ package cloud.unionj.generator.mock.docparser.entity;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.mock.docparser.entity
- * @date 2020/11/18
+ *  date 2020/11/18
  */
 public class ApiStatusCode {
 

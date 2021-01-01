@@ -7,7 +7,7 @@ import cloud.unionj.generator.openapi3.model.paths.Responses;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.openapi3.expression.paths
- * @date 2020/12/19
+ *  date 2020/12/19
  */
 public class ResponsesBuilder {
 

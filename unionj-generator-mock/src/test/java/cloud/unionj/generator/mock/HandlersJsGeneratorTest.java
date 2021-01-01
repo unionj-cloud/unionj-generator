@@ -13,7 +13,7 @@ import java.io.IOException;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator
- * @date 2020/11/22
+ *  date 2020/11/22
  */
 public class HandlersJsGeneratorTest {
 

@@ -15,7 +15,7 @@ import java.util.zip.ZipOutputStream;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator
- * @date 2020/11/26
+ *  date 2020/11/26
  */
 public class GeneratorUtils {
 

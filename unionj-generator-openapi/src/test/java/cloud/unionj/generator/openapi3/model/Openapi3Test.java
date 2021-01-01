@@ -15,7 +15,7 @@ import java.util.List;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.openapi3.model
- * @date 2020/12/19
+ *  date 2020/12/19
  */
 public class Openapi3Test {
 

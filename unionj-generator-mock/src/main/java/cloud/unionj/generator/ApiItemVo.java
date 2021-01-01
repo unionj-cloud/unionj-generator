@@ -7,7 +7,7 @@ import lombok.Data;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator
- * @date 2020/11/22
+ *  date 2020/11/22
  */
 @Data
 public class ApiItemVo extends ApiItem {

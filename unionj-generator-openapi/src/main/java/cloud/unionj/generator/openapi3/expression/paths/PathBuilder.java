@@ -8,7 +8,7 @@ import cloud.unionj.generator.openapi3.model.paths.Path;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.openapi3.expression
- * @date 2020/12/14
+ *  date 2020/12/14
  */
 public class PathBuilder {
 

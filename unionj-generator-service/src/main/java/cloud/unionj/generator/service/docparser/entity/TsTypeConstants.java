@@ -8,7 +8,7 @@ import java.util.List;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.service.docparser.entity
- * @date 2020/11/27
+ *  date 2020/11/27
  */
 public class TsTypeConstants {
 

@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.mock.schemafaker
- * @date 2020/11/20
+ *  date 2020/11/20
  */
 public class DateFaker implements PropertyFaker {
 
