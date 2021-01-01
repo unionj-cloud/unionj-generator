@@ -9,7 +9,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author created by wubin
  * @version v0.1
  *   cloud.unionj.generator.mock.docparser.entity
- * @date2020/11/18
+ * date 2020/11/18
  */
 @Data
 public class ProtoProperty {
