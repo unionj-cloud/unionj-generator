@@ -5,10 +5,10 @@ import cloud.unionj.generator.openapi3.expression.Openapi3Builder;
 import java.util.function.Consumer;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.openapi3.dsl
- * @date:2020/12/15
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.openapi3.dsl
+ *  date 2020/12/15
  */
 public class Openapi3 {
 

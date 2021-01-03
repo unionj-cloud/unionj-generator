@@ -12,10 +12,10 @@ import java.io.Writer;
 import java.util.Locale;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator
- * @date:2020/11/21
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator
+ *  date 2020/11/21
  */
 public abstract class DefaultGenerator implements Generator {
 

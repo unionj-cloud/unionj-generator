@@ -8,10 +8,10 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.mock.docparser
- * @date:2020/11/18
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.mock.docparser
+ *  date 2020/11/18
  */
 public class MockDocParserTest {
 

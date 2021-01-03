@@ -10,10 +10,10 @@ import java.util.List;
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.openapi3.dsl
- * @date:2020/12/26
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.openapi3.dsl
+ *  date 2020/12/26
  */
 public class SchemaHelper {
 
