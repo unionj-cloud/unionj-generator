@@ -86,7 +86,6 @@ public class TaskHandler {
                     .map(ListDevopsProjectTaskFlowResponse.Taskflow::getId)
                     .findFirst()
                     .get();
-
         }
         return null;
     }
@@ -108,7 +107,6 @@ public class TaskHandler {
                     .map(ListDevopsProjectTaskFlowStatusResponse.TaskflowStatus::getId)
                     .findFirst()
                     .get();
-
         }
         return null;
     }
@@ -127,7 +125,6 @@ public class TaskHandler {
         if (response.getSuccessful()){
             return response.getObject().getResult().stream()
                     .findFirst().get().getId();
-
         }
         return null;
     }
