@@ -38,6 +38,8 @@ export default class ${name} extends BizService{
     return client(this.addPrefix(`${router.endpoint}`),
         <#if router.reqBody??>
           ${router.reqBody.name},
+        <#elseif router.httpMethod?lower_case == "post" || router.httpMethod?lower_case == "put">
+          null,
         </#if>
         <#if router.queryParams??>
           {
