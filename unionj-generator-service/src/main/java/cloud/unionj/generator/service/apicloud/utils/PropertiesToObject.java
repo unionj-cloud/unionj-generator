@@ -1,14 +1,9 @@
 package cloud.unionj.generator.service.apicloud.utils;
 
-import cloud.unionj.generator.openapi3.model.Openapi3;
-import cloud.unionj.generator.service.apicloud.config.Aliyun;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
-import org.checkerframework.checker.units.qual.A;
-import org.yaml.snakeyaml.Yaml;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Properties;
@@ -25,9 +20,35 @@ public class PropertiesToObject {
     public static <T> T parse(String path, Class<T> clazz) {
         Properties properties = new Properties();
         T object = clazz.newInstance();
-        try (InputStream is = ClassLoader.getSystemResourceAsStream(path)) {
+        try (InputStream is = new FileInputStream(path)) {
             properties.load(is);
         }
+        objectSetter(object, properties, clazz);
+        return object;
+    }
+
+    @SneakyThrows
+    public static <T> T parse(InputStream is, Class<T> clazz) {
+        Properties properties = new Properties();
+        T object = clazz.newInstance();
+        properties.load(is);
+        objectSetter(object, properties, clazz);
+        return object;
+    }
+
+    @SneakyThrows
+    public static <T> T parse(File file, Class<T> clazz) {
+        Properties properties = new Properties();
+        T object = clazz.newInstance();
+        try (InputStream is = new FileInputStream(file)) {
+            properties.load(is);
+        }
+        objectSetter(object, properties, clazz);
+        return object;
+    }
+
+    @SneakyThrows
+    private static <T> T objectSetter(T object, Properties properties, Class<T> clazz) {
         Field[] fields = Class.forName(clazz.getName()).getDeclaredFields();
         for (Field field : fields) {
             if (java.lang.reflect.Modifier.isPublic(field.getModifiers())) {

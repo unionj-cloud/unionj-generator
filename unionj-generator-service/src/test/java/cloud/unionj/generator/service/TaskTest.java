@@ -1,14 +1,15 @@
 package cloud.unionj.generator.service;
 
 import cloud.unionj.generator.service.apicloud.config.Aliyun;
+import cloud.unionj.generator.service.apicloud.constant.ScenarioFieldConfig;
 import cloud.unionj.generator.service.apicloud.handler.TaskHandler;
 import cloud.unionj.generator.service.apicloud.utils.PropertiesToObject;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectTaskResponse;
 import com.aliyuncs.devops_rdc.model.v20200303.ListDevopsScenarioFieldConfigResponse;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.Test;
-
-import java.time.LocalDateTime;
 
 /**
  * @version v0.1 cloud.unionj.generator
@@ -18,23 +19,23 @@ import java.time.LocalDateTime;
  **/
 public class TaskTest {
 
+    @SneakyThrows
     @Test
     public void create() {
-
         CreateDevopsProjectTaskResponse response = TaskHandler.create(tr -> {
-            tr.setNote("note"); // 备注
-            tr.setPriority(1); // 优先级：0：普通（默认值）1：紧急2：非常紧急
-            tr.setStartDate(LocalDateTime.now().toString());
-            tr.setDueDate(LocalDateTime.now().plusWeeks(1L).toString());
-            tr.setContent("test task"); // 任务内容
+            tr.setContent("测试内容。。"); // 标题
+            tr.setNote("云效任务测试"); // 备注
+            tr.setPriority(0); // 优先级：0：普通（默认值）1：紧急2：非常紧急
         });
-        System.out.println(response);
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        System.out.println(objectMapper.writeValueAsString(response));
     }
 
     @Test
     public void parse() {
         Aliyun instance = Aliyun.INSTANCE;
-        ListDevopsScenarioFieldConfigResponse response = TaskHandler.fetchScenarioFieldConfig();
-        System.out.println(response);
+//        String id = TaskHandler.fetchScenarioFieldConfigId(ScenarioFieldConfig.TASK);
+        System.out.println(instance);
     }
 }

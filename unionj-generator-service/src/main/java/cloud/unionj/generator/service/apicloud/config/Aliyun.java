@@ -18,5 +18,5 @@ public class Aliyun {
     private String orgId;
     private String projectId;
     private String executorId;
-    public static final Aliyun INSTANCE = PropertiesToObject.parse("aliyun.properties", Aliyun.class);
+    public static final Aliyun INSTANCE = PropertiesToObject.parse("/Users/dingxu/config/aliyun.properties", Aliyun.class);
 }
