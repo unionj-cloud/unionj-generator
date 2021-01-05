@@ -10,7 +10,7 @@ import lombok.Data;
  * @date: 2021-01-04 09:40
  **/
 @Data
-public class Aliyun {
+public class Aliyun{
     private String endPoint;
     private String regionId;
     private String accessKeyId;
@@ -18,5 +18,4 @@ public class Aliyun {
     private String orgId;
     private String projectId;
     private String executorId;
-    public static final Aliyun INSTANCE = PropertiesToObject.parse("/Users/dingxu/config/aliyun.properties", Aliyun.class);
 }

@@ -1,6 +1,8 @@
 package cloud.unionj.generator.service.apicloud.utils;
 
 import cloud.unionj.generator.service.apicloud.config.Aliyun;
+import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
+import cloud.unionj.generator.service.apicloud.config.ConfigLoad;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.profile.DefaultProfile;
@@ -11,12 +13,12 @@ import com.aliyuncs.profile.DefaultProfile;
  * @description: description
  * @date: 2021-01-04 09:40
  **/
-public class AcsClient {
+public class AcsClient extends AliyunConfigLoad {
     public static IAcsClient get(){
         DefaultProfile profile = DefaultProfile.getProfile(
-                Aliyun.INSTANCE.getRegionId(),
-                Aliyun.INSTANCE.getAccessKeyId(),
-                Aliyun.INSTANCE.getSecret());
+                AliyunConfig.getRegionId(),
+                AliyunConfig.getAccessKeyId(),
+                AliyunConfig.getSecret());
         IAcsClient client = new DefaultAcsClient(profile);
         return  client;
     }

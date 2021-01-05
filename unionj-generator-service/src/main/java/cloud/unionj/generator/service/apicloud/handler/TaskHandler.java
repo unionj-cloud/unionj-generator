@@ -1,6 +1,7 @@
 package cloud.unionj.generator.service.apicloud.handler;
 
-import cloud.unionj.generator.service.apicloud.config.Aliyun;
+import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
+import cloud.unionj.generator.service.apicloud.config.ConfigLoad;
 import cloud.unionj.generator.service.apicloud.constant.ScenarioFieldConfig;
 import cloud.unionj.generator.service.apicloud.constant.TaskFlowStatus;
 import cloud.unionj.generator.service.apicloud.utils.AcsClient;
@@ -15,7 +16,7 @@ import java.util.function.Consumer;
  * @description: description
  * @date: 2021-01-04 09:40
  **/
-public class TaskHandler {
+public class TaskHandler extends AliyunConfigLoad{
 
     /**
      * 创建云效任务
@@ -28,10 +29,10 @@ public class TaskHandler {
         String taskFlowStatusId = fetchTaskFlowStatusId(TaskFlowStatus.START, fetchTaskFlowId(ScenarioFieldConfig.TASK));
         String taskListId = fetchTaskListId();
         CreateDevopsProjectTaskRequest createProjectTaskRequest = new CreateDevopsProjectTaskRequest();
-        createProjectTaskRequest.setSysEndpoint(Aliyun.INSTANCE.getEndPoint());
-        createProjectTaskRequest.setOrgId(Aliyun.INSTANCE.getOrgId());
-        createProjectTaskRequest.setProjectId(Aliyun.INSTANCE.getProjectId());
-        createProjectTaskRequest.setExecutorId(Aliyun.INSTANCE.getExecutorId());
+        createProjectTaskRequest.setSysEndpoint(AliyunConfig.getEndPoint());
+        createProjectTaskRequest.setOrgId(AliyunConfig.getOrgId());
+        createProjectTaskRequest.setProjectId(AliyunConfig.getProjectId());
+        createProjectTaskRequest.setExecutorId(AliyunConfig.getExecutorId());
         createProjectTaskRequest.setScenarioFieldConfigId(taskId);
         createProjectTaskRequest.setTaskFlowStatusId(taskFlowStatusId);
         createProjectTaskRequest.setTaskListId(taskListId);
@@ -46,9 +47,9 @@ public class TaskHandler {
     @SneakyThrows
     public static ListDevopsScenarioFieldConfigResponse fetchScenarioFieldConfig() {
         ListDevopsScenarioFieldConfigRequest listScenarioFieldConfigRequest = new ListDevopsScenarioFieldConfigRequest();
-        listScenarioFieldConfigRequest.setOrgId(Aliyun.INSTANCE.getOrgId());
-        listScenarioFieldConfigRequest.setProjectId(Aliyun.INSTANCE.getProjectId());
-        listScenarioFieldConfigRequest.setSysEndpoint(Aliyun.INSTANCE.getEndPoint());
+        listScenarioFieldConfigRequest.setOrgId(AliyunConfig.getOrgId());
+        listScenarioFieldConfigRequest.setProjectId(AliyunConfig.getProjectId());
+        listScenarioFieldConfigRequest.setSysEndpoint(AliyunConfig.getEndPoint());
         return AcsClient.get().getAcsResponse(listScenarioFieldConfigRequest);
     }
 
@@ -72,9 +73,9 @@ public class TaskHandler {
     @SneakyThrows
     public static ListDevopsProjectTaskFlowResponse fetchTaskFlow(){
         ListDevopsProjectTaskFlowRequest listProjectTaskFlowRequest = new ListDevopsProjectTaskFlowRequest();
-        listProjectTaskFlowRequest.setOrgId(Aliyun.INSTANCE.getOrgId());
-        listProjectTaskFlowRequest.setProjectId(Aliyun.INSTANCE.getProjectId());
-        listProjectTaskFlowRequest.setSysEndpoint(Aliyun.INSTANCE.getEndPoint());
+        listProjectTaskFlowRequest.setOrgId(AliyunConfig.getOrgId());
+        listProjectTaskFlowRequest.setProjectId(AliyunConfig.getProjectId());
+        listProjectTaskFlowRequest.setSysEndpoint(AliyunConfig.getEndPoint());
         return AcsClient.get().getAcsResponse(listProjectTaskFlowRequest);
     }
 
@@ -93,8 +94,8 @@ public class TaskHandler {
     @SneakyThrows
     public static ListDevopsProjectTaskFlowStatusResponse fetchTaskStatusFlow(String taskFlowId){
         ListDevopsProjectTaskFlowStatusRequest listProjectTaskFlowStatusRequest = new ListDevopsProjectTaskFlowStatusRequest();
-        listProjectTaskFlowStatusRequest.setSysEndpoint(Aliyun.INSTANCE.getEndPoint());
-        listProjectTaskFlowStatusRequest.setOrgId(Aliyun.INSTANCE.getOrgId());
+        listProjectTaskFlowStatusRequest.setSysEndpoint(AliyunConfig.getEndPoint());
+        listProjectTaskFlowStatusRequest.setOrgId(AliyunConfig.getOrgId());
         listProjectTaskFlowStatusRequest.setTaskFlowId(taskFlowId);
         return AcsClient.get().getAcsResponse(listProjectTaskFlowStatusRequest);
     }
@@ -114,9 +115,9 @@ public class TaskHandler {
     @SneakyThrows
     public static ListDevopsProjectTaskListResponse fetchTaskList(){
         ListDevopsProjectTaskListRequest list = new ListDevopsProjectTaskListRequest();
-        list.setOrgId(Aliyun.INSTANCE.getOrgId());
-        list.setProjectId(Aliyun.INSTANCE.getProjectId());
-        list.setSysEndpoint(Aliyun.INSTANCE.getEndPoint());
+        list.setOrgId(AliyunConfig.getOrgId());
+        list.setProjectId(AliyunConfig.getProjectId());
+        list.setSysEndpoint(AliyunConfig.getEndPoint());
         return AcsClient.get().getAcsResponse(list);
     }
 

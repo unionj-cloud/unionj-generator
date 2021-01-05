@@ -52,9 +52,9 @@ public class TaskTest {
 
     @Test
     public void parse() {
-        Aliyun instance = Aliyun.INSTANCE;
+//        Aliyun instance = Aliyun.INSTANCE;
 //        String id = TaskHandler.fetchScenarioFieldConfigId(ScenarioFieldConfig.TASK);
-        System.out.println(instance);
+//        System.out.println(instance);
     }
 
 
@@ -72,9 +72,9 @@ public class TaskTest {
 
             SchemaHelper.batchImport(Components.class);
 
-            Path.path("/oss/upload", pb -> {
+            Path.path("/oss/upload1", pb -> {
                 Post.post(ppb -> {
-                    ppb.summary("上传附件");
+                    ppb.summary("上传附件1");
                     ppb.tags("attachment");
 
                     Parameter.parameter(para -> {
@@ -117,7 +117,7 @@ public class TaskTest {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         System.out.println(objectMapper.writeValueAsString(openapi3));
-        new CloudTaskTrigger().call(openapi3);
+        new CloudTaskTrigger().call(openapi3, "/Users/dingxu/config/aliyun.properties");
     }
 
     @Test

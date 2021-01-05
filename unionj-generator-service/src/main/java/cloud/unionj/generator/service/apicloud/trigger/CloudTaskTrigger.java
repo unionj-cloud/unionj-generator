@@ -7,10 +7,17 @@ package cloud.unionj.generator.service.apicloud.trigger;/**
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.paths.Operation;
 import cloud.unionj.generator.openapi3.model.paths.Path;
+import cloud.unionj.generator.service.apicloud.config.Aliyun;
+import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
+import cloud.unionj.generator.service.apicloud.config.ConfigLoad;
 import cloud.unionj.generator.service.apicloud.handler.TaskHandler;
+import cloud.unionj.generator.service.apicloud.utils.ConsolePrint;
 import cloud.unionj.generator.service.apicloud.utils.DateTimeUtils;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectTaskResponse;
 import com.google.common.collect.Maps;
+
+import java.io.File;
+import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -24,7 +31,24 @@ public class CloudTaskTrigger implements Openapi3Trigger{
      * 调用云效api
      */
     @Override
-    public void call(Openapi3 openapi3) {
+    public void call(Openapi3 openapi3, String path) {
+        AliyunConfigLoad.load(path);
+        createTask(openapi3);
+    }
+
+    @Override
+    public void call(Openapi3 openapi3, InputStream is) {
+        AliyunConfigLoad.load(is);
+        createTask(openapi3);
+    }
+
+    @Override
+    public void call(Openapi3 openapi3, File file) {
+        AliyunConfigLoad.load(file);
+        createTask(openapi3);
+    }
+
+    public void createTask(Openapi3 openapi3){
         Map<String, Path> paths = openapi3.getPaths();
         paths.forEach((k, v) -> {
             Map<String, Operation> map = resolvefromOperation(k, v);
@@ -38,7 +62,7 @@ public class CloudTaskTrigger implements Openapi3Trigger{
                     tr.setStartDate(DateTimeUtils.nowStringByUTC());
                     tr.setDueDate(DateTimeUtils.afterWeekStringByUTC(1L));
                 });
-                System.out.println(response);
+                ConsolePrint.pretty(response);
                 break;
             }
         });
