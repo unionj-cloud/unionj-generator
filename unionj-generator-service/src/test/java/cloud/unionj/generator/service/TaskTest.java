@@ -7,20 +7,34 @@ import cloud.unionj.generator.openapi3.dsl.paths.*;
 import cloud.unionj.generator.openapi3.dsl.servers.Server;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.service.apicloud.config.Aliyun;
+import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
+import cloud.unionj.generator.service.apicloud.handler.ProjectHandler;
 import cloud.unionj.generator.service.apicloud.handler.TaskHandler;
+import cloud.unionj.generator.service.apicloud.model.Member;
 import cloud.unionj.generator.service.apicloud.trigger.CloudTaskTrigger;
+import cloud.unionj.generator.service.apicloud.utils.AcsClient;
+import cloud.unionj.generator.service.apicloud.utils.ConsolePrint;
 import cloud.unionj.generator.service.apicloud.utils.DateTimeUtils;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.IAcsClient;
+import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectResponse;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectTaskResponse;
+import com.aliyuncs.devops_rdc.model.v20200303.GetDevopsProjectInfoRequest;
+import com.aliyuncs.devops_rdc.model.v20200303.GetDevopsProjectInfoResponse;
+import com.aliyuncs.profile.DefaultProfile;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Set;
 
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
@@ -48,13 +62,6 @@ public class TaskTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         System.out.println(objectMapper.writeValueAsString(response));
-    }
-
-    @Test
-    public void parse() {
-//        Aliyun instance = Aliyun.INSTANCE;
-//        String id = TaskHandler.fetchScenarioFieldConfigId(ScenarioFieldConfig.TASK);
-//        System.out.println(instance);
     }
 
 
@@ -117,12 +124,25 @@ public class TaskTest {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
         System.out.println(objectMapper.writeValueAsString(openapi3));
-        new CloudTaskTrigger().call(openapi3, "/Users/dingxu/config/aliyun.properties");
+        AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");
+        new CloudTaskTrigger().call(openapi3);
     }
 
+    @SneakyThrows
     @Test
     public void test(){
-        System.out.println(DateTimeUtils.nowStringByLocal());
-        System.out.println(DateTimeUtils.nowStringByUtc());
+        AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");
+        CreateDevopsProjectResponse response = ProjectHandler.create(ob -> {
+            ob.setName("测试12：07"); // 项目名称
+            ob.setDescription("描述12: 07"); // 项目描述
+        });
+        String projectId = response.getObject();
+        GetDevopsProjectInfoRequest getProjectInfoRequest=new GetDevopsProjectInfoRequest();
+        getProjectInfoRequest.setOrgId(AliyunConfigLoad.AliyunConfig.getOrgId());
+        getProjectInfoRequest.setProjectId(projectId);
+        getProjectInfoRequest.setSysEndpoint(AliyunConfigLoad.AliyunConfig.getEndPoint());
+        GetDevopsProjectInfoResponse acsResponse = AcsClient.get().getAcsResponse(getProjectInfoRequest);
+        ConsolePrint.pretty(acsResponse);
     }
+
 }

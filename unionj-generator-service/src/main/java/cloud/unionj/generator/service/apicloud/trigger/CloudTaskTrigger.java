@@ -24,24 +24,7 @@ public class CloudTaskTrigger implements Openapi3Trigger{
      * 调用云效api
      */
     @Override
-    public void call(Openapi3 openapi3, String path) {
-        AliyunConfigLoad.load(path);
-        createTask(openapi3);
-    }
-
-    @Override
-    public void call(Openapi3 openapi3, InputStream is) {
-        AliyunConfigLoad.load(is);
-        createTask(openapi3);
-    }
-
-    @Override
-    public void call(Openapi3 openapi3, File file) {
-        AliyunConfigLoad.load(file);
-        createTask(openapi3);
-    }
-
-    public void createTask(Openapi3 openapi3){
+    public void call(Openapi3 openapi3) {
         Map<String, Path> paths = openapi3.getPaths();
         paths.forEach((k, v) -> {
             Map<String, Operation> map = resolvefromOperation(k, v);
