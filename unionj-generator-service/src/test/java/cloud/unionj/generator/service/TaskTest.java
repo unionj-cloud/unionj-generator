@@ -123,6 +123,6 @@ public class TaskTest {
     @Test
     public void test(){
         System.out.println(DateTimeUtils.nowStringByLocal());
-        System.out.println(DateTimeUtils.nowStringByUTC());
+        System.out.println(DateTimeUtils.nowStringByUtc());
     }
 }

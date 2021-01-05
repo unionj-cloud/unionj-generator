@@ -1,8 +1,4 @@
-package cloud.unionj.generator.service.apicloud.utils;/**
- * @author dingxu
- * @version 1.0
- * date: 2021/1/5 10:17
- */
+package cloud.unionj.generator.service.apicloud.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,21 +1,14 @@
-package cloud.unionj.generator.service.apicloud.trigger;/**
- * @author dingxu
- * @version 1.0
- * date: 2021/1/4 20:39
- */
+package cloud.unionj.generator.service.apicloud.trigger;
 
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.paths.Operation;
 import cloud.unionj.generator.openapi3.model.paths.Path;
-import cloud.unionj.generator.service.apicloud.config.Aliyun;
 import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
-import cloud.unionj.generator.service.apicloud.config.ConfigLoad;
 import cloud.unionj.generator.service.apicloud.handler.TaskHandler;
 import cloud.unionj.generator.service.apicloud.utils.ConsolePrint;
 import cloud.unionj.generator.service.apicloud.utils.DateTimeUtils;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectTaskResponse;
 import com.google.common.collect.Maps;
-
 import java.io.File;
 import java.io.InputStream;
 import java.util.Map;
@@ -59,8 +52,8 @@ public class CloudTaskTrigger implements Openapi3Trigger{
                     tr.setContent(title); // 标题
                     tr.setNote(op.getSummary()); // 备注
                     tr.setPriority(0); // 优先级：0：普通（默认值）1：紧急2：非常紧急
-                    tr.setStartDate(DateTimeUtils.nowStringByUTC());
-                    tr.setDueDate(DateTimeUtils.afterWeekStringByUTC(1L));
+                    tr.setStartDate(DateTimeUtils.nowStringByUtc());
+                    tr.setDueDate(DateTimeUtils.afterWeekStringByUtc(1L));
                 });
                 ConsolePrint.pretty(response);
                 break;

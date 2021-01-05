@@ -1,6 +1,5 @@
 package cloud.unionj.generator.service.apicloud.config;
 
-import cloud.unionj.generator.service.apicloud.utils.PropertiesToObject;
 import lombok.Data;
 
 /**

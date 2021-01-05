@@ -1,8 +1,4 @@
-package cloud.unionj.generator.service.apicloud.utils;/**
- * @author dingxu
- * @version 1.0
- * date: 2021/1/4 23:09
- */
+package cloud.unionj.generator.service.apicloud.utils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -15,18 +11,18 @@ import java.time.format.DateTimeFormatter;
  * @date: 2021-01-04 23:09
  **/
 public class DateTimeUtils {
-    private static final DateTimeFormatter utc = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
-    private static final DateTimeFormatter local = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static final DateTimeFormatter UTC = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private static final DateTimeFormatter LOCAL = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-    public static String nowStringByUTC(){
-        return LocalDateTime.now(ZoneId.of("UTC")).format(utc);
+    public static String nowStringByUtc(){
+        return LocalDateTime.now(ZoneId.of("UTC")).format(UTC);
     }
 
-    public static String afterWeekStringByUTC(Long l){
-        return LocalDateTime.now(ZoneId.of("UTC")).plusWeeks(l).format(utc);
+    public static String afterWeekStringByUtc(Long l){
+        return LocalDateTime.now(ZoneId.of("UTC")).plusWeeks(l).format(UTC);
     }
 
     public static String nowStringByLocal(){
-        return LocalDateTime.now().format(local);
+        return LocalDateTime.now().format(LOCAL);
     }
 }

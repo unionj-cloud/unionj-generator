@@ -1,8 +1,6 @@
 package cloud.unionj.generator.service.apicloud.utils;
 
-import cloud.unionj.generator.service.apicloud.config.Aliyun;
 import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
-import cloud.unionj.generator.service.apicloud.config.ConfigLoad;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.profile.DefaultProfile;

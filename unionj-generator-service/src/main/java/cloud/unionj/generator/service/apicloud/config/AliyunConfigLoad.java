@@ -1,8 +1,4 @@
-package cloud.unionj.generator.service.apicloud.config;/**
- * @author dingxu
- * @version 1.0
- * date: 2021/1/5 09:49
- */
+package cloud.unionj.generator.service.apicloud.config;
 
 import java.io.File;
 import java.io.InputStream;

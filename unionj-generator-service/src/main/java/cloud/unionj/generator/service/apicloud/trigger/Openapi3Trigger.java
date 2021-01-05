@@ -1,8 +1,4 @@
-package cloud.unionj.generator.service.apicloud.trigger;/**
- * @author dingxu
- * @version 1.0
- * date: 2021/1/4 20:36
- */
+package cloud.unionj.generator.service.apicloud.trigger;
 
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import java.io.File;

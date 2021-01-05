@@ -1,8 +1,4 @@
-package cloud.unionj.generator.service.apicloud.constant;/**
- * @author dingxu
- * @version 1.0
- * date: 2021/1/4 19:19
- */
+package cloud.unionj.generator.service.apicloud.constant;
 
 /**
  * @version v0.1 cloud.unionj.generator

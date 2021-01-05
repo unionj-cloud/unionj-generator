@@ -1,8 +1,4 @@
-package cloud.unionj.generator.service.apicloud.config;/**
- * @author dingxu
- * @version 1.0
- * date: 2021/1/5 09:36
- */
+package cloud.unionj.generator.service.apicloud.config;
 
 import cloud.unionj.generator.service.apicloud.utils.PropertiesToObject;
 import java.io.File;
