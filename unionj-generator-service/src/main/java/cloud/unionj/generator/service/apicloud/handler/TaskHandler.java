@@ -6,6 +6,7 @@ import cloud.unionj.generator.service.apicloud.constant.TaskFlowStatus;
 import cloud.unionj.generator.service.apicloud.utils.AcsClient;
 import com.aliyuncs.devops_rdc.model.v20200303.*;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import java.util.function.Consumer;
 
@@ -15,6 +16,7 @@ import java.util.function.Consumer;
  * @description: description
  * @date: 2021-01-04 09:40
  **/
+@Slf4j
 public class TaskHandler extends AliyunConfigLoad{
 
     /**
@@ -65,6 +67,8 @@ public class TaskHandler extends AliyunConfigLoad{
                     .map(ListDevopsScenarioFieldConfigResponse.ScenarioFieldConfig::getId)
                     .findFirst()
                     .get();
+        }else {
+            log.error("获取ScenarioFieldConfig 失败");
         }
         return null;
     }
@@ -86,6 +90,8 @@ public class TaskHandler extends AliyunConfigLoad{
                     .map(ListDevopsProjectTaskFlowResponse.Taskflow::getId)
                     .findFirst()
                     .get();
+        }else{
+            log.error("获取ProjectTaskFlow失败");
         }
         return null;
     }
@@ -107,6 +113,8 @@ public class TaskHandler extends AliyunConfigLoad{
                     .map(ListDevopsProjectTaskFlowStatusResponse.TaskflowStatus::getId)
                     .findFirst()
                     .get();
+        }else {
+            log.error("获取ProjectTaskFlowStatus 失败！！！");
         }
         return null;
     }
@@ -125,6 +133,8 @@ public class TaskHandler extends AliyunConfigLoad{
         if (response.getSuccessful()){
             return response.getObject().getResult().stream()
                     .findFirst().get().getId();
+        }else {
+            log.error("获取ProjectTaskList失败！！！");
         }
         return null;
     }

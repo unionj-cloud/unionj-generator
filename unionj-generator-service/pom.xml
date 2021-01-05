@@ -41,6 +41,12 @@
       <artifactId>aliyun-java-sdk-ecs</artifactId>
       <version>4.17.6</version>
     </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.25</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
 </project>

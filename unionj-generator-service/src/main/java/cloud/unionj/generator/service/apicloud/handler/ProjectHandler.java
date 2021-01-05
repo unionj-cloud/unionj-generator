@@ -49,10 +49,11 @@ public class ProjectHandler extends AliyunConfigLoad {
         InsertProjectMembersRequest addProjectMembersRequest =new InsertProjectMembersRequest();
         addProjectMembersRequest.setOrgId(AliyunConfig.getOrgId());
         addProjectMembersRequest.setProjectId(projectId);
-        addProjectMembersRequest.setMembers(JSONObject.valueToString(members));
+        String memStr = JSONObject.valueToString(members);
+        log.info(memStr);
+        addProjectMembersRequest.setMembers(memStr);
         addProjectMembersRequest.setSysEndpoint(AliyunConfig.getEndPoint());
         InsertProjectMembersResponse acsResponse = AcsClient.get().getAcsResponse(addProjectMembersRequest);
-        log.info("加入成员：", JSONObject.valueToString(members));
         if (!acsResponse.getSuccessful()){
             log.error("添加成员出错！！！");
         }

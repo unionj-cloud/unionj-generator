@@ -9,6 +9,8 @@ import cloud.unionj.generator.service.apicloud.utils.ConsolePrint;
 import cloud.unionj.generator.service.apicloud.utils.DateTimeUtils;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectTaskResponse;
 import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.io.InputStream;
 import java.util.Map;
@@ -19,12 +21,13 @@ import java.util.Map;
  * @description: description
  * @date: 2021-01-04 20:39
  **/
+@Slf4j
 public class CloudTaskTrigger implements Openapi3Trigger{
     /**
      * 调用云效api
      */
     @Override
-    public void call(Openapi3 openapi3) {
+    public void create(Openapi3 openapi3) {
         Map<String, Path> paths = openapi3.getPaths();
         paths.forEach((k, v) -> {
             Map<String, Operation> map = resolvefromOperation(k, v);
@@ -39,6 +42,9 @@ public class CloudTaskTrigger implements Openapi3Trigger{
                     tr.setDueDate(DateTimeUtils.afterWeekStringByUtc(1L));
                 });
                 ConsolePrint.pretty(response);
+                if (!response.getSuccessful()){
+                    log.error("创建任务失败！！！");
+                }
                 break;
             }
         });

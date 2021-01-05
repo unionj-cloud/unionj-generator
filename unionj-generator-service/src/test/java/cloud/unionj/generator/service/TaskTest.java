@@ -1,47 +1,30 @@
 package cloud.unionj.generator.service;
 
 import cloud.unionj.generator.openapi3.dsl.Reference;
-import cloud.unionj.generator.openapi3.dsl.Schema;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.dsl.paths.*;
 import cloud.unionj.generator.openapi3.dsl.servers.Server;
 import cloud.unionj.generator.openapi3.model.Openapi3;
-import cloud.unionj.generator.service.apicloud.config.Aliyun;
 import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
 import cloud.unionj.generator.service.apicloud.handler.ProjectHandler;
 import cloud.unionj.generator.service.apicloud.handler.TaskHandler;
-import cloud.unionj.generator.service.apicloud.model.Member;
-import cloud.unionj.generator.service.apicloud.trigger.CloudTaskTrigger;
+import cloud.unionj.generator.service.apicloud.trigger.CloudTrigger;
 import cloud.unionj.generator.service.apicloud.utils.AcsClient;
 import cloud.unionj.generator.service.apicloud.utils.ConsolePrint;
-import cloud.unionj.generator.service.apicloud.utils.DateTimeUtils;
-import com.aliyuncs.DefaultAcsClient;
-import com.aliyuncs.IAcsClient;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectResponse;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectTaskResponse;
 import com.aliyuncs.devops_rdc.model.v20200303.GetDevopsProjectInfoRequest;
 import com.aliyuncs.devops_rdc.model.v20200303.GetDevopsProjectInfoResponse;
-import com.aliyuncs.profile.DefaultProfile;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
-import org.json.JSONObject;
 import org.junit.Test;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Set;
-
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
-import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.bool;
 import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
 import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
-import static cloud.unionj.generator.service.Components.ResultDTOString;
+import static cloud.unionj.generator.service.Components.*;
 
 /**
  * @version v0.1 cloud.unionj.generator
@@ -66,10 +49,11 @@ public class TaskTest {
 
 
     @Test
-    public void TestPath2() throws JsonProcessingException {
+    public void TestPath2(){
         Openapi3 openapi3 = openapi3(ob -> {
             info(ib -> {
-                ib.title("测试");
+                ib.title("测试创建项目、任务流程1");
+                ib.description("项目描述");
                 ib.version("v1.0.0");
             });
 
@@ -79,28 +63,17 @@ public class TaskTest {
 
             SchemaHelper.batchImport(Components.class);
 
-            Path.path("/oss/upload1", pb -> {
+            Path.path("/hall/onlineSurvey/list", pb -> {
                 Post.post(ppb -> {
-                    ppb.summary("上传附件1");
-                    ppb.tags("attachment");
-
-                    Parameter.parameter(para -> {
-                        para.required(false);
-                        para.in("query");
-                        para.name("returnKey");
-                        para.schema(bool);
-                    });
+                    ppb.summary("网络调查分页");
+                    ppb.tags("hall_onlinesurvey");
 
                     RequestBody.requestBody(rb -> {
                         rb.required(true);
                         rb.content(Content.content(cb -> {
-                            cb.multipartFormData(MediaType.mediaType(mb -> {
-                                mb.schema(Schema.schema(upload -> {
-                                    upload.type("object");
-                                    upload.properties("file", Schema.schema(file -> {
-                                        file.type("string");
-                                        file.format("binary");
-                                    }));
+                            cb.applicationJson(MediaType.mediaType(mb -> {
+                                mb.schema(Reference.reference(rrb -> {
+                                    rrb.ref(UserDate.getTitle());
                                 }));
                             }));
                         }));
@@ -111,7 +84,37 @@ public class TaskTest {
                             rrb.content(Content.content(cb -> {
                                 cb.applicationJson(MediaType.mediaType(mb -> {
                                     mb.schema(Reference.reference(rrrb -> {
-                                        rrrb.ref(ResultDTOString.getTitle());
+                                        rrrb.ref(ResultDTOListUserDate.getTitle());
+                                    }));
+                                }));
+                            }));
+                        }));
+                    });
+                });
+            });
+
+            Path.path("/hall/offlineSurvey/update", pb -> {
+                Post.post(ppb -> {
+                    ppb.summary("更新信息, 重新提交审核");
+                    ppb.tags("hall_offlinesurvey");
+
+                    RequestBody.requestBody(rb -> {
+                        rb.required(true);
+                        rb.content(Content.content(cb -> {
+                            cb.applicationJson(MediaType.mediaType(mb -> {
+                                mb.schema(Reference.reference(rrb -> {
+                                    rrb.ref(UserInteger.getTitle());
+                                }));
+                            }));
+                        }));
+                    });
+
+                    responses(rb -> {
+                        rb.response200(Response.response(rrb -> {
+                            rrb.content(Content.content(cb -> {
+                                cb.applicationJson(MediaType.mediaType(mb -> {
+                                    mb.schema(Reference.reference(rrrb -> {
+                                        rrrb.ref(ResultDTOListUserInteger.getTitle());
                                     }));
                                 }));
                             }));
@@ -120,12 +123,9 @@ public class TaskTest {
                 });
             });
         });
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        System.out.println(objectMapper.writeValueAsString(openapi3));
+
         AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");
-        new CloudTaskTrigger().call(openapi3);
+        CloudTrigger.call(openapi3);
     }
 
     @SneakyThrows

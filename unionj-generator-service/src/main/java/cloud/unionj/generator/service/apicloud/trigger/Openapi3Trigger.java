@@ -9,5 +9,5 @@ import cloud.unionj.generator.openapi3.model.Openapi3;
  * @date: 2021-01-04 20:36
  **/
 public interface Openapi3Trigger {
-    void call(Openapi3 openapi3);
+    void create(Openapi3 openapi3);
 }
