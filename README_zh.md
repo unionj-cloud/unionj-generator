@@ -2,8 +2,6 @@
 
 根据OpenAPI3规范，使用本项目DSL生成前后端代码。
 
-
-
 # 集成阿里云云效API
 
     [阿里云云效API文档](https://help.aliyun.com/document_detail/179127.html?spm=a2c4g.11186623.6.701.14a335b5pN0T3H)
@@ -18,6 +16,7 @@
    
    ```textile
    # 根据info的title、description对应云效项目的标题、描述。
+   
    # 根据Path的router、summary对应云效任务的标题、描述。
    
    openapi3(ob -> {
@@ -42,6 +41,7 @@
    Openapi3 openapi3 = openapi3(ob -> {
         omited...
    })
+   
    AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");
    CloudTrigger.call(openapi3);
    ```

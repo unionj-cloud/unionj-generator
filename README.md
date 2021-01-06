@@ -16,7 +16,8 @@ Generate mswjs handlers from openapi documents
    
    ```java
    # info's title、description are mapped to yunxiao project's title and description
-   # the same, path's router、summary are mapped to yunxiao task's 
+   
+   # the same, path's router、summary are mapped to yunxiao task's title and description
    
    openapi3(ob -> {
                info(ib -> {
@@ -38,8 +39,9 @@ Generate mswjs handlers from openapi documents
    
    ```java
    Openapi3 openapi3 = openapi3(ob -> {
-    omited...
+        omited...
    })
+   
    AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");
    CloudTrigger.call(openapi3);
    ```
