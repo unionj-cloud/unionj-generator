@@ -73,6 +73,5 @@ node_modules
 /unionj-generator-frontend/output
 /unionj-generator-mock/mocks
 /unionj-generator-service/services
-/unionj-generator-service/src/main/resources/aliyun.properties
 /unionj-generator-frontend/vue/
 /unionj-generator-frontend/__MACOSX/
