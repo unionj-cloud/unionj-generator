@@ -9,10 +9,10 @@ import lombok.SneakyThrows;
 import java.io.File;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator
- * @date:2020/11/22
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator
+ *  date 2020/11/22
  */
 public class SpringbootFolderGenerator {
 

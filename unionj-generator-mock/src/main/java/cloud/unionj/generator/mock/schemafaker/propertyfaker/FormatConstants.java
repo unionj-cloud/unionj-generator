@@ -6,10 +6,10 @@ import java.util.Arrays;
 import java.util.Optional;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.mock.docparser.entity
- * @date:2020/11/19
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.mock.docparser.entity
+ *  date 2020/11/19
  */
 @Getter
 public enum FormatConstants {

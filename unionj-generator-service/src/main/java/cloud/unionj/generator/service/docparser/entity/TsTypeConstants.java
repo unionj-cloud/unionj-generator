@@ -5,10 +5,10 @@ import com.google.common.collect.Lists;
 import java.util.List;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.service.docparser.entity
- * @date:2020/11/27
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.service.docparser.entity
+ *  date 2020/11/27
  */
 public class TsTypeConstants {
 

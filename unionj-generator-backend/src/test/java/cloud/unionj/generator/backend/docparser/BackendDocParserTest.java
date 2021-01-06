@@ -8,10 +8,10 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 
 /**
- * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.backend.docparser
- * @date:2020/12/22
+ * @author created by wubin
+ * @version v0.1
+ *   cloud.unionj.generator.backend.docparser
+ *  date 2020/12/22
  */
 public class BackendDocParserTest {
 
