@@ -40,7 +40,7 @@
    
    ```java
    Openapi3 openapi3 = openapi3(ob -> {
-    omited...
+        omited...
    })
    AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");
    CloudTrigger.call(openapi3);
