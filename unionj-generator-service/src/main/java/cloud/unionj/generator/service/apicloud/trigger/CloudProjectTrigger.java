@@ -10,8 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 /**
  * @version v0.1 cloud.unionj.generator
  * @author: created by Johnny Ting
- * @description: description
- * @date: 2021-01-04 20:39
+ * description: description
+ * date: 2021-01-04 20:39
  **/
 @Slf4j
 public class CloudProjectTrigger implements Openapi3Trigger{

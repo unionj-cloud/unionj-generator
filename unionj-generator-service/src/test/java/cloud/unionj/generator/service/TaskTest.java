@@ -29,8 +29,8 @@ import static cloud.unionj.generator.service.Components.*;
 /**
  * @version v0.1 cloud.unionj.generator
  * @author: created by Johnny Ting
- * @description: description
- * @date: 2021-01-04 09:50
+ * description: description
+ * date: 2021-01-04 09:50
  **/
 public class TaskTest {
 

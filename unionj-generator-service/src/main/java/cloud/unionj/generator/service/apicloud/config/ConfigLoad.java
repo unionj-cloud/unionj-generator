@@ -7,8 +7,8 @@ import java.io.InputStream;
 /**
  * @version v0.1 cloud.unionj.generator
  * @author: created by Johnny Ting
- * @description: description
- * @date: 2021-01-05 09:36
+ * description: description
+ * date: 2021-01-05 09:36
  **/
 public class ConfigLoad {
 

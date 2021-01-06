@@ -8,8 +8,8 @@ import lombok.SneakyThrows;
 /**
  * @version v0.1 cloud.unionj.generator
  * @author: created by Johnny Ting
- * @description: description
- * @date: 2021-01-05 10:17
+ * description: description
+ * date: 2021-01-05 10:17
  **/
 public class ConsolePrint {
 

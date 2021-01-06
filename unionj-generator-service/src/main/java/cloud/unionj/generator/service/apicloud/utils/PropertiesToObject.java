@@ -11,8 +11,8 @@ import java.util.Properties;
 /**
  * @version v0.1 cloud.unionj.generator
  * @author: created by Johnny Ting
- * @description: description
- * @date: 2021-01-04 10:41
+ * description: description
+ * date: 2021-01-04 10:41
  **/
 public class PropertiesToObject {
 

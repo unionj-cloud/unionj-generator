@@ -7,8 +7,8 @@ import java.time.format.DateTimeFormatter;
 /**
  * @version v0.1 cloud.unionj.generator
  * @author: created by Johnny Ting
- * @description: description
- * @date: 2021-01-04 23:09
+ * description: description
+ * date: 2021-01-04 23:09
  **/
 public class DateTimeUtils {
     private static final DateTimeFormatter UTC = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss'Z'");

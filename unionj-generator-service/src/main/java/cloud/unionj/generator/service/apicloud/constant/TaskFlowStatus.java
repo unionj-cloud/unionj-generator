@@ -3,8 +3,8 @@ package cloud.unionj.generator.service.apicloud.constant;
 /**
  * @version v0.1 cloud.unionj.generator
  * @author: created by Johnny Ting
- * @description: description
- * @date: 2021-01-04 19:19
+ * description: description
+ * date: 2021-01-04 19:19
  **/
 public class TaskFlowStatus {
     /**

@@ -6,8 +6,8 @@ import java.io.InputStream;
 /**
  * @version v0.1 cloud.unionj.generator
  * @author: created by Johnny Ting
- * @description: description
- * @date: 2021-01-05 09:49
+ * description: description
+ * date: 2021-01-05 09:49
  **/
 public class AliyunConfigLoad extends ConfigLoad{
     public static Aliyun AliyunConfig;
