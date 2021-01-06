@@ -1,23 +1,23 @@
 # unionj-generator
 
-Generate mswjs handlers from openapi documents
+根据OpenAPI3规范，使用本项目DSL生成前后端代码。
 
-# Integrated Aliyun YunXiao(云效) API
+# 集成阿里云云效API
 
-      [Aliyun API Documents](https://help.aliyun.com/document_detail/179127.html?spm=a2c4g.11186623.6.701.14a335b5pN0T3H)
+    [阿里云云效API文档](https://help.aliyun.com/document_detail/179127.html?spm=a2c4g.11186623.6.701.14a335b5pN0T3H)
 
-1. Need to configure aliyun secret、accessKeyId、 yunxiao's orgId and api__invoker executorId. Template file directory：
+1. 需要配置阿里云密钥、云效组织orgId、云效api调用者executorId。模板文件：
    
-   ```java
+   ```
    /unionj-generator/unionj-generator-service/src/main/resources/aliyun.template.properties
    ```
 
-2. Can create yunxiao's projects and tasks.
+2. 创建云效项目、任务
    
-   ```java
-   # info's title、description are mapped to yunxiao project's title and description
+   ```textile
+   # 根据info的title、description对应云效项目的标题、描述。
    
-   # the same, path's router、summary are mapped to yunxiao task's title and description
+   # 根据Path的router、summary对应云效任务的标题、描述。
    
    openapi3(ob -> {
                info(ib -> {
@@ -35,7 +35,7 @@ Generate mswjs handlers from openapi documents
    }
    ```
 
-3. Talk is cheap, show me the code.
+3. 代码调用示例：
    
    ```java
    Openapi3 openapi3 = openapi3(ob -> {
