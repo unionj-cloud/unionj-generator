@@ -15,8 +15,8 @@ Generate mswjs handlers from openapi documents
 2. Can create yunxiao's projects and tasks.
    
    ```java
-   # info's title、description are mapped to yunxiao's title and description
-   # the same, path's router、summary are mapped to yunxiao
+   # info's title、description are mapped to yunxiao project's title and description
+   # the same, path's router、summary are mapped to yunxiao task's 
    
    openapi3(ob -> {
                info(ib -> {
