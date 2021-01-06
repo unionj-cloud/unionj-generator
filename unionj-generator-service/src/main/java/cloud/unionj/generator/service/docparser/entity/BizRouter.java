@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.mock.docparser.entity
- *  date 2020/11/18
+ * cloud.unionj.generator.mock.docparser.entity
+ * date 2020/11/18
  */
 public class BizRouter {
   @Getter
@@ -109,7 +109,7 @@ public class BizRouter {
       LinkedHashSet<BizProperty> bizProperties = operation.getParameters().stream()
           .map(para -> {
             BizProperty bizProperty = new BizProperty();
-            bizProperty.setIn(para.getIn());
+            bizProperty.setIn(para.getIn().toString());
             bizProperty.setName(para.getName());
             bizProperty.setType(para.getSchema());
             return bizProperty;

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.backend.docparser.entity
+ * cloud.unionj.generator.backend.docparser.entity
  * date 2020/12/21
  */
 @Data
@@ -97,15 +97,15 @@ public class ProtoRouter {
       LinkedHashSet<ProtoProperty> protoProperties = parameters.stream()
           .map(para -> {
             ProtoProperty property;
-            if (para.getIn().equals("query")) {
+            if (para.getIn() == Parameter.InEnum.QUERY) {
               property = new ProtoProperty.Builder(para.getSchema())
                   .name(para.getName())
-                  .in(para.getIn())
+                  .in(para.getIn().toString())
                   .required(para.isRequired())
                   .defaultValue(Optional.ofNullable(para.getSchema().getDefaultValue()).orElse("").toString())
                   .build();
             } else {
-              property = new ProtoProperty.Builder(para.getSchema()).name(para.getName()).in(para.getIn()).required(para.isRequired()).build();
+              property = new ProtoProperty.Builder(para.getSchema()).name(para.getName()).in(para.getIn().toString()).required(para.isRequired()).build();
             }
             return property;
           })

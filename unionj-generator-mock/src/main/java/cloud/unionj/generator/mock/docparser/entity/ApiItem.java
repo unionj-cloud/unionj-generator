@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.mock.docparser.entity
- *  date 2020/11/18
+ * cloud.unionj.generator.mock.docparser.entity
+ * date 2020/11/18
  */
 @Data
 public class ApiItem {
@@ -55,7 +55,7 @@ public class ApiItem {
     Set<ApiParam> apiParams = Sets.newLinkedHashSet();
     if (CollectionUtils.isNotEmpty(operation.getParameters())) {
       LinkedHashSet<ApiParam> apiParamSet = operation.getParameters().stream()
-          .map(para -> new ApiParam(para.getName(), para.getIn()))
+          .map(para -> new ApiParam(para.getName(), para.getIn().toString()))
           .collect(Collectors.toCollection(LinkedHashSet::new));
       if (apiParamSet != null) {
         apiParams.addAll(apiParamSet);

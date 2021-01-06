@@ -6,8 +6,8 @@ import cloud.unionj.generator.openapi3.model.paths.Parameter;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.expression
- *  date 2020/12/14
+ * cloud.unionj.generator.openapi3.expression
+ * date 2020/12/14
  */
 public class ParameterBuilder {
 
@@ -22,6 +22,10 @@ public class ParameterBuilder {
   }
 
   public void in(String in) {
+    this.parameter.setIn(Parameter.InEnum.fromValue(in));
+  }
+
+  public void in(Parameter.InEnum in) {
     this.parameter.setIn(in);
   }
 
