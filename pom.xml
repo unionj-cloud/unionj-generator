@@ -47,7 +47,8 @@
 
   <scm>
     <url>https://github.com/Tsingxiao/unionj-generator</url>
-    <connection>https://github.com/Tsingxiao/unionj-generator.git</connection>
+    <connection>scm:git:git@github.com:Tsingxiao/unionj-generator.git</connection>
+    <developerConnection>scm:git:git@github.com:Tsingxiao/unionj-generator.git</developerConnection>
   </scm>
 
   <developers>
