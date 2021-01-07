@@ -88,21 +88,33 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.packageName = this.packageName;
 
       if (StringUtils.isBlank(this.protoPackageName)) {
+        if (StringUtils.isBlank(this.packageName)) {
+          throw new UnsupportedOperationException("packageName required");
+        }
         this.protoPackageName = this.packageName + ".proto";
       }
       backendFolderGenerator.protoPackageName = this.protoPackageName;
 
       if (StringUtils.isBlank(this.voPackageName)) {
+        if (StringUtils.isBlank(this.packageName)) {
+          throw new UnsupportedOperationException("packageName required");
+        }
         this.voPackageName = this.packageName + ".vo";
       }
       backendFolderGenerator.voPackageName = this.voPackageName;
 
       if (StringUtils.isBlank(this.protoOutputDir)) {
+        if (StringUtils.isBlank(this.outputDir)) {
+          throw new UnsupportedOperationException("outputDir required");
+        }
         this.protoOutputDir = this.outputDir + File.separator + "proto";
       }
       backendFolderGenerator.protoOutputDir = this.protoOutputDir;
 
       if (StringUtils.isBlank(this.voOutputDir)) {
+        if (StringUtils.isBlank(this.outputDir)) {
+          throw new UnsupportedOperationException("outputDir required");
+        }
         this.voOutputDir = this.outputDir + File.separator + "vo";
       }
       backendFolderGenerator.voOutputDir = this.voOutputDir;
