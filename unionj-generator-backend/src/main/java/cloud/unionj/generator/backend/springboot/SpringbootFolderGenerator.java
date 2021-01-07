@@ -5,6 +5,7 @@ import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.docparser.entity.Proto;
 import cloud.unionj.generator.backend.docparser.entity.Vo;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author created by wubin
@@ -79,11 +80,19 @@ public class SpringbootFolderGenerator {
     public SpringbootFolderGenerator build() {
       SpringbootFolderGenerator backendFolderGenerator = new SpringbootFolderGenerator();
       backendFolderGenerator.backend = this.backend;
-      backendFolderGenerator.outputDir = this.outputDir;
       backendFolderGenerator.zip = this.zip;
+
+      backendFolderGenerator.outputDir = this.outputDir;
       backendFolderGenerator.packageName = this.packageName;
 
+      if (StringUtils.isBlank(this.protoPackageName)) {
+        this.protoPackageName = this.packageName + ".proto";
+      }
       backendFolderGenerator.protoPackageName = this.protoPackageName;
+
+      if (StringUtils.isBlank(this.voPackageName)) {
+        this.voPackageName = this.voPackageName + ".vo";
+      }
       backendFolderGenerator.voPackageName = this.voPackageName;
       backendFolderGenerator.protoOutputDir = this.protoOutputDir;
       backendFolderGenerator.voOutputDir = this.voOutputDir;
