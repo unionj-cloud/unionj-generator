@@ -179,6 +179,7 @@
               <tagNameFormat>v@{project.version}</tagNameFormat>
               <autoVersionSubmodules>true</autoVersionSubmodules>
               <useReleaseProfile>false</useReleaseProfile>
+              <arguments>-DskipTests</arguments>
             </configuration>
           </plugin>
         </plugins>
