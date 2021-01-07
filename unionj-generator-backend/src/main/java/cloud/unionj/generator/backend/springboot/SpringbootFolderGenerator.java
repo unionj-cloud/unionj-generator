@@ -7,6 +7,8 @@ import cloud.unionj.generator.backend.docparser.entity.Vo;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.File;
+
 /**
  * @author created by wubin
  * @version v0.1
@@ -91,10 +93,18 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.protoPackageName = this.protoPackageName;
 
       if (StringUtils.isBlank(this.voPackageName)) {
-        this.voPackageName = this.voPackageName + ".vo";
+        this.voPackageName = this.packageName + ".vo";
       }
       backendFolderGenerator.voPackageName = this.voPackageName;
+
+      if (StringUtils.isBlank(this.protoOutputDir)) {
+        this.protoOutputDir = this.outputDir + File.separator + "proto";
+      }
       backendFolderGenerator.protoOutputDir = this.protoOutputDir;
+
+      if (StringUtils.isBlank(this.voOutputDir)) {
+        this.voOutputDir = this.outputDir + File.separator + "vo";
+      }
       backendFolderGenerator.voOutputDir = this.voOutputDir;
       return backendFolderGenerator;
     }
