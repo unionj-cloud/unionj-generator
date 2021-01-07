@@ -82,6 +82,7 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.outputDir = this.outputDir;
       backendFolderGenerator.zip = this.zip;
       backendFolderGenerator.packageName = this.packageName;
+
       backendFolderGenerator.protoPackageName = this.protoPackageName;
       backendFolderGenerator.voPackageName = this.voPackageName;
       backendFolderGenerator.protoOutputDir = this.protoOutputDir;
@@ -103,13 +104,14 @@ public class SpringbootFolderGenerator {
   public String generate() {
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
-        VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.packageName, this.outputDir);
+        VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.voPackageName, this.voOutputDir);
         voJavaGenerator.generate();
       }
     }
 
     for (Proto proto : backend.getProtoList()) {
-      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(proto, this.packageName, this.outputDir);
+      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(proto, this.protoPackageName,
+          this.protoOutputDir, this.voPackageName);
       protoJavaGenerator.generate();
     }
 

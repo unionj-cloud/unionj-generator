@@ -22,11 +22,13 @@ public class ProtoJavaGenerator extends DefaultGenerator {
   private Proto proto;
   private String outputDir;
   private String packageName;
+  private String voPackageName;
 
-  public ProtoJavaGenerator(Proto proto, String packageName, String outputDir) {
+  public ProtoJavaGenerator(Proto proto, String packageName, String outputDir, String voPackageName) {
     this.proto = proto;
     this.packageName = packageName;
-    this.outputDir = outputDir + File.separator + "proto";
+    this.outputDir = outputDir;
+    this.voPackageName = voPackageName;
   }
 
   @Override
@@ -37,6 +39,7 @@ public class ProtoJavaGenerator extends DefaultGenerator {
     input.put("name", StringUtils.capitalize(this.proto.getName()));
     input.put("routers", this.proto.getRouters());
     input.put("imports", this.proto.getImports());
+    input.put("voPackageName", this.voPackageName);
     return input;
   }
 
