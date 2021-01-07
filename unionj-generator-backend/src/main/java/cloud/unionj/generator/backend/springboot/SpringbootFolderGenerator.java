@@ -6,8 +6,6 @@ import cloud.unionj.generator.backend.docparser.entity.Proto;
 import cloud.unionj.generator.backend.docparser.entity.Vo;
 import lombok.SneakyThrows;
 
-import java.io.File;
-
 /**
  * @author created by wubin
  * @version v0.1
@@ -112,7 +110,7 @@ public class SpringbootFolderGenerator {
     }
 
     if (this.zip) {
-      String outputFile = GeneratorUtils.getOutputDir("output") + File.separator + Constants.OUTPUT_DIR + ".zip";
+      String outputFile = this.outputDir + ".zip";
       String sourceFile = getOutputFile();
       return GeneratorUtils.generateFolder(sourceFile, outputFile);
     }
