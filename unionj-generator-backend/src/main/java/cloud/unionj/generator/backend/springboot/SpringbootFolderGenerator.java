@@ -91,6 +91,10 @@ public class SpringbootFolderGenerator {
 
   }
 
+  protected SpringbootFolderGenerator() {
+
+  }
+
   public String getOutputFile() {
     return GeneratorUtils.getOutputDir(this.outputDir);
   }
