@@ -1,8 +1,8 @@
 package cloud.unionj.generator.backend.springboot;
 
-import cloud.unionj.generator.backend.docparser.entity.Proto;
 import cloud.unionj.generator.DefaultGenerator;
 import cloud.unionj.generator.GeneratorUtils;
+import cloud.unionj.generator.backend.docparser.entity.Proto;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -14,18 +14,19 @@ import static cloud.unionj.generator.backend.springboot.Constants.OUTPUT_DIR;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator
- *  date 2020/11/22
+ * cloud.unionj.generator
+ * date 2020/11/22
  */
 public class ProtoJavaGenerator extends DefaultGenerator {
 
   private Proto proto;
-  private String outputDir = OUTPUT_DIR + File.separator + "proto";
+  private String outputDir;
   private String packageName;
 
-  public ProtoJavaGenerator(Proto proto, String packageName) {
+  public ProtoJavaGenerator(Proto proto, String packageName, String outputDir) {
     this.proto = proto;
     this.packageName = packageName;
+    this.outputDir = outputDir + File.separator + "proto";
   }
 
   @Override

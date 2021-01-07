@@ -223,7 +223,10 @@ public class SpringbootFolderGeneratorTest {
 
     backend.setProtoList(protoList);
 
-    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
+        .outputDir("src/main/java/xxx/yyy")
+        .packageName("xxx.yyy")
+        .build();
     springbootFolderGenerator.generate();
   }
 

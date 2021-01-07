@@ -1,9 +1,9 @@
 package cloud.unionj.generator.backend.springboot;
 
+import cloud.unionj.generator.GeneratorUtils;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.docparser.entity.Proto;
 import cloud.unionj.generator.backend.docparser.entity.Vo;
-import cloud.unionj.generator.GeneratorUtils;
 import lombok.SneakyThrows;
 
 import java.io.File;
@@ -11,8 +11,8 @@ import java.io.File;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator
- *  date 2020/11/22
+ * cloud.unionj.generator
+ * date 2020/11/22
  */
 public class SpringbootFolderGenerator {
 
@@ -65,13 +65,13 @@ public class SpringbootFolderGenerator {
   public String generate() {
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
-        VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.packageName);
+        VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.packageName, this.outputDir);
         voJavaGenerator.generate();
       }
     }
 
     for (Proto proto : backend.getProtoList()) {
-      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(proto, this.packageName);
+      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(proto, this.packageName, this.outputDir);
       protoJavaGenerator.generate();
     }
 
