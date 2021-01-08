@@ -1,4 +1,4 @@
-package cloud.unionj.generator.service;
+package cloud.unionj.generator.kanban;
 
 import cloud.unionj.generator.kanban.config.AliyunConfigLoad;
 import cloud.unionj.generator.kanban.handler.ProjectHandler;
@@ -19,11 +19,12 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
 import org.junit.Test;
+import static cloud.unionj.generator.kanban.Components.*;
+
 
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
 import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
 import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
-import static cloud.unionj.generator.service.Components.*;
 
 /**
  * @version v0.1 cloud.unionj.generator

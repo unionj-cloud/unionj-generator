@@ -9,7 +9,7 @@ Generate mswjs handlers from openapi documents
 1. Need to configure aliyun secret、accessKeyId、 yunxiao's orgId and api__invoker executorId. Template file directory：
    
    ```java
-   /unionj-generator/unionj-generator-service/src/main/resources/aliyun.template.properties
+   /unionj-generator/unionj-generator-kanban/src/main/resources/aliyun.template.properties
    ```
 
 2. Can create yunxiao's projects and tasks.
@@ -31,7 +31,7 @@ Generate mswjs handlers from openapi documents
                        ppb.tags("hall_onlinesurvey");
                    });
                });
-               omited...
+               omitted...
    }
    ```
 
@@ -39,7 +39,7 @@ Generate mswjs handlers from openapi documents
    
    ```java
    Openapi3 openapi3 = openapi3(ob -> {
-        omited...
+        omitted...
    })
    
    AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");

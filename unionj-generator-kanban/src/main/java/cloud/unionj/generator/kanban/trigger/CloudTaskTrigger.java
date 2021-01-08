@@ -1,19 +1,16 @@
-package cloud.unionj.generator.service.apicloud.trigger;
+package cloud.unionj.generator.kanban.trigger;
 
+import cloud.unionj.generator.kanban.handler.TaskHandler;
+import cloud.unionj.generator.kanban.utils.ConsolePrint;
+import cloud.unionj.generator.kanban.utils.DateTimeUtils;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.paths.Operation;
 import cloud.unionj.generator.openapi3.model.paths.Path;
-import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
-import cloud.unionj.generator.service.apicloud.handler.TaskHandler;
-import cloud.unionj.generator.service.apicloud.utils.ConsolePrint;
-import cloud.unionj.generator.service.apicloud.utils.DateTimeUtils;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectTaskResponse;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -35,6 +32,9 @@ public class CloudTaskTrigger implements Openapi3Trigger{
             for (Map.Entry<String, Operation> entry : map.entrySet()) {
                 String note = entry.getKey();
                 Operation op = entry.getValue();
+                if (TaskHandler.taskIsExistByName(op.getSummary())){
+                    continue;
+                }
                 String description = new StringBuilder(note)
                         .append(StringUtils.LF)
                         .append(StringUtils.CR)
@@ -68,5 +68,9 @@ public class CloudTaskTrigger implements Openapi3Trigger{
             map.put(title.append("PUT: ").append(router).toString(), path.getPut());
         }
         return map;
+    }
+
+    public static void call(Openapi3 openapi3){
+        new CloudTaskTrigger().create(openapi3);
     }
 }

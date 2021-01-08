@@ -1,4 +1,4 @@
-package cloud.unionj.generator.service.apicloud.trigger;
+package cloud.unionj.generator.kanban.trigger;
 
 import cloud.unionj.generator.openapi3.model.Openapi3;
 

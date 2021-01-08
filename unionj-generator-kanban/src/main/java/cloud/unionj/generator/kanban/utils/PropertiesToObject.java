@@ -1,4 +1,4 @@
-package cloud.unionj.generator.service.apicloud.utils;
+package cloud.unionj.generator.kanban.utils;
 
 import lombok.SneakyThrows;
 

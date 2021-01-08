@@ -1,4 +1,4 @@
-package cloud.unionj.generator.service.apicloud.utils;
+package cloud.unionj.generator.kanban.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,13 +1,15 @@
-package cloud.unionj.generator.service.apicloud.handler;
+package cloud.unionj.generator.kanban.handler;
 
-import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
-import cloud.unionj.generator.service.apicloud.constant.ScenarioFieldConfig;
-import cloud.unionj.generator.service.apicloud.constant.TaskFlowStatus;
-import cloud.unionj.generator.service.apicloud.utils.AcsClient;
+import cloud.unionj.generator.kanban.config.AliyunConfigLoad;
+import cloud.unionj.generator.kanban.constant.ScenarioFieldConfig;
+import cloud.unionj.generator.kanban.constant.TaskFlowStatus;
+import cloud.unionj.generator.kanban.utils.AcsClient;
 import com.aliyuncs.devops_rdc.model.v20200303.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Optional;
 import java.util.function.Consumer;
 
 /**
@@ -17,7 +19,7 @@ import java.util.function.Consumer;
  * date: 2021-01-04 09:40
  **/
 @Slf4j
-public class TaskHandler extends AliyunConfigLoad{
+public class TaskHandler extends AliyunConfigLoad {
 
     /**
      * 创建云效任务
@@ -137,5 +139,27 @@ public class TaskHandler extends AliyunConfigLoad{
             log.error("获取ProjectTaskList失败！！！");
         }
         return null;
+    }
+
+    @SneakyThrows
+    public static boolean taskIsExistByName(String name){
+        ListDevopsProjectTasksRequest listProjectTaskRequest = new ListDevopsProjectTasksRequest();
+        listProjectTaskRequest.setSysEndpoint(AliyunConfig.getEndPoint());
+        listProjectTaskRequest.setOrgId(AliyunConfig.getOrgId());
+        listProjectTaskRequest.setProjectIds(AliyunConfig.getProjectId());
+
+        ListDevopsProjectTasksResponse response = AcsClient.get().getAcsResponse(listProjectTaskRequest);
+        if(response.getSuccessful()){
+            Optional<ListDevopsProjectTasksResponse.Task> task = response.getObject().stream()
+                    .filter(ob -> ob.getName().equals(name))
+                    .findFirst();
+            if (task.isPresent()){
+                log.info(name + " 任务已存在，被忽略！！！");
+                return true;
+            }
+        }else {
+            log.error("查询任务列表失败！！！");
+        }
+        return false;
     }
 }

@@ -26,6 +26,7 @@
     <module>unionj-generator-frontend</module>
     <module>unionj-generator-backend</module>
     <module>unionj-generator-openapi</module>
+    <module>unionj-generator-kanban</module>
   </modules>
 
   <dependencies>

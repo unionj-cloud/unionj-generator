@@ -1,6 +1,7 @@
-package cloud.unionj.generator.service.apicloud.config;
+package cloud.unionj.generator.kanban.config;
 
-import cloud.unionj.generator.service.apicloud.utils.PropertiesToObject;
+import cloud.unionj.generator.kanban.utils.PropertiesToObject;
+
 import java.io.File;
 import java.io.InputStream;
 
