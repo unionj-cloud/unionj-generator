@@ -10,6 +10,7 @@ import cloud.unionj.generator.service.apicloud.utils.DateTimeUtils;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectTaskResponse;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.InputStream;
@@ -32,11 +33,15 @@ public class CloudTaskTrigger implements Openapi3Trigger{
         paths.forEach((k, v) -> {
             Map<String, Operation> map = resolvefromOperation(k, v);
             for (Map.Entry<String, Operation> entry : map.entrySet()) {
-                String title = entry.getKey();
+                String note = entry.getKey();
                 Operation op = entry.getValue();
+                String description = new StringBuilder(note)
+                        .append(StringUtils.LF)
+                        .append(StringUtils.CR)
+                        .append(op.getDescription()).toString();
                 CreateDevopsProjectTaskResponse response = TaskHandler.create(tr -> {
-                    tr.setContent(title); // 标题
-                    tr.setNote(op.getSummary()); // 备注
+                    tr.setContent(op.getSummary()); // 标题
+                    tr.setNote(description); // 备注
                     tr.setPriority(0); // 优先级：0：普通（默认值）1：紧急2：非常紧急
                     tr.setStartDate(DateTimeUtils.nowStringByUtc());
                     tr.setDueDate(DateTimeUtils.afterWeekStringByUtc(1L));

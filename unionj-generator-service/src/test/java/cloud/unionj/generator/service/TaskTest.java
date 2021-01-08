@@ -8,6 +8,7 @@ import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
 import cloud.unionj.generator.service.apicloud.handler.ProjectHandler;
 import cloud.unionj.generator.service.apicloud.handler.TaskHandler;
+import cloud.unionj.generator.service.apicloud.trigger.CloudTaskTrigger;
 import cloud.unionj.generator.service.apicloud.trigger.CloudTrigger;
 import cloud.unionj.generator.service.apicloud.utils.AcsClient;
 import cloud.unionj.generator.service.apicloud.utils.ConsolePrint;
@@ -63,9 +64,10 @@ public class TaskTest {
 
             SchemaHelper.batchImport(Components.class);
 
-            Path.path("/hall/onlineSurvey/list", pb -> {
+            Path.path("/2021/0108", pb -> {
                 Post.post(ppb -> {
                     ppb.summary("网络调查分页");
+                    ppb.description("测试描述1");
                     ppb.tags("hall_onlinesurvey");
 
                     RequestBody.requestBody(rb -> {
@@ -93,9 +95,10 @@ public class TaskTest {
                 });
             });
 
-            Path.path("/hall/offlineSurvey/update", pb -> {
+            Path.path("/2021/0108/update", pb -> {
                 Post.post(ppb -> {
                     ppb.summary("更新信息, 重新提交审核");
+                    ppb.description("测试描述2");
                     ppb.tags("hall_offlinesurvey");
 
                     RequestBody.requestBody(rb -> {
@@ -125,7 +128,7 @@ public class TaskTest {
         });
 
         AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");
-        CloudTrigger.call(openapi3);
+        new CloudTaskTrigger().create(openapi3);
     }
 
     @SneakyThrows
