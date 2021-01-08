@@ -65,7 +65,7 @@ public class TaskTest {
 
             Path.path("/2021/0108", pb -> {
                 Post.post(ppb -> {
-                    ppb.summary("midnight test1");
+                    ppb.summary("midnight test continue...");
                     ppb.description("测试描述1");
                     ppb.tags("hall_onlinesurvey");
 
@@ -96,7 +96,7 @@ public class TaskTest {
 
             Path.path("/2021/0108/update", pb -> {
                 Post.post(ppb -> {
-                    ppb.summary("midnight test2");
+                    ppb.summary("midnight test continue....");
                     ppb.description("测试描述2");
                     ppb.tags("hall_offlinesurvey");
 
