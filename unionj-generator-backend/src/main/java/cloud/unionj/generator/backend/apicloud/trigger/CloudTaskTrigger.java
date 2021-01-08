@@ -1,18 +1,15 @@
-package cloud.unionj.generator.service.apicloud.trigger;
+package cloud.unionj.generator.backend.apicloud.trigger;
 
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.paths.Operation;
 import cloud.unionj.generator.openapi3.model.paths.Path;
-import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
-import cloud.unionj.generator.service.apicloud.handler.TaskHandler;
-import cloud.unionj.generator.service.apicloud.utils.ConsolePrint;
-import cloud.unionj.generator.service.apicloud.utils.DateTimeUtils;
+import cloud.unionj.generator.backend.apicloud.handler.TaskHandler;
+import cloud.unionj.generator.backend.apicloud.utils.ConsolePrint;
+import cloud.unionj.generator.backend.apicloud.utils.DateTimeUtils;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectTaskResponse;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.File;
-import java.io.InputStream;
 import java.util.Map;
 
 /**

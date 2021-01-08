@@ -23,28 +23,6 @@
       <artifactId>unionj-generator-openapi</artifactId>
       <version>1.0</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/com.aliyun/aliyun-java-sdk-devops-rdc -->
-    <dependency>
-      <groupId>com.aliyun</groupId>
-      <artifactId>aliyun-java-sdk-devops-rdc</artifactId>
-      <version>1.8.0.1-RELEASE</version>
-    </dependency>
-    <dependency>
-      <groupId>com.aliyun</groupId>
-      <artifactId>aliyun-java-sdk-core</artifactId>
-      <version>4.4.6</version>
-    </dependency>
-    <dependency>
-      <groupId>com.aliyun</groupId>
-      <artifactId>aliyun-java-sdk-ecs</artifactId>
-      <version>4.17.6</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.7.25</version>
-      <scope>compile</scope>
-    </dependency>
   </dependencies>
 
 </project>
