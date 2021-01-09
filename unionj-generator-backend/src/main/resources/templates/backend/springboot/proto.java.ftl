@@ -1,10 +1,10 @@
-package ${packageName}.proto;
+package ${packageName};
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
-import ${packageName}.vo.*;
+import ${voPackageName}.*;
 <#--<#if imports??>-->
 <#--    <#list imports as import>-->
 <#--import ${import};-->

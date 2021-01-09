@@ -14,18 +14,19 @@ import static cloud.unionj.generator.backend.springboot.Constants.OUTPUT_DIR;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator
- *  date 2020/11/22
+ * cloud.unionj.generator
+ * date 2020/11/22
  */
 public class VoJavaGenerator extends DefaultGenerator {
 
   private Vo vo;
-  private String outputDir = OUTPUT_DIR + File.separator + "vo";
+  private String outputDir;
   private String packageName;
 
-  public VoJavaGenerator(Vo vo, String packageName) {
+  public VoJavaGenerator(Vo vo, String packageName, String outputDir) {
     this.vo = vo;
-    this.packageName = packageName + ".vo";
+    this.packageName = packageName;
+    this.outputDir = outputDir;
   }
 
   @Override
@@ -41,7 +42,7 @@ public class VoJavaGenerator extends DefaultGenerator {
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "vo.java.ftl";
+    return OUTPUT_DIR + "/vo.java.ftl";
   }
 
   @Override
