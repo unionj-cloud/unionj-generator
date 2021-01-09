@@ -1,9 +1,9 @@
-package cloud.unionj.generator.service.apicloud.trigger;
+package cloud.unionj.generator.backend.apicloud.trigger;
 
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.info.Info;
-import cloud.unionj.generator.service.apicloud.config.AliyunConfigLoad;
-import cloud.unionj.generator.service.apicloud.handler.ProjectHandler;
+import cloud.unionj.generator.backend.apicloud.config.AliyunConfigLoad;
+import cloud.unionj.generator.backend.apicloud.handler.ProjectHandler;
 import com.aliyuncs.devops_rdc.model.v20200303.CreateDevopsProjectResponse;
 import lombok.extern.slf4j.Slf4j;
 

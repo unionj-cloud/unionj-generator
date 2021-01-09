@@ -1,4 +1,4 @@
-package cloud.unionj.generator.service.apicloud.model;
+package cloud.unionj.generator.backend.apicloud.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

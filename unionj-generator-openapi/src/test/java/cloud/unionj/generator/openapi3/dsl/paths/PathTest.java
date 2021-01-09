@@ -10,9 +10,17 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import org.junit.Test;
 
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
-import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.bool;
+import static cloud.unionj.generator.openapi3.dsl.Reference.reference;
+import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
+import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
 import static cloud.unionj.generator.openapi3.dsl.paths.Components.*;
+import static cloud.unionj.generator.openapi3.dsl.paths.Content.content;
+import static cloud.unionj.generator.openapi3.dsl.paths.MediaType.mediaType;
+import static cloud.unionj.generator.openapi3.dsl.paths.Path.path;
+import static cloud.unionj.generator.openapi3.dsl.paths.Post.post;
+import static cloud.unionj.generator.openapi3.dsl.paths.RequestBody.requestBody;
+import static cloud.unionj.generator.openapi3.dsl.paths.Response.response;
 import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
 
 /**
@@ -224,6 +232,57 @@ public class PathTest {
       });
 
       PathHelper.doImport(OssProto.class);
+
+    });
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+    objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    System.out.println(objectMapper.writeValueAsString(openapi3));
+  }
+
+  @Test
+  public void TestPath4() throws JsonProcessingException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      Server.server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      path("/clshenbao/form/save", pb -> {
+        post(ppb -> {
+          ppb.summary("材料申报：保存form表单");
+          ppb.tags("clshenbao");
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.applicationJson(mediaType(mb -> {
+                mb.schema(schema(sb -> {
+                  sb.type("object");
+                  sb.properties("userID", int64);
+                  sb.properties("fields", stringArray);
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOString.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
 
     });
     ObjectMapper objectMapper = new ObjectMapper();
