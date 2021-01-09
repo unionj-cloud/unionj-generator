@@ -84,7 +84,7 @@ public class DefaultSchemaFaker implements SchemaFaker {
   }
 
   private JsonNode convertSchema2JsonNode(Schema value) {
-    if (value != null && value.isTree()) {
+    if (value == null || value.isTree()) {
       return null;
     }
     JsonNode result = null;
