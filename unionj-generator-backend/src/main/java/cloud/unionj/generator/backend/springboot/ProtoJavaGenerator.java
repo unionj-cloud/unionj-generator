@@ -45,7 +45,7 @@ public class ProtoJavaGenerator extends DefaultGenerator {
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "proto.java.ftl";
+    return OUTPUT_DIR + "/proto.java.ftl";
   }
 
   @Override

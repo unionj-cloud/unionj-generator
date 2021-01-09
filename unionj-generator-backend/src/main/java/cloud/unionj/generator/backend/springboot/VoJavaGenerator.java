@@ -42,7 +42,7 @@ public class VoJavaGenerator extends DefaultGenerator {
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "vo.java.ftl";
+    return OUTPUT_DIR + "/vo.java.ftl";
   }
 
   @Override
