@@ -4,6 +4,7 @@ import cloud.unionj.generator.backend.docparser.BackendDocParser;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.springboot.SpringbootFolderGenerator;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
+import cloud.unionj.generator.openapi3.dsl.servers.Server;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import org.junit.Test;
 
@@ -29,8 +30,8 @@ import static cloud.unionj.generator.openapi3.dsl.servers.Server.server;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.dsl.paths
- *  date 2020/12/16
+ * cloud.unionj.generator.openapi3.dsl.paths
+ * date 2020/12/16
  */
 public class PathTest {
 
@@ -630,6 +631,57 @@ public class PathTest {
             para.schema(schema(queryStat -> {
               queryStat.type("boolean");
               queryStat.defaultValue(false);
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOMapStringString.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @Test
+  public void TestParameterOrder2() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      Server.server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      SchemaHelper.batchImport(Components.class);
+
+      path("/clshenbao/form/save", pb -> {
+        post(ppb -> {
+          ppb.summary("材料申报：保存form表单");
+          ppb.tags("clshenbao");
+
+          requestBody(rb -> {
+            rb.required(true);
+            rb.content(content(cb -> {
+              cb.applicationJson(mediaType(mb -> {
+                mb.schema(schema(sb -> {
+                  sb.type("object");
+                  sb.properties("userID", int64);
+                  sb.properties("fields", stringArray);
+                }));
+              }));
             }));
           });
 
