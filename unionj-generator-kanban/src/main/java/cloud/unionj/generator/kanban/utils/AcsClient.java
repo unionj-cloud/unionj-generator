@@ -1,6 +1,6 @@
-package cloud.unionj.generator.backend.apicloud.utils;
+package cloud.unionj.generator.kanban.utils;
 
-import cloud.unionj.generator.backend.apicloud.config.AliyunConfigLoad;
+import cloud.unionj.generator.kanban.config.AliyunConfigLoad;
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.profile.DefaultProfile;

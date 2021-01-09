@@ -1,11 +1,11 @@
 package cloud.unionj.generator.backend;
 
-import cloud.unionj.generator.backend.apicloud.config.AliyunConfigLoad;
-import cloud.unionj.generator.backend.apicloud.handler.ProjectHandler;
-import cloud.unionj.generator.backend.apicloud.handler.TaskHandler;
-import cloud.unionj.generator.backend.apicloud.trigger.CloudTrigger;
-import cloud.unionj.generator.backend.apicloud.utils.AcsClient;
-import cloud.unionj.generator.backend.apicloud.utils.ConsolePrint;
+import cloud.unionj.generator.kanban.config.AliyunConfigLoad;
+import cloud.unionj.generator.kanban.handler.ProjectHandler;
+import cloud.unionj.generator.kanban.handler.TaskHandler;
+import cloud.unionj.generator.kanban.trigger.CloudTrigger;
+import cloud.unionj.generator.kanban.utils.AcsClient;
+import cloud.unionj.generator.kanban.utils.ConsolePrint;
 import cloud.unionj.generator.openapi3.dsl.Reference;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.dsl.paths.*;

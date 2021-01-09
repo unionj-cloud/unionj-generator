@@ -9,7 +9,7 @@
 1. 需要配置阿里云密钥、云效组织orgId、云效api调用者executorId。模板文件：
    
    ```
-   /unionj-generator/unionj-generator-service/src/main/resources/aliyun.template.properties
+   /unionj-generator/unionj-generator-kanban/src/main/resources/aliyun.template.properties
    ```
 
 2. 创建云效项目、任务
@@ -31,7 +31,7 @@
                        ppb.tags("hall_onlinesurvey");
                    });
                });
-               omited...
+               omitted...
    }
    ```
 
@@ -39,7 +39,7 @@
    
    ```java
    Openapi3 openapi3 = openapi3(ob -> {
-        omited...
+        omitted...
    })
    
    AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");

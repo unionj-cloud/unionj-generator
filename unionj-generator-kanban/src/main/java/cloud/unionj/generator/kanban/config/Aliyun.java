@@ -1,4 +1,4 @@
-package cloud.unionj.generator.backend.apicloud.config;
+package cloud.unionj.generator.kanban.config;
 
 import lombok.Data;
 

@@ -23,6 +23,11 @@
       <artifactId>unionj-generator-openapi</artifactId>
       <version>1.0</version>
     </dependency>
+    <dependency>
+      <groupId>cloud.unionj</groupId>
+      <artifactId>unionj-generator-kanban</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 
 </project>

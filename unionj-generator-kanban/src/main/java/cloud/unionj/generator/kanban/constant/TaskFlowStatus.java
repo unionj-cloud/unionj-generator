@@ -1,4 +1,4 @@
-package cloud.unionj.generator.backend.apicloud.constant;
+package cloud.unionj.generator.kanban.constant;
 
 /**
  * @version v0.1 cloud.unionj.generator
