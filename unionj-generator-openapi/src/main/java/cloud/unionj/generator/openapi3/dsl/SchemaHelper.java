@@ -12,8 +12,8 @@ import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.dsl
- *  date 2020/12/26
+ * cloud.unionj.generator.openapi3.dsl
+ * date 2020/12/26
  */
 public class SchemaHelper {
 
@@ -68,6 +68,12 @@ public class SchemaHelper {
     t.items(T);
     t.uniqueItems(true);
   });
+
+  public static final cloud.unionj.generator.openapi3.model.Schema ref(String ref) {
+    return Reference.reference(items -> {
+      items.ref(ref);
+    });
+  }
 
   public static final cloud.unionj.generator.openapi3.model.Schema stringArray = schema(array -> {
     array.type("array");
