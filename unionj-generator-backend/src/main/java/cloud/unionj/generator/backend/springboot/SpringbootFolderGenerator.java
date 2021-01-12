@@ -132,7 +132,7 @@ public class SpringbootFolderGenerator {
   }
 
   @SneakyThrows
-  public String generate() {
+  public void generate() {
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
         VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.voPackageName, this.voOutputDir);
@@ -149,9 +149,8 @@ public class SpringbootFolderGenerator {
     if (this.zip) {
       String outputFile = this.outputDir + ".zip";
       String sourceFile = getOutputFile();
-      return GeneratorUtils.generateFolder(sourceFile, outputFile);
+      GeneratorUtils.generateFolder(sourceFile, outputFile);
     }
 
-    return getOutputFile();
   }
 }
