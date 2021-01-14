@@ -4,7 +4,6 @@ import cloud.unionj.generator.GeneratorUtils;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.docparser.entity.Proto;
 import cloud.unionj.generator.backend.docparser.entity.Vo;
-import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -18,35 +17,81 @@ import java.io.File;
 public class SpringbootFolderGenerator {
 
   private Backend backend;
+  private String packageName;
   private String outputDir;
   private boolean zip;
-  protected String packageName;
+  private boolean pomProject;
 
-  private String protoPackageName;
-  private String voPackageName;
+  private OutputConfig protoOutput;
+  private OutputConfig voOutput;
 
-  private String protoOutputDir;
-  private String voOutputDir;
+  public static class OutputConfig {
+    private String packageName;
+    private String outputDir;
+
+    public static Builder builder() {
+      return new Builder();
+    }
+
+    public static class Builder {
+
+      private String packageName;
+      private String outputDir;
+
+      public Builder packageName(String packageName) {
+        this.packageName = packageName;
+        return this;
+      }
+
+      public Builder outputDir(String outputDir) {
+        this.outputDir = outputDir;
+        return this;
+      }
+
+      public OutputConfig build() {
+
+        if (StringUtils.isBlank(this.packageName)) {
+          throw new UnsupportedOperationException("package name required");
+        }
+
+        if (StringUtils.isBlank(this.outputDir)) {
+          throw new UnsupportedOperationException("output dir required");
+        }
+
+        OutputConfig outputConfig = new OutputConfig();
+        outputConfig.packageName = this.packageName;
+        outputConfig.outputDir = this.outputDir;
+        return outputConfig;
+      }
+    }
+
+    private OutputConfig() {
+    }
+
+    public String getOutputDir() {
+      return outputDir;
+    }
+
+    public String getPackageName() {
+      return packageName;
+    }
+  }
 
   public static final class Builder {
     private Backend backend;
-    private String outputDir = Constants.OUTPUT_DIR;
+    private String packageName;
+    private String outputDir;
+
     private boolean zip = false;
-    private String packageName = Constants.PACKAGE_NAME;
+    private boolean pomProject = false;
 
-    private String protoPackageName;
-    private String voPackageName;
-
-    private String protoOutputDir;
-    private String voOutputDir;
+    private OutputConfig.Builder protoOutputBuilder = OutputConfig.builder();
+    private OutputConfig.Builder voOutputBuilder = OutputConfig.builder();
 
     public Builder(Backend backend) {
       this.backend = backend;
-    }
-
-    public Builder outputDir(String outputDir) {
-      this.outputDir = outputDir;
-      return this;
+      this.packageName = Constants.PACKAGE_NAME;
+      this.outputDir = Constants.OUTPUT_DIR;
     }
 
     public Builder zip(boolean zip) {
@@ -54,28 +99,40 @@ public class SpringbootFolderGenerator {
       return this;
     }
 
+    public Builder pomProject(boolean pomProject) {
+      this.pomProject = pomProject;
+      return this;
+    }
+
     public Builder packageName(String packageName) {
-      this.packageName = packageName;
+      this.protoOutputBuilder.packageName(packageName + ".proto");
+      this.voOutputBuilder.packageName(packageName + ".vo");
+      return this;
+    }
+
+    public Builder outputDir(String outputDir) {
+      this.protoOutputBuilder.outputDir(outputDir + File.separator + "proto");
+      this.voOutputBuilder.outputDir(outputDir + File.separator + "vo");
       return this;
     }
 
     public Builder protoPackageName(String protoPackageName) {
-      this.protoPackageName = protoPackageName;
-      return this;
-    }
-
-    public Builder voPackageName(String voPackageName) {
-      this.voPackageName = voPackageName;
+      this.protoOutputBuilder.packageName(protoPackageName);
       return this;
     }
 
     public Builder protoOutputDir(String protoOutputDir) {
-      this.protoOutputDir = protoOutputDir;
+      this.protoOutputBuilder.outputDir(protoOutputDir);
+      return this;
+    }
+
+    public Builder voPackageName(String voPackageName) {
+      this.voOutputBuilder.packageName(voPackageName);
       return this;
     }
 
     public Builder voOutputDir(String voOutputDir) {
-      this.voOutputDir = voOutputDir;
+      this.voOutputBuilder.outputDir(voOutputDir);
       return this;
     }
 
@@ -83,68 +140,42 @@ public class SpringbootFolderGenerator {
       SpringbootFolderGenerator backendFolderGenerator = new SpringbootFolderGenerator();
       backendFolderGenerator.backend = this.backend;
       backendFolderGenerator.zip = this.zip;
+      backendFolderGenerator.pomProject = this.pomProject;
 
       backendFolderGenerator.outputDir = this.outputDir;
       backendFolderGenerator.packageName = this.packageName;
 
-      if (StringUtils.isBlank(this.protoPackageName)) {
-        if (StringUtils.isBlank(this.packageName)) {
-          throw new UnsupportedOperationException("packageName required");
-        }
-        this.protoPackageName = this.packageName + ".proto";
-      }
-      backendFolderGenerator.protoPackageName = this.protoPackageName;
+      backendFolderGenerator.protoOutput = this.protoOutputBuilder.build();
+      backendFolderGenerator.voOutput = this.voOutputBuilder.build();
 
-      if (StringUtils.isBlank(this.voPackageName)) {
-        if (StringUtils.isBlank(this.packageName)) {
-          throw new UnsupportedOperationException("packageName required");
-        }
-        this.voPackageName = this.packageName + ".vo";
-      }
-      backendFolderGenerator.voPackageName = this.voPackageName;
-
-      if (StringUtils.isBlank(this.protoOutputDir)) {
-        if (StringUtils.isBlank(this.outputDir)) {
-          throw new UnsupportedOperationException("outputDir required");
-        }
-        this.protoOutputDir = this.outputDir + File.separator + "proto";
-      }
-      backendFolderGenerator.protoOutputDir = this.protoOutputDir;
-
-      if (StringUtils.isBlank(this.voOutputDir)) {
-        if (StringUtils.isBlank(this.outputDir)) {
-          throw new UnsupportedOperationException("outputDir required");
-        }
-        this.voOutputDir = this.outputDir + File.separator + "vo";
-      }
-      backendFolderGenerator.voOutputDir = this.voOutputDir;
       return backendFolderGenerator;
     }
 
   }
 
-  protected SpringbootFolderGenerator() {
-
+  private SpringbootFolderGenerator() {
   }
 
   public String getOutputFile() {
     return GeneratorUtils.getOutputDir(this.outputDir);
   }
 
-  @SneakyThrows
   public void generate() {
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
-        VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.voPackageName, this.voOutputDir);
+        VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo,
+            this.voOutput.getPackageName(), this.voOutput.getOutputDir());
         voJavaGenerator.generate();
       }
     }
 
     for (Proto proto : backend.getProtoList()) {
-      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(proto, this.protoPackageName,
-          this.protoOutputDir, this.voPackageName);
+      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(proto,
+          this.protoOutput.getPackageName(), this.protoOutput.getOutputDir(), this.voOutput.getPackageName());
       protoJavaGenerator.generate();
     }
+
+    // TODO generate pom.xml
 
     if (this.zip) {
       String outputFile = this.outputDir + ".zip";
