@@ -17,8 +17,8 @@ import java.io.File;
 public class SpringbootFolderGenerator {
 
   private Backend backend;
-  private String packageName;
   private String outputDir;
+
   private boolean zip;
   private boolean pomProject;
 
@@ -46,6 +46,10 @@ public class SpringbootFolderGenerator {
       public Builder outputDir(String outputDir) {
         this.outputDir = outputDir;
         return this;
+      }
+
+      public Boolean empty() {
+        return StringUtils.isBlank(this.packageName) && StringUtils.isBlank(this.outputDir);
       }
 
       public OutputConfig build() {
@@ -104,15 +108,17 @@ public class SpringbootFolderGenerator {
       return this;
     }
 
-    public Builder packageName(String packageName) {
-      this.protoOutputBuilder.packageName(packageName + ".proto");
-      this.voOutputBuilder.packageName(packageName + ".vo");
+    public Builder outputDir(String outputDir) {
+      this.outputDir = outputDir;
+      this.protoOutputBuilder.outputDir(outputDir + File.separator + "proto");
+      this.voOutputBuilder.outputDir(outputDir + File.separator + "vo");
       return this;
     }
 
-    public Builder outputDir(String outputDir) {
-      this.protoOutputBuilder.outputDir(outputDir + File.separator + "proto");
-      this.voOutputBuilder.outputDir(outputDir + File.separator + "vo");
+    public Builder packageName(String packageName) {
+      this.packageName = packageName;
+      this.protoOutputBuilder.packageName(packageName + ".proto");
+      this.voOutputBuilder.packageName(packageName + ".vo");
       return this;
     }
 
@@ -139,11 +145,15 @@ public class SpringbootFolderGenerator {
     public SpringbootFolderGenerator build() {
       SpringbootFolderGenerator backendFolderGenerator = new SpringbootFolderGenerator();
       backendFolderGenerator.backend = this.backend;
+      backendFolderGenerator.outputDir = this.outputDir;
+
       backendFolderGenerator.zip = this.zip;
       backendFolderGenerator.pomProject = this.pomProject;
 
-      backendFolderGenerator.outputDir = this.outputDir;
-      backendFolderGenerator.packageName = this.packageName;
+      if (this.protoOutputBuilder.empty() && this.voOutputBuilder.empty()) {
+        this.packageName(this.packageName);
+        this.outputDir(this.outputDir);
+      }
 
       backendFolderGenerator.protoOutput = this.protoOutputBuilder.build();
       backendFolderGenerator.voOutput = this.voOutputBuilder.build();
