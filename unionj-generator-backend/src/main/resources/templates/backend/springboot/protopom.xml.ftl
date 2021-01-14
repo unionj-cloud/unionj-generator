@@ -8,7 +8,9 @@
         <artifactId>${parentArtifactId}</artifactId>
         <version>${parentVersion}</version>
     </parent>
+    <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
+    <version>${version}</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
