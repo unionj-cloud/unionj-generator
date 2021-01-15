@@ -1,13 +1,13 @@
 package cloud.unionj.generator.frontend.vue;
 
 import cloud.unionj.generator.GeneratorUtils;
+import cloud.unionj.generator.mock.MockFolderGenerator;
 import cloud.unionj.generator.mock.docparser.MockDocParser;
 import cloud.unionj.generator.mock.docparser.entity.Api;
 import cloud.unionj.generator.openapi3.model.Openapi3;
+import cloud.unionj.generator.service.ServiceFolderGenerator;
 import cloud.unionj.generator.service.docparser.ServiceDocParser;
 import cloud.unionj.generator.service.docparser.entity.BizServer;
-import cloud.unionj.generator.mock.MockFolderGenerator;
-import cloud.unionj.generator.service.ServiceFolderGenerator;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -19,8 +19,8 @@ import java.util.Map;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator
- *  date 2020/11/22
+ * cloud.unionj.generator
+ * date 2020/11/22
  */
 public class VueProjectGenerator extends VueGenerator {
 
@@ -29,6 +29,7 @@ public class VueProjectGenerator extends VueGenerator {
   private String projectName;
   private String outputDir;
   private boolean scaffold;
+  private boolean includeMock;
 
   public static final class Builder {
     private String doc;
@@ -36,6 +37,7 @@ public class VueProjectGenerator extends VueGenerator {
     private String projectName;
     private String outputDir = OUTPUT_DIR;
     private boolean scaffold;
+    private boolean includeMock;
 
     public Builder(String projectName) {
       this.projectName = projectName;
@@ -61,6 +63,11 @@ public class VueProjectGenerator extends VueGenerator {
       return this;
     }
 
+    public Builder includeMock(boolean includeMock) {
+      this.includeMock = includeMock;
+      return this;
+    }
+
     public VueProjectGenerator build() {
       VueProjectGenerator vueProjectGenerator = new VueProjectGenerator();
       vueProjectGenerator.projectName = this.projectName;
@@ -68,6 +75,7 @@ public class VueProjectGenerator extends VueGenerator {
       vueProjectGenerator.doc = this.doc;
       vueProjectGenerator.openAPI = this.openAPI;
       vueProjectGenerator.scaffold = this.scaffold;
+      vueProjectGenerator.includeMock = this.includeMock;
       return vueProjectGenerator;
     }
   }
@@ -113,20 +121,22 @@ public class VueProjectGenerator extends VueGenerator {
 //    MockServiceWorkerJsGenerator mockServiceWorkerJsGenerator = new MockServiceWorkerJsGenerator();
 //    mockServiceWorkerJsGenerator.generate();
 
-    Api api;
-    if (StringUtils.isNotBlank(this.doc)) {
-      if (this.doc.startsWith("http")) {
-        api = MockDocParser.parse(new URL(this.doc));
+    if (includeMock) {
+      Api api;
+      if (StringUtils.isNotBlank(this.doc)) {
+        if (this.doc.startsWith("http")) {
+          api = MockDocParser.parse(new URL(this.doc));
+        } else {
+          api = MockDocParser.parse(new File(this.doc));
+        }
       } else {
-        api = MockDocParser.parse(new File(this.doc));
+        api = MockDocParser.parse(this.openAPI);
       }
-    } else {
-      api = MockDocParser.parse(this.openAPI);
-    }
 
-    if (api != null) {
-      MockFolderGenerator mockFolderGenerator = new MockFolderGenerator.Builder(api).outputDir(getOutputFile() + "/src/mocks").zip(false).build();
-      mockFolderGenerator.generate();
+      if (api != null) {
+        MockFolderGenerator mockFolderGenerator = new MockFolderGenerator.Builder(api).outputDir(getOutputFile() + "/src/mocks").zip(false).build();
+        mockFolderGenerator.generate();
+      }
     }
 
     BizServer bizServer;
