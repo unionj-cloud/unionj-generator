@@ -7,8 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.mock.docparser.entity
- *  date 2020/11/18
+ * cloud.unionj.generator.mock.docparser.entity
+ * date 2020/11/18
  */
 @Data
 public class BizProperty {
@@ -66,7 +66,12 @@ public class BizProperty {
         break;
       }
       case "string": {
-        tsType = TsTypeConstants.STRING;
+        String format = schema.getFormat();
+        if (format != null && format.equals("binary")) {
+          tsType = TsTypeConstants.BLOB;
+        } else {
+          tsType = TsTypeConstants.STRING;
+        }
         break;
       }
       case "array": {

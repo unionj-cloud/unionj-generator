@@ -48,6 +48,9 @@ export default class ${name} extends BizService{
               ${queryParam.name},
             </#list>
             },
+            <#if router.respData.type == "Blob">
+            responseType: 'blob',
+            </#if>
           }
         </#if>
         )
