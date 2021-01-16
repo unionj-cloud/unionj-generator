@@ -30,7 +30,7 @@ export default class ${name} extends BizService{
   <#if router.reqBody??>
     ${router.reqBody.name}: ${router.reqBody.type},
   </#if>
-  ) :Promise<${router.respData.type}> {
+  ) :Promise<${(router.respData.type=="Blob")?then("any",router.respData.type)}> {
     let client = this.axios.${router.httpMethod?lower_case}
     if(this.axios.$${router.httpMethod?lower_case}) {
       client = this.axios.$${router.httpMethod?lower_case}
