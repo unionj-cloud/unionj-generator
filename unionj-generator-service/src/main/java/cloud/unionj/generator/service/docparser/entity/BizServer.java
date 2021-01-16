@@ -16,8 +16,8 @@ import java.util.stream.Collectors;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.mock.docparser.entity
- *  date 2020/11/18
+ * cloud.unionj.generator.mock.docparser.entity
+ * date 2020/11/18
  */
 @Data
 public class BizServer {
@@ -140,6 +140,7 @@ public class BizServer {
           .filter(bizRouter -> bizRouter.getReqBody() != null
               && !bizRouter.getReqBody().getType().equals(TsTypeConstants.ANY)
               && !bizRouter.getReqBody().getType().equals(TsTypeConstants.FORMDATA)
+              && !bizRouter.getReqBody().getType().equals(TsTypeConstants.BLOB)
           )
           .map(bizRouter -> {
             String type = bizRouter.getReqBody().getType();
