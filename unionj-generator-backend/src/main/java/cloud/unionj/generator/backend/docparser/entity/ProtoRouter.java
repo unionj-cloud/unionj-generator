@@ -135,6 +135,9 @@ public class ProtoRouter {
             router.setRespData(new ProtoProperty.Builder(mediaType.getSchema()).build());
           } else if (content.getApplicationOctetStream() != null) {
             router.setRespData(ProtoProperty.STREAM);
+          } else if (content.getTextPlain() != null) {
+            MediaType mediaType = content.getTextPlain();
+            router.setRespData(new ProtoProperty.Builder(mediaType.getSchema()).build());
           } else {
             router.setRespData(new ProtoProperty.Builder("void").build());
           }

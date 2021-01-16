@@ -7,14 +7,15 @@ import java.util.List;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.service.docparser.entity
- *  date 2020/11/27
+ * cloud.unionj.generator.service.docparser.entity
+ * date 2020/11/27
  */
 public class TsTypeConstants {
 
   public static final String ANY = "any";
   public static final String FORMDATA = "FormData";
   public static final String STRING = "string";
+  public static final String BLOB = "Blob";
   public static final String NUMBER = "number";
   public static final String BOOLEAN = "boolean";
 
