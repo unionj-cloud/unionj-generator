@@ -155,7 +155,10 @@ public class BizServer {
           }).filter(StringUtils::isNotBlank).collect(Collectors.toCollection(LinkedHashSet::new));
 
       LinkedHashSet<String> collect = bizRouters.stream()
-          .filter(bizRouter -> bizRouter.getRespData() != null && !bizRouter.getRespData().getType().equals(TsTypeConstants.ANY))
+          .filter(bizRouter -> bizRouter.getRespData() != null
+              && !bizRouter.getRespData().getType().equals(TsTypeConstants.ANY)
+              && !bizRouter.getRespData().getType().equals(TsTypeConstants.BLOB)
+          )
           .map(bizRouter -> {
             String type = bizRouter.getRespData().getType();
             int index = type.indexOf("[]");
