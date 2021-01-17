@@ -247,7 +247,7 @@ public class SpringbootFolderGeneratorTest {
   public void testDirExistsFiles() throws IOException {
 
     File dir = new File("myproto/src/main/java/xxx/yyy/myproto");
-    if (!dir.isDirectory()) {
+    if (dir.exists() && !dir.isDirectory()) {
       throw new UnsupportedOperationException("not dir");
     }
 

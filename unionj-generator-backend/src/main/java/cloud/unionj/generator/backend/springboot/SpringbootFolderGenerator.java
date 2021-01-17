@@ -226,7 +226,7 @@ public class SpringbootFolderGenerator {
 
   private boolean dirEmpty(String dirPath) {
     File dir = new File(dirPath);
-    if (!dir.isDirectory()) {
+    if (dir.exists() && !dir.isDirectory()) {
       throw new UnsupportedOperationException("not dir: " + dirPath);
     }
 
