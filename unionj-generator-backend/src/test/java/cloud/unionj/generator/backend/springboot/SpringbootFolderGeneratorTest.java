@@ -230,6 +230,7 @@ public class SpringbootFolderGeneratorTest {
 //        .packageName("xxx.yyy")
         .protoOutput(new SpringbootFolderGenerator.OutputConfig("xxx.yyy.myproto", "myproto/src/main/java/xxx/yyy/myproto"))
         .voOutput(new SpringbootFolderGenerator.OutputConfig("xxx.yyy.myvo", "myvo/src/main/java/xxx/yyy/myvo"))
+        .outputType(SpringbootFolderGenerator.OutputType.OVERWRITE)
         .build();
     springbootFolderGenerator.generate();
   }
