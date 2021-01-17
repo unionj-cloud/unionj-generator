@@ -234,7 +234,7 @@ public class SpringbootFolderGeneratorTest {
         .pomProject(true)
         .pomParentGroupId("com.github.myproject")
         .pomParentArtifactId("myproject")
-        .pomParentVersion("1.0.0-SNAPSHOT")
+        .pomParentVersion("1.0.1-SNAPSHOT")
         .pomProtoArtifactId("myproject-proto")
         .pomVoArtifactId("myproject-vo")
         .outputType(OutputType.OVERWRITE)
