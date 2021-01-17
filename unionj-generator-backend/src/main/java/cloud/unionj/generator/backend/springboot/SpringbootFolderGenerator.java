@@ -158,6 +158,7 @@ public class SpringbootFolderGenerator {
 
   public void generate() {
 
+    // TODO 检查覆盖类型
 
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
