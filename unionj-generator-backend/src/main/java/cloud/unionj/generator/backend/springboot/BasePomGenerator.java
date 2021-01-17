@@ -90,6 +90,10 @@ public abstract class BasePomGenerator extends DefaultGenerator {
     return this;
   }
 
+  public <T extends BasePomGenerator> T build() {
+    return (T) this;
+  }
+
   public BasePomGenerator() {
     this.outputDir = OUTPUT_DIR + File.separator + "vo";
     this.groupId = "cloud.unionj.demo";
