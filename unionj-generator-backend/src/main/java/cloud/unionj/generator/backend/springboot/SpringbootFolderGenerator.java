@@ -9,6 +9,8 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 
+import static cloud.unionj.generator.backend.springboot.Constants.*;
+
 /**
  * @author created by wubin
  * @version v0.1
@@ -40,21 +42,17 @@ public class SpringbootFolderGenerator {
     private OutputConfig protoOutput;
     private OutputConfig voOutput;
 
-    private static final String DEFAULT_PROTO_PACKAGE = "proto";
-    private static final String DEFAULT_VO_PACKAGE = "vo";
-    private static final String DOT = ".";
-
     public Builder(Backend backend) {
       this.backend = backend;
-      this.outputDir = Constants.OUTPUT_DIR;
+      this.outputDir = OUTPUT_DIR;
       this.outputType = OutputType.CHECK;
 
       this.protoOutput = new OutputConfig(
-          Constants.PACKAGE_NAME + DOT + DEFAULT_PROTO_PACKAGE,
-          Constants.OUTPUT_DIR + File.separator + DEFAULT_PROTO_PACKAGE);
+          PACKAGE_NAME + DOT + DEFAULT_PROTO_PACKAGE,
+          OUTPUT_DIR + File.separator + DEFAULT_PROTO_PACKAGE);
       this.voOutput = new OutputConfig(
-          Constants.PACKAGE_NAME + DOT + DEFAULT_VO_PACKAGE,
-          Constants.OUTPUT_DIR + File.separator + DEFAULT_VO_PACKAGE);
+          PACKAGE_NAME + DOT + DEFAULT_VO_PACKAGE,
+          OUTPUT_DIR + File.separator + DEFAULT_VO_PACKAGE);
     }
 
     public Builder zip(boolean zip) {
