@@ -86,17 +86,20 @@ public class SpringbootFolderGenerator {
     private OutputConfig protoOutput;
     private OutputConfig voOutput;
 
+    private static final String DEFAULT_PROTO_PACKAGE = "proto";
+    private static final String DEFAULT_VO_PACKAGE = "vo";
+
     public Builder(Backend backend) {
       this.backend = backend;
       this.outputDir = Constants.OUTPUT_DIR;
       this.outputType = OutputType.CHECK;
 
       this.protoOutput = new OutputConfig(
-          Constants.PACKAGE_NAME + ".proto",
-          Constants.OUTPUT_DIR + File.separator + "proto");
+          Constants.PACKAGE_NAME + "." + DEFAULT_PROTO_PACKAGE,
+          Constants.OUTPUT_DIR + File.separator + DEFAULT_PROTO_PACKAGE);
       this.voOutput = new OutputConfig(
-          Constants.PACKAGE_NAME + ".vo",
-          Constants.OUTPUT_DIR + File.separator + "vo");
+          Constants.PACKAGE_NAME + "." + DEFAULT_VO_PACKAGE,
+          Constants.OUTPUT_DIR + File.separator + DEFAULT_VO_PACKAGE);
     }
 
     public Builder zip(boolean zip) {
@@ -116,8 +119,8 @@ public class SpringbootFolderGenerator {
 
     public Builder outputDir(String outputDir) {
       this.outputDir = outputDir;
-      this.protoOutput.setOutputDir(outputDir + File.separator + "proto");
-      this.voOutput.setOutputDir(outputDir + File.separator + "vo");
+      this.protoOutput.setOutputDir(outputDir + File.separator + DEFAULT_PROTO_PACKAGE);
+      this.voOutput.setOutputDir(outputDir + File.separator + DEFAULT_VO_PACKAGE);
       return this;
     }
 
