@@ -16,7 +16,7 @@ import static cloud.unionj.generator.backend.springboot.Constants.OUTPUT_DIR;
  * description: cloud.unionj.generator.backend.springboot
  * date:2021/1/17
  */
-public abstract class BasePomGenerator extends DefaultGenerator {
+public abstract class BasePomGenerator<T> extends DefaultGenerator {
 
   protected String outputDir;
 
@@ -35,66 +35,62 @@ public abstract class BasePomGenerator extends DefaultGenerator {
   protected String parentVersion;
 
 
-  public BasePomGenerator outputDir(String outputDir) {
+  public T outputDir(String outputDir) {
     this.outputDir = outputDir;
-    return this;
-  }
-
-  public BasePomGenerator outputDirAsArtifactId() {
-    this.outputDir = this.artifactId;
-    return this;
-  }
-
-  public BasePomGenerator groupId(String groupId) {
-    this.groupId = groupId;
-    return this;
-  }
-
-  public BasePomGenerator groupIdAsParent() {
-    this.groupId = this.parentGroupId;
-    return this;
-  }
-
-  public BasePomGenerator artifactId(String artifactId) {
-    this.artifactId = artifactId;
-    return this;
-  }
-
-  public BasePomGenerator version(String version) {
-    this.version = version;
-    return this;
-  }
-
-  public BasePomGenerator versionAsParent() {
-    this.version = parentVersion;
-    return this;
-  }
-
-  public BasePomGenerator hasParent(Boolean hasParent) {
-    this.hasParent = hasParent;
-    return this;
-  }
-
-  public BasePomGenerator parentGroupId(String parentGroupId) {
-    this.parentGroupId = parentGroupId;
-    return this;
-  }
-
-  public BasePomGenerator parentArtifactId(String parentArtifactId) {
-    this.parentArtifactId = parentArtifactId;
-    return this;
-  }
-
-  public BasePomGenerator parentVersion(String parentVersion) {
-    this.parentVersion = parentVersion;
-    return this;
-  }
-
-  public <T extends BasePomGenerator> T build() {
     return (T) this;
   }
 
-  public BasePomGenerator() {
+  public T outputDirAsArtifactId() {
+    this.outputDir = this.artifactId;
+    return (T) this;
+  }
+
+  public T groupId(String groupId) {
+    this.groupId = groupId;
+    return (T) this;
+  }
+
+  public T groupIdAsParent() {
+    this.groupId = this.parentGroupId;
+    return (T) this;
+  }
+
+  public T artifactId(String artifactId) {
+    this.artifactId = artifactId;
+    return (T) this;
+  }
+
+  public T version(String version) {
+    this.version = version;
+    return (T) this;
+  }
+
+  public T versionAsParent() {
+    this.version = parentVersion;
+    return (T) this;
+  }
+
+  public T hasParent(Boolean hasParent) {
+    this.hasParent = hasParent;
+    return (T) this;
+  }
+
+  public T parentGroupId(String parentGroupId) {
+    this.parentGroupId = parentGroupId;
+    return (T) this;
+  }
+
+  public T parentArtifactId(String parentArtifactId) {
+    this.parentArtifactId = parentArtifactId;
+    return (T) this;
+  }
+
+  public T parentVersion(String parentVersion) {
+    this.parentVersion = parentVersion;
+    return (T) this;
+  }
+
+  protected BasePomGenerator() {
     this.outputDir = OUTPUT_DIR;
     this.hasParent = false;
     this.parentGroupId = "cloud.unionj.demo";

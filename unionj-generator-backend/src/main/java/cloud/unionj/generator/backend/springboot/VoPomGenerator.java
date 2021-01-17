@@ -10,7 +10,7 @@ import static cloud.unionj.generator.backend.springboot.Constants.OUTPUT_DIR;
  * description: cloud.unionj.generator.backend.springboot
  * date:2021/1/12
  */
-public class VoPomGenerator extends BasePomGenerator {
+public class VoPomGenerator extends BasePomGenerator<VoPomGenerator> {
 
   public VoPomGenerator() {
     super();

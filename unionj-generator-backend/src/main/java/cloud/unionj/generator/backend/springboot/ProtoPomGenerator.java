@@ -11,7 +11,7 @@ import static cloud.unionj.generator.backend.springboot.Constants.OUTPUT_DIR;
  * description: cloud.unionj.generator.backend.springboot
  * date:2021/1/17
  */
-public class ProtoPomGenerator extends BasePomGenerator {
+public class ProtoPomGenerator extends BasePomGenerator<ProtoPomGenerator> {
 
   protected String voGroupId;
 
@@ -37,6 +37,11 @@ public class ProtoPomGenerator extends BasePomGenerator {
     return this;
   }
 
+  public ProtoPomGenerator voGroupIdAsParent() {
+    this.voGroupId = this.parentGroupId;
+    return this;
+  }
+
   public ProtoPomGenerator voArtifactId(String voArtifactId) {
     this.voArtifactId = voArtifactId;
     return this;
@@ -44,6 +49,11 @@ public class ProtoPomGenerator extends BasePomGenerator {
 
   public ProtoPomGenerator voVersion(String voVersion) {
     this.voVersion = voVersion;
+    return this;
+  }
+
+  public ProtoPomGenerator voVersionAsParent() {
+    this.voVersion = this.parentVersion;
     return this;
   }
 

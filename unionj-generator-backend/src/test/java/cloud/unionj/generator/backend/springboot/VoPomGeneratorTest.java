@@ -21,8 +21,7 @@ public class VoPomGeneratorTest {
         .groupIdAsParent()
         .artifactId("myproject-vo")
         .versionAsParent()
-        .outputDirAsArtifactId()
-        .build();
+        .outputDirAsArtifactId();
 
     generator.generate();
   }

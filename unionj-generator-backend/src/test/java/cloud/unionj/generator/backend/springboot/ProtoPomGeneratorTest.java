@@ -21,7 +21,9 @@ public class ProtoPomGeneratorTest {
         .artifactId("myproject-proto")
         .versionAsParent()
         .outputDirAsArtifactId()
-        .build();
+        .voGroupIdAsParent()
+        .voVersionAsParent()
+        .voArtifactId("myproject-vo");
 
     generator.generate();
 
