@@ -89,6 +89,7 @@ public class VoPomGenerator extends DefaultGenerator {
     }
 
     public Builder() {
+      this.outputDir = OUTPUT_DIR + File.separator + "vo";
       this.groupId = "cloud.unionj.demo";
       this.artifactId = "unionj-demo-vo";
       this.version = "1.0.0-SNAPSHOT";
