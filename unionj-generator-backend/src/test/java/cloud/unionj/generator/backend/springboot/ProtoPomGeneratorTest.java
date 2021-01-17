@@ -27,8 +27,6 @@ public class ProtoPomGeneratorTest {
 
     generator.generate();
 
-
-
   }
 
 }
