@@ -1,5 +1,7 @@
 package cloud.unionj.generator.backend.springboot;
 
+import java.io.File;
+
 import static cloud.unionj.generator.backend.springboot.Constants.OUTPUT_DIR;
 
 /**
@@ -12,10 +14,14 @@ public class VoPomGenerator extends BasePomGenerator {
 
   public VoPomGenerator() {
     super();
-  }
 
-  public static VoPomGenerator newInstance() {
-    return new VoPomGenerator();
+    this.outputDir = OUTPUT_DIR + File.separator + "vo";
+    this.artifactId = "unionj-demo-vo";
+
+    this.hasParent = true;
+    this.parentGroupId = this.groupId;
+    this.parentArtifactId = "unionj-demo";
+    this.parentVersion = this.version;
   }
 
   @Override
