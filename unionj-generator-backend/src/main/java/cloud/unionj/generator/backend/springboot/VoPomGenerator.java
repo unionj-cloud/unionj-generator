@@ -16,7 +16,7 @@ public class VoPomGenerator extends BasePomGenerator {
     super();
 
     this.outputDir = OUTPUT_DIR + File.separator + "vo";
-    this.artifactId = "unionj-demo-vo";
+    this.artifactId = this.parentArtifactId + "-vo";
 
     this.hasParent = true;
   }
