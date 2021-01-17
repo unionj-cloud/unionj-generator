@@ -23,7 +23,7 @@ public class ProtoPomGenerator extends BasePomGenerator {
     super();
 
     this.outputDir = OUTPUT_DIR + File.separator + "proto";
-    this.artifactId = "unionj-demo-proto";
+    this.artifactId = this.parentArtifactId + "-proto";
 
     this.hasParent = true;
 
