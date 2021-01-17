@@ -73,11 +73,6 @@ public class VoPomGenerator extends DefaultGenerator {
       return this;
     }
 
-    public Builder artifactIdAsParent() {
-      this.artifactId = this.parentArtifactId;
-      return this;
-    }
-
     public Builder version(String version) {
       this.version = version;
       return this;

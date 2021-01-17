@@ -19,7 +19,7 @@ public class VoPomGeneratorTest {
         .parentArtifactId("myproject")
         .parentVersion("1.0.0-SNAPSHOT")
         .groupIdAsParent()
-        .artifactIdAsParent()
+        .artifactId("myproject-vo")
         .versionAsParent()
         .outputDirAsArtifactId()
         .build();
