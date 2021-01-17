@@ -48,42 +48,42 @@ public class VoPomGenerator extends DefaultGenerator {
     private String parentArtifactId;
     private String parentVersion;
 
-    private Builder outputDir(String outputDir) {
+    public Builder outputDir(String outputDir) {
       this.outputDir = outputDir;
       return this;
     }
 
-    private Builder groupId(String groupId) {
+    public Builder groupId(String groupId) {
       this.groupId = groupId;
       return this;
     }
 
-    private Builder artifactId(String artifactId) {
+    public Builder artifactId(String artifactId) {
       this.artifactId = artifactId;
       return this;
     }
 
-    private Builder version(String version) {
+    public Builder version(String version) {
       this.version = version;
       return this;
     }
 
-    private Builder version(Boolean hasParent) {
+    public Builder hasParent(Boolean hasParent) {
       this.hasParent = hasParent;
       return this;
     }
 
-    private Builder parentGroupId(String parentGroupId) {
+    public Builder parentGroupId(String parentGroupId) {
       this.parentGroupId = parentGroupId;
       return this;
     }
 
-    private Builder parentArtifactId(String parentArtifactId) {
+    public Builder parentArtifactId(String parentArtifactId) {
       this.parentArtifactId = parentArtifactId;
       return this;
     }
 
-    private Builder parentVersion(String parentVersion) {
+    public Builder parentVersion(String parentVersion) {
       this.parentVersion = parentVersion;
       return this;
     }
