@@ -13,7 +13,7 @@ public class VoPomGeneratorTest {
 
   @Test
   public void test() {
-    VoPomGenerator generator = VoPomGenerator.builder()
+    VoPomGenerator generator = (VoPomGenerator) VoPomGenerator.newInstance()
         .hasParent(true)
         .parentGroupId("com.github.myproject")
         .parentArtifactId("myproject")
@@ -21,9 +21,7 @@ public class VoPomGeneratorTest {
         .groupIdAsParent()
         .artifactId("myproject-vo")
         .versionAsParent()
-        .outputDirAsArtifactId()
-        .build();
-
+        .outputDirAsArtifactId();
 
     generator.generate();
   }
