@@ -135,6 +135,12 @@ public class BizRouter {
         Content content = okResponse.getContent();
         if (content != null) {
           MediaType mediaType = content.getApplicationJson();
+          if (mediaType == null) {
+            mediaType = content.getApplicationOctetStream();
+          }
+          if (mediaType == null) {
+            mediaType = content.getTextPlain();
+          }
           if (mediaType != null) {
             Schema schema = mediaType.getSchema();
             BizProperty bizProperty = new BizProperty();

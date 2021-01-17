@@ -1,9 +1,9 @@
 package cloud.unionj.generator.openapi3.model;
 
+import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.expression.SchemaBuilder;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.Gson;
-import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +17,8 @@ import java.util.Map;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.model
- *  date 2020/12/14
+ * cloud.unionj.generator.openapi3.model
+ * date 2020/12/14
  */
 @Data
 public class Schema {
@@ -113,44 +113,44 @@ public class Schema {
     if (StringUtils.isBlank(type)) {
       return this.getTypeByRef(ref);
     }
-    String tsType;
+    String javaType;
     switch (type) {
       case "object": {
         if (additionalProperties != null) {
           String valueType = additionalProperties.deepSetType();
-          tsType = "Map" + SchemaHelper.LEFT_ARROW + String.class.getSimpleName() + ", " + valueType + SchemaHelper.RIGHT_ARROW;
+          javaType = "Map" + SchemaHelper.LEFT_ARROW + String.class.getSimpleName() + ", " + valueType + SchemaHelper.RIGHT_ARROW;
         } else if (format != null && format.equals("T")) {
-          tsType = "T";
+          javaType = "T";
         } else {
-          tsType = Object.class.getSimpleName();
+          javaType = Object.class.getSimpleName();
         }
         break;
       }
       case "boolean": {
-        tsType = Boolean.class.getSimpleName();
+        javaType = Boolean.class.getSimpleName();
         break;
       }
       case "integer": {
         if (format != null && format.equals("int32")) {
-          tsType = Integer.class.getSimpleName();
+          javaType = Integer.class.getSimpleName();
         } else {
-          tsType = Long.class.getSimpleName();
+          javaType = Long.class.getSimpleName();
         }
         break;
       }
       case "number": {
         if (format != null && format.equals("float")) {
-          tsType = Float.class.getSimpleName();
+          javaType = Float.class.getSimpleName();
         } else {
-          tsType = Double.class.getSimpleName();
+          javaType = Double.class.getSimpleName();
         }
         break;
       }
       case "string": {
         if (format != null && format.equals("date-time")) {
-          tsType = java.util.Date.class.getSimpleName();
+          javaType = java.util.Date.class.getSimpleName();
         } else {
-          tsType = String.class.getSimpleName();
+          javaType = String.class.getSimpleName();
         }
         break;
       }
@@ -162,7 +162,7 @@ public class Schema {
           } else {
             elementType = items.deepSetType();
           }
-          tsType = "List" + SchemaHelper.LEFT_ARROW + elementType + SchemaHelper.RIGHT_ARROW;
+          javaType = "List" + SchemaHelper.LEFT_ARROW + elementType + SchemaHelper.RIGHT_ARROW;
         } else {
           String elementType;
           if (StringUtils.isNotBlank(items.getRef())) {
@@ -170,15 +170,15 @@ public class Schema {
           } else {
             elementType = items.deepSetType();
           }
-          tsType = "Set" + SchemaHelper.LEFT_ARROW + elementType + SchemaHelper.RIGHT_ARROW;
+          javaType = "Set" + SchemaHelper.LEFT_ARROW + elementType + SchemaHelper.RIGHT_ARROW;
         }
         break;
       }
       default: {
-        tsType = Object.class.getSimpleName();
+        javaType = Object.class.getSimpleName();
       }
     }
-    return tsType;
+    return javaType;
   }
 
   @SneakyThrows
