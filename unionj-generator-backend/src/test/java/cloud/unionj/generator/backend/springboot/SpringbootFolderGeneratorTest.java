@@ -3,9 +3,11 @@ package cloud.unionj.generator.backend.springboot;
 import cloud.unionj.generator.backend.docparser.BackendDocParser;
 import cloud.unionj.generator.backend.docparser.entity.*;
 import com.google.common.collect.Lists;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class SpringbootFolderGeneratorTest {
   private static final String PROTO_PACKAGE_NAME = Constants.PACKAGE_NAME + ".proto";
 
   @Test
-  public void generate() {
+  public void generate() throws IOException {
     Backend backend = new Backend();
     List<Vo> voList = new ArrayList<>();
     Vo vo = new Vo();
@@ -125,7 +127,7 @@ public class SpringbootFolderGeneratorTest {
   }
 
   @Test
-  public void generateCustomDir() {
+  public void generateCustomDir() throws IOException {
     Backend backend = new Backend();
     List<Vo> voList = new ArrayList<>();
     Vo vo = new Vo();
@@ -238,6 +240,24 @@ public class SpringbootFolderGeneratorTest {
       Backend backend = BackendDocParser.parse(is);
       SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
       springbootFolderGenerator.generate();
+    }
+  }
+
+  @Test
+  public void testDirExistsFiles() throws IOException {
+
+    File dir = new File("myproto/src/main/java/xxx/yyy/myproto");
+    if (!dir.isDirectory()) {
+      throw new UnsupportedOperationException("not dir");
+    }
+
+    String[] list = dir.list();
+    if (list != null && list.length > 0) {
+      System.out.println(":::::::::not empty");
+
+      FileUtils.deleteDirectory(dir);
+    } else {
+      System.out.println(":::::::::empty");
     }
   }
 }

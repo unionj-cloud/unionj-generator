@@ -4,9 +4,11 @@ import cloud.unionj.generator.GeneratorUtils;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.docparser.entity.Proto;
 import cloud.unionj.generator.backend.docparser.entity.Vo;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author created by wubin
@@ -173,9 +175,10 @@ public class SpringbootFolderGenerator {
     return GeneratorUtils.getOutputDir(this.outputDir);
   }
 
-  public void generate() {
+  public void generate() throws IOException {
 
-    // TODO 检查覆盖类型
+    // 检查覆盖类型
+    checkOutput();
 
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
@@ -201,4 +204,38 @@ public class SpringbootFolderGenerator {
     }
 
   }
+
+  private void checkOutput() throws IOException {
+    String voOutputDir = this.voOutput.getOutputDir();
+    String protoOutputDir = this.protoOutput.getOutputDir();
+
+    if (OutputType.CHECK.equals(this.outputType)) {
+
+      if (!dirEmpty(voOutputDir)) {
+        throw new UnsupportedOperationException(voOutputDir + " is not empty");
+      }
+
+      if (!dirEmpty(protoOutputDir)) {
+        throw new UnsupportedOperationException(protoOutputDir + " is not empty");
+      }
+    }
+
+    FileUtils.deleteDirectory(new File(voOutputDir));
+    FileUtils.deleteDirectory(new File(protoOutputDir));
+  }
+
+  private boolean dirEmpty(String dirPath) {
+    File dir = new File(dirPath);
+    if (!dir.isDirectory()) {
+      throw new UnsupportedOperationException("not dir: " + dirPath);
+    }
+
+    String[] list = dir.list();
+    if (list == null) {
+      return true;
+    }
+
+    return list.length <= 0;
+  }
+
 }
