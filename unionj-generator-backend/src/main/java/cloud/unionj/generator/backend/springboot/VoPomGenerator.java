@@ -53,8 +53,18 @@ public class VoPomGenerator extends DefaultGenerator {
       return this;
     }
 
+    public Builder outputDirAsArtifactId() {
+      this.outputDir = this.artifactId;
+      return this;
+    }
+
     public Builder groupId(String groupId) {
       this.groupId = groupId;
+      return this;
+    }
+
+    public Builder groupIdAsParent() {
+      this.groupId = this.parentGroupId;
       return this;
     }
 
@@ -63,8 +73,18 @@ public class VoPomGenerator extends DefaultGenerator {
       return this;
     }
 
+    public Builder artifactIdAsParent() {
+      this.artifactId = this.parentArtifactId;
+      return this;
+    }
+
     public Builder version(String version) {
       this.version = version;
+      return this;
+    }
+
+    public Builder versionAsParent() {
+      this.version = parentVersion;
       return this;
     }
 

@@ -18,10 +18,10 @@ public class VoPomGeneratorTest {
         .parentGroupId("com.github.myproject")
         .parentArtifactId("myproject")
         .parentVersion("1.0.0-SNAPSHOT")
-        .groupId("com.github.myproject")
-        .artifactId("myproject-vo")
-        .version("1.0.0-SNAPSHOT")
-        .outputDir("myproject-vo")
+        .groupIdAsParent()
+        .artifactIdAsParent()
+        .versionAsParent()
+        .outputDirAsArtifactId()
         .build();
 
 
