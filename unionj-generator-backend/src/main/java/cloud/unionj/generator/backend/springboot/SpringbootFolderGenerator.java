@@ -124,6 +124,15 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.protoOutput = this.protoOutput;
       backendFolderGenerator.voOutput = this.voOutput;
 
+      if (this.pomProject) {
+        if (this.protoPomGenerator == null) {
+          throw new UnsupportedOperationException("protoPomGenerator required");
+        }
+        if (this.voPomGenerator == null) {
+          throw new UnsupportedOperationException("voPomGenerator required");
+        }
+      }
+
       backendFolderGenerator.protoPomGenerator = this.protoPomGenerator;
       backendFolderGenerator.voPomGenerator = this.voPomGenerator;
 
