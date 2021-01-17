@@ -93,7 +93,6 @@ public class SpringbootFolderGenerator {
       return this;
     }
 
-
     public SpringbootFolderGenerator build() {
       SpringbootFolderGenerator backendFolderGenerator = new SpringbootFolderGenerator();
       backendFolderGenerator.backend = this.backend;
@@ -102,7 +101,6 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.zip = this.zip;
       backendFolderGenerator.pomProject = this.pomProject;
       backendFolderGenerator.outputType = this.outputType;
-
 
       this.protoOutput.validate();
       this.voOutput.validate();
@@ -141,10 +139,13 @@ public class SpringbootFolderGenerator {
       protoJavaGenerator.generate();
     }
 
-    // TODO generate pom.xml
+    if (pomProject) {
+      // TODO generate pom.xml
+
+    }
 
     if (this.zip) {
-      // TODO
+      // TODO gen zip file
       String outputFile = this.outputDir + ".zip";
       String sourceFile = getOutputFile();
       GeneratorUtils.generateFolder(sourceFile, outputFile);
