@@ -89,7 +89,14 @@ public class VoPomGenerator extends DefaultGenerator {
     }
 
     public Builder() {
+      this.groupId = "cloud.unionj.demo";
+      this.artifactId = "unionj-demo-vo";
+      this.version = "1.0.0-SNAPSHOT";
+
       this.hasParent = true;
+      this.parentGroupId = this.groupId;
+      this.parentArtifactId = "unionj-demo";
+      this.parentVersion = this.version;
     }
 
     public VoPomGenerator build() {
