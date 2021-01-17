@@ -34,6 +34,84 @@ public class VoPomGenerator extends DefaultGenerator {
 
   private String parentVersion;
 
+  private VoPomGenerator() {
+  }
+
+  public static class Builder {
+    private String outputDir;
+    private String groupId;
+    private String artifactId;
+    private String version;
+
+    private Boolean hasParent;
+    private String parentGroupId;
+    private String parentArtifactId;
+    private String parentVersion;
+
+    private Builder outputDir(String outputDir) {
+      this.outputDir = outputDir;
+      return this;
+    }
+
+    private Builder groupId(String groupId) {
+      this.groupId = groupId;
+      return this;
+    }
+
+    private Builder artifactId(String artifactId) {
+      this.artifactId = artifactId;
+      return this;
+    }
+
+    private Builder version(String version) {
+      this.version = version;
+      return this;
+    }
+
+    private Builder version(Boolean hasParent) {
+      this.hasParent = hasParent;
+      return this;
+    }
+
+    private Builder parentGroupId(String parentGroupId) {
+      this.parentGroupId = parentGroupId;
+      return this;
+    }
+
+    private Builder parentArtifactId(String parentArtifactId) {
+      this.parentArtifactId = parentArtifactId;
+      return this;
+    }
+
+    private Builder parentVersion(String parentVersion) {
+      this.parentVersion = parentVersion;
+      return this;
+    }
+
+    public Builder() {
+      this.hasParent = true;
+    }
+
+    public VoPomGenerator build() {
+      VoPomGenerator generator = new VoPomGenerator();
+      generator.outputDir = this.outputDir;
+      generator.groupId = this.groupId;
+      generator.artifactId = this.artifactId;
+      generator.version = this.version;
+
+      generator.hasParent = this.hasParent;
+      generator.parentGroupId = this.parentGroupId;
+      generator.parentArtifactId = this.parentArtifactId;
+      generator.parentVersion = this.parentVersion;
+
+      return generator;
+    }
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
   @Override
   public Map<String, Object> getInput() {
     Map<String, Object> input = new HashMap<>(8);
