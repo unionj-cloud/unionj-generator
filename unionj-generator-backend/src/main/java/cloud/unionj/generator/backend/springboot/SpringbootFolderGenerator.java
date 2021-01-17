@@ -59,6 +59,9 @@ public class SpringbootFolderGenerator {
       this.voOutput = new OutputConfig(
           PACKAGE_NAME + DOT + DEFAULT_VO_PACKAGE,
           OUTPUT_DIR + File.separator + DEFAULT_VO_PACKAGE);
+
+      this.protoPomGenerator = new ProtoPomGenerator();
+      this.voPomGenerator = new VoPomGenerator();
     }
 
     public Builder zip(boolean zip) {
@@ -68,6 +71,46 @@ public class SpringbootFolderGenerator {
 
     public Builder pomProject(boolean pomProject) {
       this.pomProject = pomProject;
+      return this;
+    }
+
+    public Builder pomParentGroupId(String parentGroupId) {
+      this.protoPomGenerator.parentGroupId(parentGroupId);
+      this.protoPomGenerator.groupIdAsParent();
+
+      this.voPomGenerator.parentGroupId(parentGroupId);
+      this.voPomGenerator.groupIdAsParent();
+      this.protoPomGenerator.voVersionAsParent();
+
+      return this;
+    }
+
+    public Builder pomParentArtifactId(String parentArtifactId) {
+      this.protoPomGenerator.parentArtifactId(parentArtifactId);
+      this.voPomGenerator.parentArtifactId(parentArtifactId);
+
+      return this;
+    }
+
+    public Builder pomParentVersion(String parentVersion) {
+      this.protoPomGenerator.parentVersion(parentVersion);
+      this.protoPomGenerator.versionAsParent();
+
+      this.voPomGenerator.parentVersion(parentVersion);
+      this.voPomGenerator.versionAsParent();
+      this.protoPomGenerator.voVersionAsParent();
+
+      return this;
+    }
+
+    public Builder pomProtoArtifactId(String protoArtifactId) {
+      this.protoPomGenerator.artifactId(protoArtifactId);
+      return this;
+    }
+
+    public Builder pomVoArtifactId(String voArtifactId) {
+      this.voPomGenerator.artifactId(voArtifactId);
+      this.protoPomGenerator.voArtifactId(voArtifactId);
       return this;
     }
 
@@ -123,15 +166,6 @@ public class SpringbootFolderGenerator {
 
       backendFolderGenerator.protoOutput = this.protoOutput;
       backendFolderGenerator.voOutput = this.voOutput;
-
-      if (this.pomProject) {
-        if (this.protoPomGenerator == null) {
-          throw new UnsupportedOperationException("protoPomGenerator required");
-        }
-        if (this.voPomGenerator == null) {
-          throw new UnsupportedOperationException("voPomGenerator required");
-        }
-      }
 
       backendFolderGenerator.protoPomGenerator = this.protoPomGenerator;
       backendFolderGenerator.voPomGenerator = this.voPomGenerator;
