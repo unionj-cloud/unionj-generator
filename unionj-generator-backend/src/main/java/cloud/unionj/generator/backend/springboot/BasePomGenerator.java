@@ -96,11 +96,14 @@ public abstract class BasePomGenerator extends DefaultGenerator {
 
   public BasePomGenerator() {
     this.outputDir = OUTPUT_DIR;
-    this.groupId = "cloud.unionj.demo";
-    this.artifactId = "unionj-demo";
-    this.version = "1.0.0-SNAPSHOT";
-
     this.hasParent = false;
+    this.parentGroupId = "cloud.unionj.demo";
+    this.parentArtifactId = "unionj-demo";
+    this.parentVersion = "1.0.0-SNAPSHOT";
+
+    this.groupId = this.parentGroupId;
+    this.artifactId = this.parentArtifactId + "-unknown";
+    this.version = this.parentVersion;
   }
 
   @Override

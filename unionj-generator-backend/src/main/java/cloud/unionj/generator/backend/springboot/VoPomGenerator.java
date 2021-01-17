@@ -19,9 +19,6 @@ public class VoPomGenerator extends BasePomGenerator {
     this.artifactId = "unionj-demo-vo";
 
     this.hasParent = true;
-    this.parentGroupId = this.groupId;
-    this.parentArtifactId = "unionj-demo";
-    this.parentVersion = this.version;
   }
 
   @Override
