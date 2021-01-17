@@ -30,6 +30,9 @@ public class SpringbootFolderGenerator {
   private OutputConfig protoOutput;
   private OutputConfig voOutput;
 
+  private ProtoPomGenerator protoPomGenerator;
+  private VoPomGenerator voPomGenerator;
+
   public static final class Builder {
     private Backend backend;
     private String outputDir;
@@ -41,6 +44,9 @@ public class SpringbootFolderGenerator {
 
     private OutputConfig protoOutput;
     private OutputConfig voOutput;
+
+    private ProtoPomGenerator protoPomGenerator;
+    private VoPomGenerator voPomGenerator;
 
     public Builder(Backend backend) {
       this.backend = backend;
@@ -93,6 +99,16 @@ public class SpringbootFolderGenerator {
       return this;
     }
 
+    public Builder protoPomGenerator(ProtoPomGenerator protoPomGenerator) {
+      this.protoPomGenerator = protoPomGenerator;
+      return this;
+    }
+
+    public Builder voPomGenerator(VoPomGenerator voPomGenerator) {
+      this.voPomGenerator = voPomGenerator;
+      return this;
+    }
+
     public SpringbootFolderGenerator build() {
       SpringbootFolderGenerator backendFolderGenerator = new SpringbootFolderGenerator();
       backendFolderGenerator.backend = this.backend;
@@ -107,6 +123,9 @@ public class SpringbootFolderGenerator {
 
       backendFolderGenerator.protoOutput = this.protoOutput;
       backendFolderGenerator.voOutput = this.voOutput;
+
+      backendFolderGenerator.protoPomGenerator = this.protoPomGenerator;
+      backendFolderGenerator.voPomGenerator = this.voPomGenerator;
 
       return backendFolderGenerator;
     }
@@ -140,8 +159,8 @@ public class SpringbootFolderGenerator {
     }
 
     if (pomProject) {
-      // TODO generate pom.xml
-
+      this.protoPomGenerator.generate();
+      this.voPomGenerator.generate();
     }
 
     if (this.zip) {
