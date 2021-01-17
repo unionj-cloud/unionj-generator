@@ -1,8 +1,14 @@
 package cloud.unionj.generator.backend.springboot;
 
 import cloud.unionj.generator.DefaultGenerator;
+import cloud.unionj.generator.GeneratorUtils;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.Map;
+
+import static cloud.unionj.generator.backend.springboot.Constants.MAVEN_POM;
+import static cloud.unionj.generator.backend.springboot.Constants.OUTPUT_DIR;
 
 /**
  * @author created by tqccc
@@ -12,8 +18,6 @@ import java.util.Map;
  */
 public class VoPomGenerator extends DefaultGenerator {
 
-  // TODO
-
   private String outputDir;
 
   private String groupId;
@@ -21,6 +25,8 @@ public class VoPomGenerator extends DefaultGenerator {
   private String artifactId;
 
   private String version;
+
+  private Boolean hasParent;
 
   private String parentGroupId;
 
@@ -30,16 +36,27 @@ public class VoPomGenerator extends DefaultGenerator {
 
   @Override
   public Map<String, Object> getInput() {
-    return null;
+    Map<String, Object> input = new HashMap<>(8);
+
+    input.put("hasParent", hasParent);
+    input.put("parentGroupId", parentGroupId);
+    input.put("parentArtifactId", parentArtifactId);
+    input.put("parentVersion", parentVersion);
+
+    input.put("groupId", groupId);
+    input.put("artifactId", artifactId);
+    input.put("version", version);
+
+    return input;
   }
 
   @Override
   public String getTemplate() {
-    return null;
+    return OUTPUT_DIR + "/vopom.xml.ftl";
   }
 
   @Override
   public String getOutputFile() {
-    return null;
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + MAVEN_POM;
   }
 }
