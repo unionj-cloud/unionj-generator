@@ -225,13 +225,18 @@ public class SpringbootFolderGeneratorTest {
 
     backend.setProtoList(protoList);
 
+
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
-//        .outputDir("src/main/java/xxx/yyy")
-//        .packageName("xxx.yyy")
         .protoOutput(new OutputConfig("com.github.myproject.myproto",
             "myproto/src/main/java/com/github/myproject/myproto"))
         .voOutput(new OutputConfig("com.github.myproject.myvo",
             "myvo/src/main/java/com/github/myproject/myvo"))
+        .pomProject(true)
+        .pomParentGroupId("com.github.myproject")
+        .pomParentArtifactId("myproject")
+        .pomParentVersion("1.0.0-SNAPSHOT")
+        .pomProtoArtifactId("myproject-proto")
+        .pomVoArtifactId("myproject-vo")
         .outputType(OutputType.OVERWRITE)
         .build();
     springbootFolderGenerator.generate();
