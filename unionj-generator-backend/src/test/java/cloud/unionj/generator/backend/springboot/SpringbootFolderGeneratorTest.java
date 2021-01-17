@@ -228,8 +228,10 @@ public class SpringbootFolderGeneratorTest {
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
 //        .outputDir("src/main/java/xxx/yyy")
 //        .packageName("xxx.yyy")
-        .protoOutput(new OutputConfig("xxx.yyy.myproto", "myproto/src/main/java/xxx/yyy/myproto"))
-        .voOutput(new OutputConfig("xxx.yyy.myvo", "myvo/src/main/java/xxx/yyy/myvo"))
+        .protoOutput(new OutputConfig("com.github.myproject.myproto",
+            "myproto/src/main/java/com/github/myproject/myproto"))
+        .voOutput(new OutputConfig("com.github.myproject.myvo",
+            "myvo/src/main/java/com/github/myproject/myvo"))
         .outputType(OutputType.OVERWRITE)
         .build();
     springbootFolderGenerator.generate();
