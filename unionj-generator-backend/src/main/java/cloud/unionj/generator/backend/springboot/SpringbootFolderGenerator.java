@@ -4,6 +4,7 @@ import cloud.unionj.generator.GeneratorUtils;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.docparser.entity.Proto;
 import cloud.unionj.generator.backend.docparser.entity.Vo;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 
@@ -30,10 +31,16 @@ public class SpringbootFolderGenerator {
     private String packageName;
     private String outputDir;
 
-    public OutputConfig() {
-    }
-
     public OutputConfig(String packageName, String outputDir) {
+
+      if (StringUtils.isBlank(packageName)) {
+        throw new UnsupportedOperationException("packageName required");
+      }
+
+      if (StringUtils.isBlank(outputDir)) {
+        throw new UnsupportedOperationException("outputDir required");
+      }
+
       this.packageName = packageName;
       this.outputDir = outputDir;
     }
@@ -84,8 +91,12 @@ public class SpringbootFolderGenerator {
       this.outputDir = Constants.OUTPUT_DIR;
       this.outputType = OutputType.CHECK;
 
-      this.protoOutput = new OutputConfig(Constants.PACKAGE_NAME + ".proto", outputDir + File.separator + "proto");
-      this.voOutput = new OutputConfig(Constants.PACKAGE_NAME + ".vo", outputDir + File.separator + "vo");
+      this.protoOutput = new OutputConfig(
+          Constants.PACKAGE_NAME + ".proto",
+          Constants.OUTPUT_DIR + File.separator + "proto");
+      this.voOutput = new OutputConfig(
+          Constants.PACKAGE_NAME + ".vo",
+          Constants.OUTPUT_DIR + File.separator + "vo");
     }
 
     public Builder zip(boolean zip) {
@@ -107,6 +118,16 @@ public class SpringbootFolderGenerator {
       this.outputDir = outputDir;
       this.protoOutput.setOutputDir(outputDir + File.separator + "proto");
       this.voOutput.setOutputDir(outputDir + File.separator + "vo");
+      return this;
+    }
+
+    public Builder protoOutput(OutputConfig protoOutput) {
+      this.protoOutput = protoOutput;
+      return this;
+    }
+
+    public Builder voOutput(OutputConfig voOutput) {
+      this.voOutput = voOutput;
       return this;
     }
 
