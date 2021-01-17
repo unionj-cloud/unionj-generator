@@ -80,7 +80,7 @@ public class SpringbootFolderGenerator {
 
       this.voPomGenerator.parentGroupId(parentGroupId);
       this.voPomGenerator.groupIdAsParent();
-      this.protoPomGenerator.voVersionAsParent();
+      this.protoPomGenerator.voGroupIdAsParent();
 
       return this;
     }
@@ -105,12 +105,25 @@ public class SpringbootFolderGenerator {
 
     public Builder pomProtoArtifactId(String protoArtifactId) {
       this.protoPomGenerator.artifactId(protoArtifactId);
+      this.protoPomGenerator.outputDirAsArtifactId();
       return this;
     }
 
     public Builder pomVoArtifactId(String voArtifactId) {
       this.voPomGenerator.artifactId(voArtifactId);
+      this.voPomGenerator.outputDirAsArtifactId();
+
       this.protoPomGenerator.voArtifactId(voArtifactId);
+      return this;
+    }
+
+    public Builder pomProtoOutputDir(String pomProtoOutputDir) {
+      this.protoPomGenerator.outputDir(pomProtoOutputDir);
+      return this;
+    }
+
+    public Builder pomVoOutputDir(String pomVoOutputDir) {
+      this.voPomGenerator.outputDir(pomVoOutputDir);
       return this;
     }
 
