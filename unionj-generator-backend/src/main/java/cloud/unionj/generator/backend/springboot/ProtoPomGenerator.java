@@ -1,6 +1,7 @@
 package cloud.unionj.generator.backend.springboot;
 
 import java.io.File;
+import java.util.Map;
 
 import static cloud.unionj.generator.backend.springboot.Constants.OUTPUT_DIR;
 
@@ -29,6 +30,32 @@ public class ProtoPomGenerator extends BasePomGenerator {
     this.voGroupId = this.parentGroupId;
     this.voArtifactId = this.parentArtifactId + "-vo";
     this.voVersion = this.parentVersion;
+  }
+
+  public ProtoPomGenerator voGroupId(String voGroupId) {
+    this.voGroupId = voGroupId;
+    return this;
+  }
+
+  public ProtoPomGenerator voArtifactId(String voArtifactId) {
+    this.voArtifactId = voArtifactId;
+    return this;
+  }
+
+  public ProtoPomGenerator voVersion(String voVersion) {
+    this.voVersion = voVersion;
+    return this;
+  }
+
+  @Override
+  public Map<String, Object> getInput() {
+    Map<String, Object> input = super.getInput();
+
+    input.put("voGroupId", voGroupId);
+    input.put("voArtifactId", voArtifactId);
+    input.put("voVersion", voVersion);
+
+    return input;
   }
 
   @Override
