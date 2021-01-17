@@ -5,7 +5,6 @@ import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.docparser.entity.Proto;
 import cloud.unionj.generator.backend.docparser.entity.Vo;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,56 +27,6 @@ public class SpringbootFolderGenerator {
 
   private OutputConfig protoOutput;
   private OutputConfig voOutput;
-
-  public static class OutputConfig {
-    private String packageName;
-    private String outputDir;
-
-    public OutputConfig(String packageName, String outputDir) {
-      this.packageName = packageName;
-      this.outputDir = outputDir;
-
-      validate();
-    }
-
-    public String getPackageName() {
-      return packageName;
-    }
-
-    public String getOutputDir() {
-      return outputDir;
-    }
-
-    public void setPackageName(String packageName) {
-      this.packageName = packageName;
-    }
-
-    public void setOutputDir(String outputDir) {
-      this.outputDir = outputDir;
-    }
-
-    public void validate() throws UnsupportedOperationException {
-      if (StringUtils.isBlank(packageName)) {
-        throw new UnsupportedOperationException("packageName required");
-      }
-
-      if (StringUtils.isBlank(outputDir)) {
-        throw new UnsupportedOperationException("outputDir required");
-      }
-    }
-  }
-
-  public enum OutputType {
-    /**
-     * check
-     */
-    CHECK,
-
-    /**
-     * overwrite
-     */
-    OVERWRITE
-  }
 
   public static final class Builder {
     private Backend backend;
