@@ -151,7 +151,7 @@ public class TaskHandler extends AliyunConfigLoad {
         ListDevopsProjectTasksResponse response = AcsClient.get().getAcsResponse(listProjectTaskRequest);
         if(response.getSuccessful()){
             Optional<ListDevopsProjectTasksResponse.Task> task = response.getObject().stream()
-                    .filter(ob -> ob.getName().equals(name))
+                    .filter(ob -> StringUtils.strip(ob.getName()).equals(StringUtils.strip(name)))
                     .findFirst();
             if (task.isPresent()){
                 log.info(name + " 任务已存在，被忽略！！！");

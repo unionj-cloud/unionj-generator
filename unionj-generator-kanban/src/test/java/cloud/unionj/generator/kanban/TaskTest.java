@@ -52,7 +52,7 @@ public class TaskTest {
     public void TestPath2(){
         Openapi3 openapi3 = openapi3(ob -> {
             info(ib -> {
-                ib.title("测试创建项目、任务流程1");
+                ib.title("测试重复任务bug");
                 ib.description("项目描述");
                 ib.version("v1.0.0");
             });
@@ -63,10 +63,10 @@ public class TaskTest {
 
             SchemaHelper.batchImport(Components.class);
 
-            Path.path("/2021/0108", pb -> {
+            Path.path("/2021/0116", pb -> {
                 Post.post(ppb -> {
                     ppb.summary("midnight test continue...");
-                    ppb.description("测试描述1");
+                    ppb.description("测试描述");
                     ppb.tags("hall_onlinesurvey");
 
                     RequestBody.requestBody(rb -> {
@@ -94,10 +94,10 @@ public class TaskTest {
                 });
             });
 
-            Path.path("/2021/0108/update", pb -> {
+            Path.path("/2021/0116/update", pb -> {
                 Post.post(ppb -> {
                     ppb.summary("midnight test continue....");
-                    ppb.description("测试描述2");
+                    ppb.description("测试描述");
                     ppb.tags("hall_offlinesurvey");
 
                     RequestBody.requestBody(rb -> {

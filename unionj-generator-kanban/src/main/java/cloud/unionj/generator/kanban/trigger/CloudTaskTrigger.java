@@ -36,13 +36,13 @@ public class CloudTaskTrigger implements Openapi3Trigger{
             if (TaskHandler.taskIsExistByName(op.getSummary())){
                 continue;
             }
-            String description = new StringBuilder(note)
-                    .append(StringUtils.LF)
-                    .append(StringUtils.CR)
-                    .append(op.getDescription()).toString();
+            StringBuilder description = new StringBuilder(note).append(StringUtils.LF).append(StringUtils.CR);
+            if (StringUtils.isNotBlank(op.getDescription())){
+                description.append(op.getDescription());
+            }
             CreateDevopsProjectTaskResponse response = TaskHandler.create(tr -> {
                 tr.setContent(op.getSummary()); // 标题
-                tr.setNote(description); // 备注
+                tr.setNote(description.toString()); // 备注
                 tr.setPriority(0); // 优先级：0：普通（默认值）1：紧急2：非常紧急
                 tr.setStartDate(DateTimeUtils.nowStringByUtc());
                 tr.setDueDate(DateTimeUtils.afterWeekStringByUtc(1L));
