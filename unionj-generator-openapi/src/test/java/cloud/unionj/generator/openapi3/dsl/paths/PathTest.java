@@ -1,7 +1,6 @@
 package cloud.unionj.generator.openapi3.dsl.paths;
 
 import cloud.unionj.generator.openapi3.dsl.*;
-import cloud.unionj.generator.openapi3.dsl.servers.Server;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -17,11 +16,13 @@ import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
 import static cloud.unionj.generator.openapi3.dsl.paths.Components.*;
 import static cloud.unionj.generator.openapi3.dsl.paths.Content.content;
 import static cloud.unionj.generator.openapi3.dsl.paths.MediaType.mediaType;
+import static cloud.unionj.generator.openapi3.dsl.paths.Parameter.parameter;
 import static cloud.unionj.generator.openapi3.dsl.paths.Path.path;
 import static cloud.unionj.generator.openapi3.dsl.paths.Post.post;
 import static cloud.unionj.generator.openapi3.dsl.paths.RequestBody.requestBody;
 import static cloud.unionj.generator.openapi3.dsl.paths.Response.response;
 import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
+import static cloud.unionj.generator.openapi3.dsl.servers.Server.server;
 
 /**
  * @author created by wubin
@@ -39,7 +40,7 @@ public class PathTest {
         ib.version("v1.0.0");
       });
 
-      Server.server(sb -> {
+      server(sb -> {
         sb.url("http://www.unionj.com");
       });
 
@@ -119,7 +120,7 @@ public class PathTest {
         ib.version("v1.0.0");
       });
 
-      Server.server(sb -> {
+      server(sb -> {
         sb.url("http://www.unionj.com");
       });
 
@@ -130,7 +131,7 @@ public class PathTest {
           ppb.summary("上传附件");
           ppb.tags("attachment");
 
-          Parameter.parameter(para -> {
+          parameter(para -> {
             para.required(false);
             para.in("query");
             para.name("returnKey");
@@ -176,25 +177,25 @@ public class PathTest {
 
     @Override
     public void doImport() {
-      Path.path("/oss/upload", pb -> {
-        Post.post(ppb -> {
+      path("/oss/upload", pb -> {
+        post(ppb -> {
           ppb.summary("上传附件");
           ppb.tags("attachment");
 
-          Parameter.parameter(para -> {
+          parameter(para -> {
             para.required(false);
             para.in("query");
             para.name("returnKey");
             para.schema(bool);
           });
 
-          RequestBody.requestBody(rb -> {
+          requestBody(rb -> {
             rb.required(true);
-            rb.content(Content.content(cb -> {
-              cb.multipartFormData(MediaType.mediaType(mb -> {
-                mb.schema(Schema.schema(upload -> {
+            rb.content(content(cb -> {
+              cb.multipartFormData(mediaType(mb -> {
+                mb.schema(schema(upload -> {
                   upload.type("object");
-                  upload.properties("file", Schema.schema(file -> {
+                  upload.properties("file", schema(file -> {
                     file.type("string");
                     file.format("binary");
                   }));
@@ -204,10 +205,10 @@ public class PathTest {
           });
 
           responses(rb -> {
-            rb.response200(Response.response(rrb -> {
-              rrb.content(Content.content(cb -> {
-                cb.applicationJson(MediaType.mediaType(mb -> {
-                  mb.schema(Reference.reference(rrrb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
                     rrrb.ref(ResultDTOString.getTitle());
                   }));
                 }));
@@ -227,7 +228,7 @@ public class PathTest {
         ib.version("v1.0.0");
       });
 
-      Server.server(sb -> {
+      server(sb -> {
         sb.url("http://www.unionj.com");
       });
 
@@ -248,7 +249,7 @@ public class PathTest {
         ib.version("v1.0.0");
       });
 
-      Server.server(sb -> {
+      server(sb -> {
         sb.url("http://www.unionj.com");
       });
 
