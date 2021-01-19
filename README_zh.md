@@ -1,3 +1,4 @@
+#### [English](./README.md)
 # unionj-generator
 
 根据[openapi 3.0规范](http://spec.openapis.org/oas/v3.0.3) 实现的一套代码生成工具。
@@ -10,47 +11,47 @@
 - service: 生成typescript写的api axios客户端代码
 - kanban: 接入阿里云云效2020的开放接口，可以用代码生成云效项目和看板任务
 
-### 使用方法
-#### 从maven中央仓库下载，将以下代码拷贝到pom文件里，可以按需取用
+### 安装
+- 从maven中央仓库下载，将以下代码拷贝到pom文件里，可以按需取用
 ```
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-apidoc</artifactId>
-   <version>1.1-SNAPSHOT</version>
+   <version>1.1</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-frontend</artifactId>
-   <version>1.1-SNAPSHOT</version>
+   <version>1.1</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-backend</artifactId>
-   <version>1.1-SNAPSHOT</version>
+   <version>1.1</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-openapi</artifactId>
-   <version>1.1-SNAPSHOT</version>
+   <version>1.1</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-kanban</artifactId>
-   <version>1.1-SNAPSHOT</version>
+   <version>1.1</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-mock</artifactId>
-   <version>1.1-SNAPSHOT</version>
+   <version>1.1</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-service</artifactId>
-   <version>1.1-SNAPSHOT</version>
+   <version>1.1</version>
 </dependency>
 ```
 
-#### 也可以克隆本仓库代码到本地，然后在项目根路径下执行以下命令，然后以jar包方式引入项目
+- 也可以克隆本仓库代码到本地，然后在项目根路径下执行以下命令，然后以jar包方式引入项目
 ```
 mvn clean install -Dmaven.test.skip=true
 ```
