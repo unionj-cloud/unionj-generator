@@ -1,7 +1,7 @@
 <#list types as type>
 export interface ${type.name} {
 <#list type.properties as property>
-    ${property.name}: ${property.type};
+    ${property.name}<#if !property.required>?</#if>: ${property.type};
 </#list>
 }
 

@@ -65,11 +65,12 @@ public class BizServer {
 
       Schema schema = schemaEntry.getValue();
       Map<String, Schema> properties = schema.getProperties();
-
+      List<String> required = schema.getRequired();
       for (Map.Entry<String, Schema> property : properties.entrySet()) {
         BizProperty bizProperty = new BizProperty();
         bizProperty.setName(property.getKey());
         bizProperty.setType(property.getValue());
+        bizProperty.setRequired(required.contains(property.getKey()));
         bizPropertyList.add(bizProperty);
       }
 
