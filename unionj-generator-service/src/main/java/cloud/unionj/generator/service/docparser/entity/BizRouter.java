@@ -112,6 +112,7 @@ public class BizRouter {
             bizProperty.setIn(para.getIn().toString());
             bizProperty.setName(para.getName());
             bizProperty.setType(para.getSchema());
+            bizProperty.setRequired(para.isRequired());
             return bizProperty;
           })
           .collect(Collectors.toCollection(LinkedHashSet::new));

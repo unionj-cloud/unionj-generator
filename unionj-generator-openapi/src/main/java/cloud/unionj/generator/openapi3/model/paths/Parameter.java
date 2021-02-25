@@ -22,6 +22,7 @@ public class Parameter {
 
   public enum InEnum {
     QUERY("query"),
+    HEADER("header"),
     PATH("path");
 
     private String value;
@@ -46,7 +47,7 @@ public class Parameter {
       return null;
     }
   }
-  
+
   private InEnum in;
   private String description;
   private boolean required;

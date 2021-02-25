@@ -19,12 +19,12 @@ export default class ${name} extends BizService{
   ${router.name}(
   <#if router.pathParams??>
     <#list router.pathParams as pathParam>
-      ${pathParam.name}: ${pathParam.type},
+      ${pathParam.name}<#if !pathParam.required>?</#if>: ${pathParam.type},
     </#list>
   </#if>
   <#if router.queryParams??>
     <#list router.queryParams as queryParam>
-      ${queryParam.name}: ${queryParam.type},
+      ${queryParam.name}<#if !queryParam.required>?</#if>: ${queryParam.type},
     </#list>
   </#if>
   <#if router.reqBody??>
