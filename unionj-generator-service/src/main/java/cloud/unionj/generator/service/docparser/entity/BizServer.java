@@ -65,16 +65,32 @@ public class BizServer {
 
       Schema schema = schemaEntry.getValue();
       Map<String, Schema> properties = schema.getProperties();
+      List<BizEnumType> enumTypeList = new ArrayList<>();
       List<String> required = schema.getRequired();
       for (Map.Entry<String, Schema> property : properties.entrySet()) {
-        BizProperty bizProperty = new BizProperty();
-        bizProperty.setName(property.getKey());
-        bizProperty.setType(property.getValue());
-        bizProperty.setRequired(required.contains(property.getKey()));
+        BizProperty bizProperty;
+        Schema value = property.getValue();
+        if (CollectionUtils.isNotEmpty(value.getEnumValue())) {
+          bizProperty = new BizProperty();
+          bizProperty.setName(property.getKey());
+          String type = bizType.getName() + StringUtils.capitalize(property.getKey()) + "Enum";
+          bizProperty.setType(type);
+          bizProperty.setRequired(required.contains(property.getKey()));
+          List<BizEnum> voEnumList = value.getEnumValue().stream().map(item -> new BizEnum(item.toUpperCase(), item)).collect(Collectors.toList());
+          BizEnumType voEnumType = new BizEnumType(voEnumList, type);
+          enumTypeList.add(voEnumType);
+        } else {
+          bizProperty = new BizProperty();
+          bizProperty.setName(property.getKey());
+          bizProperty.setType(property.getValue());
+          bizProperty.setRequired(required.contains(property.getKey()));
+        }
         bizPropertyList.add(bizProperty);
       }
 
       bizType.setProperties(bizPropertyList);
+      bizType.setEnumTypes(enumTypeList);
+
       types.add(bizType);
     }
 

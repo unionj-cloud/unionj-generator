@@ -19,5 +19,6 @@ public class BizType {
 
   private String name;
   private List<BizProperty> properties;
+  private List<BizEnumType> enumTypes;
 
 }
