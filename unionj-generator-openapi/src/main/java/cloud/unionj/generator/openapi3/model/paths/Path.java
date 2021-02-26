@@ -2,14 +2,16 @@ package cloud.unionj.generator.openapi3.model.paths;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.apache.commons.collections4.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.model
- *  date 2020/12/14
+ * cloud.unionj.generator.openapi3.model
+ * date 2020/12/14
  */
 @Data
 public class Path {
@@ -27,4 +29,29 @@ public class Path {
 
   // TODO
   private List<Parameter> parameters;
+
+  public List<String> getTags() {
+    List<String> result = new ArrayList<>();
+    if (CollectionUtils.isEmpty(result)) {
+      if (this.get != null) {
+        result = this.get.getTags();
+      }
+    }
+    if (CollectionUtils.isEmpty(result)) {
+      if (this.post != null) {
+        result = this.post.getTags();
+      }
+    }
+    if (CollectionUtils.isEmpty(result)) {
+      if (this.put != null) {
+        result = this.put.getTags();
+      }
+    }
+    if (CollectionUtils.isEmpty(result)) {
+      if (this.delete != null) {
+        result = this.delete.getTags();
+      }
+    }
+    return result;
+  }
 }

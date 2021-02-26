@@ -671,6 +671,7 @@ public class PathTest {
         post(ppb -> {
           ppb.summary("材料申报：保存form表单");
           ppb.tags("clshenbao");
+          ppb.tags("clshenbaoForm");
 
           requestBody(rb -> {
             rb.required(true);

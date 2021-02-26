@@ -1,12 +1,12 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
 import cloud.unionj.generator.backend.springboot.Constants;
-import com.google.common.collect.Lists;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Generic;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.Path;
+import com.google.common.collect.Lists;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.backend.docparser.entity
- *  date 2020/12/21
+ * cloud.unionj.generator.backend.docparser.entity
+ * date 2020/12/21
  */
 @Data
 public class Backend {
@@ -107,7 +107,14 @@ public class Backend {
         continue;
       }
       PathWrapper wrapper = new PathWrapper();
-      String protoName = StringUtils.capitalize(split[0]) + "Proto";
+      Path pathEntryValue = pathEntry.getValue();
+      List<String> tags = pathEntryValue.getTags();
+      String protoName;
+      if (CollectionUtils.isNotEmpty(tags) && tags.size() > 1 && StringUtils.isNotBlank(tags.get(1))) {
+        protoName = StringUtils.capitalize(tags.get(1)) + "Proto";
+      } else {
+        protoName = StringUtils.capitalize(split[0]) + "Proto";
+      }
       wrapper.setProtoName(protoName);
 
       wrapper.setEndpoint(key);
