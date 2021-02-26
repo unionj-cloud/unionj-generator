@@ -5,4 +5,16 @@ export interface ${type.name} {
 </#list>
 }
 
+<#if type.enumTypes?has_content>
+<#list type.enumTypes as enumType>
+enum ${enumType.name} {
+<#if enumType.enums?has_content>
+<#list enumType.enums as enum>
+    ${enum.name} = "${enum.value}",
+</#list>
+</#if>
+}
+</#list>
+</#if>
+
 </#list>

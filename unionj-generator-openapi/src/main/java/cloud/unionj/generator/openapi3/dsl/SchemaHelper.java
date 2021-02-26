@@ -249,10 +249,11 @@ public class SchemaHelper {
     });
   }
 
-  public static cloud.unionj.generator.openapi3.model.Schema enums(String description, String[] values) {
+  public static cloud.unionj.generator.openapi3.model.Schema enums(String description, String title, String[] values) {
     return schema(enums -> {
       enums.type("string");
       enums.description(description);
+      enums.title(title);
       for (String value : values) {
         enums.enumValue(value);
       }
