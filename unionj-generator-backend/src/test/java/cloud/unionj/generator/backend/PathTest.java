@@ -670,6 +670,7 @@ public class PathTest {
       path("/clshenbao/form/save", pb -> {
         post(ppb -> {
           ppb.summary("材料申报：保存form表单");
+          ppb.tags("clshenbao");
           ppb.tags("clshenbaoForm");
 
           requestBody(rb -> {

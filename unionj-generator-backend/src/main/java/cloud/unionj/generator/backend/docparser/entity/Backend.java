@@ -110,8 +110,8 @@ public class Backend {
       Path pathEntryValue = pathEntry.getValue();
       List<String> tags = pathEntryValue.getTags();
       String protoName;
-      if (CollectionUtils.isNotEmpty(tags) && StringUtils.isNotBlank(tags.get(0))) {
-        protoName = StringUtils.capitalize(tags.get(0)) + "Proto";
+      if (CollectionUtils.isNotEmpty(tags) && tags.size() > 1 && StringUtils.isNotBlank(tags.get(1))) {
+        protoName = StringUtils.capitalize(tags.get(1)) + "Proto";
       } else {
         protoName = StringUtils.capitalize(split[0]) + "Proto";
       }
