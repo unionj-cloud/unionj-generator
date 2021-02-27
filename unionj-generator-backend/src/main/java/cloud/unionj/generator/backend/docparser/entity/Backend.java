@@ -154,37 +154,11 @@ public class Backend {
 
       proto.setRouters(routers);
 
-      // TODO
-//      Set<String> protoTypes = routers.stream()
-//          .filter(router -> router.getReqBody() != null)
-//          .map(router -> {
-//            String type = router.getReqBody().getType();
-//            int index = type.indexOf("[]");
-//            if (index >= 0) {
-//              type = type.substring(0, index);
-//            }
-//            if (voNameList.contains(type)) {
-//              return type;
-//            }
-//            return null;
-//          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet());
-//
-//      protoTypes.addAll(routers.stream()
-//          .filter(router -> router.getRespData() != null)
-//          .map(router -> {
-//            String type = router.getRespData().getType();
-//            int index = type.indexOf("[]");
-//            if (index >= 0) {
-//              type = type.substring(0, index);
-//            }
-//            if (voNameList.contains(type)) {
-//              return type;
-//            }
-//            return null;
-//          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet()));
-
-//      List<String> imports = protoTypes.stream().map(type -> VO_PACKAGE_NAME + "." + type).collect(Collectors.toList());
-//      proto.setImports(imports);
+      List<String> dummies = routers.stream().map(protoRouter -> protoRouter.getDummies()).reduce(new ArrayList<>(), (x, y) -> {
+        x.addAll(y);
+        return x;
+      });
+      proto.setImports(dummies);
       protoList.add(proto);
     }
 

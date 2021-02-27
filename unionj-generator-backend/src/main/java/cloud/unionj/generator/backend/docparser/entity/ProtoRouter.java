@@ -28,6 +28,7 @@ public class ProtoRouter {
   private ProtoProperty respData;
   private List<ProtoProperty> pathParams;
   private List<ProtoProperty> queryParams;
+  private List<String> dummies;
 
   // TODO
   private List<String> produces;
@@ -148,6 +149,14 @@ public class ProtoRouter {
         router.setRespData(new ProtoProperty.Builder("void").build());
       }
     }
+
+    List<ProtoProperty> protoProperties = new ArrayList<>();
+    protoProperties.add(router.getReqBody());
+    protoProperties.add(router.getRespData());
+    protoProperties.addAll(router.getPathParams());
+    protoProperties.addAll(router.getQueryParams());
+
+    router.dummies = protoProperties.stream().filter(ProtoProperty::isDummy).map(ProtoProperty::getDummy).collect(Collectors.toList());
 
     return router;
   }

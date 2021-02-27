@@ -21,8 +21,8 @@ public class SchemaBuilder {
     this.schema.setTree(isTree);
   }
 
-  public void isDummy(boolean isDummy) {
-    this.schema.setDummy(isDummy);
+  public void dummy(String dummy) {
+    this.schema.setDummy(dummy);
   }
 
   public SchemaBuilder title(String title) {
