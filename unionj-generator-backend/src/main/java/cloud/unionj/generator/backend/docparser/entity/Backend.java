@@ -12,10 +12,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -152,12 +149,12 @@ public class Backend {
 
       proto.setRouters(routers);
 
-      List<String> dummies = voList.stream()
+      Set<String> dummies = voList.stream()
           .filter(vo -> vo != null)
           .filter(Vo::isDummy)
           .map(Vo::getDummy)
-          .collect(Collectors.toList());
-      proto.setImports(dummies);
+          .collect(Collectors.toSet());
+      proto.setImports(Lists.newArrayList(dummies));
       protoList.add(proto);
     }
 
