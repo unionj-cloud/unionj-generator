@@ -153,10 +153,18 @@ public class ProtoRouter {
     List<ProtoProperty> protoProperties = new ArrayList<>();
     protoProperties.add(router.getReqBody());
     protoProperties.add(router.getRespData());
-    protoProperties.addAll(router.getPathParams());
-    protoProperties.addAll(router.getQueryParams());
+    if (CollectionUtils.isNotEmpty(router.getPathParams())) {
+      protoProperties.addAll(router.getPathParams());
+    }
+    if (CollectionUtils.isNotEmpty(router.getQueryParams())) {
+      protoProperties.addAll(router.getQueryParams());
+    }
 
-    router.dummies = protoProperties.stream().filter(ProtoProperty::isDummy).map(ProtoProperty::getDummy).collect(Collectors.toList());
+    router.dummies = protoProperties.stream()
+        .filter(protoProperty -> protoProperty != null)
+        .filter(ProtoProperty::isDummy)
+        .map(ProtoProperty::getDummy)
+        .collect(Collectors.toList());
 
     return router;
   }
