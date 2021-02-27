@@ -38,6 +38,9 @@ public class Schema {
   private Schema items;
   private String description;
 
+  @JsonProperty("dummy")
+  private String dummy;
+
   // TODO
   private boolean uniqueItems;
 
@@ -207,5 +210,9 @@ public class Schema {
   public String toString() {
     return new ToStringBuilder(this)
         .toString();
+  }
+
+  public boolean isDummy() {
+    return StringUtils.isNotBlank(this.dummy);
   }
 }

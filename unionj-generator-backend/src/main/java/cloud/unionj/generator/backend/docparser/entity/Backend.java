@@ -12,10 +12,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -46,7 +43,8 @@ public class Backend {
     for (Map.Entry<String, Schema> schemaEntry : schemas.entrySet()) {
       Vo vo = new Vo();
       Schema schema = schemaEntry.getValue();
-      if (schema instanceof Generic) {
+      if (schema instanceof Generic || schema.isDummy()) {
+        vo.setDummy(schema.getDummy());
         vo.setOutput(false);
       }
       String name = schemaEntry.getKey();
@@ -90,9 +88,6 @@ public class Backend {
     }
 
     backend.setVoList(voList);
-
-    // TODO
-//    List<String> voNameList = voList.stream().map(vo -> vo.getName()).collect(Collectors.toList());
 
     Map<String, Path> paths = openAPI.getPaths();
     Map<String, List<PathWrapper>> pathWrapperMap = new HashMap<>();
@@ -154,37 +149,12 @@ public class Backend {
 
       proto.setRouters(routers);
 
-      // TODO
-//      Set<String> protoTypes = routers.stream()
-//          .filter(router -> router.getReqBody() != null)
-//          .map(router -> {
-//            String type = router.getReqBody().getType();
-//            int index = type.indexOf("[]");
-//            if (index >= 0) {
-//              type = type.substring(0, index);
-//            }
-//            if (voNameList.contains(type)) {
-//              return type;
-//            }
-//            return null;
-//          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet());
-//
-//      protoTypes.addAll(routers.stream()
-//          .filter(router -> router.getRespData() != null)
-//          .map(router -> {
-//            String type = router.getRespData().getType();
-//            int index = type.indexOf("[]");
-//            if (index >= 0) {
-//              type = type.substring(0, index);
-//            }
-//            if (voNameList.contains(type)) {
-//              return type;
-//            }
-//            return null;
-//          }).filter(StringUtils::isNotBlank).collect(Collectors.toSet()));
-
-//      List<String> imports = protoTypes.stream().map(type -> VO_PACKAGE_NAME + "." + type).collect(Collectors.toList());
-//      proto.setImports(imports);
+      Set<String> dummies = voList.stream()
+          .filter(vo -> vo != null)
+          .filter(Vo::isDummy)
+          .map(Vo::getDummy)
+          .collect(Collectors.toSet());
+      proto.setImports(Lists.newArrayList(dummies));
       protoList.add(proto);
     }
 

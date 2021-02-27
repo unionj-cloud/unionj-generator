@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import ${voPackageName}.*;
-<#--<#if imports??>-->
-<#--    <#list imports as import>-->
-<#--import ${import};-->
-<#--    </#list>-->
-<#--</#if>-->
+<#if imports??>
+    <#list imports as import>
+import ${import};
+    </#list>
+</#if>
 
 <#if base??>
 @RequestMapping("${base}")
