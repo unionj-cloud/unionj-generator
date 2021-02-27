@@ -38,6 +38,9 @@ public class Schema {
   private Schema items;
   private String description;
 
+  @JsonProperty("dummy")
+  private boolean dummy;
+
   // TODO
   private boolean uniqueItems;
 

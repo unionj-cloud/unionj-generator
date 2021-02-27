@@ -46,7 +46,7 @@ public class Backend {
     for (Map.Entry<String, Schema> schemaEntry : schemas.entrySet()) {
       Vo vo = new Vo();
       Schema schema = schemaEntry.getValue();
-      if (schema instanceof Generic) {
+      if (schema instanceof Generic || schema.isDummy()) {
         vo.setOutput(false);
       }
       String name = schemaEntry.getKey();

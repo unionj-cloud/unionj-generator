@@ -6,8 +6,8 @@ import cloud.unionj.generator.openapi3.model.Schema;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.expression
- *  date 2020/12/16
+ * cloud.unionj.generator.openapi3.expression
+ * date 2020/12/16
  */
 public class SchemaBuilder {
 
@@ -19,6 +19,10 @@ public class SchemaBuilder {
 
   public void isTree(boolean isTree) {
     this.schema.setTree(isTree);
+  }
+
+  public void isDummy(boolean isDummy) {
+    this.schema.setDummy(isDummy);
   }
 
   public SchemaBuilder title(String title) {
