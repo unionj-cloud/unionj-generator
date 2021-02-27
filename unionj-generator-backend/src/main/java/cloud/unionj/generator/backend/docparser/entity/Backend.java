@@ -47,6 +47,7 @@ public class Backend {
       Vo vo = new Vo();
       Schema schema = schemaEntry.getValue();
       if (schema instanceof Generic || schema.isDummy()) {
+        vo.setDummy(schema.getDummy());
         vo.setOutput(false);
       }
       String name = schemaEntry.getKey();
@@ -90,9 +91,6 @@ public class Backend {
     }
 
     backend.setVoList(voList);
-
-    // TODO
-//    List<String> voNameList = voList.stream().map(vo -> vo.getName()).collect(Collectors.toList());
 
     Map<String, Path> paths = openAPI.getPaths();
     Map<String, List<PathWrapper>> pathWrapperMap = new HashMap<>();
@@ -154,10 +152,11 @@ public class Backend {
 
       proto.setRouters(routers);
 
-      List<String> dummies = routers.stream().map(protoRouter -> protoRouter.getDummies()).reduce(new ArrayList<>(), (x, y) -> {
-        x.addAll(y);
-        return x;
-      });
+      List<String> dummies = voList.stream()
+          .filter(vo -> vo != null)
+          .filter(Vo::isDummy)
+          .map(Vo::getDummy)
+          .collect(Collectors.toList());
       proto.setImports(dummies);
       protoList.add(proto);
     }

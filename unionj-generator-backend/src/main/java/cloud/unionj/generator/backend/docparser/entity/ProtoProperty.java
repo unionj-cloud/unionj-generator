@@ -23,11 +23,6 @@ public class ProtoProperty {
   private String type;
   private boolean required;
   private String defaultValue;
-  private String dummy;
-
-  public boolean isDummy() {
-    return StringUtils.isNotBlank(this.dummy);
-  }
 
   private ProtoProperty() {
   }
@@ -38,16 +33,12 @@ public class ProtoProperty {
     private String type;
     private boolean required = true;
     private String defaultValue;
-    private String dummy;
 
     public Builder(String type) {
       this.type = type;
     }
 
     public Builder(Schema type) {
-      if (type.isDummy()) {
-        this.dummy = type.getDummy();
-      }
       this.type = type.javaType().replaceAll(SchemaHelper.LEFT_ARROW, "<").replaceAll(SchemaHelper.RIGHT_ARROW, ">");
     }
 
@@ -80,7 +71,6 @@ public class ProtoProperty {
       property.in = this.in;
       property.required = this.required;
       property.defaultValue = this.defaultValue;
-      property.dummy = this.dummy;
       return property;
     }
   }
