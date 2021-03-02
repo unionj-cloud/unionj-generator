@@ -16,7 +16,7 @@ public class BizProperty {
   private String name;
   private String type;
   private String in;
-  private boolean required;
+  private boolean required = true;
 
   public BizProperty(String name, String type, String in) {
     this.name = name;
