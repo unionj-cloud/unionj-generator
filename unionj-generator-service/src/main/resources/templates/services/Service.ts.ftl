@@ -17,18 +17,13 @@ export default class ${name} extends BizService{
 
 <#list routers as router>
   ${router.name}(
-  <#if router.pathParams??>
-    <#list router.pathParams as pathParam>
-      ${pathParam.name}<#if !pathParam.required>?</#if>: ${pathParam.type},
-    </#list>
-  </#if>
-  <#if router.queryParams??>
-    <#list router.queryParams as queryParam>
-      ${queryParam.name}<#if !queryParam.required>?</#if>: ${queryParam.type},
-    </#list>
-  </#if>
   <#if router.reqBody??>
     ${router.reqBody.name}: ${router.reqBody.type},
+  </#if>
+  <#if router.allParams??>
+    <#list router.allParams as param>
+      ${param.name}<#if !param.required>?</#if>: ${param.type},
+    </#list>
   </#if>
   ) :Promise<${(router.respData.type=="Blob")?then("any",router.respData.type)}> {
     let client = this.axios.${router.httpMethod?lower_case}

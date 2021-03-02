@@ -75,7 +75,9 @@ public class BizServer {
           bizProperty.setName(property.getKey());
           String type = bizType.getName() + StringUtils.capitalize(property.getKey()) + "Enum";
           bizProperty.setType(type);
-          bizProperty.setRequired(required.contains(property.getKey()));
+          if (CollectionUtils.isNotEmpty(required)) {
+            bizProperty.setRequired(required.contains(property.getKey()));
+          }
           List<BizEnum> voEnumList = value.getEnumValue().stream().map(item -> new BizEnum(item.toUpperCase(), item)).collect(Collectors.toList());
           BizEnumType voEnumType = new BizEnumType(voEnumList, type);
           enumTypeList.add(voEnumType);
@@ -83,7 +85,9 @@ public class BizServer {
           bizProperty = new BizProperty();
           bizProperty.setName(property.getKey());
           bizProperty.setType(property.getValue());
-          bizProperty.setRequired(required.contains(property.getKey()));
+          if (CollectionUtils.isNotEmpty(required)) {
+            bizProperty.setRequired(required.contains(property.getKey()));
+          }
         }
         bizPropertyList.add(bizProperty);
       }

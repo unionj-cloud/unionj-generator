@@ -3,6 +3,7 @@ package cloud.unionj.generator.service.docparser.entity;
 import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.*;
 import com.google.common.base.CaseFormat;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,6 +42,13 @@ public class BizRouter {
   @Setter
   @Getter
   private List<BizProperty> queryParams;
+
+  /**
+   * pathParams + queryParams
+   */
+  @Setter
+  @Getter
+  private List<BizProperty> allParams;
 
   // TODO need implementation
   @Setter
@@ -127,6 +135,12 @@ public class BizRouter {
       if (!hasFormData) {
         bizRouter.setQueryParams(bizPropertyGroupByIn.get("query"));
       }
+
+      List<BizProperty> bizProperties = Lists.newArrayList(bizPropertySet);
+      List<BizProperty> requiredParams = bizProperties.stream().filter(BizProperty::isRequired).collect(Collectors.toList());
+      List<BizProperty> optionalParams = bizProperties.stream().filter(bizProperty -> !bizProperty.isRequired()).collect(Collectors.toList());
+      requiredParams.addAll(optionalParams);
+      bizRouter.setAllParams(requiredParams);
     }
 
     Responses responses = operation.getResponses();
