@@ -109,7 +109,14 @@ public class BizServer {
         continue;
       }
       PathItemWrapper wrapper = new PathItemWrapper();
-      String serviceName = StringUtils.capitalize(split[0]) + "Service";
+      Path pathEntryValue = pathItemEntry.getValue();
+      List<String> tags = pathEntryValue.getTags();
+      String serviceName;
+      if (CollectionUtils.isNotEmpty(tags) && tags.size() > 1 && StringUtils.isNotBlank(tags.get(1))) {
+        serviceName = StringUtils.capitalize(tags.get(1)) + "Service";
+      } else {
+        serviceName = StringUtils.capitalize(split[0]) + "Service";
+      }
       wrapper.setServiceName(serviceName);
 
       key = StringUtils.replace(key, "{", "${");
