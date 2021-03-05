@@ -41,9 +41,6 @@ public class Backend {
     List<Vo> voList = new ArrayList<>();
     Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
     for (Map.Entry<String, Schema> schemaEntry : schemas.entrySet()) {
-      if (schemaEntry.getKey().equals("SearchJobPageResult")) {
-        System.out.println(123);
-      }
       Vo vo = new Vo();
       Schema schema = schemaEntry.getValue();
       if (schema instanceof Generic || schema.isDummy()) {
