@@ -1,9 +1,12 @@
 package cloud.unionj.generator.openapi3.model;
 
+import cloud.unionj.generator.openapi3.dsl.IGeneric;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
+import cloud.unionj.generator.openapi3.expression.ISchemaFinder;
 import cloud.unionj.generator.openapi3.expression.SchemaBuilder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -21,13 +24,19 @@ import java.util.Map;
  * date 2020/12/14
  */
 @Data
-public class Schema {
+public class Schema implements IGeneric {
+
+  @JsonIgnore
+  private ISchemaFinder schemaFinder;
 
   @JsonProperty("$ref")
   private String ref;
 
   @JsonProperty("tree")
   private boolean tree;
+
+  @JsonProperty("dummies")
+  private List<String> dummies = new ArrayList<>();
 
   private String title;
 
@@ -77,6 +86,13 @@ public class Schema {
   // TODO
   private Object pattern;
 
+  public Schema() {
+  }
+
+  public Schema(ISchemaFinder schemaFinder) {
+    this.schemaFinder = schemaFinder;
+  }
+
   public void properties(String property, Schema schema) {
     this.properties.put(property, schema);
   }
@@ -104,7 +120,7 @@ public class Schema {
     return this.deepSetType();
   }
 
-  private String getTypeByRef(String ref) {
+  public String getTypeByRef(String ref) {
     String key = ref.substring(ref.lastIndexOf("/") + 1);
     if (StringUtils.isBlank(key)) {
       return Object.class.getSimpleName();
@@ -186,15 +202,17 @@ public class Schema {
 
   @SneakyThrows
   public Generic generic(Schema schema) {
-    Gson gson = new Gson();
-    Generic deepCopy = gson.fromJson(gson.toJson(this), Generic.class);
+    ObjectMapper objectMapper = new ObjectMapper();
+    String json = objectMapper.writeValueAsString(this);
+    Generic deepCopy = objectMapper.readValue(json, Generic.class);
+    deepCopy.setSchemaFinder(schemaFinder);
     deepCopy.getProperties().forEach((k, v) -> {
       if (v.equals(SchemaHelper.T)) {
         deepCopy.properties(k, schema);
       } else if (v.equals(SchemaHelper.ListT)) {
-        deepCopy.properties(k, new SchemaBuilder().type("array").items(schema).build());
+        deepCopy.properties(k, new SchemaBuilder(null).type("array").items(schema).build());
       } else if (v.equals(SchemaHelper.SetT)) {
-        deepCopy.properties(k, new SchemaBuilder().type("array").items(schema).uniqueItems(true).build());
+        deepCopy.properties(k, new SchemaBuilder(null).type("array").items(schema).uniqueItems(true).build());
       }
     });
     if (StringUtils.isNotBlank(schema.getTitle())) {
@@ -202,6 +220,26 @@ public class Schema {
     } else {
       String type = schema.javaType();
       deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
+    }
+    if (StringUtils.isBlank(schema.getType()) && schemaFinder != null) {
+      String typeByRef = schema.getTypeByRef(schema.getRef());
+      Schema typeByRefSchema = schemaFinder.find(typeByRef);
+      if (typeByRefSchema.isDummy()) {
+        deepCopy.getDummies().add(typeByRefSchema.getDummy());
+      } else if (typeByRefSchema instanceof Generic) {
+        Generic genericValue = (Generic) typeByRefSchema;
+        deepCopy.getDummies().addAll(genericValue.getDummies());
+      }
+    } else {
+      if (schema.isDummy()) {
+        deepCopy.getDummies().add(schema.getDummy());
+      } else if (schema instanceof Generic) {
+        deepCopy.getDummies().addAll(schema.getDummies());
+      }
+    }
+    if (deepCopy.isDummy()) {
+      deepCopy.getDummies().add(deepCopy.getDummy());
+      deepCopy.setDummy(null);
     }
     return deepCopy;
   }

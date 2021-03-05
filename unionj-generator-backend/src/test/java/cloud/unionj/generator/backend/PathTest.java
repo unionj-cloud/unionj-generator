@@ -3,14 +3,13 @@ package cloud.unionj.generator.backend;
 import cloud.unionj.generator.backend.docparser.BackendDocParser;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.springboot.SpringbootFolderGenerator;
-import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.dsl.servers.Server;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static cloud.unionj.generator.backend.Components.*;
+import static cloud.unionj.generator.backend.Components.SearchJobPageResult;
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
 import static cloud.unionj.generator.openapi3.dsl.Reference.reference;
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
@@ -47,8 +46,6 @@ public class PathTest {
         sb.url("http://www.unionj.com");
       });
 
-      SchemaHelper.batchImport(Components.class);
-
       path("/hall/onlineSurvey/list", pb -> {
         post(ppb -> {
           ppb.summary("网络调查分页");
@@ -59,7 +56,7 @@ public class PathTest {
             rb.content(content(cb -> {
               cb.applicationJson(mediaType(mb -> {
                 mb.schema(reference(rrb -> {
-                  rrb.ref(UserDate.getTitle());
+                  rrb.ref(SearchJobPageResult.getTitle());
                 }));
               }));
             }));
@@ -70,7 +67,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserDate.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -89,7 +86,7 @@ public class PathTest {
             rb.content(content(cb -> {
               cb.applicationJson(mediaType(mb -> {
                 mb.schema(reference(rrb -> {
-                  rrb.ref(UserInteger.getTitle());
+                  rrb.ref(SearchJobPageResult.getTitle());
                 }));
               }));
             }));
@@ -100,7 +97,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -133,8 +130,6 @@ public class PathTest {
         sb.url("http://www.unionj.com");
       });
 
-      SchemaHelper.batchImport(Components.class);
-
       path("/oss/upload", pb -> {
         post(ppb -> {
           ppb.summary("上传附件");
@@ -164,7 +159,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -189,8 +184,6 @@ public class PathTest {
       server(sb -> {
         sb.url("http://www.unionj.com");
       });
-
-      SchemaHelper.batchImport(Components.class);
 
       path("/oss/upload", pb -> {
         post(ppb -> {
@@ -225,7 +218,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -250,8 +243,6 @@ public class PathTest {
       server(sb -> {
         sb.url("http://www.unionj.com");
       });
-
-      SchemaHelper.batchImport(Components.class);
 
       path("/oss/upload", pb -> {
         post(ppb -> {
@@ -285,7 +276,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -310,8 +301,6 @@ public class PathTest {
       server(sb -> {
         sb.url("http://www.unionj.com");
       });
-
-      SchemaHelper.batchImport(Components.class);
 
       path("/oss/upload", pb -> {
         post(ppb -> {
@@ -348,7 +337,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -373,8 +362,6 @@ public class PathTest {
       server(sb -> {
         sb.url("http://www.unionj.com");
       });
-
-      SchemaHelper.batchImport(Components.class);
 
       path("/oss/upload", pb -> {
         post(ppb -> {
@@ -413,7 +400,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -438,8 +425,6 @@ public class PathTest {
       server(sb -> {
         sb.url("http://www.unionj.com");
       });
-
-      SchemaHelper.batchImport(Components.class);
 
       path("/oss/upload", pb -> {
         post(ppb -> {
@@ -479,7 +464,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -505,8 +490,6 @@ public class PathTest {
         sb.url("http://www.unionj.com");
       });
 
-      SchemaHelper.batchImport(Components.class);
-
       path("/shortLink", pb -> {
         post(ppb -> {
           ppb.summary("获取短链接");
@@ -527,7 +510,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserDate.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -553,8 +536,6 @@ public class PathTest {
         sb.url("http://www.unionj.com");
       });
 
-      SchemaHelper.batchImport(Components.class);
-
       path("/shop/info", pb -> {
         get(ppb -> {
           ppb.summary("店铺详情");
@@ -583,7 +564,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOMapStringString.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -609,8 +590,6 @@ public class PathTest {
         sb.url("http://www.unionj.com");
       });
 
-      SchemaHelper.batchImport(Components.class);
-
       path("/shop/info", pb -> {
         get(ppb -> {
           ppb.summary("店铺详情");
@@ -639,7 +618,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOMapStringString.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));
@@ -665,8 +644,6 @@ public class PathTest {
         sb.url("http://www.unionj.com");
       });
 
-      SchemaHelper.batchImport(Components.class);
-
       path("/clshenbao/form/save", pb -> {
         post(ppb -> {
           ppb.summary("材料申报：保存form表单");
@@ -691,7 +668,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOMapStringString.getTitle());
+                    rrrb.ref(SearchJobPageResult.getTitle());
                   }));
                 }));
               }));

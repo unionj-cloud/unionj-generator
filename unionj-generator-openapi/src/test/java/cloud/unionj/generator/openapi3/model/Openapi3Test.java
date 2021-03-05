@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class Openapi3Test {
 
-  public static Schema MAGIC = new Schema();
+  public static Schema MAGIC = new Schema(null);
   private static String privateMagic = "privateMagic";
 
   @Test

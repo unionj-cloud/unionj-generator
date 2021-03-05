@@ -7,7 +7,6 @@ import cloud.unionj.generator.kanban.trigger.CloudTrigger;
 import cloud.unionj.generator.kanban.utils.AcsClient;
 import cloud.unionj.generator.kanban.utils.ConsolePrint;
 import cloud.unionj.generator.openapi3.dsl.Reference;
-import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.dsl.paths.*;
 import cloud.unionj.generator.openapi3.dsl.servers.Server;
 import cloud.unionj.generator.openapi3.model.Openapi3;
@@ -59,8 +58,6 @@ public class AliYunxiaoTest {
       Server.server(sb -> {
         sb.url("http://www.unionj.com");
       });
-
-      SchemaHelper.batchImport(Components.class);
 
       Path.path("/hall/onlineSurvey/list", pb -> {
         Post.post(ppb -> {

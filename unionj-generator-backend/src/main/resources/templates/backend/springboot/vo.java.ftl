@@ -8,6 +8,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import java.io.Serializable;
 import java.util.*;
+<#if imports??>
+    <#list imports as import>
+import ${import};
+    </#list>
+</#if>
 
 @Data
 @AllArgsConstructor

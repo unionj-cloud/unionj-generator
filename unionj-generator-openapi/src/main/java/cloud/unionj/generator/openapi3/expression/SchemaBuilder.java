@@ -13,8 +13,8 @@ public class SchemaBuilder {
 
   protected Schema schema;
 
-  public SchemaBuilder() {
-    this.schema = new Schema();
+  public SchemaBuilder(ISchemaFinder schemaFinder) {
+    this.schema = new Schema(schemaFinder);
   }
 
   public void isTree(boolean isTree) {

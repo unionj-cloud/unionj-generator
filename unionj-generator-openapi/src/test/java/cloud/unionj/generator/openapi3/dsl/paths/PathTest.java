@@ -1,6 +1,9 @@
 package cloud.unionj.generator.openapi3.dsl.paths;
 
-import cloud.unionj.generator.openapi3.dsl.*;
+import cloud.unionj.generator.openapi3.dsl.IImporter;
+import cloud.unionj.generator.openapi3.dsl.PathHelper;
+import cloud.unionj.generator.openapi3.dsl.Reference;
+import cloud.unionj.generator.openapi3.dsl.Schema;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -43,8 +46,6 @@ public class PathTest {
       server(sb -> {
         sb.url("http://www.unionj.com");
       });
-
-      SchemaHelper.batchImport(Components.class);
 
       Path.path("/hall/onlineSurvey/list", pb -> {
         Post.post(ppb -> {
@@ -123,8 +124,6 @@ public class PathTest {
       server(sb -> {
         sb.url("http://www.unionj.com");
       });
-
-      SchemaHelper.batchImport(Components.class);
 
       Path.path("/oss/upload", pb -> {
         Post.post(ppb -> {
