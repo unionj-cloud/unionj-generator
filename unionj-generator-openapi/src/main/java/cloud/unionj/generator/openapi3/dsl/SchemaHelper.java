@@ -1,11 +1,6 @@
 package cloud.unionj.generator.openapi3.dsl;
 
-import cloud.unionj.generator.openapi3.dsl.components.Components;
-import org.apache.commons.lang3.StringUtils;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.SneakyThrows;
 
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 
@@ -394,27 +389,8 @@ public class SchemaHelper {
     });
   }
 
-  public static void batchImport(Class<?> clazz) {
-    Field[] declaredFields = clazz.getDeclaredFields();
-    List<Field> staticPublicFields = new ArrayList<>();
-    for (Field field : declaredFields) {
-      if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
-        staticPublicFields.add(field);
-      }
-    }
-    Components.components(cb -> {
-      for (Field field : staticPublicFields) {
-        try {
-          cloud.unionj.generator.openapi3.model.Schema schema = (cloud.unionj.generator.openapi3.model.Schema) field.get(null);
-          String key = schema.getTitle();
-          if (StringUtils.isEmpty(key)) {
-            key = field.getName();
-          }
-          cb.schemas(key, schema);
-        } catch (IllegalAccessException e) {
-          e.printStackTrace();
-        }
-      }
-    });
+  @SneakyThrows
+  public static <T extends IImporter> void doImport(Class<T> clazz) {
+    clazz.newInstance().doImport();
   }
 }

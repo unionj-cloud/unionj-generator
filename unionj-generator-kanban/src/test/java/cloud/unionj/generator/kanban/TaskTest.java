@@ -61,8 +61,6 @@ public class TaskTest {
                 sb.url("http://www.unionj.com");
             });
 
-            SchemaHelper.batchImport(Components.class);
-
             Path.path("/2021/0116", pb -> {
                 Post.post(ppb -> {
                     ppb.summary("midnight test continue...");

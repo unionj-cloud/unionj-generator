@@ -14,8 +14,8 @@ import java.util.Map;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.model
- *  date 2020/12/14
+ * cloud.unionj.generator.openapi3.model
+ * date 2020/12/14
  */
 @Data
 public class Openapi3 {
@@ -25,7 +25,7 @@ public class Openapi3 {
   private List<Server> servers = new ArrayList<>();
   private List<Tag> tags = new ArrayList<>();
   private Map<String, Path> paths = new HashMap<>();
-  private Components components;
+  private Components components = new Components();
 
   public void servers(Server server) {
     this.servers.add(server);

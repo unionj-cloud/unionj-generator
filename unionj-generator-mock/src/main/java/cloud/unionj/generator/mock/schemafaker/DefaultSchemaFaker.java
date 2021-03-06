@@ -113,7 +113,6 @@ public class DefaultSchemaFaker implements SchemaFaker {
             if (properties != null) {
               properties.forEach((k, v) -> {
                 if (k.equals("children")) {
-                  System.out.println(123);
                 }
                 rootObjectNode.set(k, this.convertSchema2JsonNode(v));
               });

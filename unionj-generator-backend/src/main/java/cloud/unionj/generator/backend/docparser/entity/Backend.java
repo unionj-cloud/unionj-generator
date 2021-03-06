@@ -65,9 +65,10 @@ public class Backend {
       List<VoProperty> voPropertyList = new ArrayList<>();
       Map<String, Schema> properties = schema.getProperties();
       List<VoEnumType> enumTypeList = new ArrayList<>();
+      List<String> importList = new ArrayList<>();
       for (Map.Entry<String, Schema> property : properties.entrySet()) {
         Schema value = property.getValue();
-        VoProperty voProperty = null;
+        VoProperty voProperty;
         if (CollectionUtils.isNotEmpty(value.getEnumValue())) {
           String type = StringUtils.capitalize(property.getKey()) + "Enum";
           voProperty = new VoProperty(property.getKey(), property.getKey(), type);
@@ -76,6 +77,23 @@ public class Backend {
           VoEnumType voEnumType = new VoEnumType(voEnumList, type);
           enumTypeList.add(voEnumType);
         } else {
+          if (StringUtils.isBlank(value.getType())) {
+            String typeByRef = value.getTypeByRef(value.getRef());
+            Schema typeByRefSchema = schemas.get(typeByRef);
+            if (typeByRefSchema.isDummy()) {
+              importList.add(typeByRefSchema.getDummy());
+            } else if (typeByRefSchema instanceof Generic) {
+              Generic genericValue = (Generic) typeByRefSchema;
+              importList.addAll(genericValue.getDummies());
+            }
+          } else {
+            if (value.isDummy()) {
+              importList.add(value.getDummy());
+            } else if (value instanceof Generic) {
+              Generic genericValue = (Generic) value;
+              importList.addAll(genericValue.getDummies());
+            }
+          }
           voProperty = new VoProperty(property.getKey(), property.getKey(), value);
         }
         voPropertyList.add(voProperty);
@@ -83,6 +101,7 @@ public class Backend {
 
       vo.setProperties(voPropertyList);
       vo.setEnumTypes(enumTypeList);
+      vo.setImports(importList);
 
       voList.add(vo);
     }

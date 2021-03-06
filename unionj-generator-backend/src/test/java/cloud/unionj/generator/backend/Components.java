@@ -3,6 +3,7 @@ package cloud.unionj.generator.backend;
 import cloud.unionj.generator.openapi3.model.Generic;
 import cloud.unionj.generator.openapi3.model.Schema;
 
+import static cloud.unionj.generator.openapi3.dsl.Generic.generic;
 import static cloud.unionj.generator.openapi3.dsl.Reference.reference;
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
@@ -10,8 +11,8 @@ import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.dsl.paths
- *  date 2020/12/19
+ * cloud.unionj.generator.openapi3.dsl.paths
+ * date 2020/12/19
  */
 public class Components {
 
@@ -34,25 +35,10 @@ public class Components {
 
   private static Schema topStatusProperty = int32("需要排在前的状态");
 
-  public static Schema ShopRecommendApplyDetailCondition = schema(sb -> {
-    sb.type("object");
-    sb.title("ShopRecommendApplyDetailCondition");
-    sb.properties("total", totalProperty);
-    sb.properties("size", sizeProperty);
-    sb.properties("current", currentProperty);
-    sb.properties("maxPage", maxPageProperty);
-    sb.properties("topStatus", topStatusProperty);
-    sb.properties("shopName", string("店铺名称"));
-    sb.properties("status", int32Array("审批状态"));
-    sb.properties("limit", limitProperty);
-    sb.properties("page", pageProperty);
-    sb.properties("sort", sortProperty);
-    sb.properties("offset", offsetProperty);
-  });
-
   public static Schema ResultDTO = schema(sb -> {
     sb.type("object");
     sb.title("ResultDTO");
+    sb.dummy("com.treeyee.cloud.community.es.page.ResultDTO");
     sb.properties("code", int32);
     sb.properties("msg", string);
     sb.properties("data", T);
@@ -77,29 +63,33 @@ public class Components {
     sb.properties("info", T);
   });
 
-  public static Generic UserDate = User.generic(dateTime);
-  public static Generic UserInteger = User.generic(int32);
+  public static Generic UserDate = generic(gb -> {
+    gb.generic(User, dateTime);
+  });
 
-  public static Generic ResultDTOListUserDate = ResultDTO.generic(schema(sb -> {
-    sb.type("array");
-    sb.uniqueItems(true);
-    sb.items(reference(rb -> {
-      rb.ref(UserDate.getTitle());
+  public static Generic UserInteger = generic(gb -> {
+    gb.generic(User, int32);
+  });
+
+  public static Generic ResultDTOListUserDate = generic(gb -> {
+    gb.generic(ResultDTO, schema(sb -> {
+      sb.type("array");
+      sb.uniqueItems(true);
+      sb.items(reference(rb -> {
+        rb.ref(UserDate.getTitle());
+      }));
     }));
-  }));
+  });
 
-  public static Generic ResultDTOListUserInteger = ResultDTO.generic(schema(sb -> {
-    sb.type("array");
-    sb.uniqueItems(true);
-    sb.items(reference(rb -> {
-      rb.ref(UserInteger.getTitle());
+  public static Generic ResultDTOListUserInteger = generic(gb -> {
+    gb.generic(ResultDTO, schema(sb -> {
+      sb.type("array");
+      sb.uniqueItems(true);
+      sb.items(reference(rb -> {
+        rb.ref(UserInteger.getTitle());
+      }));
     }));
-  }));
-
-  public static Generic PageResultVOUserDate = PageResultVO.generic(reference(rb -> {
-    rb.ref(UserDate.getTitle());
-  }));
-
+  });
 
   public static Schema PageSetVO = schema(sb -> {
     sb.type("object");
@@ -113,25 +103,6 @@ public class Components {
     sb.properties("offset", offsetProperty);
   });
 
-  public static Generic PageSetVOUserDate = PageSetVO.generic(reference(rb -> {
-    rb.ref(UserDate.getTitle());
-  }));
-
-  public static Schema ResultDTOMapStringString = ResultDTO.generic(schema(data -> {
-    data.type("object");
-    data.additionalProperties(schema(ab -> {
-      ab.type("string");
-    }));
-  }));
-
-  public static Schema ResultDTOSetString = ResultDTO.generic(schema(data -> {
-    data.uniqueItems(true);
-    data.type("array");
-    data.items(schema(items -> {
-      items.type("string");
-    }));
-  }));
-
   public static Schema RankVO = schema(sb -> {
     sb.type("object");
     sb.title("RankVO");
@@ -143,5 +114,40 @@ public class Components {
     sb.properties("quantity", int32("完成任务数量"));
   });
 
-  public static Schema ResultDTOListRankAwardResultVO = ResultDTO.generic(refArray(RankVO.getTitle()));
+  public static Schema PageResult = schema(sb -> {
+    sb.type("object");
+    sb.title("PageResult");
+    sb.dummy("com.treeyee.cloud.community.es.page.PageResult");
+    sb.properties("items", ListT);
+    sb.properties("total", totalProperty);
+    sb.properties("size", sizeProperty);
+    sb.properties("current", currentProperty);
+    sb.properties("searchCount", bool);
+    sb.properties("pages", int32("当前分页总页数"));
+    sb.properties("offset", offsetProperty);
+  });
+
+  public static Schema PageResultVOJobVO = generic(gb -> {
+    gb.generic(PageResult, reference(rb -> {
+      rb.ref(RankVO.getTitle());
+    }));
+  });
+
+  public static Schema NestedSearchJobPageResult = generic(gb -> {
+    gb.generic(ResultDTO, reference(rb -> {
+      rb.ref(PageResultVOJobVO.getTitle());
+    }));
+  });
+
+  public static Schema SearchJobPageResult = schema(sb -> {
+    sb.type("object");
+    sb.title("SearchJobPageResult");
+    sb.properties("page", ref(NestedSearchJobPageResult.getTitle()));
+  });
+
+  public static Generic ResultDTOPageResultVOJobVO = generic(gb -> {
+    gb.generic(ResultDTO, reference(rb -> {
+      rb.ref(SearchJobPageResult.getTitle());
+    }));
+  });
 }
