@@ -13,10 +13,8 @@ import java.util.function.Consumer;
  */
 public class Reference {
 
-  protected static ReferenceBuilder referenceBuilder;
-
   public static Schema reference(Consumer<ReferenceBuilder> consumer) {
-    referenceBuilder = new ReferenceBuilder();
+    ReferenceBuilder referenceBuilder = new ReferenceBuilder();
     consumer.accept(referenceBuilder);
     Schema schema = referenceBuilder.build();
     return schema;

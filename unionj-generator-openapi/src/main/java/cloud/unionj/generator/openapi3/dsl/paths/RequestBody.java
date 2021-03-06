@@ -7,15 +7,13 @@ import java.util.function.Consumer;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.dsl
- *  date 2020/12/14
+ * cloud.unionj.generator.openapi3.dsl
+ * date 2020/12/14
  */
 public class RequestBody extends Operation {
 
-  private static RequestBodyBuilder requestBodyBuilder;
-
   public static void requestBody(Consumer<RequestBodyBuilder> consumer) {
-    requestBodyBuilder = new RequestBodyBuilder();
+    RequestBodyBuilder requestBodyBuilder = new RequestBodyBuilder();
     consumer.accept(requestBodyBuilder);
     cloud.unionj.generator.openapi3.model.paths.RequestBody requestBody = requestBodyBuilder.build();
     operationBuilder.requestBody(requestBody);

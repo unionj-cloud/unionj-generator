@@ -1,7 +1,5 @@
 package cloud.unionj.generator.openapi3.dsl;
 
-import lombok.SneakyThrows;
-
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 
 /**
@@ -387,10 +385,5 @@ public class SchemaHelper {
       }));
       array.example(example);
     });
-  }
-
-  @SneakyThrows
-  public static <T extends IImporter> void doImport(Class<T> clazz) {
-    clazz.newInstance().doImport();
   }
 }

@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.util.ArrayList;
@@ -141,6 +143,7 @@ public class Schema implements IGeneric {
         } else if (format != null && format.equals("T")) {
           javaType = "T";
         } else {
+          // TODO replace Object with VO
           javaType = Object.class.getSimpleName();
         }
         break;
@@ -252,5 +255,21 @@ public class Schema implements IGeneric {
 
   public boolean isDummy() {
     return StringUtils.isNotBlank(this.dummy);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+
+    if (o == null || getClass() != o.getClass()) return false;
+
+    Schema schema = (Schema) o;
+
+    return new EqualsBuilder().append(tree, schema.tree).append(uniqueItems, schema.uniqueItems).append(deprecated, schema.deprecated).append(nullable, schema.nullable).append(ref, schema.ref).append(dummies, schema.dummies).append(title, schema.title).append(type, schema.type).append(javaType, schema.javaType).append(properties, schema.properties).append(format, schema.format).append(items, schema.items).append(description, schema.description).append(dummy, schema.dummy).append(defaultValue, schema.defaultValue).append(example, schema.example).append(discriminator, schema.discriminator).append(maximum, schema.maximum).append(minimum, schema.minimum).append(exclusiveMaximum, schema.exclusiveMaximum).append(exclusiveMinimum, schema.exclusiveMinimum).append(maxLength, schema.maxLength).append(minLength, schema.minLength).append(required, schema.required).append(enumValue, schema.enumValue).append(allOf, schema.allOf).append(oneOf, schema.oneOf).append(anyOf, schema.anyOf).append(not, schema.not).append(additionalProperties, schema.additionalProperties).append(pattern, schema.pattern).isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37).append(ref).append(tree).append(dummies).append(title).append(type).append(javaType).append(properties).append(format).append(items).append(description).append(dummy).append(uniqueItems).append(defaultValue).append(example).append(deprecated).append(nullable).append(discriminator).append(maximum).append(minimum).append(exclusiveMaximum).append(exclusiveMinimum).append(maxLength).append(minLength).append(required).append(enumValue).append(allOf).append(oneOf).append(anyOf).append(not).append(additionalProperties).append(pattern).toHashCode();
   }
 }
