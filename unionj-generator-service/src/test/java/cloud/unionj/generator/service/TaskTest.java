@@ -7,7 +7,6 @@ import cloud.unionj.generator.kanban.trigger.CloudTaskTrigger;
 import cloud.unionj.generator.kanban.utils.AcsClient;
 import cloud.unionj.generator.kanban.utils.ConsolePrint;
 import cloud.unionj.generator.openapi3.dsl.Reference;
-import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.dsl.paths.*;
 import cloud.unionj.generator.openapi3.dsl.servers.Server;
 import cloud.unionj.generator.openapi3.model.Openapi3;
@@ -23,7 +22,7 @@ import org.junit.Test;
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
 import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
 import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
-import static cloud.unionj.generator.service.Components.*;
+import static cloud.unionj.generator.service.ComponentsDesigner.*;
 
 /**
  * @version v0.1 cloud.unionj.generator
@@ -59,9 +58,6 @@ public class TaskTest {
             Server.server(sb -> {
                 sb.url("http://www.unionj.com");
             });
-
-            // TODO
-//            SchemaHelper.batchImport(Components.class);
 
             Path.path("/2021/0108", pb -> {
                 Post.post(ppb -> {
