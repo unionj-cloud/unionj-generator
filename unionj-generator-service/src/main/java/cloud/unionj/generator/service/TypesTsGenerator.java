@@ -37,7 +37,7 @@ public class TypesTsGenerator extends ServiceGenerator {
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "types.ts.ftl";
+    return OUTPUT_DIR + "/types.ts.ftl";
   }
 
   @Override

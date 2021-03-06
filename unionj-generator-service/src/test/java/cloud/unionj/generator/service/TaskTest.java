@@ -60,7 +60,7 @@ public class TaskTest {
                 sb.url("http://www.unionj.com");
             });
 
-            SchemaHelper.batchImport(Components.class);
+//            SchemaHelper.batchImport(Components.class);
 
             Path.path("/2021/0108", pb -> {
                 Post.post(ppb -> {
