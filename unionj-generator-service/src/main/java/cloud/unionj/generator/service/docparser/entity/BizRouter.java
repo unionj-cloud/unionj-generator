@@ -65,7 +65,6 @@ public class BizRouter {
       bizRouter.setName();
     }
 
-    boolean hasFormData = false;
     RequestBody requestBody = operation.getRequestBody();
     if (requestBody != null) {
       Content content = requestBody.getContent();
@@ -87,7 +86,6 @@ public class BizRouter {
             bizProperty.setIn("requestBody");
             bizProperty.setType(TsTypeConstants.FORMDATA);
             bizRouter.setReqBody(bizProperty);
-            hasFormData = true;
           }
         } else if (content.getMultipartFormData() != null) {
           MediaType formData = content.getMultipartFormData();
@@ -97,7 +95,6 @@ public class BizRouter {
             bizProperty.setIn("requestBody");
             bizProperty.setType(TsTypeConstants.FORMDATA);
             bizRouter.setReqBody(bizProperty);
-            hasFormData = true;
           }
         } else if (content.getTextPlain() != null) {
           MediaType mediaType = content.getTextPlain();
@@ -132,9 +129,7 @@ public class BizRouter {
       Map<String, List<BizProperty>> bizPropertyGroupByIn = bizPropertySet.stream()
           .collect(Collectors.groupingBy(BizProperty::getIn, Collectors.toList()));
       bizRouter.setPathParams(bizPropertyGroupByIn.get("path"));
-      if (!hasFormData) {
-        bizRouter.setQueryParams(bizPropertyGroupByIn.get("query"));
-      }
+      bizRouter.setQueryParams(bizPropertyGroupByIn.get("query"));
 
       List<BizProperty> bizProperties = Lists.newArrayList(bizPropertySet);
       List<BizProperty> requiredParams = bizProperties.stream().filter(BizProperty::isRequired).collect(Collectors.toList());

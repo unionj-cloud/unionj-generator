@@ -150,4 +150,6 @@ public class ComponentsDesigner {
       rb.ref(SearchJobPageResult.getTitle());
     }));
   });
+
+  public static Schema ResultDTOString = generic(gb -> gb.generic(ResultDTO, string));
 }
