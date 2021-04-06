@@ -35,7 +35,7 @@ public class ReadmeMdGenerator extends VueGenerator {
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "README.md.ftl";
+    return OUTPUT_DIR + "/README.md.ftl";
   }
 
   @Override

@@ -35,7 +35,7 @@ public class BizServiceTsGenerator extends ServiceGenerator {
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "BizService.ts.ftl";
+    return OUTPUT_DIR + "/BizService.ts.ftl";
   }
 
   @Override

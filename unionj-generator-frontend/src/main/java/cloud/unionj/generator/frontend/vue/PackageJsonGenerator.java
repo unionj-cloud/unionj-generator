@@ -35,7 +35,7 @@ public class PackageJsonGenerator extends VueGenerator {
 
   @Override
   public String getTemplate() {
-    return OUTPUT_DIR + File.separator + "package.json.ftl";
+    return OUTPUT_DIR + "/package.json.ftl";
   }
 
   @Override
