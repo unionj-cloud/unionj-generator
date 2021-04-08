@@ -7,7 +7,7 @@ export interface ${type.name} {
 
 <#if type.enumTypes?has_content>
 <#list type.enumTypes as enumType>
-enum ${enumType.name} {
+export enum ${enumType.name} {
 <#if enumType.enums?has_content>
 <#list enumType.enums as enum>
     ${enum.name} = "${enum.value}",

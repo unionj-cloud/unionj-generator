@@ -681,4 +681,56 @@ public class PathTest {
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
     springbootFolderGenerator.generate();
   }
+
+  @Test
+  public void generate3() throws IOException {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试");
+        ib.version("v1.0.0");
+      });
+
+      Server.server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      path("/oss/get", pb -> {
+        get(ppb -> {
+          ppb.summary("获取附件");
+          ppb.tags("attachment");
+
+          parameter(para -> {
+            para.required(true);
+            para.in("query");
+            para.name("key");
+            para.schema(string);
+          });
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("style");
+            para.schema(string);
+          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationOctetStream(mediaType(mb -> {
+                  mb.schema(schema(download -> {
+                    download.type("string");
+                    download.format("binary");
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+    });
+
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
 }
