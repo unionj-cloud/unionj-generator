@@ -67,12 +67,12 @@ public class TypesTsGeneratorTest {
 
           requestBody(rb -> {
             rb.required(true);
+            rb.description("这是payload");
             rb.content(content(cb -> {
               cb.applicationJson(mediaType(mb -> {
                 mb.schema(schema(sb -> {
                   sb.type("object");
                   sb.title("PostClshenbaoFormSavePayload");
-                  sb.description("这是payload");
                   sb.properties("userID", int64);
                   sb.properties("fields", stringArray);
                 }));
@@ -80,8 +80,25 @@ public class TypesTsGeneratorTest {
             }));
           });
 
+          parameter(para -> {
+            para.required(true);
+            para.in("query");
+            para.name("key");
+            para.description("键");
+            para.schema(string);
+          });
+
+          parameter(para -> {
+            para.required(false);
+            para.in("query");
+            para.name("style");
+            para.description("样式");
+            para.schema(string);
+          });
+
           responses(rb -> {
             rb.response200(response(rrb -> {
+              rrb.description("返回参数");
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {

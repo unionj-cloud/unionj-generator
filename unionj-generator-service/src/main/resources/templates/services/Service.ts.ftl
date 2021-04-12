@@ -29,7 +29,6 @@ export class ${name} extends BizService{
   </#if>
   <#if router.allParams??>
     <#list router.allParams as param>
-      ${param.name}<#if !param.required>?</#if>: ${param.type},
   * @param ${param.name} ${param.doc!}
     </#list>
   </#if>

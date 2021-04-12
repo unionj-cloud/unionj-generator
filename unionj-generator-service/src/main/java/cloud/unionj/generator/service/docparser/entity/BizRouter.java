@@ -77,45 +77,39 @@ public class BizRouter {
     RequestBody requestBody = operation.getRequestBody();
     if (requestBody != null) {
       Content content = requestBody.getContent();
+      BizProperty bizProperty = new BizProperty();
+      bizProperty.setDoc(requestBody.getDescription());
       if (content != null) {
         if (content.getApplicationJson() != null) {
           MediaType mediaType = content.getApplicationJson();
           if (mediaType.getSchema() != null) {
-            BizProperty bizProperty = new BizProperty();
             bizProperty.setName("payload");
             bizProperty.setIn("requestBody");
             bizProperty.setType(mediaType.getSchema());
-            bizProperty.setDoc(mediaType.getSchema().getDescription());
             bizRouter.setReqBody(bizProperty);
           }
         } else if (content.getApplicationOctetStream() != null) {
           MediaType mediaType = content.getApplicationOctetStream();
           if (mediaType.getSchema() != null) {
-            BizProperty bizProperty = new BizProperty();
             bizProperty.setName("formData");
             bizProperty.setIn("requestBody");
             bizProperty.setType(TsTypeConstants.FORMDATA);
-            bizProperty.setDoc(mediaType.getSchema().getDescription());
             bizRouter.setReqBody(bizProperty);
           }
         } else if (content.getMultipartFormData() != null) {
           MediaType formData = content.getMultipartFormData();
           if (formData.getSchema() != null) {
-            BizProperty bizProperty = new BizProperty();
             bizProperty.setName("formData");
             bizProperty.setIn("requestBody");
             bizProperty.setType(TsTypeConstants.FORMDATA);
-            bizProperty.setDoc(formData.getSchema().getDescription());
             bizRouter.setReqBody(bizProperty);
           }
         } else if (content.getTextPlain() != null) {
           MediaType mediaType = content.getTextPlain();
           if (mediaType.getSchema() != null) {
-            BizProperty bizProperty = new BizProperty();
             bizProperty.setName("payload");
             bizProperty.setIn("requestBody");
             bizProperty.setType(mediaType.getSchema());
-            bizProperty.setDoc(mediaType.getSchema().getDescription());
             bizRouter.setReqBody(bizProperty);
           }
         }
@@ -131,7 +125,7 @@ public class BizRouter {
             bizProperty.setName(para.getName());
             bizProperty.setType(para.getSchema());
             bizProperty.setRequired(para.isRequired());
-            bizProperty.setDoc(para.getSchema().getDescription());
+            bizProperty.setDoc(para.getDescription());
             return bizProperty;
           })
           .collect(Collectors.toCollection(LinkedHashSet::new));
@@ -171,7 +165,7 @@ public class BizRouter {
             bizProperty.setName("data");
             bizProperty.setIn("responseBody");
             bizProperty.setType(schema);
-            bizProperty.setDoc(schema.getDescription());
+            bizProperty.setDoc(okResponse.getDescription());
             bizRouter.setRespData(bizProperty);
           }
         }
