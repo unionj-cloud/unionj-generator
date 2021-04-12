@@ -8,12 +8,16 @@ import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.service.ServiceFolderGenerator;
 import cloud.unionj.generator.service.docparser.ServiceDocParser;
 import cloud.unionj.generator.service.docparser.entity.BizServer;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.SneakyThrows;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -152,6 +156,14 @@ public class VueProjectGenerator extends VueGenerator {
     if (bizServer != null) {
       ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).outputDir(getOutputFile() + "/src/services").zip(false).build();
       serviceFolderGenerator.generate();
+
+      if (StringUtils.isBlank(this.doc)) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        File oas3SpecFile = new File(getOutputFile() + "/src/services" + File.separator + "openapi3.json");
+        FileUtils.writeStringToFile(oas3SpecFile, objectMapper.writeValueAsString(openAPI), StandardCharsets.UTF_8.name());
+      }
     }
 
     String outputFile = GeneratorUtils.getOutputDir("output") + File.separator + this.projectName + "_vue.zip";
