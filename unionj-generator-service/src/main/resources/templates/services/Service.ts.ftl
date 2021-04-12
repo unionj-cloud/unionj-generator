@@ -19,6 +19,8 @@ export class ${name} extends BizService{
 
 <#list routers as router>
   /**
+  * ${router.httpMethod?upper_case} ${router.endpoint}
+  *
   <#if router.docs??>
     <#list router.docs as doc>
   * ${doc}
