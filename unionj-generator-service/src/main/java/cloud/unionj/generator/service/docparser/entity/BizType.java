@@ -7,8 +7,8 @@ import java.util.List;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.mock.docparser.entity
- *  date 2020/11/18
+ * cloud.unionj.generator.mock.docparser.entity
+ * date 2020/11/18
  */
 
 /**
@@ -18,6 +18,7 @@ import java.util.List;
 public class BizType {
 
   private String name;
+  private String doc;
   private List<BizProperty> properties;
   private List<BizEnumType> enumTypes;
 

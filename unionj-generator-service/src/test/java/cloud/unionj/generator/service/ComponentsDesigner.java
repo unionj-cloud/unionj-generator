@@ -106,6 +106,7 @@ public class ComponentsDesigner {
   public static Schema RankVO = schema(sb -> {
     sb.type("object");
     sb.title("RankVO");
+    sb.description("榜单");
     sb.properties("serialNo", int32);
     sb.properties("avatar", string("头像url",
         "https://treeyee-spire.oss-cn-beijing.aliyuncs.com/cddf0ecc-a03e-4c16-8757-92bd7c4800ba1592982748849.jpg"));
@@ -117,6 +118,7 @@ public class ComponentsDesigner {
   public static Schema PageResult = schema(sb -> {
     sb.type("object");
     sb.title("PageResult");
+    sb.description("分页结果");
     sb.dummy("com.treeyee.cloud.community.es.page.PageResult");
     sb.properties("items", ListT);
     sb.properties("total", totalProperty);
@@ -142,6 +144,7 @@ public class ComponentsDesigner {
   public static Schema SearchJobPageResult = schema(sb -> {
     sb.type("object");
     sb.title("SearchJobPageResult");
+    sb.description("任务搜索分页结果");
     sb.properties("page", ref(NestedSearchJobPageResult.getTitle()));
   });
 

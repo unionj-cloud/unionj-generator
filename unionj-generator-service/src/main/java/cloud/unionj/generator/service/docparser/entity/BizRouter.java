@@ -10,10 +10,7 @@ import lombok.Setter;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -55,10 +52,22 @@ public class BizRouter {
   @Getter
   private List<BizProperty> headerParams;
 
+  @Setter
+  @Getter
+  private List<String> docs;
+
   public static BizRouter of(String endpoint, String httpMethod, Operation operation) {
     BizRouter bizRouter = new BizRouter();
     bizRouter.endpoint = endpoint;
     bizRouter.httpMethod = httpMethod;
+    List<String> strings = new ArrayList<>();
+    if (StringUtils.isNotBlank(operation.getSummary())) {
+      strings.addAll(Lists.newArrayList(operation.getSummary().split("[^\\S ]")));
+    }
+    if (StringUtils.isNotBlank(operation.getDescription())) {
+      strings.addAll(Lists.newArrayList(operation.getDescription().split("[^\\S ]")));
+    }
+    bizRouter.docs = strings;
     if (StringUtils.isNotBlank(operation.getOperationId())) {
       bizRouter.name = operation.getOperationId();
     } else {
@@ -76,6 +85,7 @@ public class BizRouter {
             bizProperty.setName("payload");
             bizProperty.setIn("requestBody");
             bizProperty.setType(mediaType.getSchema());
+            bizProperty.setDoc(mediaType.getSchema().getDescription());
             bizRouter.setReqBody(bizProperty);
           }
         } else if (content.getApplicationOctetStream() != null) {
@@ -85,6 +95,7 @@ public class BizRouter {
             bizProperty.setName("formData");
             bizProperty.setIn("requestBody");
             bizProperty.setType(TsTypeConstants.FORMDATA);
+            bizProperty.setDoc(mediaType.getSchema().getDescription());
             bizRouter.setReqBody(bizProperty);
           }
         } else if (content.getMultipartFormData() != null) {
@@ -94,6 +105,7 @@ public class BizRouter {
             bizProperty.setName("formData");
             bizProperty.setIn("requestBody");
             bizProperty.setType(TsTypeConstants.FORMDATA);
+            bizProperty.setDoc(formData.getSchema().getDescription());
             bizRouter.setReqBody(bizProperty);
           }
         } else if (content.getTextPlain() != null) {
@@ -103,6 +115,7 @@ public class BizRouter {
             bizProperty.setName("payload");
             bizProperty.setIn("requestBody");
             bizProperty.setType(mediaType.getSchema());
+            bizProperty.setDoc(mediaType.getSchema().getDescription());
             bizRouter.setReqBody(bizProperty);
           }
         }
@@ -118,6 +131,7 @@ public class BizRouter {
             bizProperty.setName(para.getName());
             bizProperty.setType(para.getSchema());
             bizProperty.setRequired(para.isRequired());
+            bizProperty.setDoc(para.getSchema().getDescription());
             return bizProperty;
           })
           .collect(Collectors.toCollection(LinkedHashSet::new));
@@ -157,6 +171,7 @@ public class BizRouter {
             bizProperty.setName("data");
             bizProperty.setIn("responseBody");
             bizProperty.setType(schema);
+            bizProperty.setDoc(schema.getDescription());
             bizRouter.setRespData(bizProperty);
           }
         }

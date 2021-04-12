@@ -11,8 +11,8 @@ import java.util.Map;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator
- *  date 2020/11/22
+ * cloud.unionj.generator
+ * date 2020/11/22
  */
 public class ServiceTsGenerator extends ServiceGenerator {
 
@@ -32,6 +32,7 @@ public class ServiceTsGenerator extends ServiceGenerator {
   public Map<String, Object> getInput() {
     Map<String, Object> input = new HashMap<>();
     input.put("name", StringUtils.capitalize(this.bizService.getName()));
+    input.put("module", StringUtils.capitalize(this.bizService.getModule()));
     input.put("types", this.bizService.getTypes());
     input.put("routers", this.bizService.getRouters());
     return input;

@@ -28,7 +28,8 @@ public class BizServer {
   public static class PathItemWrapper {
     private Path pathItem;
     private String endpoint;
-    private String serviceName;
+    private String service;
+    private String module;
   }
 
   private String name;
@@ -61,9 +62,10 @@ public class BizServer {
       key = key.replaceAll("[^a-zA-Z]", "");
       bizType.setName(key);
 
-      List<BizProperty> bizPropertyList = new ArrayList<>();
-
       Schema schema = schemaEntry.getValue();
+      bizType.setDoc(schema.getDescription());
+
+      List<BizProperty> bizPropertyList = new ArrayList<>();
       Map<String, Schema> properties = schema.getProperties();
       List<BizEnumType> enumTypeList = new ArrayList<>();
       List<String> required = schema.getRequired();
@@ -73,6 +75,7 @@ public class BizServer {
         if (CollectionUtils.isNotEmpty(value.getEnumValue())) {
           bizProperty = new BizProperty();
           bizProperty.setName(property.getKey());
+          bizProperty.setDoc(value.getDescription());
           String type = bizType.getName() + StringUtils.capitalize(property.getKey()) + "Enum";
           bizProperty.setType(type);
           if (CollectionUtils.isNotEmpty(required)) {
@@ -84,6 +87,7 @@ public class BizServer {
         } else {
           bizProperty = new BizProperty();
           bizProperty.setName(property.getKey());
+          bizProperty.setDoc(value.getDescription());
           bizProperty.setType(property.getValue());
           if (CollectionUtils.isNotEmpty(required)) {
             bizProperty.setRequired(required.contains(property.getKey()));
@@ -121,7 +125,8 @@ public class BizServer {
       } else {
         serviceName = StringUtils.capitalize(split[0]) + "Service";
       }
-      wrapper.setServiceName(serviceName);
+      wrapper.setService(serviceName);
+      wrapper.setModule(StringUtils.capitalize(tags.get(0)));
 
       key = StringUtils.replace(key, "{", "${");
       wrapper.setEndpoint(key);
@@ -136,9 +141,14 @@ public class BizServer {
     for (Map.Entry<String, List<PathItemWrapper>> wrapperEntry : pathItemWrapperMap.entrySet()) {
       BizService bizService = new BizService();
       bizService.setName(wrapperEntry.getKey());
+      List<PathItemWrapper> wrappers = wrapperEntry.getValue();
+      if (CollectionUtils.isEmpty(wrappers)) {
+        continue;
+      }
+      bizService.setModule(wrappers.get(0).getModule());
 
       List<BizRouter> bizRouters = new ArrayList<>();
-      List<PathItemWrapper> wrappers = wrapperEntry.getValue();
+
       for (PathItemWrapper wrapper : wrappers) {
         if (StringUtils.isBlank(wrapper.getEndpoint())) {
           continue;

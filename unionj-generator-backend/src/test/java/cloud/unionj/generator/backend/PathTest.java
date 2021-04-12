@@ -49,7 +49,8 @@ public class PathTest {
       path("/hall/onlineSurvey/list", pb -> {
         post(ppb -> {
           ppb.summary("网络调查分页");
-          ppb.tags("hall_onlinesurvey");
+          ppb.tags("网络调查");
+          ppb.tags("HallOnlineSurvey");
 
           requestBody(rb -> {
             rb.required(true);
@@ -79,7 +80,8 @@ public class PathTest {
       path("/hall/offlineSurvey/update", pb -> {
         post(ppb -> {
           ppb.summary("更新信息, 重新提交审核");
-          ppb.tags("hall_offlinesurvey");
+          ppb.tags("网络调查");
+          ppb.tags("HallOfflinesurvey");
 
           requestBody(rb -> {
             rb.required(true);

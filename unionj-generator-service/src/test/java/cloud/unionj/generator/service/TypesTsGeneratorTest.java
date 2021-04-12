@@ -62,7 +62,7 @@ public class TypesTsGeneratorTest {
       path("/clshenbao/form/save", pb -> {
         post(ppb -> {
           ppb.summary("材料申报：保存form表单");
-          ppb.tags("clshenbao");
+          ppb.tags("材料申报模块");
           ppb.tags("clshenbaoForm");
 
           requestBody(rb -> {
@@ -72,6 +72,7 @@ public class TypesTsGeneratorTest {
                 mb.schema(schema(sb -> {
                   sb.type("object");
                   sb.title("PostClshenbaoFormSavePayload");
+                  sb.description("这是payload");
                   sb.properties("userID", int64);
                   sb.properties("fields", stringArray);
                 }));
