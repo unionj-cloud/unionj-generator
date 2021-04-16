@@ -120,13 +120,20 @@ public class BizServer {
       Path pathEntryValue = pathItemEntry.getValue();
       List<String> tags = pathEntryValue.getTags();
       String serviceName;
+
       if (CollectionUtils.isNotEmpty(tags) && tags.size() > 1 && StringUtils.isNotBlank(tags.get(1))) {
         serviceName = StringUtils.capitalize(tags.get(1)) + "Service";
       } else {
         serviceName = StringUtils.capitalize(split[0]) + "Service";
       }
       wrapper.setService(serviceName);
-      wrapper.setModule(StringUtils.capitalize(tags.get(0)));
+      String moduleName;
+      if (CollectionUtils.isNotEmpty(tags)) {
+        moduleName = StringUtils.capitalize(tags.get(0));
+      } else {
+        moduleName = StringUtils.capitalize(split[0]);
+      }
+      wrapper.setModule(moduleName);
 
       key = StringUtils.replace(key, "{", "${");
       wrapper.setEndpoint(key);
