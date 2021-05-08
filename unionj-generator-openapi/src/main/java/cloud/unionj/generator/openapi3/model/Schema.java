@@ -202,7 +202,7 @@ public class Schema implements IGeneric {
     }
     return javaType;
   }
-
+  
   @SneakyThrows
   public Generic generic(Schema schema) {
     ObjectMapper objectMapper = new ObjectMapper();

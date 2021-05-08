@@ -20,13 +20,11 @@
 
   <modules>
     <module>unionj-generator-core</module>
-    <module>unionj-generator-apidoc</module>
     <module>unionj-generator-mock</module>
     <module>unionj-generator-service</module>
     <module>unionj-generator-frontend</module>
     <module>unionj-generator-backend</module>
     <module>unionj-generator-openapi</module>
-    <module>unionj-generator-kanban</module>
   </modules>
 
   <dependencies>
