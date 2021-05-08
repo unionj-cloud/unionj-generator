@@ -122,7 +122,7 @@ public class Backend {
       }
       PathWrapper wrapper = new PathWrapper();
       Path pathEntryValue = pathEntry.getValue();
-      List<String> tags = pathEntryValue.getTags();
+      List<String> tags = pathEntryValue.returnTags();
       String protoName;
       if (CollectionUtils.isNotEmpty(tags) && tags.size() > 1 && StringUtils.isNotBlank(tags.get(1))) {
         protoName = StringUtils.capitalize(tags.get(1)) + "Proto";

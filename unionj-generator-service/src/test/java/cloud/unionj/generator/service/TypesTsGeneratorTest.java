@@ -38,7 +38,7 @@ public class TypesTsGeneratorTest {
 
   @Test
   public void generate() throws IOException {
-    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("test.json"))) {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("test1.json"))) {
       BizServer bizServer = ServiceDocParser.parse(is);
       TypesTsGenerator typesTsGenerator = new TypesTsGenerator(bizServer.getTypes());
       String outputFile = typesTsGenerator.generate();

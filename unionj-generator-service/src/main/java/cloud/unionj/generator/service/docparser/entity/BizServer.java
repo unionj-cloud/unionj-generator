@@ -118,9 +118,12 @@ public class BizServer {
       }
       PathItemWrapper wrapper = new PathItemWrapper();
       Path pathEntryValue = pathItemEntry.getValue();
-      List<String> tags = pathEntryValue.getTags();
+      List<String> tags = pathEntryValue.returnTags();
       String serviceName;
 
+      /**
+       * Use second tag as Service class name if it exists, otherwise use first part of the path splitted by back slash.
+       */
       if (CollectionUtils.isNotEmpty(tags) && tags.size() > 1 && StringUtils.isNotBlank(tags.get(1))) {
         serviceName = StringUtils.capitalize(tags.get(1)) + "Service";
       } else {

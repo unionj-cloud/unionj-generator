@@ -30,7 +30,7 @@ public class Path {
   // TODO
   private List<Parameter> parameters;
 
-  public List<String> getTags() {
+  public List<String> returnTags() {
     List<String> result = new ArrayList<>();
     if (CollectionUtils.isEmpty(result)) {
       if (this.get != null) {

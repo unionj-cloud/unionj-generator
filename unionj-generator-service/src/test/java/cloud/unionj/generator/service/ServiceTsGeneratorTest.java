@@ -20,7 +20,7 @@ public class ServiceTsGeneratorTest {
 
   @Test
   public void generate() throws IOException {
-    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("petstore3.json"))) {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("test1.json"))) {
       BizServer bizServer = ServiceDocParser.parse(is);
       for (BizService bizService : bizServer.getServices()) {
         ServiceTsGenerator serviceTsGenerator = new ServiceTsGenerator(bizService);
