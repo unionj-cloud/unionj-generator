@@ -89,7 +89,7 @@ public class PathHelper {
               rb.required(true);
               rb.content(content(cb -> {
                 cb.multipartFormData(mediaType(mb -> {
-                  mb.schema(ref(config.getReqSchema().getTitle()));
+                  mb.schema(config.getReqSchema());
                 }));
               }));
             });
