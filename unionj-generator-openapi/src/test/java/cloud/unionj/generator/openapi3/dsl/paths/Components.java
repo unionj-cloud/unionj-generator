@@ -1,16 +1,16 @@
 package cloud.unionj.generator.openapi3.dsl.paths;
 
-import cloud.unionj.generator.openapi3.dsl.Reference;
 import cloud.unionj.generator.openapi3.dsl.Schema;
 import cloud.unionj.generator.openapi3.model.Generic;
 
+import static cloud.unionj.generator.openapi3.dsl.Generic.generic;
 import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.dsl.paths
- *  date 2020/12/19
+ * cloud.unionj.generator.openapi3.dsl.paths
+ * date 2020/12/19
  */
 public class Components {
 
@@ -76,28 +76,13 @@ public class Components {
     sb.properties("info", T);
   });
 
-  public static Generic UserDate = User.generic(dateTime);
-  public static Generic UserInteger = User.generic(int32);
+  public static Generic UserDate = generic(gb -> gb.generic(User, dateTime));
+  public static Generic UserInteger = generic(gb -> gb.generic(User, int32));
+  public static Generic ResultDTOListUserDate = generic(gb -> gb.generic(ResultDTO, uniqueRefArray(UserDate.getTitle())));
 
-  public static Generic ResultDTOListUserDate = ResultDTO.generic(Schema.schema(sb -> {
-    sb.type("array");
-    sb.uniqueItems(true);
-    sb.items(Reference.reference(rb -> {
-      rb.ref(UserDate.getTitle());
-    }));
-  }));
+  public static Generic ResultDTOListUserInteger = generic(gb -> gb.generic(ResultDTO, uniqueRefArray(UserInteger.getTitle())));
 
-  public static Generic ResultDTOListUserInteger = ResultDTO.generic(Schema.schema(sb -> {
-    sb.type("array");
-    sb.uniqueItems(true);
-    sb.items(Reference.reference(rb -> {
-      rb.ref(UserInteger.getTitle());
-    }));
-  }));
+  public static Generic PageResultVOShopRecommendApplyDetailVO = generic(gb -> gb.generic(PageResultVO, ref(UserDate.getTitle())));
 
-  public static Generic PageResultVOShopRecommendApplyDetailVO = PageResultVO.generic(Reference.reference(rb -> {
-    rb.ref(UserDate.getTitle());
-  }));
-
-  public static cloud.unionj.generator.openapi3.model.Schema ResultDTOString = ResultDTO.generic(string);
+  public static cloud.unionj.generator.openapi3.model.Schema ResultDTOString = generic(gb -> gb.generic(ResultDTO, string));
 }

@@ -13,40 +13,52 @@ public class ParameterBuilder {
 
   private Parameter parameter;
 
-  public ParameterBuilder() {
+  private ParameterBuilder() {
     this.parameter = new Parameter();
   }
 
-  public void name(String name) {
+  public static ParameterBuilder builder() {
+    return new ParameterBuilder();
+  }
+
+  public ParameterBuilder name(String name) {
     this.parameter.setName(name);
+    return this;
   }
 
-  public void in(String in) {
+  public ParameterBuilder in(String in) {
     this.parameter.setIn(Parameter.InEnum.fromValue(in));
+    return this;
   }
 
-  public void in(Parameter.InEnum in) {
+  public ParameterBuilder in(Parameter.InEnum in) {
     this.parameter.setIn(in);
+    return this;
   }
 
-  public void description(String description) {
+  public ParameterBuilder description(String description) {
     this.parameter.setDescription(description);
+    return this;
   }
 
-  public void required(boolean required) {
+  public ParameterBuilder required(boolean required) {
     this.parameter.setRequired(required);
+    return this;
   }
 
-  public void deprecated(boolean deprecated) {
+  public ParameterBuilder deprecated(boolean deprecated) {
     this.parameter.setDeprecated(deprecated);
+    return this;
   }
 
-  public void example(Object example) {
+  public ParameterBuilder example(Object example) {
     this.parameter.setExample(example);
+    return this;
   }
 
-  public void schema(Schema schema) {
+  public ParameterBuilder schema(Schema schema) {
     this.parameter.setSchema(schema);
+    return this;
   }
 
   public Parameter build() {

@@ -13,9 +13,13 @@ import java.util.function.Consumer;
 public class Parameter extends Operation {
 
   public static void parameter(Consumer<ParameterBuilder> consumer) {
-    ParameterBuilder parameterBuilder = new ParameterBuilder();
+    ParameterBuilder parameterBuilder = ParameterBuilder.builder();
     consumer.accept(parameterBuilder);
     cloud.unionj.generator.openapi3.model.paths.Parameter parameter = parameterBuilder.build();
+    operationBuilder.parameters(parameter);
+  }
+
+  public static void parameter(cloud.unionj.generator.openapi3.model.paths.Parameter parameter) {
     operationBuilder.parameters(parameter);
   }
 }

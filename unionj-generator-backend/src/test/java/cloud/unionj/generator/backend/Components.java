@@ -4,7 +4,6 @@ import cloud.unionj.generator.openapi3.model.Generic;
 import cloud.unionj.generator.openapi3.model.Schema;
 
 import static cloud.unionj.generator.openapi3.dsl.Generic.generic;
-import static cloud.unionj.generator.openapi3.dsl.Reference.reference;
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 
@@ -72,23 +71,11 @@ public class Components {
   });
 
   public static Generic ResultDTOListUserDate = generic(gb -> {
-    gb.generic(ResultDTO, schema(sb -> {
-      sb.type("array");
-      sb.uniqueItems(true);
-      sb.items(reference(rb -> {
-        rb.ref(UserDate.getTitle());
-      }));
-    }));
+    gb.generic(ResultDTO, uniqueRefArray(UserDate.getTitle()));
   });
 
   public static Generic ResultDTOListUserInteger = generic(gb -> {
-    gb.generic(ResultDTO, schema(sb -> {
-      sb.type("array");
-      sb.uniqueItems(true);
-      sb.items(reference(rb -> {
-        rb.ref(UserInteger.getTitle());
-      }));
-    }));
+    gb.generic(ResultDTO, uniqueRefArray(UserInteger.getTitle()));
   });
 
   public static Schema PageSetVO = schema(sb -> {
@@ -130,15 +117,11 @@ public class Components {
   });
 
   public static Schema PageResultVOJobVO = generic(gb -> {
-    gb.generic(PageResult, reference(rb -> {
-      rb.ref(RankVO.getTitle());
-    }));
+    gb.generic(PageResult, ref(RankVO.getTitle()));
   });
 
   public static Schema NestedSearchJobPageResult = generic(gb -> {
-    gb.generic(ResultDTO, reference(rb -> {
-      rb.ref(PageResultVOJobVO.getTitle());
-    }));
+    gb.generic(ResultDTO, ref(PageResultVOJobVO.getTitle()));
   });
 
   public static Schema SearchJobPageResult = schema(sb -> {
@@ -149,8 +132,6 @@ public class Components {
   });
 
   public static Generic ResultDTOPageResultVOJobVO = generic(gb -> {
-    gb.generic(ResultDTO, reference(rb -> {
-      rb.ref(SearchJobPageResult.getTitle());
-    }));
+    gb.generic(ResultDTO, ref(SearchJobPageResult.getTitle()));
   });
 }
