@@ -7,7 +7,7 @@
   <parent>
     <groupId>cloud.unionj</groupId>
     <artifactId>unionj-generator</artifactId>
-    <version>1.4-SNAPSHOT</version>
+    <version>1.5-SNAPSHOT</version>
   </parent>
   <artifactId>unionj-generator-openapi</artifactId>
   <name>unionj-generator-openapi</name>
@@ -16,7 +16,7 @@
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-core</artifactId>
-      <version>1.4-SNAPSHOT</version>
+      <version>1.5-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>com.google.code.gson</groupId>
