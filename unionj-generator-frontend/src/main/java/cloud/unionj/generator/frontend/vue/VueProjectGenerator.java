@@ -16,6 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -29,6 +30,7 @@ import java.util.Map;
 public class VueProjectGenerator extends VueGenerator {
 
   private String doc;
+  private InputStream is;
   private Openapi3 openAPI;
   private String projectName;
   private String outputDir;
@@ -37,6 +39,7 @@ public class VueProjectGenerator extends VueGenerator {
 
   public static final class Builder {
     private String doc;
+    private InputStream is;
     private Openapi3 openAPI;
     private String projectName;
     private String outputDir = OUTPUT_DIR;
@@ -54,6 +57,11 @@ public class VueProjectGenerator extends VueGenerator {
 
     public Builder doc(String doc) {
       this.doc = doc;
+      return this;
+    }
+
+    public Builder is(InputStream is) {
+      this.is = is;
       return this;
     }
 
@@ -77,6 +85,7 @@ public class VueProjectGenerator extends VueGenerator {
       vueProjectGenerator.projectName = this.projectName;
       vueProjectGenerator.outputDir = this.outputDir;
       vueProjectGenerator.doc = this.doc;
+      vueProjectGenerator.is = this.is;
       vueProjectGenerator.openAPI = this.openAPI;
       vueProjectGenerator.scaffold = this.scaffold;
       vueProjectGenerator.includeMock = this.includeMock;
@@ -102,7 +111,7 @@ public class VueProjectGenerator extends VueGenerator {
   @SneakyThrows
   @Override
   public String generate() {
-    if (StringUtils.isBlank(this.doc) && this.openAPI == null) {
+    if (StringUtils.isBlank(this.doc) && this.openAPI == null && this.is == null) {
       return null;
     }
 
@@ -150,6 +159,8 @@ public class VueProjectGenerator extends VueGenerator {
       } else {
         bizServer = ServiceDocParser.parse(new File(this.doc));
       }
+    } else if (this.is != null) {
+      bizServer = ServiceDocParser.parse(this.is);
     } else {
       bizServer = ServiceDocParser.parse(this.openAPI);
     }
