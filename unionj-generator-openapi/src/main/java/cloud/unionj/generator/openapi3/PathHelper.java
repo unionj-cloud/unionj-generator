@@ -100,7 +100,7 @@ public class PathHelper {
               rb.required(true);
               rb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
-                  mb.schema(ref(config.getReqSchema().getTitle()));
+                  mb.schema(config.getReqSchema());
                 }));
               }));
             });
@@ -134,7 +134,7 @@ public class PathHelper {
             rb.response200(response(rrb -> {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
-                  mb.schema(ref(config.getRespSchema().getTitle()));
+                  mb.schema(config.getRespSchema());
                 }));
               }));
             }));
