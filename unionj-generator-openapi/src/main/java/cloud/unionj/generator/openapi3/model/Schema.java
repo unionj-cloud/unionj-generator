@@ -143,8 +143,11 @@ public class Schema implements IGeneric {
         } else if (format != null && format.equals("T")) {
           javaType = "T";
         } else {
-          // TODO replace Object with VO
-          javaType = Object.class.getSimpleName();
+          if (StringUtils.isNotBlank(this.getTitle())) {
+            javaType = this.getTitle();
+          } else {
+            javaType = Object.class.getSimpleName();
+          }
         }
         break;
       }
@@ -202,7 +205,7 @@ public class Schema implements IGeneric {
     }
     return javaType;
   }
-  
+
   @SneakyThrows
   public Generic generic(Schema schema) {
     ObjectMapper objectMapper = new ObjectMapper();

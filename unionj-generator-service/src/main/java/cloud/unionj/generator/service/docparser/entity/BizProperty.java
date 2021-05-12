@@ -86,6 +86,14 @@ public class BizProperty {
         tsType += "[]";
         break;
       }
+      case "object": {
+        if (StringUtils.isNotBlank(schema.getTitle())) {
+          tsType = schema.getTitle().replaceAll("[^a-zA-Z]", "");
+        } else {
+          tsType = TsTypeConstants.ANY;
+        }
+        break;
+      }
       default: {
         tsType = TsTypeConstants.ANY;
       }
