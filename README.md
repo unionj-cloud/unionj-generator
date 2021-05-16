@@ -3,11 +3,11 @@ unionj-generator is a collection of code generators with a restful api design to
 [openAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3).
 
 Including：
-- backend: generating VO and Proto(interface for controller or feign client to implement) for spring boot backend
-- frontend: generating typescript vue project scaffold with axios api clients built-in 
-- mock: generating request handlers for [mswjs](https://github.com/mswjs/msw) 
+- backend: Using dsl to generate VO and Proto(interface for controller or feign client to implement) for spring boot backend
+- frontend: Using dsl or openAPI3 json file to generate typescript vue project scaffold with axios api clients built-in 
+- mock: Using dsl or openAPI3 json file generating request handlers for [mswjs](https://github.com/mswjs/msw) 
 - openapi: dsl implementing [openAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3)
-- service: generating typescript axios api clients
+- service: Using dsl or openAPI3 json file generating typescript axios api clients
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -74,7 +74,7 @@ mvn clean install -Dmaven.test.skip=true
 
 ## Demo project
 
-It's a simple typescript http client code download restful service project. Upload openapi3 spec json file, download ts code. 
+It's a simple typescript http client code download restful service project. Upload openAPI3 spec json file, download ts code. 
 
 Repo: https://github.com/unionj-cloud/openapi-svc
 
@@ -89,8 +89,8 @@ Recommend project structure as below picture:
 #### Example
 
 ```java
-import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
-import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
+import static cloud.unionj.generator.openAPI3.dsl.Schema.schema;
+import static cloud.unionj.generator.openAPI3.dsl.SchemaHelper.*;
 
 public class Components {
 
@@ -149,7 +149,7 @@ public class Components {
 
 #### SchemaHelper
 
-There are some built-in schemas in cloud.unionj.generator.openapi3.dsl.SchemaHelper.
+There are some built-in schemas in cloud.unionj.generator.openAPI3.dsl.SchemaHelper.
 
 | Type          | Java                 |
 | ------------- | -------------------- |
@@ -195,11 +195,11 @@ public static Schema PageResultVOJobVO = generic(gb -> {
 #### Example
 
 ```java
-import static cloud.unionj.generator.openapi3.PathHelper.*;
+import static cloud.unionj.generator.openAPI3.PathHelper.*;
 
 @Test
 public void TestPath() throws IOException {
-  Openapi3 openapi3 = openapi3(ob -> {
+  openAPI3 openAPI3 = openAPI3(ob -> {
     info(ib -> {
       ib.title("title");
       ib.version("v1.0.0");
@@ -237,7 +237,7 @@ public void TestPath() throws IOException {
          .respSchema(SearchJobPageResult)
          .build());
   });
-  Backend backend = BackendDocParser.parse(openapi3);
+  Backend backend = BackendDocParser.parse(openAPI3);
   SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
   springbootFolderGenerator.generate();
 }
@@ -334,6 +334,7 @@ export default ExampleService;
 
 - [x] Java generic support
 - [x] Typescript service comment and type comment generation
+- [ ] Java proto and vo code generation from openAPI3 json file
 - [ ] Java proto comment and vo comment generation
 - [ ] maven plugin
 - [ ] CI & CD support
