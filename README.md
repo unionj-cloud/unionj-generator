@@ -9,7 +9,28 @@ Including：
 - openapi: dsl implementing [openAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3)
 - service: generating typescript axios api clients
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+### TOC
 
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Demo project](#demo-project)
+  - [DSL](#dsl)
+    - [Schema](#schema)
+      - [Example](#example)
+      - [SchemaHelper](#schemahelper)
+      - [Generic](#generic)
+        - [Syntax](#syntax)
+    - [Path](#path)
+      - [Example](#example-1)
+  - [Backend](#backend)
+    - [Example](#example-2)
+  - [Frontend](#frontend)
+    - [Example](#example-3)
+- [TODO](#todo)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Installation
 
@@ -53,15 +74,13 @@ mvn clean install -Dmaven.test.skip=true
 
 ## Demo project
 
-It's a simple typescript http client code download restful service project. Upload openapi3 spec json file, download ts code.
+It's a simple typescript http client code download restful service project. Upload openapi3 spec json file, download ts code. 
 
 Repo: https://github.com/unionj-cloud/openapi-svc
 
 Recommend project structure as below picture:
 
-<img src="/Users/wubin1989/workspace/cloud/unionj-generator/demo.png" alt="demo" style="zoom:50%;" />
-
-
+![demo](./demo.png)
 
 ## DSL
 
