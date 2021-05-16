@@ -4,58 +4,45 @@ unionj-generator is a collection of code generators with a restful api design to
 [openAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3).
 
 Including：
-- apidoc: api documentation website using [shins](https://github.com/mermade/shins)
-- backend: generating VO and Proto(interface for controller to implement) for spring boot backend
+- backend: generating VO and Proto(interface for controller or feign client to implement) for spring boot backend
 - frontend: generating typescript vue project with axios api clients built-in 
 - mock: generating request handlers for [mswjs](https://github.com/mswjs/msw) 
 - openapi: dsl implementing [openAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3)
 - service: generating typescript axios api clients
-- kanban: generating todo cards for Aliyun YunXiao(云效) project management platform 
 
 ### Installation
-There are two options.
+There are two steps.
+- Clone this repository and execute the following command
+```
+mvn clean install -Dmaven.test.skip=true
+```
 - Copy the following code to pom.xml
 ```
 <dependency>
    <groupId>cloud.unionj</groupId>
-   <artifactId>unionj-generator-apidoc</artifactId>
-   <version>1.1</version>
-</dependency>
-<dependency>
-   <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-frontend</artifactId>
-   <version>1.1</version>
+   <version>1.5-SNAPSHOT</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-backend</artifactId>
-   <version>1.1</version>
+   <version>1.5-SNAPSHOT</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-openapi</artifactId>
-   <version>1.1</version>
-</dependency>
-<dependency>
-   <groupId>cloud.unionj</groupId>
-   <artifactId>unionj-generator-kanban</artifactId>
-   <version>1.1</version>
+   <version>1.5-SNAPSHOT</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-mock</artifactId>
-   <version>1.1</version>
+   <version>1.5-SNAPSHOT</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-service</artifactId>
-   <version>1.1</version>
+   <version>1.5-SNAPSHOT</version>
 </dependency>
-```
-
-- Clone this repository and execute the following command, then move the jars into your project
-```
-mvn clean install -Dmaven.test.skip=true
 ```
 
 ### Usage Example
