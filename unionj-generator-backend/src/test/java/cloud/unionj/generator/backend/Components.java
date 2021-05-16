@@ -95,8 +95,6 @@ public class Components {
     sb.title("RankVO");
     sb.description("排行榜");
     sb.properties("serialNo", int32);
-    sb.properties("avatar", string("头像url",
-        "https://treeyee-spire.oss-cn-beijing.aliyuncs.com/cddf0ecc-a03e-4c16-8757-92bd7c4800ba1592982748849.jpg"));
     sb.properties("name", string);
     sb.properties("income", doubleNumer("累计收入"));
     sb.properties("quantity", int32("完成任务数量"));

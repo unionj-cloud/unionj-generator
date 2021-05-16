@@ -4,19 +4,24 @@ import cloud.unionj.generator.backend.docparser.BackendDocParser;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.springboot.SpringbootFolderGenerator;
 import cloud.unionj.generator.openapi3.PathConfig;
+import cloud.unionj.generator.openapi3.dsl.Reference;
+import cloud.unionj.generator.openapi3.dsl.paths.*;
+import cloud.unionj.generator.openapi3.dsl.servers.Server;
 import cloud.unionj.generator.openapi3.expression.paths.ParameterBuilder;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.paths.Parameter;
+import lombok.SneakyThrows;
 import org.junit.Test;
 
 import java.io.IOException;
 
-import static cloud.unionj.generator.backend.Components.SearchJobPageResult;
+import static cloud.unionj.generator.backend.Components.*;
 import static cloud.unionj.generator.openapi3.PathHelper.post;
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
 import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.int32;
 import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.string;
 import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
+import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
 import static cloud.unionj.generator.openapi3.dsl.servers.Server.server;
 
 /**
@@ -62,6 +67,85 @@ public class PathTest {
           })
           .respSchema(SearchJobPageResult)
           .build());
+    });
+    Backend backend = BackendDocParser.parse(openapi3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  @SneakyThrows
+  @Test
+  public void TestPath2() {
+    Openapi3 openapi3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("测试创建项目、任务流程1");
+        ib.description("项目描述");
+        ib.version("v1.0.0");
+      });
+
+      Server.server(sb -> {
+        sb.url("http://www.unionj.com");
+      });
+
+      Path.path("/hall/onlineSurvey/list", pb -> {
+        Post.post(ppb -> {
+          ppb.summary("网络调查分页");
+          ppb.tags("hall_onlinesurvey");
+
+          RequestBody.requestBody(rb -> {
+            rb.required(true);
+            rb.content(Content.content(cb -> {
+              cb.applicationJson(MediaType.mediaType(mb -> {
+                mb.schema(Reference.reference(rrb -> {
+                  rrb.ref(UserDate.getTitle());
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(Response.response(rrb -> {
+              rrb.content(Content.content(cb -> {
+                cb.applicationJson(MediaType.mediaType(mb -> {
+                  mb.schema(Reference.reference(rrrb -> {
+                    rrrb.ref(ResultDTOListUserDate.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
+
+      Path.path("/hall/offlineSurvey/update", pb -> {
+        Post.post(ppb -> {
+          ppb.summary("更新信息, 重新提交审核");
+          ppb.tags("hall_offlinesurvey");
+
+          RequestBody.requestBody(rb -> {
+            rb.required(true);
+            rb.content(Content.content(cb -> {
+              cb.applicationJson(MediaType.mediaType(mb -> {
+                mb.schema(Reference.reference(rrb -> {
+                  rrb.ref(UserInteger.getTitle());
+                }));
+              }));
+            }));
+          });
+
+          responses(rb -> {
+            rb.response200(Response.response(rrb -> {
+              rrb.content(Content.content(cb -> {
+                cb.applicationJson(MediaType.mediaType(mb -> {
+                  mb.schema(Reference.reference(rrrb -> {
+                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
     });
     Backend backend = BackendDocParser.parse(openapi3);
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();

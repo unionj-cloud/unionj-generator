@@ -1,16 +1,18 @@
-#### [中文](./README_zh.md)
 # unionj-generator
 unionj-generator is a collection of code generators with a restful api design tool(DSL) implementing 
 [openAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3).
 
 Including：
 - backend: generating VO and Proto(interface for controller or feign client to implement) for spring boot backend
-- frontend: generating typescript vue project with axios api clients built-in 
+- frontend: generating typescript vue project scaffold with axios api clients built-in 
 - mock: generating request handlers for [mswjs](https://github.com/mswjs/msw) 
 - openapi: dsl implementing [openAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3)
 - service: generating typescript axios api clients
 
-### Installation
+
+
+# Installation
+
 There are two steps.
 - Clone this repository and execute the following command
 ```
@@ -45,181 +47,279 @@ mvn clean install -Dmaven.test.skip=true
 </dependency>
 ```
 
-### Usage Example
-#### DSL
-```
-public static class OssProto implements IImporter {
 
- @Override
- public void doImport() {
-   path("/oss/upload", pb -> {
-     post(ppb -> {
-       ppb.summary("上传附件");
-       ppb.tags("attachment");
 
-       parameter(para -> {
-         para.required(false);
-         para.in("query");
-         para.name("returnKey");
-         para.schema(bool);
-       });
+# Usage
 
-       requestBody(rb -> {
-         rb.required(true);
-         rb.content(content(cb -> {
-           cb.multipartFormData(mediaType(mb -> {
-             mb.schema(schema(upload -> {
-               upload.type("object");
-               upload.properties("file", schema(file -> {
-                 file.type("string");
-                 file.format("binary");
-               }));
-             }));
-           }));
-         }));
-       });
+## Demo project
 
-       responses(rb -> {
-         rb.response200(response(rrb -> {
-           rrb.content(content(cb -> {
-             cb.applicationJson(mediaType(mb -> {
-               mb.schema(reference(rrrb -> {
-                 rrrb.ref(ResultDTOString.getTitle());
-               }));
-             }));
-           }));
-         }));
-       });
-     });
-   });
- }
+It's a simple typescript http client code download restful service project. Upload openapi3 spec json file, download ts code.
+
+Repo: https://github.com/unionj-cloud/openapi-svc
+
+Recommend project structure as below picture:
+
+<img src="/Users/wubin1989/workspace/cloud/unionj-generator/demo.png" alt="demo" style="zoom:50%;" />
+
+
+
+## DSL
+
+### Schema
+
+#### Example
+
+```java
+import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
+import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
+
+public class Components {
+
+  private static Schema sizeProperty = int32("每页条数，默认10，传-1查出全部数据");
+
+  private static Schema currentProperty = int32("当前页，从1开始");
+
+  private static Schema offsetProperty = int32("偏移量");
+
+  private static Schema sortProperty = string("排序条件字符串：排序字段前使用'-'(降序)和'+'(升序)号表示排序规则，多个排序字段用','隔开",
+      "+id,-create_at");
+
+  private static Schema pageProperty = int32("当前页，从1开始");
+
+  private static Schema limitProperty = int32("每页条数，默认10, 传-1查出全部数据", 10);
+
+  private static Schema maxPageProperty = int32("导出结束页");
+
+  private static Schema totalProperty = int64("总数，入参传入此参数则不再查询count，以此total为准");
+
+  private static Schema topStatusProperty = int32("需要排在前的状态");
+  
+  public static Schema PageResultVO = schema(sb -> {
+    // Schema type. Required.
+    sb.type("object");
+    // Schema title. Required. Otherwise the generator tool won't know it.
+    sb.title("PageResultVO");
+    // Generic as List<T>
+    sb.properties("items", ListT);
+    sb.properties("total", totalProperty);
+    sb.properties("size", sizeProperty);
+    sb.properties("current", currentProperty);
+    sb.properties("searchCount", bool);
+    sb.properties("pages", int32("当前分页总页数"));
+    sb.properties("offset", offsetProperty);
+  });
+  
+  public static Schema RankVO = schema(sb -> {
+    sb.type("object");
+    sb.title("RankVO");
+    sb.description("排行榜");
+    sb.properties("serialNo", int32);
+    sb.properties("name", string);
+    sb.properties("income", doubleNumer("累计收入"));
+    sb.properties("quantity", int32("完成任务数量"));
+  });
+  
+  public static Schema PageResultVOJobVO = generic(gb -> {
+    gb.generic(PageResultVO, ref(RankVO.getTitle()));
+  });
 }
 
+```
+
+
+
+#### SchemaHelper
+
+There are some built-in schemas in cloud.unionj.generator.openapi3.dsl.SchemaHelper.
+
+| Type          | Java                 |
+| ------------- | -------------------- |
+| int32         | Integer              |
+| int64         | Long                 |
+| string        | String               |
+| bool          | Boolean              |
+| floatNumber   | Float                |
+| doubleNumer   | Double               |
+| dateTime      | java.util.Date       |
+| T             | <T>                  |
+| ListT         | List<T>              |
+| SetT          | Set<T>               |
+| stringArray   | List<String>         |
+| int32Array    | List<Integer>        |
+| int64Array    | List<Long>           |
+| floatArray    | List<Float>          |
+| doubleArray   | List<Double>         |
+| boolArray     | List<Boolean>        |
+| dateTimeArray | List<java.util.Date> |
+| enums         | enum                 |
+| ref           | Object               |
+| refArray      | List<Object>         |
+
+
+
+#### Generic
+
+##### Syntax
+
+```java
+// PageResultVO must has and only has one T like field, e.g. T, List<T>, Set<T>
+// It will be represented as PageResultVO<RankVO>
+public static Schema PageResultVOJobVO = generic(gb -> {
+  gb.generic(PageResultVO, ref(RankVO.getTitle()));
+});
+```
+
+
+
+### Path
+
+#### Example
+
+```java
+import static cloud.unionj.generator.openapi3.PathHelper.*;
+
 @Test
-public void TestPath3() throws JsonProcessingException {
- Openapi3 openapi3 = openapi3(ob -> {
-   info(ib -> {
-     ib.title("测试");
-     ib.version("v1.0.0");
-   });
+public void TestPath() throws IOException {
+  Openapi3 openapi3 = openapi3(ob -> {
+    info(ib -> {
+      ib.title("title");
+      ib.version("v1.0.0");
+    });
 
-   server(sb -> {
-     sb.url("http://www.unionj.com");
-   });
+    server(sb -> {
+      sb.url("http://unionj.cloud");
+    });
 
-   PathHelper.doImport(OssProto.class);
+    // Support GET, POST, PUT, DELETE only.
+    post("/hall/onlineSurvey/list", PathConfig.builder()
+         .summary("summary")
+         .tags(new String[]{"tag1", "tag2"})
+         .reqSchema(SearchJobPageResult)
+         .respSchema(SearchJobPageResult)
+         .build());
 
- });
- ObjectMapper objectMapper = new ObjectMapper();
- objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
- objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
- System.out.println(objectMapper.writeValueAsString(openapi3));
+    post("/hall/offlineSurvey/update", PathConfig.builder()
+         .summary("summary")
+         // Second tag will be used as Proto or typescript Service name
+         // If there was only one tag, the Proto or typescript Service name will be first part of endpoint
+         // e.g. HallProto, HallService
+         .tags(new String[]{"tag1", "HallOfflinesurvey"})
+         .reqSchema(SearchJobPageResult)
+         .respSchema(SearchJobPageResult)
+         .build());
+
+    post("/admin/onlineSurvey/top/update", PathConfig.builder()
+         .summary("summary")
+         .tags(new String[]{"tag1"})
+         .parameters(new Parameter[]{
+           ParameterBuilder.builder().name("id").in(Parameter.InEnum.QUERY).required(true).schema(string).build(),
+           ParameterBuilder.builder().name("top").in(Parameter.InEnum.QUERY).required(true).schema(int32).build(),
+         })
+         .respSchema(SearchJobPageResult)
+         .build());
+  });
+  Backend backend = BackendDocParser.parse(openapi3);
+  SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+  springbootFolderGenerator.generate();
 }
 ```
-#### Generating backend code
-```
-@Test
-public void Test() throws IOException {
- Openapi3 openapi3 = openapi3(ob -> {
-   info(ib -> {
-     ib.title("测试");
-     ib.version("v1.0.0");
-   });
 
-   server(sb -> {
-     sb.url("http://www.unionj.com");
-   });
 
-   SchemaHelper.batchImport(Components.class);
 
-   path("/oss/upload", pb -> {
-     post(ppb -> {
-       ppb.summary("上传附件");
-       ppb.tags("attachment");
+## Backend
 
-       parameter(para -> {
-         para.required(false);
-         para.in("query");
-         para.name("returnKey");
-         para.schema(bool);
-       });
+### Example
 
-       requestBody(rb -> {
-         rb.required(true);
-         rb.content(content(cb -> {
-           cb.applicationOctetStream(mediaType(mb -> {
-             mb.schema(schema(upload -> {
-               upload.type("string");
-               upload.format("binary");
-             }));
-           }));
-         }));
-       });
+```java
+package cloud.unionj.example.proto;
 
-       responses(rb -> {
-         rb.response200(response(rrb -> {
-           rrb.content(content(cb -> {
-             cb.applicationJson(mediaType(mb -> {
-               mb.schema(reference(rrrb -> {
-                 rrrb.ref(ResultDTOListUserInteger.getTitle());
-               }));
-             }));
-           }));
-         }));
-       });
-     });
-   });
- });
- Backend backend = BackendDocParser.parse(openapi3);
- SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
- springbootFolderGenerator.generate();
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.*;
+import cloud.unionj.example.vo.*;
+import cloud.unionj.example.es.page.PageResult;
+
+public interface AdminProto {
+
+    @PostMapping("/admin/news/list")
+    ResultDTO<PageResultVO<NewsVO>> postAdminNewsList(
+        @RequestBody BaseSearchCondition body
+    );
+
+}
 ```
 
-### Integrated Aliyun YunXiao(云效) API
 
-      [Aliyun API Documents](https://help.aliyun.com/document_detail/179127.html?spm=a2c4g.11186623.6.701.14a335b5pN0T3H)
 
-1. Need to configure aliyun secret、accessKeyId、 yunxiao's orgId and api__invoker executorId. Template file directory：
-   
-   ```java
-   /unionj-generator/unionj-generator-kanban/src/main/resources/aliyun.template.properties
-   ```
+## Frontend
 
-2. Can create yunxiao's projects and tasks.
-   
-   ```java
-   # info's title、description are mapped to yunxiao project's title and description
-   
-   # the same, path's router、summary are mapped to yunxiao task's title and description
-   
-   openapi3(ob -> {
-               info(ib -> {
-                   ib.title("测试创建项目、任务流程1");
-                   ib.description("项目描述");
-                   ib.version("v1.0.0");
-               });
-               Path.path("/hall/onlineSurvey/list", pb -> {
-                   Post.post(ppb -> {
-                       ppb.summary("网络调查分页");
-                       ppb.tags("hall_onlinesurvey");
-                   });
-               });
-               omitted...
-   }
-   ```
+### Example
 
-3. Talk is cheap, show me the code.
-   
-   ```java
-   Openapi3 openapi3 = openapi3(ob -> {
-        omitted...
-   })
-   
-   AliyunConfigLoad.load("/Users/dingxu/config/aliyun.properties");
-   CloudTrigger.call(openapi3);
-   ```
+```typescript
+/**
+* Generated by unionj-generator.
+* Don't edit!
+*
+* @module Example
+*/
+import BizService from "./BizService";
+import type {
+  ResultDTOListSubWorkVO,
+  ResultDTOListCommentNodeVO,
+  ResultDTOListRejectVO,
+} from "./types"
 
-4. Todo...
+export class ExampleService extends BizService{
 
-### DSL tutorial
+  constructor(axios: any) {
+    super(axios);
+  }
+
+  /**
+  * GET /example/table/indicator
+  *
+  * SUMMARY
+  * @param indicatorID COMMENT
+  * @param assigneeID COMMENT
+  * @param userID COMMENT
+  * @returns Promise<ResultDTOShIndicatorTableNode> 
+  */
+  getExampleTableIndicator(
+      indicatorID: number,
+      assigneeID?: number,
+      userID?: number,
+  ) :Promise<ResultDTOShIndicatorTableNode> {
+    let client = this.axios.get
+    if(this.axios.$get) {
+      client = this.axios.$get
+    }
+    return client(this.addPrefix(`/example/table/indicator`),
+          {
+            params: {
+              indicatorID,
+              assigneeID,
+              userID,
+            },
+          }
+        )
+  }
+}
+
+export default ExampleService;
+```
+
+
+
+# TODO
+
+- [x] Java generic support
+- [x] Typescript service comment and type comment generation
+- [ ] Java proto comment and vo comment generation
+- [ ] maven plugin
+- [ ] CI & CD support
+- [ ] React project scaffold generation 
+- [ ] Angular project scaffold generation
+- [ ] Nodejs client generation
+- [ ] Go client generation
 

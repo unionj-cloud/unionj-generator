@@ -112,7 +112,18 @@ public class SchemaHelper {
     });
   }
 
+  @Deprecated
   public static cloud.unionj.generator.openapi3.model.Schema uniqueRefArray(String ref) {
+    return schema(array -> {
+      array.type("array");
+      array.uniqueItems(true);
+      array.items(Reference.reference(items -> {
+        items.ref(ref);
+      }));
+    });
+  }
+
+  public static cloud.unionj.generator.openapi3.model.Schema refSet(String ref) {
     return schema(array -> {
       array.type("array");
       array.uniqueItems(true);

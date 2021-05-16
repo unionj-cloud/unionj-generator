@@ -168,7 +168,7 @@ public class VueProjectGenerator extends VueGenerator {
       ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).outputDir(getOutputFile() + "/src/services").zip(false).build();
       serviceFolderGenerator.generate();
 
-      if (StringUtils.isBlank(this.doc)) {
+      if (StringUtils.isBlank(this.doc) && this.openAPI != null) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
