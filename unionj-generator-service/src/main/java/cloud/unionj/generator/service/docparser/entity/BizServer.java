@@ -43,7 +43,10 @@ public class BizServer {
     if (CollectionUtils.isNotEmpty(servers)) {
       defaultServer = servers.get(0);
     }
-    String host = defaultServer.getUrl();
+    String host = "";
+    if (defaultServer != null) {
+      host = defaultServer.getUrl();
+    }
     String redundantPort = "";
     for (String port : redundantPorts) {
       if (host.endsWith(port)) {

@@ -19,7 +19,7 @@ public class ServiceFolderGeneratorTest {
 
   @Test
   public void generate() throws IOException {
-    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("test1.json"))) {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("userservice_openapi3.json"))) {
       BizServer bizServer = ServiceDocParser.parse(is);
       ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).zip(false).build();
       String outputFile = serviceFolderGenerator.generate();
