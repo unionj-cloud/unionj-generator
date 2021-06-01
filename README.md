@@ -334,9 +334,11 @@ export default ExampleService;
 
 - [x] Java generic support
 - [x] Typescript service comment and type comment generation
+- [ ] maven plugin for directly generating server side code from dsl
+- [ ] Integrate springdoc-openapi-ui and generate swagger v3 annotation in code 
+      for providing request parameters and request body validation feature
 - [ ] Java proto and vo code generation from openAPI3 json file
 - [ ] Java proto comment and vo comment generation
-- [ ] maven plugin
 - [ ] CI & CD support
 - [ ] React project scaffold generation 
 - [ ] Angular project scaffold generation
