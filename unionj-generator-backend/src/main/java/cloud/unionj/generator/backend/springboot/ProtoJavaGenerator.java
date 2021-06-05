@@ -27,7 +27,7 @@ public class ProtoJavaGenerator extends DefaultGenerator {
   public ProtoJavaGenerator(Proto proto, String packageName, String outputDir, String voPackageName) {
     this.proto = proto;
     this.packageName = packageName;
-    this.outputDir = outputDir;
+    this.outputDir = outputDir + "/src/main/java/" + packageName.replace(".", "/");
     this.voPackageName = voPackageName;
   }
 

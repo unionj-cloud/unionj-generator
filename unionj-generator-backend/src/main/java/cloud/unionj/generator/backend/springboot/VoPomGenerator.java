@@ -21,6 +21,15 @@ public class VoPomGenerator extends BasePomGenerator<VoPomGenerator> {
     this.hasParent = true;
   }
 
+  public VoPomGenerator(String voDir) {
+    super();
+
+    this.outputDir = voDir;
+    this.artifactId = this.parentArtifactId + "-vo";
+
+    this.hasParent = true;
+  }
+
   @Override
   public String getTemplate() {
     return OUTPUT_DIR + "/vopom.xml.ftl";

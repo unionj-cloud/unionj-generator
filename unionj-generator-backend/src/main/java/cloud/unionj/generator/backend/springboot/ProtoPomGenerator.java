@@ -32,6 +32,19 @@ public class ProtoPomGenerator extends BasePomGenerator<ProtoPomGenerator> {
     this.voVersion = this.parentVersion;
   }
 
+  public ProtoPomGenerator(String protoDir) {
+    super();
+
+    this.outputDir = protoDir;
+    this.artifactId = this.parentArtifactId + "-proto";
+
+    this.hasParent = true;
+
+    this.voGroupId = this.parentGroupId;
+    this.voArtifactId = this.parentArtifactId + "-vo";
+    this.voVersion = this.parentVersion;
+  }
+
   public ProtoPomGenerator voGroupId(String voGroupId) {
     this.voGroupId = voGroupId;
     return this;

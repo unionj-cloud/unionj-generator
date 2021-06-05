@@ -228,9 +228,9 @@ public class SpringbootFolderGeneratorTest {
 
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
         .protoOutput(new OutputConfig("com.github.myproject.myproto",
-            "myproject-proto/src/main/java/com/github/myproject/proto"))
+            "myproject-proto"))
         .voOutput(new OutputConfig("com.github.myproject.vo",
-            "myproject-vo/src/main/java/com/github/myproject/vo"))
+            "myproject-vo"))
         .pomProject(true)
         .pomParentGroupId("com.github.myproject")
         .pomParentArtifactId("myproject")

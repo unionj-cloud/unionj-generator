@@ -26,7 +26,7 @@ public class VoJavaGenerator extends DefaultGenerator {
   public VoJavaGenerator(Vo vo, String packageName, String outputDir) {
     this.vo = vo;
     this.packageName = packageName;
-    this.outputDir = outputDir;
+    this.outputDir = outputDir + "/src/main/java/" + packageName.replace(".", "/");
   }
 
   @Override

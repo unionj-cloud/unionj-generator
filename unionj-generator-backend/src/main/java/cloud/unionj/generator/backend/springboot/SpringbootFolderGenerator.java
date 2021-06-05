@@ -147,11 +147,13 @@ public class SpringbootFolderGenerator {
 
     public Builder protoOutput(OutputConfig protoOutput) {
       this.protoOutput = protoOutput;
+      this.protoPomGenerator = new ProtoPomGenerator(protoOutput.getOutputDir());
       return this;
     }
 
     public Builder voOutput(OutputConfig voOutput) {
       this.voOutput = voOutput;
+      this.voPomGenerator = new VoPomGenerator(voOutput.getOutputDir());
       return this;
     }
 
