@@ -7,7 +7,7 @@
   <parent>
     <groupId>cloud.unionj</groupId>
     <artifactId>unionj-generator</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.5</version>
   </parent>
   <artifactId>unionj-generator-backend</artifactId>
   <name>unionj-generator-backend</name>
@@ -16,12 +16,12 @@
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-core</artifactId>
-      <version>1.5-SNAPSHOT</version>
+      <version>1.5</version>
     </dependency>
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-openapi</artifactId>
-      <version>1.5-SNAPSHOT</version>
+      <version>1.5</version>
     </dependency>
   </dependencies>
 
