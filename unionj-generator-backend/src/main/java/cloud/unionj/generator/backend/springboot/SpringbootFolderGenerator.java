@@ -105,14 +105,11 @@ public class SpringbootFolderGenerator {
 
     public Builder pomProtoArtifactId(String protoArtifactId) {
       this.protoPomGenerator.artifactId(protoArtifactId);
-      this.protoPomGenerator.outputDirAsArtifactId();
       return this;
     }
 
     public Builder pomVoArtifactId(String voArtifactId) {
       this.voPomGenerator.artifactId(voArtifactId);
-      this.voPomGenerator.outputDirAsArtifactId();
-
       this.protoPomGenerator.voArtifactId(voArtifactId);
       return this;
     }
