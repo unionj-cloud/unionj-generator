@@ -334,7 +334,7 @@ export default ExampleService;
 
 - [x] Java generic support
 - [x] Typescript service comment and type comment generation
-- [ ] maven plugin for directly generating server side code from dsl
+- [x] maven plugin for directly generating server side code from dsl [unionj-generator-maven-plugin](https://github.com/unionj-cloud/unionj-generator-maven-plugin)
 - [ ] Integrate springdoc-openapi-ui and generate swagger v3 annotation in code 
       for providing request parameters and request body validation feature
 - [ ] Java proto and vo code generation from openAPI3 json file
