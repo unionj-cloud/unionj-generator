@@ -214,8 +214,14 @@ public class SpringbootFolderGenerator {
     }
 
     if (pomProject) {
-      this.protoPomGenerator.generate();
-      this.voPomGenerator.generate();
+      File pom = new File(this.protoPomGenerator.outputDir + "/pom.xml");
+      if(!pom.exists()) {
+        this.protoPomGenerator.generate();
+      }
+      pom = new File(this.voPomGenerator.outputDir + "/pom.xml");
+      if(!pom.exists()) {
+        this.voPomGenerator.generate();
+      }
     }
 
     if (this.zip) {
@@ -242,8 +248,8 @@ public class SpringbootFolderGenerator {
       }
     }
 
-    FileUtils.deleteDirectory(new File(voOutputDir));
-    FileUtils.deleteDirectory(new File(protoOutputDir));
+    FileUtils.deleteDirectory(new File(voOutputDir + "/src"));
+    FileUtils.deleteDirectory(new File(protoOutputDir + "/src"));
   }
 
   private boolean dirEmpty(String dirPath) {
