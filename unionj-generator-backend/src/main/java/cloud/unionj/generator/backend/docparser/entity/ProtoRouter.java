@@ -1,5 +1,6 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
+import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.*;
 import com.google.common.base.CaseFormat;
@@ -74,12 +75,18 @@ public class ProtoRouter {
                 router.setFile(ProtoProperty.UPLOAD_FILE_BUILDER.required(schema.getRequired().contains(k)).build());
               }
             } else {
-              queryParams.add(new ProtoProperty.Builder(v)
-                  .name(k)
-                  .in("formData")
-                  .required(schema.getRequired().contains(k))
-                  .defaultValue(Optional.ofNullable(v.getDefaultValue()).orElse("").toString())
-                  .build());
+              if (v.getType().equals("array") && v.getItems().equals(SchemaHelper.file)) {
+                router.setFile(new ProtoProperty.Builder("MultipartFile[]").name(k).required(schema.getRequired().contains(k)).build());
+              } else if (v.equals(SchemaHelper.file)) {
+                router.setFile(new ProtoProperty.Builder("MultipartFile").name(k).required(schema.getRequired().contains(k)).build());
+              } else {
+                queryParams.add(new ProtoProperty.Builder(v)
+                    .name(k)
+                    .in("formData")
+                    .required(schema.getRequired().contains(k))
+                    .defaultValue(Optional.ofNullable(v.getDefaultValue()).orElse("").toString())
+                    .build());
+              }
             }
           });
         } else if (content.getTextPlain() != null) {
@@ -121,8 +128,8 @@ public class ProtoRouter {
       if (query != null) {
         queryParams.addAll(query);
       }
-      router.setQueryParams(queryParams);
     }
+    router.setQueryParams(queryParams);
 
     Responses responses = operation.getResponses();
     if (responses != null) {

@@ -11,8 +11,6 @@ import cloud.unionj.generator.openapi3.model.paths.Parameter;
 
 import java.util.function.Consumer;
 
-import static cloud.unionj.generator.openapi3.dsl.Generic.generic;
-import static cloud.unionj.generator.openapi3.dsl.Reference.reference;
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 import static cloud.unionj.generator.openapi3.dsl.paths.Content.content;
@@ -31,23 +29,16 @@ import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
  */
 public class PathHelper {
 
-  private static Schema ResultDTO = schema(sb -> {
-    sb.type("object");
-    sb.title("ResultDTO");
-    sb.properties("code", int32);
-    sb.properties("msg", string);
-    sb.properties("data", T);
-  });
-
-  private static Schema ResultDTOString = generic(gb -> gb.generic(ResultDTO, string));
-
   private static void errorResponse(ResponsesBuilder rb) {
     rb.response403(response(rrb -> {
       rrb.description("Forbidden");
       rrb.content(content(cb -> {
         cb.applicationJson(mediaType(mb -> {
-          mb.schema(reference(rrrb -> {
-            rrrb.ref(ResultDTOString.getTitle());
+          mb.schema(schema(sb -> {
+            sb.type("object");
+            sb.properties("code", int32);
+            sb.properties("msg", string);
+            sb.properties("data", string);
           }));
         }));
       }));
@@ -56,8 +47,11 @@ public class PathHelper {
       rrb.description("Unauthorized");
       rrb.content(content(cb -> {
         cb.applicationJson(mediaType(mb -> {
-          mb.schema(reference(rrrb -> {
-            rrrb.ref(ResultDTOString.getTitle());
+          mb.schema(schema(sb -> {
+            sb.type("object");
+            sb.properties("code", int32);
+            sb.properties("msg", string);
+            sb.properties("data", string);
           }));
         }));
       }));
@@ -110,7 +104,12 @@ public class PathHelper {
 
       PathConfig.SchemaType schemaType = config.getRespSchemaType();
       if (schemaType == null) {
-        schemaType = PathConfig.SchemaType.JSON;
+        Schema respSchema = config.getRespSchema();
+        if (respSchema.equals(file)) {
+          schemaType = PathConfig.SchemaType.STREAM;
+        } else {
+          schemaType = PathConfig.SchemaType.JSON;
+        }
       }
       switch (schemaType) {
         case STREAM: {

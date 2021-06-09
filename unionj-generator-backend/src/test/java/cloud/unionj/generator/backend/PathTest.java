@@ -9,6 +9,7 @@ import cloud.unionj.generator.openapi3.dsl.paths.*;
 import cloud.unionj.generator.openapi3.dsl.servers.Server;
 import cloud.unionj.generator.openapi3.expression.paths.ParameterBuilder;
 import cloud.unionj.generator.openapi3.model.Openapi3;
+import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.Parameter;
 import lombok.SneakyThrows;
 import org.junit.Test;
@@ -17,9 +18,10 @@ import java.io.IOException;
 
 import static cloud.unionj.generator.backend.Components.*;
 import static cloud.unionj.generator.openapi3.PathHelper.post;
+import static cloud.unionj.generator.openapi3.dsl.Generic.generic;
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
-import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.int32;
-import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.string;
+import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
+import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
 import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
 import static cloud.unionj.generator.openapi3.dsl.servers.Server.server;
@@ -774,4 +776,59 @@ public class PathTest {
 //    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
 //    springbootFolderGenerator.generate();
 //  }
+
+
+  private static Schema ResultVO = schema(sb -> {
+    sb.type("object");
+    sb.title("ResultVO");
+    sb.properties("code", int32);
+    sb.properties("msg", string);
+    sb.properties("data", T);
+  });
+
+  public static Schema UserRegisterFormVO = schema(sb -> {
+    sb.type("object");
+    sb.title("UserRegisterFormVO");
+    sb.description("用户注册表单");
+    sb.properties("username", string("用户名"));
+    sb.properties("password", string("密码"));
+  });
+
+  public static Schema UserRegisterRespVO = schema(sb -> {
+    sb.type("object");
+    sb.title("UserRegisterRespVO");
+    sb.description("用户注册结果");
+    sb.properties("id", int64("用户ID"));
+  });
+
+  public static Schema ResultVOUserRegisterForm = generic(gb -> {
+    gb.generic(ResultVO, ref(UserRegisterRespVO.getTitle()));
+  });
+
+  @SneakyThrows
+  @Test
+  public void TestMultipartFormData() {
+    Openapi3 openAPI3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("用户管理模块");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://unionj.cloud");
+      });
+
+      post("/api/user/register", PathConfig.builder()
+          .summary("用户注册接口")
+          .tags(new String[]{"用户管理模块", "User"})
+          .reqSchema(UserRegisterFormVO)
+          .reqSchemaType(PathConfig.SchemaType.FORMDATA)
+          .respSchema(ResultVOUserRegisterForm)
+          .build());
+    });
+    Backend backend = BackendDocParser.parse(openAPI3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
 }

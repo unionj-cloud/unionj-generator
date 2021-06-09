@@ -13,6 +13,11 @@ public class SchemaHelper {
   public static final String LEFT_ARROW = "«";
   public static final String RIGHT_ARROW = "»";
 
+  public static final cloud.unionj.generator.openapi3.model.Schema file = schema(file -> {
+    file.type("string");
+    file.format("binary");
+  });
+
   public static final cloud.unionj.generator.openapi3.model.Schema int32 = schema(int32 -> {
     int32.type("integer");
     int32.format("int32");
@@ -130,6 +135,14 @@ public class SchemaHelper {
       array.items(Reference.reference(items -> {
         items.ref(ref);
       }));
+    });
+  }
+
+  public static cloud.unionj.generator.openapi3.model.Schema file(String description) {
+    return schema(file -> {
+      file.type("string");
+      file.format("binary");
+      file.description(description);
     });
   }
 
@@ -330,6 +343,14 @@ public class SchemaHelper {
       array.description(description);
       array.items(string(description));
       array.example(example);
+    });
+  }
+
+  public static cloud.unionj.generator.openapi3.model.Schema fileArray(String description) {
+    return schema(array -> {
+      array.type("array");
+      array.description(description);
+      array.items(file(description));
     });
   }
 

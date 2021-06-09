@@ -1,5 +1,6 @@
 package cloud.unionj.generator.openapi3.model;
 
+import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,11 +12,13 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
+
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.model
- *  date 2020/12/19
+ * cloud.unionj.generator.openapi3.model
+ * date 2020/12/19
  */
 public class Openapi3Test {
 
@@ -44,5 +47,15 @@ public class Openapi3Test {
       }
     }
     System.out.println(staticFields.get(0).get(null));
+  }
+
+  @Test
+  public void testSchemaEqual() {
+    Schema avatar = schema(file -> {
+      file.type("string");
+      file.format("binary");
+      file.description("用户头像");
+    });
+    System.out.println(avatar.equals(SchemaHelper.file));
   }
 }
