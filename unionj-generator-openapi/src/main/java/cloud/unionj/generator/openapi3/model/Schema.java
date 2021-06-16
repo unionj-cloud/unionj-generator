@@ -73,6 +73,9 @@ public class Schema implements IGeneric {
   @JsonProperty("enum")
   private List<String> enumValue = new ArrayList<>();
 
+  @JsonProperty("x-enum-varnames")
+  private List<String> enumVarnames = new ArrayList<>();
+
   private List<Schema> allOf = new ArrayList<>();
   private List<Schema> oneOf = new ArrayList<>();
 
@@ -105,6 +108,7 @@ public class Schema implements IGeneric {
 
   public void enumValue(String enumValue) {
     this.enumValue.add(enumValue);
+    this.enumVarnames.add(enumValue);
   }
 
   public void allOf(Schema schema) {
