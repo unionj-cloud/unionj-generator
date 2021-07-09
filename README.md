@@ -328,7 +328,8 @@ export class ExampleService extends BizService{
 export default ExampleService;
 ```
 
-
+# Tutorials
+- [unionj-generator快速上手-后端篇](https://www.jianshu.com/p/21c670ba90f1)
 
 # TODO
 
