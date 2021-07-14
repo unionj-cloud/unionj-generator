@@ -102,7 +102,7 @@ public class TypesTsGeneratorTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(SearchJobPageResult.getTitle());
+                    rrrb.ref(SearchJobPageResult.getXTitle());
                   }));
                 }));
               }));
@@ -161,7 +161,7 @@ public class TypesTsGeneratorTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOString.getTitle());
+                    rrrb.ref(ResultDTOString.getXTitle());
                   }));
                 }));
               }));

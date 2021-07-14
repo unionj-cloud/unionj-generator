@@ -1,5 +1,6 @@
 package cloud.unionj.generator.service.docparser.entity;
 
+import cloud.unionj.generator.openapi3.model.Components;
 import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.*;
 import com.google.common.base.CaseFormat;
@@ -56,7 +57,7 @@ public class BizRouter {
   @Getter
   private List<String> docs;
 
-  public static BizRouter of(String endpoint, String httpMethod, Operation operation) {
+  public static BizRouter of(String endpoint, String httpMethod, Operation operation, Components components) {
     BizRouter bizRouter = new BizRouter();
     bizRouter.endpoint = endpoint;
     bizRouter.httpMethod = httpMethod;
@@ -74,8 +75,13 @@ public class BizRouter {
       bizRouter.setName();
     }
 
+    Map<String, RequestBody> requestBodies = components.getRequestBodies();
     RequestBody requestBody = operation.getRequestBody();
     if (requestBody != null) {
+      if (StringUtils.isNotBlank(requestBody.getRef())) {
+        String key = StringUtils.removeStart(requestBody.getRef(), "#/components/requestBodies/");
+        requestBody = requestBodies.get(key);
+      }
       Content content = requestBody.getContent();
       BizProperty bizProperty = new BizProperty();
       bizProperty.setDoc(requestBody.getDescription());
@@ -106,6 +112,14 @@ public class BizRouter {
           }
         } else if (content.getTextPlain() != null) {
           MediaType mediaType = content.getTextPlain();
+          if (mediaType.getSchema() != null) {
+            bizProperty.setName("payload");
+            bizProperty.setIn("requestBody");
+            bizProperty.setType(mediaType.getSchema());
+            bizRouter.setReqBody(bizProperty);
+          }
+        } else if (content.getDefaultMediaType() != null) {
+          MediaType mediaType = content.getDefaultMediaType();
           if (mediaType.getSchema() != null) {
             bizProperty.setName("payload");
             bizProperty.setIn("requestBody");
@@ -146,13 +160,21 @@ public class BizRouter {
       bizRouter.setAllParams(requiredParams);
     }
 
+    Map<String, Response> responsesMap = components.getResponses();
     Responses responses = operation.getResponses();
     if (responses != null) {
       Response okResponse = responses.getResponse200();
       if (okResponse != null) {
+        if (StringUtils.isNotBlank(okResponse.getRef())) {
+          String key = StringUtils.removeStart(okResponse.getRef(), "#/components/responses/");
+          okResponse = responsesMap.get(key);
+        }
         Content content = okResponse.getContent();
         if (content != null) {
           MediaType mediaType = content.getApplicationJson();
+          if (mediaType == null) {
+            mediaType = content.getDefaultMediaType();
+          }
           if (mediaType == null) {
             mediaType = content.getApplicationOctetStream();
           }

@@ -7,6 +7,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ServiceDocParserTest {
 
   @Test
   public void parse() throws IOException {
-    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("petstore3.json"))) {
+    try (BufferedInputStream is = new BufferedInputStream(new FileInputStream("/home/qylz/workspace/treeyee_openapi3.json"))) {
       BizServer bizServer = ServiceDocParser.parse(is);
       Assert.assertNotNull(bizServer);
       List<BizService> services = bizServer.getServices();

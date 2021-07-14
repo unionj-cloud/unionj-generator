@@ -3,6 +3,7 @@ package cloud.unionj.generator.service.docparser.entity;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.Path;
+import cloud.unionj.generator.openapi3.model.paths.RequestBody;
 import cloud.unionj.generator.openapi3.model.servers.Server;
 import com.google.common.collect.Lists;
 import lombok.Data;
@@ -60,48 +61,10 @@ public class BizServer {
     List<BizType> types = new ArrayList<>();
     Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
     for (Map.Entry<String, Schema> schemaEntry : schemas.entrySet()) {
-      BizType bizType = new BizType();
+      BizType bizType = BizType.fromSchema(schemaEntry.getValue());
       String key = schemaEntry.getKey();
       key = key.replaceAll("[^a-zA-Z]", "");
       bizType.setName(key);
-
-      Schema schema = schemaEntry.getValue();
-      bizType.setDoc(schema.getDescription());
-
-      List<BizProperty> bizPropertyList = new ArrayList<>();
-      Map<String, Schema> properties = schema.getProperties();
-      List<BizEnumType> enumTypeList = new ArrayList<>();
-      List<String> required = schema.getRequired();
-      for (Map.Entry<String, Schema> property : properties.entrySet()) {
-        BizProperty bizProperty;
-        Schema value = property.getValue();
-        if (CollectionUtils.isNotEmpty(value.getEnumValue())) {
-          bizProperty = new BizProperty();
-          bizProperty.setName(property.getKey());
-          bizProperty.setDoc(value.getDescription());
-          String type = bizType.getName() + StringUtils.capitalize(property.getKey()) + "Enum";
-          bizProperty.setType(type);
-          if (CollectionUtils.isNotEmpty(required)) {
-            bizProperty.setRequired(required.contains(property.getKey()));
-          }
-          List<BizEnum> voEnumList = value.getEnumValue().stream().map(item -> new BizEnum(item.toUpperCase(), item)).collect(Collectors.toList());
-          BizEnumType voEnumType = new BizEnumType(voEnumList, type);
-          enumTypeList.add(voEnumType);
-        } else {
-          bizProperty = new BizProperty();
-          bizProperty.setName(property.getKey());
-          bizProperty.setDoc(value.getDescription());
-          bizProperty.setType(property.getValue());
-          if (CollectionUtils.isNotEmpty(required)) {
-            bizProperty.setRequired(required.contains(property.getKey()));
-          }
-        }
-        bizPropertyList.add(bizProperty);
-      }
-
-      bizType.setProperties(bizPropertyList);
-      bizType.setEnumTypes(enumTypeList);
-
       types.add(bizType);
     }
 
@@ -151,6 +114,7 @@ public class BizServer {
     }
 
     List<BizService> bizServiceList = new ArrayList<>();
+
     for (Map.Entry<String, List<PathItemWrapper>> wrapperEntry : pathItemWrapperMap.entrySet()) {
       BizService bizService = new BizService();
       bizService.setName(wrapperEntry.getKey());
@@ -161,26 +125,29 @@ public class BizServer {
       bizService.setModule(wrappers.get(0).getModule());
 
       List<BizRouter> bizRouters = new ArrayList<>();
-
       for (PathItemWrapper wrapper : wrappers) {
         if (StringUtils.isBlank(wrapper.getEndpoint())) {
           continue;
         }
         Path pathItem = wrapper.getPathItem();
+        if (CollectionUtils.isNotEmpty(pathItem.getParameters())) {
+          System.out.println("not support parameters property of Path object yet");
+          ;
+        }
         if (pathItem.getGet() != null) {
-          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "get", pathItem.getGet());
+          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "get", pathItem.getGet(), openAPI.getComponents());
           bizRouters.add(bizRouter);
         }
         if (pathItem.getPost() != null) {
-          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "post", pathItem.getPost());
+          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "post", pathItem.getPost(), openAPI.getComponents());
           bizRouters.add(bizRouter);
         }
         if (pathItem.getPut() != null) {
-          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "put", pathItem.getPut());
+          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "put", pathItem.getPut(), openAPI.getComponents());
           bizRouters.add(bizRouter);
         }
         if (pathItem.getDelete() != null) {
-          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "delete", pathItem.getDelete());
+          BizRouter bizRouter = BizRouter.of(wrapper.getEndpoint(), "delete", pathItem.getDelete(), openAPI.getComponents());
           bizRouters.add(bizRouter);
         }
       }
@@ -225,7 +192,7 @@ public class BizServer {
         serviceTypes.addAll(collect);
       }
 
-      bizService.setTypes(Lists.newArrayList(serviceTypes));
+      bizService.setTypes(serviceTypes.stream().filter(t -> !t.startsWith("{")).collect(Collectors.toList()));
 
       bizServiceList.add(bizService);
     }

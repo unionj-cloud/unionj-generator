@@ -6,8 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,40 +21,50 @@ import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
  */
 public class Openapi3Test {
 
-  public static Schema MAGIC = new Schema(null);
-  private static String privateMagic = "privateMagic";
+    public static Schema MAGIC = new Schema(null);
+    private static String privateMagic = "privateMagic";
 
-  @Test
-  public void parse() throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    @Test
+    public void parse() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    try (InputStream is = ClassLoader.getSystemResourceAsStream("petstore3.json")) {
-      Openapi3 openapi3 = objectMapper.readValue(is, Openapi3.class);
-      System.out.println(openapi3);
+        try (InputStream is = ClassLoader.getSystemResourceAsStream("petstore3.json")) {
+            Openapi3 openapi3 = objectMapper.readValue(is, Openapi3.class);
+            System.out.println(openapi3);
+        }
     }
-  }
 
-  @Test
-  public void reflectionTest() throws IllegalAccessException {
-    Field[] declaredFields = Openapi3Test.class.getDeclaredFields();
-    List<Field> staticFields = new ArrayList<>();
-    for (Field field : declaredFields) {
-      if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
-        staticFields.add(field);
-      }
+    @Test
+    public void reflectionTest() throws IllegalAccessException {
+        Field[] declaredFields = Openapi3Test.class.getDeclaredFields();
+        List<Field> staticFields = new ArrayList<>();
+        for (Field field : declaredFields) {
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers()) && java.lang.reflect.Modifier.isPublic(field.getModifiers())) {
+                staticFields.add(field);
+            }
+        }
+        System.out.println(staticFields.get(0).get(null));
     }
-    System.out.println(staticFields.get(0).get(null));
-  }
 
-  @Test
-  public void testSchemaEqual() {
-    Schema avatar = schema(file -> {
-      file.type("string");
-      file.format("binary");
-      file.description("用户头像");
-    });
-    System.out.println(avatar.equals(SchemaHelper.file));
-  }
+    @Test
+    public void testSchemaEqual() {
+        Schema avatar = schema(file -> {
+            file.type("string");
+            file.format("binary");
+            file.description("用户头像");
+        });
+        System.out.println(avatar.equals(SchemaHelper.file));
+    }
+
+    @Test
+    public void parseFromYapi() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        Openapi3 openapi3 = objectMapper.readValue(new File("/home/qylz/workspace/treeyee_openapi3.json"), Openapi3.class);
+        System.out.println(openapi3);
+    }
 }

@@ -1,6 +1,7 @@
 package cloud.unionj.generator.openapi3.model.paths;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
 
@@ -17,6 +18,7 @@ import java.util.List;
 public class Path {
 
   @JsonIgnore
+  @JsonProperty("x-endpoint")
   private String endpoint;
 
   private Operation get;

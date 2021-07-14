@@ -5,11 +5,13 @@
 * @module ${module}
 */
 import BizService from "./BizService";
+<#if types?has_content>
 import type {
 <#list types as type>
   ${type},
 </#list>
 } from "./types"
+</#if>
 
 export class ${name} extends BizService{
 

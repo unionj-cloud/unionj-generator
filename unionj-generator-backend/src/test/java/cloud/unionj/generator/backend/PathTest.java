@@ -99,7 +99,7 @@ public class PathTest {
             rb.content(Content.content(cb -> {
               cb.applicationJson(MediaType.mediaType(mb -> {
                 mb.schema(Reference.reference(rrb -> {
-                  rrb.ref(UserDate.getTitle());
+                  rrb.ref(UserDate.getXTitle());
                 }));
               }));
             }));
@@ -110,7 +110,7 @@ public class PathTest {
               rrb.content(Content.content(cb -> {
                 cb.applicationJson(MediaType.mediaType(mb -> {
                   mb.schema(Reference.reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserDate.getTitle());
+                    rrrb.ref(ResultDTOListUserDate.getXTitle());
                   }));
                 }));
               }));
@@ -129,7 +129,7 @@ public class PathTest {
             rb.content(Content.content(cb -> {
               cb.applicationJson(MediaType.mediaType(mb -> {
                 mb.schema(Reference.reference(rrb -> {
-                  rrb.ref(UserInteger.getTitle());
+                  rrb.ref(UserInteger.getXTitle());
                 }));
               }));
             }));
@@ -140,7 +140,7 @@ public class PathTest {
               rrb.content(Content.content(cb -> {
                 cb.applicationJson(MediaType.mediaType(mb -> {
                   mb.schema(Reference.reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getTitle());
+                    rrrb.ref(ResultDTOListUserInteger.getXTitle());
                   }));
                 }));
               }));
@@ -802,7 +802,7 @@ public class PathTest {
   });
 
   public static Schema ResultVOUserRegisterForm = generic(gb -> {
-    gb.generic(ResultVO, ref(UserRegisterRespVO.getTitle()));
+    gb.generic(ResultVO, ref(UserRegisterRespVO.getXTitle()));
   });
 
   @SneakyThrows

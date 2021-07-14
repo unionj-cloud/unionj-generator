@@ -26,7 +26,7 @@ public class SchemaBuilder {
   }
 
   public SchemaBuilder title(String title) {
-    this.schema.setTitle(title);
+    this.schema.setXTitle(title);
     return this;
   }
 

@@ -76,7 +76,7 @@ public class ComponentsDesigner {
       sb.type("array");
       sb.uniqueItems(true);
       sb.items(reference(rb -> {
-        rb.ref(UserDate.getTitle());
+        rb.ref(UserDate.getXTitle());
       }));
     }));
   });
@@ -86,7 +86,7 @@ public class ComponentsDesigner {
       sb.type("array");
       sb.uniqueItems(true);
       sb.items(reference(rb -> {
-        rb.ref(UserInteger.getTitle());
+        rb.ref(UserInteger.getXTitle());
       }));
     }));
   });
@@ -131,13 +131,13 @@ public class ComponentsDesigner {
 
   public static Schema PageResultVOJobVO = generic(gb -> {
     gb.generic(PageResult, reference(rb -> {
-      rb.ref(RankVO.getTitle());
+      rb.ref(RankVO.getXTitle());
     }));
   });
 
   public static Schema NestedSearchJobPageResult = generic(gb -> {
     gb.generic(ResultDTO, reference(rb -> {
-      rb.ref(PageResultVOJobVO.getTitle());
+      rb.ref(PageResultVOJobVO.getXTitle());
     }));
   });
 
@@ -145,12 +145,12 @@ public class ComponentsDesigner {
     sb.type("object");
     sb.title("SearchJobPageResult");
     sb.description("任务搜索分页结果");
-    sb.properties("page", ref(NestedSearchJobPageResult.getTitle()));
+    sb.properties("page", ref(NestedSearchJobPageResult.getXTitle()));
   });
 
   public static Generic ResultDTOPageResultVOJobVO = generic(gb -> {
     gb.generic(ResultDTO, reference(rb -> {
-      rb.ref(SearchJobPageResult.getTitle());
+      rb.ref(SearchJobPageResult.getXTitle());
     }));
   });
 

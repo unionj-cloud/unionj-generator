@@ -7,6 +7,7 @@ import cloud.unionj.generator.openapi3.expression.SchemaBuilder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -34,11 +35,14 @@ public class Schema implements IGeneric {
   @JsonProperty("$ref")
   private String ref;
 
-  @JsonProperty("tree")
+  @JsonProperty("x-tree")
   private boolean tree;
 
-  @JsonProperty("dummies")
+  @JsonProperty("x-dummies")
   private List<String> dummies = new ArrayList<>();
+
+  @JsonProperty("x-title")
+  private String xTitle;
 
   private String title;
 
@@ -86,6 +90,7 @@ public class Schema implements IGeneric {
   private List<Schema> not;
 
   // TODO
+  @JsonDeserialize(using = AdditionalPropertiesDeserializer.class)
   private Schema additionalProperties;
 
   // TODO
@@ -121,7 +126,7 @@ public class Schema implements IGeneric {
 
   public String javaType() {
     if (this instanceof Generic) {
-      return this.title;
+      return this.xTitle;
     }
     return this.deepSetType();
   }
@@ -147,8 +152,8 @@ public class Schema implements IGeneric {
         } else if (format != null && format.equals("T")) {
           javaType = "T";
         } else {
-          if (StringUtils.isNotBlank(this.getTitle())) {
-            javaType = this.getTitle();
+          if (StringUtils.isNotBlank(this.getXTitle())) {
+            javaType = this.getXTitle();
           } else {
             javaType = Object.class.getSimpleName();
           }
@@ -225,11 +230,11 @@ public class Schema implements IGeneric {
         deepCopy.properties(k, new SchemaBuilder(null).type("array").items(schema).uniqueItems(true).build());
       }
     });
-    if (StringUtils.isNotBlank(schema.getTitle())) {
-      deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + schema.getTitle() + SchemaHelper.RIGHT_ARROW);
+    if (StringUtils.isNotBlank(schema.getXTitle())) {
+      deepCopy.setXTitle(deepCopy.getXTitle() + SchemaHelper.LEFT_ARROW + schema.getXTitle() + SchemaHelper.RIGHT_ARROW);
     } else {
       String type = schema.javaType();
-      deepCopy.setTitle(deepCopy.getTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
+      deepCopy.setXTitle(deepCopy.getXTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
     }
     if (StringUtils.isBlank(schema.getType()) && schemaFinder != null) {
       String typeByRef = schema.getTypeByRef(schema.getRef());
@@ -272,11 +277,11 @@ public class Schema implements IGeneric {
 
     Schema schema = (Schema) o;
 
-    return new EqualsBuilder().append(ref, schema.ref).append(title, schema.title).append(type, schema.type).append(properties, schema.properties).append(format, schema.format).append(items, schema.items).isEquals();
+    return new EqualsBuilder().append(ref, schema.ref).append(xTitle, schema.xTitle).append(type, schema.type).append(properties, schema.properties).append(format, schema.format).append(items, schema.items).isEquals();
   }
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(17, 37).append(ref).append(title).append(type).append(properties).append(format).append(items).toHashCode();
+    return new HashCodeBuilder(17, 37).append(ref).append(xTitle).append(type).append(properties).append(format).append(items).toHashCode();
   }
 }

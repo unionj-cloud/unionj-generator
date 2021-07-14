@@ -1,5 +1,6 @@
 package cloud.unionj.generator.openapi3.model.paths;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import java.util.Map;
@@ -12,6 +13,9 @@ import java.util.Map;
  */
 @Data
 public class Response {
+
+  @JsonProperty("$ref")
+  private String ref;
 
   // REQUIRED
   private String description;

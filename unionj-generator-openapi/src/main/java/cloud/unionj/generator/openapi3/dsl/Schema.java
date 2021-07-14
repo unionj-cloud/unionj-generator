@@ -20,8 +20,8 @@ public class Schema extends Openapi3 {
     SchemaBuilder schemaBuilder = new SchemaBuilder(openapi3Builder);
     consumer.accept(schemaBuilder);
     cloud.unionj.generator.openapi3.model.Schema schema = schemaBuilder.build();
-    if (StringUtils.isNotBlank(schema.getTitle())) {
-      openapi3Builder.components(schema.getTitle(), schema);
+    if (StringUtils.isNotBlank(schema.getXTitle())) {
+      openapi3Builder.components(schema.getXTitle(), schema);
     }
     return schema;
   }

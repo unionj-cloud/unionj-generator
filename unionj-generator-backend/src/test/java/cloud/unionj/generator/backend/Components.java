@@ -71,11 +71,11 @@ public class Components {
   });
 
   public static Generic ResultDTOListUserDate = generic(gb -> {
-    gb.generic(ResultDTO, uniqueRefArray(UserDate.getTitle()));
+    gb.generic(ResultDTO, uniqueRefArray(UserDate.getXTitle()));
   });
 
   public static Generic ResultDTOListUserInteger = generic(gb -> {
-    gb.generic(ResultDTO, uniqueRefArray(UserInteger.getTitle()));
+    gb.generic(ResultDTO, uniqueRefArray(UserInteger.getXTitle()));
   });
 
   public static Schema PageSetVO = schema(sb -> {
@@ -115,21 +115,21 @@ public class Components {
   });
 
   public static Schema PageResultVOJobVO = generic(gb -> {
-    gb.generic(PageResult, ref(RankVO.getTitle()));
+    gb.generic(PageResult, ref(RankVO.getXTitle()));
   });
 
   public static Schema NestedSearchJobPageResult = generic(gb -> {
-    gb.generic(ResultDTO, ref(PageResultVOJobVO.getTitle()));
+    gb.generic(ResultDTO, ref(PageResultVOJobVO.getXTitle()));
   });
 
   public static Schema SearchJobPageResult = schema(sb -> {
     sb.type("object");
     sb.title("SearchJobPageResult");
     sb.description("任务分页结果");
-    sb.properties("page", ref(NestedSearchJobPageResult.getTitle()));
+    sb.properties("page", ref(NestedSearchJobPageResult.getXTitle()));
   });
 
   public static Generic ResultDTOPageResultVOJobVO = generic(gb -> {
-    gb.generic(ResultDTO, ref(SearchJobPageResult.getTitle()));
+    gb.generic(ResultDTO, ref(SearchJobPageResult.getXTitle()));
   });
 }
