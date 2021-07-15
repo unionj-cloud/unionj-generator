@@ -96,8 +96,10 @@ public class BizProperty {
       case "object": {
         if (StringUtils.isNotBlank(schema.getxTitle())) {
           tsType = schema.getxTitle().replaceAll("[^a-zA-Z]", "");
-        } else {
+        } else if (schema.getProperties().size() > 0) {
           tsType = BizType.fromSchema(schema, BizType.EnumAs.DOC).toCode();
+        } else {
+          tsType = TsTypeConstants.ANY;
         }
         break;
       }
