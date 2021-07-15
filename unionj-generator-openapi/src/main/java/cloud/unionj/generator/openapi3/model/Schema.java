@@ -44,6 +44,15 @@ public class Schema implements IGeneric {
   @JsonProperty("x-title")
   private String xTitle;
 
+  public void setxTitle(String xTitle) {
+    this.xTitle = xTitle;
+    this.title = xTitle;
+  }
+
+  public String getxTitle() {
+    return xTitle;
+  }
+
   private String title;
 
   private String type;
@@ -53,7 +62,7 @@ public class Schema implements IGeneric {
   private Schema items;
   private String description;
 
-  @JsonProperty("dummy")
+  @JsonProperty("x-dummy")
   private String dummy;
 
   // TODO
@@ -152,8 +161,8 @@ public class Schema implements IGeneric {
         } else if (format != null && format.equals("T")) {
           javaType = "T";
         } else {
-          if (StringUtils.isNotBlank(this.getXTitle())) {
-            javaType = this.getXTitle();
+          if (StringUtils.isNotBlank(this.getxTitle())) {
+            javaType = this.getxTitle();
           } else {
             javaType = Object.class.getSimpleName();
           }
@@ -230,11 +239,11 @@ public class Schema implements IGeneric {
         deepCopy.properties(k, new SchemaBuilder(null).type("array").items(schema).uniqueItems(true).build());
       }
     });
-    if (StringUtils.isNotBlank(schema.getXTitle())) {
-      deepCopy.setXTitle(deepCopy.getXTitle() + SchemaHelper.LEFT_ARROW + schema.getXTitle() + SchemaHelper.RIGHT_ARROW);
+    if (StringUtils.isNotBlank(schema.getxTitle())) {
+      deepCopy.setxTitle(deepCopy.getxTitle() + SchemaHelper.LEFT_ARROW + schema.getxTitle() + SchemaHelper.RIGHT_ARROW);
     } else {
       String type = schema.javaType();
-      deepCopy.setXTitle(deepCopy.getXTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
+      deepCopy.setxTitle(deepCopy.getxTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
     }
     if (StringUtils.isBlank(schema.getType()) && schemaFinder != null) {
       String typeByRef = schema.getTypeByRef(schema.getRef());

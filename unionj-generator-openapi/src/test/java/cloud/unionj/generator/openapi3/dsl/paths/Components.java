@@ -78,9 +78,9 @@ public class Components {
 
   public static Schema UserDate = generic(gb -> gb.generic(User, dateTime));
   public static Schema UserInteger = generic(gb -> gb.generic(User, int32));
-  public static Schema ResultDTOListUserDate = generic(gb -> gb.generic(ResultDTO, uniqueRefArray(UserDate.getXTitle())));
+  public static Schema ResultDTOListUserDate = generic(gb -> gb.generic(ResultDTO, uniqueRefArray(UserDate.getxTitle())));
 
-  public static Schema ResultDTOListUserInteger = generic(gb -> gb.generic(ResultDTO, uniqueRefArray(UserInteger.getXTitle())));
+  public static Schema ResultDTOListUserInteger = generic(gb -> gb.generic(ResultDTO, uniqueRefArray(UserInteger.getxTitle())));
 
   public static Schema ResultDTOString = generic(gb -> gb.generic(ResultDTO, string));
 }

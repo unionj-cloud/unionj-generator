@@ -57,7 +57,7 @@ public class PathTest {
             rb.content(Content.content(cb -> {
               cb.applicationJson(MediaType.mediaType(mb -> {
                 mb.schema(Reference.reference(rrb -> {
-                  rrb.ref(UserDate.getXTitle());
+                  rrb.ref(UserDate.getxTitle());
                 }));
               }));
             }));
@@ -68,7 +68,7 @@ public class PathTest {
               rrb.content(Content.content(cb -> {
                 cb.applicationJson(MediaType.mediaType(mb -> {
                   mb.schema(Reference.reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserDate.getXTitle());
+                    rrrb.ref(ResultDTOListUserDate.getxTitle());
                   }));
                 }));
               }));
@@ -87,7 +87,7 @@ public class PathTest {
             rb.content(Content.content(cb -> {
               cb.applicationJson(MediaType.mediaType(mb -> {
                 mb.schema(Reference.reference(rrb -> {
-                  rrb.ref(UserInteger.getXTitle());
+                  rrb.ref(UserInteger.getxTitle());
                 }));
               }));
             }));
@@ -98,7 +98,7 @@ public class PathTest {
               rrb.content(Content.content(cb -> {
                 cb.applicationJson(MediaType.mediaType(mb -> {
                   mb.schema(Reference.reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getXTitle());
+                    rrrb.ref(ResultDTOListUserInteger.getxTitle());
                   }));
                 }));
               }));
@@ -157,7 +157,7 @@ public class PathTest {
               rrb.content(Content.content(cb -> {
                 cb.applicationJson(MediaType.mediaType(mb -> {
                   mb.schema(Reference.reference(rrrb -> {
-                    rrrb.ref(ResultDTOString.getXTitle());
+                    rrrb.ref(ResultDTOString.getxTitle());
                   }));
                 }));
               }));
@@ -208,7 +208,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOString.getXTitle());
+                    rrrb.ref(ResultDTOString.getxTitle());
                   }));
                 }));
               }));
@@ -275,7 +275,7 @@ public class PathTest {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
                   mb.schema(reference(rrrb -> {
-                    rrrb.ref(ResultDTOString.getXTitle());
+                    rrrb.ref(ResultDTOString.getxTitle());
                   }));
                 }));
               }));

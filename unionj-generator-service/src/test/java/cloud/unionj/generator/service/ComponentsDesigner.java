@@ -76,7 +76,7 @@ public class ComponentsDesigner {
       sb.type("array");
       sb.uniqueItems(true);
       sb.items(reference(rb -> {
-        rb.ref(UserDate.getXTitle());
+        rb.ref(UserDate.getxTitle());
       }));
     }));
   });
@@ -86,7 +86,7 @@ public class ComponentsDesigner {
       sb.type("array");
       sb.uniqueItems(true);
       sb.items(reference(rb -> {
-        rb.ref(UserInteger.getXTitle());
+        rb.ref(UserInteger.getxTitle());
       }));
     }));
   });
@@ -129,15 +129,24 @@ public class ComponentsDesigner {
     sb.properties("offset", offsetProperty);
   });
 
+  public static Schema JobVO = schema(sb -> {
+    sb.type("object");
+    sb.title("JobVO");
+    sb.properties("joinStatus", enums("报名情况", new String[]{"报名参加", "已报名", "查看报名", "已结束"}));
+    sb.properties("status", enums("任务状态", new String[]{"待审核", "审批通过", "审批拒绝", "已结束", "已结算"}));
+    sb.properties("deleteAt", dateTime("删除时间"));
+    sb.properties("userID", int32("ID"));
+  });
+
   public static Schema PageResultVOJobVO = generic(gb -> {
     gb.generic(PageResult, reference(rb -> {
-      rb.ref(RankVO.getXTitle());
+      rb.ref(JobVO.getxTitle());
     }));
   });
 
   public static Schema NestedSearchJobPageResult = generic(gb -> {
     gb.generic(ResultDTO, reference(rb -> {
-      rb.ref(PageResultVOJobVO.getXTitle());
+      rb.ref(PageResultVOJobVO.getxTitle());
     }));
   });
 
@@ -145,12 +154,12 @@ public class ComponentsDesigner {
     sb.type("object");
     sb.title("SearchJobPageResult");
     sb.description("任务搜索分页结果");
-    sb.properties("page", ref(NestedSearchJobPageResult.getXTitle()));
+    sb.properties("page", ref(NestedSearchJobPageResult.getxTitle()));
   });
 
   public static Generic ResultDTOPageResultVOJobVO = generic(gb -> {
     gb.generic(ResultDTO, reference(rb -> {
-      rb.ref(SearchJobPageResult.getXTitle());
+      rb.ref(SearchJobPageResult.getxTitle());
     }));
   });
 

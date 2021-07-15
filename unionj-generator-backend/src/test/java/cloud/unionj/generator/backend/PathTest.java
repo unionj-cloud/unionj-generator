@@ -20,9 +20,15 @@ import static cloud.unionj.generator.backend.Components.*;
 import static cloud.unionj.generator.openapi3.PathHelper.post;
 import static cloud.unionj.generator.openapi3.dsl.Generic.generic;
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
+import static cloud.unionj.generator.openapi3.dsl.Reference.reference;
 import static cloud.unionj.generator.openapi3.dsl.Schema.schema;
 import static cloud.unionj.generator.openapi3.dsl.SchemaHelper.*;
 import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
+import static cloud.unionj.generator.openapi3.dsl.paths.Content.content;
+import static cloud.unionj.generator.openapi3.dsl.paths.MediaType.mediaType;
+import static cloud.unionj.generator.openapi3.dsl.paths.Path.path;
+import static cloud.unionj.generator.openapi3.dsl.paths.RequestBody.requestBody;
+import static cloud.unionj.generator.openapi3.dsl.paths.Response.response;
 import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
 import static cloud.unionj.generator.openapi3.dsl.servers.Server.server;
 
@@ -33,126 +39,126 @@ import static cloud.unionj.generator.openapi3.dsl.servers.Server.server;
  * date 2020/12/16
  */
 public class PathTest {
-
-  @Test
-  public void TestPath() throws IOException {
-    Openapi3 openapi3 = openapi3(ob -> {
-      info(ib -> {
-        ib.title("测试");
-        ib.version("v1.0.0");
-      });
-
-      server(sb -> {
-        sb.url("http://www.unionj.com");
-      });
-
-      post("/hall/onlineSurvey/list", PathConfig.builder()
-          .summary("网络调查分页")
-          .tags(new String[]{"网络调查", "HallOnlineSurvey"})
-          .reqSchema(SearchJobPageResult)
-          .respSchema(SearchJobPageResult)
-          .build());
-
-      post("/hall/offlineSurvey/update", PathConfig.builder()
-          .summary("更新信息, 重新提交审核")
-          .tags(new String[]{"网络调查", "HallOfflinesurvey"})
-          .reqSchema(SearchJobPageResult)
-          .respSchema(SearchJobPageResult)
-          .build());
-
-      post("/admin/onlineSurvey/top/update", PathConfig.builder()
-          .summary("网络调查任务置顶")
-          .tags(new String[]{"admin_onlinesurvey"})
-          .parameters(new Parameter[]{
-              ParameterBuilder.builder().name("id").in(Parameter.InEnum.QUERY).required(true).schema(string).build(),
-              ParameterBuilder.builder().name("top").in(Parameter.InEnum.QUERY).required(true).schema(int32).build(),
-          })
-          .respSchema(SearchJobPageResult)
-          .build());
-    });
-    Backend backend = BackendDocParser.parse(openapi3);
-    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
-    springbootFolderGenerator.generate();
-  }
-
-  @SneakyThrows
-  @Test
-  public void TestPath2() {
-    Openapi3 openapi3 = openapi3(ob -> {
-      info(ib -> {
-        ib.title("测试创建项目、任务流程1");
-        ib.description("项目描述");
-        ib.version("v1.0.0");
-      });
-
-      Server.server(sb -> {
-        sb.url("http://www.unionj.com");
-      });
-
-      Path.path("/hall/onlineSurvey/list", pb -> {
-        Post.post(ppb -> {
-          ppb.summary("网络调查分页");
-          ppb.tags("hall_onlinesurvey");
-
-          RequestBody.requestBody(rb -> {
-            rb.required(true);
-            rb.content(Content.content(cb -> {
-              cb.applicationJson(MediaType.mediaType(mb -> {
-                mb.schema(Reference.reference(rrb -> {
-                  rrb.ref(UserDate.getXTitle());
-                }));
-              }));
-            }));
-          });
-
-          responses(rb -> {
-            rb.response200(Response.response(rrb -> {
-              rrb.content(Content.content(cb -> {
-                cb.applicationJson(MediaType.mediaType(mb -> {
-                  mb.schema(Reference.reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserDate.getXTitle());
-                  }));
-                }));
-              }));
-            }));
-          });
-        });
-      });
-
-      Path.path("/hall/offlineSurvey/update", pb -> {
-        Post.post(ppb -> {
-          ppb.summary("更新信息, 重新提交审核");
-          ppb.tags("hall_offlinesurvey");
-
-          RequestBody.requestBody(rb -> {
-            rb.required(true);
-            rb.content(Content.content(cb -> {
-              cb.applicationJson(MediaType.mediaType(mb -> {
-                mb.schema(Reference.reference(rrb -> {
-                  rrb.ref(UserInteger.getXTitle());
-                }));
-              }));
-            }));
-          });
-
-          responses(rb -> {
-            rb.response200(Response.response(rrb -> {
-              rrb.content(Content.content(cb -> {
-                cb.applicationJson(MediaType.mediaType(mb -> {
-                  mb.schema(Reference.reference(rrrb -> {
-                    rrrb.ref(ResultDTOListUserInteger.getXTitle());
-                  }));
-                }));
-              }));
-            }));
-          });
-        });
-      });
-    });
-    Backend backend = BackendDocParser.parse(openapi3);
-    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
-    springbootFolderGenerator.generate();
-  }
+//
+//  @Test
+//  public void TestPath() throws IOException {
+//    Openapi3 openapi3 = openapi3(ob -> {
+//      info(ib -> {
+//        ib.title("测试");
+//        ib.version("v1.0.0");
+//      });
+//
+//      server(sb -> {
+//        sb.url("http://www.unionj.com");
+//      });
+//
+//      post("/hall/onlineSurvey/list", PathConfig.builder()
+//          .summary("网络调查分页")
+//          .tags(new String[]{"网络调查", "HallOnlineSurvey"})
+//          .reqSchema(SearchJobPageResult)
+//          .respSchema(SearchJobPageResult)
+//          .build());
+//
+//      post("/hall/offlineSurvey/update", PathConfig.builder()
+//          .summary("更新信息, 重新提交审核")
+//          .tags(new String[]{"网络调查", "HallOfflinesurvey"})
+//          .reqSchema(SearchJobPageResult)
+//          .respSchema(SearchJobPageResult)
+//          .build());
+//
+//      post("/admin/onlineSurvey/top/update", PathConfig.builder()
+//          .summary("网络调查任务置顶")
+//          .tags(new String[]{"admin_onlinesurvey"})
+//          .parameters(new Parameter[]{
+//              ParameterBuilder.builder().name("id").in(Parameter.InEnum.QUERY).required(true).schema(string).build(),
+//              ParameterBuilder.builder().name("top").in(Parameter.InEnum.QUERY).required(true).schema(int32).build(),
+//          })
+//          .respSchema(SearchJobPageResult)
+//          .build());
+//    });
+//    Backend backend = BackendDocParser.parse(openapi3);
+//    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+//    springbootFolderGenerator.generate();
+//  }
+//
+//  @SneakyThrows
+//  @Test
+//  public void TestPath2() {
+//    Openapi3 openapi3 = openapi3(ob -> {
+//      info(ib -> {
+//        ib.title("测试创建项目、任务流程1");
+//        ib.description("项目描述");
+//        ib.version("v1.0.0");
+//      });
+//
+//      Server.server(sb -> {
+//        sb.url("http://www.unionj.com");
+//      });
+//
+//      Path.path("/hall/onlineSurvey/list", pb -> {
+//        Post.post(ppb -> {
+//          ppb.summary("网络调查分页");
+//          ppb.tags("hall_onlinesurvey");
+//
+//          RequestBody.requestBody(rb -> {
+//            rb.required(true);
+//            rb.content(Content.content(cb -> {
+//              cb.applicationJson(MediaType.mediaType(mb -> {
+//                mb.schema(Reference.reference(rrb -> {
+//                  rrb.ref(UserDate.getxTitle());
+//                }));
+//              }));
+//            }));
+//          });
+//
+//          responses(rb -> {
+//            rb.response200(Response.response(rrb -> {
+//              rrb.content(Content.content(cb -> {
+//                cb.applicationJson(MediaType.mediaType(mb -> {
+//                  mb.schema(Reference.reference(rrrb -> {
+//                    rrrb.ref(ResultDTOListUserDate.getxTitle());
+//                  }));
+//                }));
+//              }));
+//            }));
+//          });
+//        });
+//      });
+//
+//      Path.path("/hall/offlineSurvey/update", pb -> {
+//        Post.post(ppb -> {
+//          ppb.summary("更新信息, 重新提交审核");
+//          ppb.tags("hall_offlinesurvey");
+//
+//          RequestBody.requestBody(rb -> {
+//            rb.required(true);
+//            rb.content(Content.content(cb -> {
+//              cb.applicationJson(MediaType.mediaType(mb -> {
+//                mb.schema(Reference.reference(rrb -> {
+//                  rrb.ref(UserInteger.getxTitle());
+//                }));
+//              }));
+//            }));
+//          });
+//
+//          responses(rb -> {
+//            rb.response200(Response.response(rrb -> {
+//              rrb.content(Content.content(cb -> {
+//                cb.applicationJson(MediaType.mediaType(mb -> {
+//                  mb.schema(Reference.reference(rrrb -> {
+//                    rrrb.ref(ResultDTOListUserInteger.getxTitle());
+//                  }));
+//                }));
+//              }));
+//            }));
+//          });
+//        });
+//      });
+//    });
+//    Backend backend = BackendDocParser.parse(openapi3);
+//    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+//    springbootFolderGenerator.generate();
+//  }
 
   @Test
   public void Test1() {
@@ -777,33 +783,33 @@ public class PathTest {
 //    springbootFolderGenerator.generate();
 //  }
 
-
-  private static Schema ResultVO = schema(sb -> {
-    sb.type("object");
-    sb.title("ResultVO");
-    sb.properties("code", int32);
-    sb.properties("msg", string);
-    sb.properties("data", T);
-  });
-
-  public static Schema UserRegisterFormVO = schema(sb -> {
-    sb.type("object");
-    sb.title("UserRegisterFormVO");
-    sb.description("用户注册表单");
-    sb.properties("username", string("用户名"));
-    sb.properties("password", string("密码"));
-  });
-
-  public static Schema UserRegisterRespVO = schema(sb -> {
-    sb.type("object");
-    sb.title("UserRegisterRespVO");
-    sb.description("用户注册结果");
-    sb.properties("id", int64("用户ID"));
-  });
-
-  public static Schema ResultVOUserRegisterForm = generic(gb -> {
-    gb.generic(ResultVO, ref(UserRegisterRespVO.getXTitle()));
-  });
+//
+//  private static Schema ResultVO = schema(sb -> {
+//    sb.type("object");
+//    sb.title("ResultVO");
+//    sb.properties("code", int32);
+//    sb.properties("msg", string);
+//    sb.properties("data", T);
+//  });
+//
+//  public static Schema UserRegisterFormVO = schema(sb -> {
+//    sb.type("object");
+//    sb.title("UserRegisterFormVO");
+//    sb.description("用户注册表单");
+//    sb.properties("username", string("用户名"));
+//    sb.properties("password", string("密码"));
+//  });
+//
+//  public static Schema UserRegisterRespVO = schema(sb -> {
+//    sb.type("object");
+//    sb.title("UserRegisterRespVO");
+//    sb.description("用户注册结果");
+//    sb.properties("id", int64("用户ID"));
+//  });
+//
+//  public static Schema ResultVOUserRegisterForm = generic(gb -> {
+//    gb.generic(ResultVO, ref(UserRegisterRespVO.getTitle()));
+//  });
 
   @SneakyThrows
   @Test
@@ -818,13 +824,43 @@ public class PathTest {
         sb.url("http://unionj.cloud");
       });
 
-      post("/api/user/register", PathConfig.builder()
-          .summary("用户注册接口")
-          .tags(new String[]{"用户管理模块", "User"})
-          .reqSchema(UserRegisterFormVO)
-          .reqSchemaType(PathConfig.SchemaType.FORMDATA)
-          .respSchema(ResultVOUserRegisterForm)
-          .build());
+//      post("/api/user/register", PathConfig.builder()
+//          .summary("用户注册接口")
+//          .tags(new String[]{"用户管理模块", "User"})
+//          .reqSchema(UserRegisterFormVO)
+//          .reqSchemaType(PathConfig.SchemaType.FORMDATA)
+//          .respSchema(ResultVOUserRegisterForm)
+//          .build());
+
+      path("/admin/external/list", pb -> {
+        Post.post(ppb -> {
+          ppb.summary("友情分享分页");
+          ppb.tags("admin_friendshare");
+
+//          requestBody(rb -> {
+//            rb.required(true);
+//            rb.content(content(cb -> {
+//              cb.applicationJson(mediaType(mb -> {
+//                mb.schema(reference(rrb -> {
+//                  rrb.ref(BaseSearchCondition.getTitle());
+//                }));
+//              }));
+//            }));
+//          });
+
+          responses(rb -> {
+            rb.response200(response(rrb -> {
+              rrb.content(content(cb -> {
+                cb.applicationJson(mediaType(mb -> {
+                  mb.schema(reference(rrrb -> {
+                    rrrb.ref(ResultDTOPageResultVOExternalVO.getTitle());
+                  }));
+                }));
+              }));
+            }));
+          });
+        });
+      });
     });
     Backend backend = BackendDocParser.parse(openAPI3);
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();

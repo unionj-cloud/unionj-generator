@@ -15,7 +15,7 @@ public class Generic extends Openapi3 {
     GenericBuilder genericBuilder = new GenericBuilder();
     consumer.accept(genericBuilder);
     cloud.unionj.generator.openapi3.model.Generic generic = genericBuilder.build();
-    openapi3Builder.components(generic.getXTitle(), generic);
+    openapi3Builder.components(generic.getxTitle(), generic);
     return generic;
   }
 }

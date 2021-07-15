@@ -19,7 +19,7 @@ public class BizProperty {
   private String name;
   private String type;
   private String in;
-  private boolean required;
+  private boolean required = true;
   private String doc;
   private List<String> docs;
 
@@ -37,9 +37,6 @@ public class BizProperty {
   }
 
   private String getTypeByRef(String ref) {
-    if (StringUtils.isBlank(ref)) {
-      System.out.println(1234);
-    }
     String key = ref.substring(ref.lastIndexOf("/") + 1);
     if (StringUtils.isBlank(key)) {
       return TsTypeConstants.ANY;
@@ -97,10 +94,10 @@ public class BizProperty {
         break;
       }
       case "object": {
-        if (StringUtils.isNotBlank(schema.getXTitle())) {
-          tsType = schema.getXTitle().replaceAll("[^a-zA-Z]", "");
+        if (StringUtils.isNotBlank(schema.getxTitle())) {
+          tsType = schema.getxTitle().replaceAll("[^a-zA-Z]", "");
         } else {
-          tsType = BizType.fromSchema(schema, "doc").toCode();
+          tsType = BizType.fromSchema(schema, BizType.EnumAs.DOC).toCode();
         }
         break;
       }

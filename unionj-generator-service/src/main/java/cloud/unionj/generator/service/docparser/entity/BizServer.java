@@ -3,7 +3,6 @@ package cloud.unionj.generator.service.docparser.entity;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.Path;
-import cloud.unionj.generator.openapi3.model.paths.RequestBody;
 import cloud.unionj.generator.openapi3.model.servers.Server;
 import com.google.common.collect.Lists;
 import lombok.Data;
@@ -61,10 +60,9 @@ public class BizServer {
     List<BizType> types = new ArrayList<>();
     Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
     for (Map.Entry<String, Schema> schemaEntry : schemas.entrySet()) {
-      BizType bizType = BizType.fromSchema(schemaEntry.getValue());
       String key = schemaEntry.getKey();
       key = key.replaceAll("[^a-zA-Z]", "");
-      bizType.setName(key);
+      BizType bizType = BizType.fromSchema(schemaEntry.getValue(), key);
       types.add(bizType);
     }
 

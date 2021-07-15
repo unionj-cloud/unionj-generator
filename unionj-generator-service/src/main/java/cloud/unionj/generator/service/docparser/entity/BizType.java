@@ -63,12 +63,22 @@ public class BizType {
     return stringWriter.toString();
   }
 
-  public static BizType fromSchema(Schema schema) {
-    return fromSchema(schema, null);
+  public static BizType fromSchema(Schema schema, String typeName) {
+    return fromSchema(schema, null, typeName);
   }
 
-  public static BizType fromSchema(Schema schema, String enumAs) {
+  public static BizType fromSchema(Schema schema, EnumAs enumAs) {
+    return fromSchema(schema, enumAs, null);
+  }
+
+  public static enum EnumAs {
+    CODE,
+    DOC;
+  }
+
+  public static BizType fromSchema(Schema schema, EnumAs enumAs, String typeName) {
     BizType bizType = new BizType();
+    bizType.setName(typeName);
     bizType.setDoc(schema.getDescription());
     List<BizProperty> bizPropertyList = new ArrayList<>();
     Map<String, Schema> properties = schema.getProperties();
@@ -85,7 +95,7 @@ public class BizType {
         bizProperty.getDocs().add(desc);
       }
       if (CollectionUtils.isNotEmpty(value.getEnumValue())) {
-        if (enumAs != null && enumAs.equals("doc")) {
+        if (enumAs != null && enumAs == EnumAs.DOC) {
           String enums = StringUtils.strip(StringUtils.join(value.getEnumValue(), ", "));
           if (StringUtils.isNotBlank(enums)) {
             bizProperty.setDoc(bizType.getDoc() + "\n" + enums);
