@@ -201,7 +201,7 @@ public class BizRouter {
     if (StringUtils.isBlank(this.getEndpoint()) || StringUtils.isBlank(this.getHttpMethod())) {
       return;
     }
-    String endpoint = this.getEndpoint().replaceAll("[^a-zA-Z]", "_").toLowerCase();
+    String endpoint = this.getEndpoint().replaceAll("[^a-zA-Z0-9]", "_").toLowerCase();
     endpoint = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, endpoint);
     this.name = this.getHttpMethod().toLowerCase() + endpoint;
   }

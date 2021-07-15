@@ -227,4 +227,11 @@ public class TypesTsGeneratorTest {
     ServiceFolderGenerator serviceFolderGenerator = new ServiceFolderGenerator.Builder(bizServer).zip(false).build();
     serviceFolderGenerator.generate();
   }
+
+  @Test
+  public void testRegex() {
+    String testStr = "a-b><<_2";
+    testStr = testStr.replaceAll("[^a-zA-Z0-9_]", "");
+    System.out.println(testStr);
+  }
 }

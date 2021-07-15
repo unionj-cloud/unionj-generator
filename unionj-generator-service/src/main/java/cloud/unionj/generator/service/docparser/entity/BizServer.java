@@ -61,7 +61,7 @@ public class BizServer {
     Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
     for (Map.Entry<String, Schema> schemaEntry : schemas.entrySet()) {
       String key = schemaEntry.getKey();
-      key = key.replaceAll("[^a-zA-Z]", "");
+      key = key.replaceAll("[^a-zA-Z0-9_]", "");
       BizType bizType = BizType.fromSchema(schemaEntry.getValue(), key);
       types.add(bizType);
     }
@@ -89,9 +89,9 @@ public class BizServer {
        * Use second tag as Service class name if it exists, otherwise use first part of the path splitted by back slash.
        */
       if (CollectionUtils.isNotEmpty(tags) && tags.size() > 1 && StringUtils.isNotBlank(tags.get(1))) {
-        serviceName = StringUtils.capitalize(tags.get(1)) + "Service";
+        serviceName = StringUtils.capitalize(tags.get(1).replaceAll("[^a-zA-Z0-9_]", "")) + "Service";
       } else {
-        serviceName = StringUtils.capitalize(split[0]) + "Service";
+        serviceName = StringUtils.capitalize(split[0].replaceAll("[^a-zA-Z0-9_]", "")) + "Service";
       }
       wrapper.setService(serviceName);
       String moduleName;

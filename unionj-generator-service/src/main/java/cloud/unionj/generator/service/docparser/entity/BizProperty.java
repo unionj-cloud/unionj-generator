@@ -41,7 +41,7 @@ public class BizProperty {
     if (StringUtils.isBlank(key)) {
       return TsTypeConstants.ANY;
     }
-    return key.replaceAll("[^a-zA-Z]", "");
+    return key.replaceAll("[^a-zA-Z0-9_]", "");
   }
 
   public void setType(Schema schema) {
@@ -95,7 +95,7 @@ public class BizProperty {
       }
       case "object": {
         if (StringUtils.isNotBlank(schema.getxTitle())) {
-          tsType = schema.getxTitle().replaceAll("[^a-zA-Z]", "");
+          tsType = schema.getxTitle().replaceAll("[^a-zA-Z0-9_]", "");
         } else if (schema.getProperties().size() > 0) {
           tsType = BizType.fromSchema(schema, BizType.EnumAs.DOC).toCode();
         } else {
