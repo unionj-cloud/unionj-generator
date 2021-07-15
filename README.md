@@ -44,27 +44,27 @@ mvn clean install -Dmaven.test.skip=true
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-frontend</artifactId>
-   <version>1.6-SNAPSHOT</version>
+   <version>1.7-SNAPSHOT</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-backend</artifactId>
-   <version>1.6-SNAPSHOT</version>
+   <version>1.7-SNAPSHOT</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-openapi</artifactId>
-   <version>1.6-SNAPSHOT</version>
+   <version>1.7-SNAPSHOT</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-mock</artifactId>
-   <version>1.6-SNAPSHOT</version>
+   <version>1.7-SNAPSHOT</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-service</artifactId>
-   <version>1.6-SNAPSHOT</version>
+   <version>1.7-SNAPSHOT</version>
 </dependency>
 ```
 
