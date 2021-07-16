@@ -26,7 +26,7 @@
     </dependency>
     <dependency>
       <groupId>cloud.unionj</groupId>
-      <artifactId>unionj-generator-service</artifactId>
+      <artifactId>unionj-generator-client-typescript</artifactId>
       <version>1.6.0</version>
       <scope>compile</scope>
     </dependency>
