@@ -43,7 +43,7 @@ git clone git@github.com:unionj-cloud/unionj-generator.git
 ```
 - **Checkout v1.6.0**
 ```
-git checkout v1.6.0
+git checkout tags/v1.6.0 -b v1.6.0
 ```
 - Install
 ```
