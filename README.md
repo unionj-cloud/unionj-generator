@@ -7,7 +7,7 @@ Including：
 - frontend: Using dsl or OpenAPI3 json file to generate typescript vue project scaffold with axios api clients built-in 
 - mock: Using dsl or OpenAPI3 json file generating request handlers for [mswjs](https://github.com/mswjs/msw) 
 - openapi: dsl implementing [OpenAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3)
-- client: Using dsl or OpenAPI3 json file generating typescript axios api clients
+- service: Using dsl or OpenAPI3 json file generating typescript axios api clients
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -16,6 +16,7 @@ Including：
 - [Installation](#installation)
 - [Usage](#usage)
   - [Demo project](#demo-project)
+  - [Recommend project structure](#recommend-project-structure)
   - [DSL](#dsl)
     - [Schema](#schema)
       - [Example](#example)
@@ -28,6 +29,7 @@ Including：
     - [Example](#example-2)
   - [Frontend](#frontend)
     - [Example](#example-3)
+- [Tutorials](#tutorials)
 - [TODO](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -35,11 +37,19 @@ Including：
 # Installation
 
 There are two steps.
-- Clone this repository, checkout and execute the following command
+- Clone this repository
+```
+git clone git@github.com:unionj-cloud/unionj-generator.git
+```
+- **Checkout v1.6.0**
+```
+git checkout v1.6.0
+```
+- Install
 ```
 mvn clean install -Dmaven.test.skip=true
 ```
-- Copy the following code to pom.xml
+- Copy the following code to your project pom.xml
 ```
 <dependency>
    <groupId>cloud.unionj</groupId>
@@ -63,7 +73,7 @@ mvn clean install -Dmaven.test.skip=true
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
-   <artifactId>unionj-generator-client-typescript</artifactId>
+   <artifactId>unionj-generator-service</artifactId>
    <version>1.6.0</version>
 </dependency>
 ```
@@ -75,10 +85,16 @@ mvn clean install -Dmaven.test.skip=true
 ## Demo project
 
 It's a simple typescript http client code download restful service project. Upload OpenAPI3 spec json file, download ts code. 
+It's used in our company project.
 
 Repo: https://github.com/unionj-cloud/openapi-svc
 
-Recommend project structure as below picture:
+Screenshot:
+![screenshot.png](screenshot.png)
+
+## Recommend project structure
+
+Repo: https://github.com/unionj-cloud/unionj-generator-guide
 
 ![demo](./demo.png)
 
