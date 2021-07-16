@@ -1,13 +1,13 @@
 # unionj-generator
-unionj-generator is a collection of code generators with a restful api design tool(DSL) implementing 
-[openAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3).
+unionj-generator is a collection of code generators with a restful api design tool(DSL) implementing
+[OpenAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3).
 
 Including：
 - backend: Using dsl to generate VO and Proto(interface for controller or feign client to implement) for spring boot backend
-- frontend: Using dsl or openAPI3 json file to generate typescript vue project scaffold with axios api clients built-in 
-- mock: Using dsl or openAPI3 json file generating request handlers for [mswjs](https://github.com/mswjs/msw) 
-- openapi: dsl implementing [openAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3)
-- service: Using dsl or openAPI3 json file generating typescript axios api clients
+- frontend: Using dsl or OpenAPI3 json file to generate typescript vue project scaffold with axios api clients built-in
+- mock: Using dsl or OpenAPI3 json file generating request handlers for [mswjs](https://github.com/mswjs/msw)
+- openapi: dsl implementing [OpenAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3)
+- service: Using dsl or OpenAPI3 json file generating typescript axios api clients
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -16,6 +16,7 @@ Including：
 - [Installation](#installation)
 - [Usage](#usage)
   - [Demo project](#demo-project)
+  - [Recommend project structure](#recommend-project-structure)
   - [DSL](#dsl)
     - [Schema](#schema)
       - [Example](#example)
@@ -28,6 +29,7 @@ Including：
     - [Example](#example-2)
   - [Frontend](#frontend)
     - [Example](#example-3)
+- [Tutorials](#tutorials)
 - [TODO](#todo)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -35,11 +37,19 @@ Including：
 # Installation
 
 There are two steps.
-- Clone this repository and execute the following command
+- Clone this repository
+```
+git clone git@github.com:unionj-cloud/unionj-generator.git
+```
+- **Checkout v1.6.0**
+```
+git checkout v1.6.0
+```
+- Install
 ```
 mvn clean install -Dmaven.test.skip=true
 ```
-- Copy the following code to pom.xml
+- Copy the following code to your project pom.xml
 ```
 <dependency>
    <groupId>cloud.unionj</groupId>
@@ -74,11 +84,17 @@ mvn clean install -Dmaven.test.skip=true
 
 ## Demo project
 
-It's a simple typescript http client code download restful service project. Upload openAPI3 spec json file, download ts code. 
+It's a simple typescript http client code download restful service project. Upload OpenAPI3 spec json file, download ts code.
+It's used in our company project.
 
 Repo: https://github.com/unionj-cloud/openapi-svc
 
-Recommend project structure as below picture:
+Screenshot:
+![screenshot.png](screenshot.png)
+
+## Recommend project structure
+
+Repo: https://github.com/unionj-cloud/unionj-generator-guide
 
 ![demo](./demo.png)
 
@@ -89,8 +105,8 @@ Recommend project structure as below picture:
 #### Example
 
 ```java
-import static cloud.unionj.generator.openAPI3.dsl.Schema.schema;
-import static cloud.unionj.generator.openAPI3.dsl.SchemaHelper.*;
+import static cloud.unionj.generator.OpenAPI3.dsl.Schema.schema;
+import static cloud.unionj.generator.OpenAPI3.dsl.SchemaHelper.*;
 
 public class Components {
 
@@ -149,7 +165,7 @@ public class Components {
 
 #### SchemaHelper
 
-There are some built-in schemas in cloud.unionj.generator.openAPI3.dsl.SchemaHelper.
+There are some built-in schemas in cloud.unionj.generator.OpenAPI3.dsl.SchemaHelper.
 
 | Type          | Java                 |
 | ------------- | -------------------- |
@@ -195,11 +211,11 @@ public static Schema PageResultVOJobVO = generic(gb -> {
 #### Example
 
 ```java
-import static cloud.unionj.generator.openAPI3.PathHelper.*;
+import static cloud.unionj.generator.OpenAPI3.PathHelper.*;
 
 @Test
 public void TestPath() throws IOException {
-  openAPI3 openAPI3 = openAPI3(ob -> {
+  OpenAPI3 OpenAPI3 = OpenAPI3(ob -> {
     info(ib -> {
       ib.title("title");
       ib.version("v1.0.0");
@@ -237,7 +253,7 @@ public void TestPath() throws IOException {
          .respSchema(SearchJobPageResult)
          .build());
   });
-  Backend backend = BackendDocParser.parse(openAPI3);
+  Backend backend = BackendDocParser.parse(OpenAPI3);
   SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
   springbootFolderGenerator.generate();
 }
@@ -336,13 +352,15 @@ export default ExampleService;
 - [x] Java generic support
 - [x] Typescript service comment and type comment generation
 - [x] maven plugin for directly generating server side code from dsl [unionj-generator-maven-plugin](https://github.com/unionj-cloud/unionj-generator-maven-plugin)
-- [ ] Integrate springdoc-openapi-ui and generate swagger v3 annotation in code 
-      for providing request parameters and request body validation feature
-- [ ] Java proto and vo code generation from openAPI3 json file
+- [ ] Integrate springdoc-openapi-ui and generate swagger v3 annotation in code
+  for providing request parameters and request body validation feature  
+  ~~- [ ] Java proto and vo code generation from OpenAPI3 json file~~: give up
 - [ ] Java proto comment and vo comment generation
 - [ ] CI & CD support
-- [ ] React project scaffold generation 
+- [ ] React project scaffold generation
 - [ ] Angular project scaffold generation
 - [ ] Nodejs client generation
 - [ ] Go client generation
+- [ ] Add more unit tests
+- [ ] Add more tutorials
 
