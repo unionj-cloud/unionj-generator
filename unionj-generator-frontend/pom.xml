@@ -7,7 +7,7 @@
   <parent>
     <groupId>cloud.unionj</groupId>
     <artifactId>unionj-generator</artifactId>
-    <version>1.7-SNAPSHOT</version>
+    <version>1.6.0</version>
   </parent>
   <artifactId>unionj-generator-frontend</artifactId>
   <name>unionj-generator-frontend</name>
@@ -16,18 +16,18 @@
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-core</artifactId>
-      <version>1.7-SNAPSHOT</version>
+      <version>1.6.0</version>
     </dependency>
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-mock</artifactId>
-      <version>1.7-SNAPSHOT</version>
+      <version>1.6.0</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-service</artifactId>
-      <version>1.7-SNAPSHOT</version>
+      <version>1.6.0</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
