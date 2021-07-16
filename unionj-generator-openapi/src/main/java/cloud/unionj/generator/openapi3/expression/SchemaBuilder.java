@@ -21,6 +21,7 @@ public class SchemaBuilder {
     this.schema.setTree(isTree);
   }
 
+  @Deprecated
   public void dummy(String dummy) {
     this.schema.setDummy(dummy);
   }

@@ -38,6 +38,7 @@ public class Schema implements IGeneric {
   @JsonProperty("x-tree")
   private boolean tree;
 
+  @Deprecated
   @JsonProperty("x-dummies")
   private List<String> dummies = new ArrayList<>();
 
@@ -62,6 +63,7 @@ public class Schema implements IGeneric {
   private Schema items;
   private String description;
 
+  @Deprecated
   @JsonProperty("x-dummy")
   private String dummy;
 
@@ -98,7 +100,6 @@ public class Schema implements IGeneric {
   // TODO
   private List<Schema> not;
 
-  // TODO
   @JsonDeserialize(using = AdditionalPropertiesDeserializer.class)
   private Schema additionalProperties;
 
