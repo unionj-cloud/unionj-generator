@@ -1,11 +1,11 @@
 # unionj-generator
-unionj-generator is a collection of code generators with a restful api design tool(DSL) implementing 
+unionj-generator is a collection of code generators with a restful api design tool(DSL) implementing
 [OpenAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3).
 
 Including：
 - backend: Using dsl to generate VO and Proto(interface for controller or feign client to implement) for spring boot backend
-- frontend: Using dsl or OpenAPI3 json file to generate typescript vue project scaffold with axios api clients built-in 
-- mock: Using dsl or OpenAPI3 json file generating request handlers for [mswjs](https://github.com/mswjs/msw) 
+- frontend: Using dsl or OpenAPI3 json file to generate typescript vue project scaffold with axios api clients built-in
+- mock: Using dsl or OpenAPI3 json file generating request handlers for [mswjs](https://github.com/mswjs/msw)
 - openapi: dsl implementing [OpenAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3)
 - service: Using dsl or OpenAPI3 json file generating typescript axios api clients
 
@@ -43,7 +43,7 @@ git clone git@github.com:unionj-cloud/unionj-generator.git
 ```
 - **Checkout v1.6.0**
 ```
-git checkout v1.6.0
+git checkout tags/v1.6.0 -b v1.6.0
 ```
 - Install
 ```
@@ -84,7 +84,7 @@ mvn clean install -Dmaven.test.skip=true
 
 ## Demo project
 
-It's a simple typescript http client code download restful service project. Upload OpenAPI3 spec json file, download ts code. 
+It's a simple typescript http client code download restful service project. Upload OpenAPI3 spec json file, download ts code.
 It's used in our company project.
 
 Repo: https://github.com/unionj-cloud/openapi-svc
@@ -352,12 +352,12 @@ export default ExampleService;
 - [x] Java generic support
 - [x] Typescript service comment and type comment generation
 - [x] maven plugin for directly generating server side code from dsl [unionj-generator-maven-plugin](https://github.com/unionj-cloud/unionj-generator-maven-plugin)
-- [ ] Integrate springdoc-openapi-ui and generate swagger v3 annotation in code 
-      for providing request parameters and request body validation feature  
-~~- [ ] Java proto and vo code generation from OpenAPI3 json file~~: give up
+- [ ] Integrate springdoc-openapi-ui and generate swagger v3 annotation in code
+  for providing request parameters and request body validation feature  
+  ~~- [ ] Java proto and vo code generation from OpenAPI3 json file~~: give up
 - [ ] Java proto comment and vo comment generation
 - [ ] CI & CD support
-- [ ] React project scaffold generation 
+- [ ] React project scaffold generation
 - [ ] Angular project scaffold generation
 - [ ] Nodejs client generation
 - [ ] Go client generation
