@@ -102,7 +102,7 @@ public class BizServer {
       }
       wrapper.setModule(moduleName);
 
-      key = StringUtils.replace(key, "{", "${");
+      key = StringUtils.replace(key, "{", "${params.");
       wrapper.setEndpoint(key);
       wrapper.setPathItem(pathItemEntry.getValue());
 

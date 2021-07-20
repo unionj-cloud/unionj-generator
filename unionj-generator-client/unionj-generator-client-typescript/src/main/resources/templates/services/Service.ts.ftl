@@ -43,9 +43,11 @@ export class ${name} extends BizService{
     ${router.reqBody.name}: ${router.reqBody.type},
   </#if>
   <#if router.allParams??>
+    params: {
     <#list router.allParams as param>
       ${param.name}<#if !param.required>?</#if>: ${param.type},
     </#list>
+    },
   </#if>
   ) :Promise<${(router.respData.type=="Blob")?then("any",router.respData.type)}> {
     let client = this.axios.${router.httpMethod?lower_case}
@@ -62,7 +64,7 @@ export class ${name} extends BizService{
           {
             params: {
             <#list router.queryParams as queryParam>
-              ${queryParam.name},
+              ${queryParam.name}: params.${queryParam.name},
             </#list>
             },
             <#if router.respData.type == "Blob">
