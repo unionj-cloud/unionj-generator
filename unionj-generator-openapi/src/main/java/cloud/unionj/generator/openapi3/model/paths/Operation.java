@@ -4,6 +4,7 @@ import cloud.unionj.generator.openapi3.model.Callback;
 import cloud.unionj.generator.openapi3.model.ExternalDocs;
 import cloud.unionj.generator.openapi3.model.Security;
 import cloud.unionj.generator.openapi3.model.servers.Server;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +13,8 @@ import java.util.Map;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator.openapi3.model.paths
- *  date 2020/12/15
+ * cloud.unionj.generator.openapi3.model.paths
+ * date 2020/12/15
  */
 public class Operation {
 
@@ -21,6 +22,17 @@ public class Operation {
   private String summary;
   private String description;
   private String operationId;
+  @JsonProperty("x-method-name")
+  private String methodName;
+
+  public String getMethodName() {
+    return methodName;
+  }
+
+  public void setMethodName(String methodName) {
+    this.methodName = methodName;
+  }
+
   private List<Parameter> parameters = new ArrayList<>();
   private RequestBody requestBody;
   private Responses responses;

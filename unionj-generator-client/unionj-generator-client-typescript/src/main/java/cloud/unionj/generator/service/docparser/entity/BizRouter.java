@@ -69,8 +69,8 @@ public class BizRouter {
       strings.addAll(Lists.newArrayList(operation.getDescription().split("[^\\S ]")));
     }
     bizRouter.docs = strings;
-    if (StringUtils.isNotBlank(operation.getOperationId())) {
-      bizRouter.name = operation.getOperationId();
+    if (StringUtils.isNotBlank(operation.getMethodName())) {
+      bizRouter.name = operation.getMethodName();
     } else {
       bizRouter.setName();
     }
