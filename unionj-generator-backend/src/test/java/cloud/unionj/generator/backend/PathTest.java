@@ -4,20 +4,14 @@ import cloud.unionj.generator.backend.docparser.BackendDocParser;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.springboot.SpringbootFolderGenerator;
 import cloud.unionj.generator.openapi3.PathConfig;
-import cloud.unionj.generator.openapi3.dsl.Reference;
-import cloud.unionj.generator.openapi3.dsl.paths.*;
-import cloud.unionj.generator.openapi3.dsl.servers.Server;
-import cloud.unionj.generator.openapi3.expression.paths.ParameterBuilder;
+import cloud.unionj.generator.openapi3.PathHelper;
+import cloud.unionj.generator.openapi3.dsl.paths.Post;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.openapi3.model.Schema;
-import cloud.unionj.generator.openapi3.model.paths.Parameter;
 import lombok.SneakyThrows;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static cloud.unionj.generator.backend.Components.*;
-import static cloud.unionj.generator.openapi3.PathHelper.post;
 import static cloud.unionj.generator.openapi3.dsl.Generic.generic;
 import static cloud.unionj.generator.openapi3.dsl.Openapi3.openapi3;
 import static cloud.unionj.generator.openapi3.dsl.Reference.reference;
@@ -27,7 +21,6 @@ import static cloud.unionj.generator.openapi3.dsl.info.Info.info;
 import static cloud.unionj.generator.openapi3.dsl.paths.Content.content;
 import static cloud.unionj.generator.openapi3.dsl.paths.MediaType.mediaType;
 import static cloud.unionj.generator.openapi3.dsl.paths.Path.path;
-import static cloud.unionj.generator.openapi3.dsl.paths.RequestBody.requestBody;
 import static cloud.unionj.generator.openapi3.dsl.paths.Response.response;
 import static cloud.unionj.generator.openapi3.dsl.paths.Responses.responses;
 import static cloud.unionj.generator.openapi3.dsl.servers.Server.server;
@@ -861,6 +854,59 @@ public class PathTest {
           });
         });
       });
+    });
+    Backend backend = BackendDocParser.parse(openAPI3);
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    springbootFolderGenerator.generate();
+  }
+
+  public static Schema OptLogVO = schema(sb -> {
+    sb.type("object");
+    sb.title("OptLogVO");
+    sb.properties("id", int32);
+    sb.properties("eventStatus", string("事件状态"));
+    sb.properties("eventType", string("事件类型"));
+    sb.properties("eventObject", string("事件对象"));
+    sb.properties("creatorUserId", int32);
+    sb.properties("creatorCompanyId", int32);
+    sb.properties("createAt", dateTime);
+    sb.properties("name", string("操作人名字"));
+  });
+
+  public static Schema OptLogPageCondition = schema(sb -> {
+    sb.type("object");
+    sb.title("OptLogPageCondition");
+    sb.properties("startTime", dateTime("开始时间"));
+    sb.properties("endTime", dateTime("结束时间"));
+    sb.properties("keyword", string("关键字搜索"));
+    sb.properties("eventStatus", string("事件状态"));
+    sb.properties("eventType", string("事件类型"));
+  });
+
+  public static Schema PageResultVOOptLogVO = generic(gb -> gb.generic(PageResultVO, reference(rb -> rb.ref(OptLogVO.getTitle()))));
+  public static Schema ResultDTOPageResultVOOptLogVO = generic(gb -> gb.generic(ResultDTO, reference(rb -> rb.ref(PageResultVOOptLogVO.getTitle()))));
+
+  @SneakyThrows
+  @Test
+  public void Test2() {
+    Openapi3 openAPI3 = openapi3(ob -> {
+      info(ib -> {
+        ib.title("用户管理模块");
+        ib.version("v1.0.0");
+      });
+
+      server(sb -> {
+        sb.url("http://unionj.cloud");
+      });
+
+      PathHelper.post("/admin/opt/log/list", PathConfig.builder()
+          .summary("操作日志")
+          .tags(new String[]{"admin_operate_log", "AdminOperateLog"})
+          .reqSchema(OptLogPageCondition)
+          .respSchema(ResultDTOPageResultVOOptLogVO)
+          .build()
+      );
+
     });
     Backend backend = BackendDocParser.parse(openAPI3);
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
