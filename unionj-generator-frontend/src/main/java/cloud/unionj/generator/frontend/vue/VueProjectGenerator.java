@@ -1,9 +1,6 @@
 package cloud.unionj.generator.frontend.vue;
 
 import cloud.unionj.generator.GeneratorUtils;
-import cloud.unionj.generator.mock.MockFolderGenerator;
-import cloud.unionj.generator.mock.docparser.MockDocParser;
-import cloud.unionj.generator.mock.docparser.entity.Api;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import cloud.unionj.generator.service.ServiceFolderGenerator;
 import cloud.unionj.generator.service.docparser.ServiceDocParser;
@@ -129,28 +126,6 @@ public class VueProjectGenerator extends VueGenerator {
     // generate package.json
     PackageJsonGenerator packageJsonGenerator = new PackageJsonGenerator(this.projectName);
     packageJsonGenerator.generate();
-
-    // generate mockServiceWorker.js
-//    MockServiceWorkerJsGenerator mockServiceWorkerJsGenerator = new MockServiceWorkerJsGenerator();
-//    mockServiceWorkerJsGenerator.generate();
-
-    if (includeMock) {
-      Api api;
-      if (StringUtils.isNotBlank(this.doc)) {
-        if (this.doc.startsWith("http")) {
-          api = MockDocParser.parse(new URL(this.doc));
-        } else {
-          api = MockDocParser.parse(new File(this.doc));
-        }
-      } else {
-        api = MockDocParser.parse(this.openAPI);
-      }
-
-      if (api != null) {
-        MockFolderGenerator mockFolderGenerator = new MockFolderGenerator.Builder(api).outputDir(getOutputFile() + "/src/mocks").zip(false).build();
-        mockFolderGenerator.generate();
-      }
-    }
 
     BizServer bizServer;
     if (StringUtils.isNotBlank(this.doc)) {
