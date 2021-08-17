@@ -26,12 +26,12 @@
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-core</artifactId>
-      <version>1.6.1</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-openapi</artifactId>
-      <version>1.6.1</version>
+      <version>${project.version}</version>
     </dependency>
   </dependencies>
 

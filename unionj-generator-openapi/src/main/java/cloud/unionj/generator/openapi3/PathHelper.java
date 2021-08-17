@@ -8,6 +8,7 @@ import cloud.unionj.generator.openapi3.expression.paths.OperationBuilder;
 import cloud.unionj.generator.openapi3.expression.paths.ResponsesBuilder;
 import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.Parameter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.function.Consumer;
 
@@ -83,7 +84,11 @@ public class PathHelper {
               rb.required(true);
               rb.content(content(cb -> {
                 cb.multipartFormData(mediaType(mb -> {
-                  mb.schema(config.getReqSchema());
+                  if (StringUtils.isEmpty(config.getReqSchema().getxTitle())) {
+                    mb.schema(config.getReqSchema());
+                  } else {
+                    mb.schema(ref(config.getReqSchema().getxTitle()));
+                  }
                 }));
               }));
             });
@@ -94,7 +99,11 @@ public class PathHelper {
               rb.required(true);
               rb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
-                  mb.schema(config.getReqSchema());
+                  if (StringUtils.isEmpty(config.getReqSchema().getxTitle())) {
+                    mb.schema(config.getReqSchema());
+                  } else {
+                    mb.schema(ref(config.getReqSchema().getxTitle()));
+                  }
                 }));
               }));
             });
@@ -133,7 +142,11 @@ public class PathHelper {
             rb.response200(response(rrb -> {
               rrb.content(content(cb -> {
                 cb.applicationJson(mediaType(mb -> {
-                  mb.schema(config.getRespSchema());
+                  if (StringUtils.isEmpty(config.getRespSchema().getxTitle())) {
+                    mb.schema(config.getRespSchema());
+                  } else {
+                    mb.schema(ref(config.getRespSchema().getxTitle()));
+                  }
                 }));
               }));
             }));

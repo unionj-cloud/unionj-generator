@@ -16,18 +16,18 @@
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-core</artifactId>
-      <version>1.6.1</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-mock</artifactId>
-      <version>1.6.1</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-client-typescript</artifactId>
-      <version>1.6.1</version>
+      <version>${project.version}</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
