@@ -10,8 +10,8 @@ import java.util.List;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "auth")
-public class AuthProperties {
+@ConfigurationProperties(prefix = "doc.auth")
+public class DocAuthProperties {
   private String username;
   private String password;
 }
