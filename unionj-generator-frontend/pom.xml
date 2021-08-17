@@ -20,12 +20,6 @@
     </dependency>
     <dependency>
       <groupId>cloud.unionj</groupId>
-      <artifactId>unionj-generator-mock</artifactId>
-      <version>${project.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>cloud.unionj</groupId>
       <artifactId>unionj-generator-client-typescript</artifactId>
       <version>${project.version}</version>
       <scope>compile</scope>
