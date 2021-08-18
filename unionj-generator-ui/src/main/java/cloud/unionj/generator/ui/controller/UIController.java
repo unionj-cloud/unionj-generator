@@ -23,14 +23,23 @@ import java.lang.reflect.Method;
 @RequestMapping("/unionj-cloud")
 public class UIController {
 
+  private static Openapi3 openAPI = new Openapi3();
+
+  static {
+    String designClass = "gen.Openapi3Designer";
+    String designMethod = "design";
+    try {
+      Class<?> designer = UIController.class.getClassLoader().loadClass(designClass);
+      Method design = designer.getMethod(designMethod);
+      openAPI = (Openapi3) design.invoke(null);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   @SneakyThrows
   @GetMapping("/doc")
   public String doc(Model model) {
-    String designClass = "gen.Openapi3Designer";
-    String designMethod = "design";
-    Class<?> designer = this.getClass().getClassLoader().loadClass(designClass);
-    Method design = designer.getMethod(designMethod);
-    Openapi3 openAPI = (Openapi3) design.invoke(null);
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -42,11 +51,6 @@ public class UIController {
   @GetMapping("/openapi3.json")
   @ResponseBody
   public Openapi3 openapi3() {
-    String designClass = "gen.Openapi3Designer";
-    String designMethod = "design";
-    Class<?> designer = this.getClass().getClassLoader().loadClass(designClass);
-    Method design = designer.getMethod(designMethod);
-    Openapi3 openAPI = (Openapi3) design.invoke(null);
     return openAPI;
   }
 }
