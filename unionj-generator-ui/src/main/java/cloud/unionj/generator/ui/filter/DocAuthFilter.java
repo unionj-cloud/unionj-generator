@@ -30,14 +30,12 @@ public class DocAuthFilter implements Filter {
   private static final String DOC_PREFIX = "/unionj-cloud";
   private static final String DEFAULT_USER_PASSWORD = "admin";
 
-  @Value("${spring.mvc.servlet.path}")
-  private String prefix;
-
   @SneakyThrows
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
     HttpServletRequest httpServletRequest = (HttpServletRequest) request;
     String token = httpServletRequest.getHeader(AUTHORIZATION_HEADER);
+    String prefix = docAuthProperties.getPrefix();
     if(httpServletRequest.getRequestURI().startsWith(prefix + DOC_PREFIX)){
       boolean passed = false;
       if(StringUtils.isNotBlank(token)){

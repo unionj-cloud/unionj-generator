@@ -1,17 +1,20 @@
 package cloud.unionj.generator.ui.config;
 
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "doc.auth")
+@PropertySource(value = "classpath:application.properties", ignoreResourceNotFound = true)
 public class DocAuthProperties {
+  @Value("${doc.auth.username}")
   private String username;
+  @Value("${doc.auth.password}")
   private String password;
+  @Value("${spring.mvc.servlet.path:}")
+  private String prefix;
 }
