@@ -12,7 +12,7 @@ import ${voPackageName}.*;
 </#if>
 
 @Service
-public interface ${name}Impl implements ${name} {
+public class ${name}Impl implements ${name} {
 
 <#list routers as router>
     @SneakyThrows
