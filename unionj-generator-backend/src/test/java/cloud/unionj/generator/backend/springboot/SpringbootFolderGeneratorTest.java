@@ -233,6 +233,8 @@ public class SpringbootFolderGeneratorTest {
             "myproject-vo"))
         .controllerOutput(new OutputConfig("com.github.myproject.controller",
             "myproject-controller"))
+        .serviceOutput(new OutputConfig("com.github.myproject.service",
+            "myproject-service"))
         .pomProject(true)
         .pomParentGroupId("com.github.myproject")
         .pomParentArtifactId("myproject")
@@ -240,7 +242,6 @@ public class SpringbootFolderGeneratorTest {
         .pomProtoArtifactId("myproject-proto")
         .pomVoArtifactId("myproject-vo")
         .pomControllerArtifactId("myproject-controller")
-        .outputType(OutputType.OVERWRITE)
         .build();
     springbootFolderGenerator.generate();
   }

@@ -17,6 +17,12 @@ import static cloud.unionj.generator.backend.springboot.Constants.*;
  * cloud.unionj.generator
  * date 2020/11/22
  */
+
+/**
+ * Proto package, controller package and vo package will be replaced completely.
+ * <p>
+ * Existing files in service package will be skipped and not be changed, only new files will be generated.
+ */
 public class SpringbootFolderGenerator {
 
   private Backend backend;
@@ -25,7 +31,10 @@ public class SpringbootFolderGenerator {
   private boolean zip;
   private boolean pomProject;
 
-  private OutputType outputType;
+  private OutputType protoOutputType;
+  private OutputType voOutputType;
+  private OutputType controllerOutputType;
+  private OutputType serviceOutputType;
 
   private OutputConfig protoOutput;
   private OutputConfig voOutput;
@@ -35,6 +44,7 @@ public class SpringbootFolderGenerator {
   private ProtoPomGenerator protoPomGenerator;
   private VoPomGenerator voPomGenerator;
   private ControllerPomGenerator controllerPomGenerator;
+  private ServicePomGenerator servicePomGenerator;
 
   public static final class Builder {
     private Backend backend;
@@ -43,7 +53,10 @@ public class SpringbootFolderGenerator {
     private boolean zip = false;
     private boolean pomProject = false;
 
-    private OutputType outputType;
+    private OutputType protoOutputType;
+    private OutputType voOutputType;
+    private OutputType controllerOutputType;
+    private OutputType serviceOutputType;
 
     private OutputConfig protoOutput;
     private OutputConfig voOutput;
@@ -53,11 +66,15 @@ public class SpringbootFolderGenerator {
     private ProtoPomGenerator protoPomGenerator;
     private VoPomGenerator voPomGenerator;
     private ControllerPomGenerator controllerPomGenerator;
+    private ServicePomGenerator servicePomGenerator;
 
     public Builder(Backend backend) {
       this.backend = backend;
       this.outputDir = OUTPUT_DIR;
-      this.outputType = OutputType.CHECK;
+      this.protoOutputType = OutputType.OVERWRITE;
+      this.voOutputType = OutputType.OVERWRITE;
+      this.controllerOutputType = OutputType.OVERWRITE;
+      this.serviceOutputType = OutputType.CHECK;
 
       this.protoOutput = new OutputConfig(
           PACKAGE_NAME + DOT + DEFAULT_PROTO_PACKAGE,
@@ -75,6 +92,7 @@ public class SpringbootFolderGenerator {
       this.protoPomGenerator = new ProtoPomGenerator();
       this.voPomGenerator = new VoPomGenerator();
       this.controllerPomGenerator = new ControllerPomGenerator();
+      this.servicePomGenerator = new ServicePomGenerator();
     }
 
     public Builder zip(boolean zip) {
@@ -99,6 +117,10 @@ public class SpringbootFolderGenerator {
       this.controllerPomGenerator.groupIdAsParent();
       this.controllerPomGenerator.protoGroupIdAsParent();
       this.controllerPomGenerator.serviceGroupIdAsParent();
+
+      this.servicePomGenerator.parentGroupId(parentGroupId);
+      this.servicePomGenerator.groupIdAsParent();
+      this.servicePomGenerator.voGroupIdAsParent();
       return this;
     }
 
@@ -106,6 +128,7 @@ public class SpringbootFolderGenerator {
       this.protoPomGenerator.parentArtifactId(parentArtifactId);
       this.voPomGenerator.parentArtifactId(parentArtifactId);
       this.controllerPomGenerator.parentArtifactId(parentArtifactId);
+      this.servicePomGenerator.parentArtifactId(parentArtifactId);
 
       return this;
     }
@@ -122,11 +145,20 @@ public class SpringbootFolderGenerator {
       this.controllerPomGenerator.versionAsParent();
       this.controllerPomGenerator.protoVersionAsParent();
       this.controllerPomGenerator.serviceVersionAsParent();
+
+      this.servicePomGenerator.parentVersion(parentVersion);
+      this.servicePomGenerator.versionAsParent();
+      this.servicePomGenerator.voVersionAsParent();
       return this;
     }
 
     public Builder pomProtoArtifactId(String protoArtifactId) {
       this.protoPomGenerator.artifactId(protoArtifactId);
+      return this;
+    }
+
+    public Builder pomServiceArtifactId(String serviceArtifactId) {
+      this.servicePomGenerator.artifactId(serviceArtifactId);
       return this;
     }
 
@@ -138,11 +170,17 @@ public class SpringbootFolderGenerator {
     public Builder pomVoArtifactId(String voArtifactId) {
       this.voPomGenerator.artifactId(voArtifactId);
       this.protoPomGenerator.voArtifactId(voArtifactId);
+      this.servicePomGenerator.voArtifactId(voArtifactId);
       return this;
     }
 
     public Builder pomProtoOutputDir(String pomProtoOutputDir) {
       this.protoPomGenerator.outputDir(pomProtoOutputDir);
+      return this;
+    }
+
+    public Builder pomServiceOutputDir(String pomServiceOutputDir) {
+      this.servicePomGenerator.outputDir(pomServiceOutputDir);
       return this;
     }
 
@@ -153,11 +191,6 @@ public class SpringbootFolderGenerator {
 
     public Builder pomVoOutputDir(String pomVoOutputDir) {
       this.voPomGenerator.outputDir(pomVoOutputDir);
-      return this;
-    }
-
-    public Builder outputType(OutputType outputType) {
-      this.outputType = outputType;
       return this;
     }
 
@@ -192,8 +225,7 @@ public class SpringbootFolderGenerator {
 
     public Builder serviceOutput(OutputConfig serviceOutput) {
       this.serviceOutput = serviceOutput;
-      // TODO
-//      this.controllerPomGenerator = new ControllerPomGenerator(serviceOutput.getOutputDir());
+      this.servicePomGenerator = new ServicePomGenerator(serviceOutput.getOutputDir());
       return this;
     }
 
@@ -205,6 +237,11 @@ public class SpringbootFolderGenerator {
 
     public Builder protoPomGenerator(ProtoPomGenerator protoPomGenerator) {
       this.protoPomGenerator = protoPomGenerator;
+      return this;
+    }
+
+    public Builder servicePomGenerator(ServicePomGenerator servicePomGenerator) {
+      this.servicePomGenerator = servicePomGenerator;
       return this;
     }
 
@@ -225,7 +262,10 @@ public class SpringbootFolderGenerator {
 
       backendFolderGenerator.zip = this.zip;
       backendFolderGenerator.pomProject = this.pomProject;
-      backendFolderGenerator.outputType = this.outputType;
+      backendFolderGenerator.protoOutputType = this.protoOutputType;
+      backendFolderGenerator.voOutputType = this.voOutputType;
+      backendFolderGenerator.controllerOutputType = this.controllerOutputType;
+      backendFolderGenerator.serviceOutputType = this.serviceOutputType;
 
       this.protoOutput.validate();
       this.voOutput.validate();
@@ -240,7 +280,7 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.protoPomGenerator = this.protoPomGenerator;
       backendFolderGenerator.voPomGenerator = this.voPomGenerator;
       backendFolderGenerator.controllerPomGenerator = this.controllerPomGenerator;
-      // TODO servicePomGenerator
+      backendFolderGenerator.servicePomGenerator = this.servicePomGenerator;
 
       return backendFolderGenerator;
     }
@@ -255,9 +295,9 @@ public class SpringbootFolderGenerator {
   }
 
   public void generate() throws IOException {
-
-    // 检查覆盖类型
-    checkOutput();
+    FileUtils.deleteDirectory(new File(this.voOutput.getOutputDir() + "/src"));
+    FileUtils.deleteDirectory(new File(this.protoOutput.getOutputDir() + "/src"));
+    FileUtils.deleteDirectory(new File(this.controllerOutput.getOutputDir() + "/src"));
 
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
@@ -276,6 +316,14 @@ public class SpringbootFolderGenerator {
           this.controllerOutput.getPackageName(), this.controllerOutput.getOutputDir(),
           this.voOutput.getPackageName(), this.protoOutput.getPackageName(), this.serviceOutput.getPackageName());
       controllerJavaGenerator.generate();
+
+      ServiceJavaGenerator serviceJavaGenerator = new ServiceJavaGenerator(proto,
+          this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.voOutput.getPackageName());
+      serviceJavaGenerator.generate();
+
+      ServiceImplJavaGenerator serviceImplJavaGenerator = new ServiceImplJavaGenerator(proto,
+          this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.voOutput.getPackageName());
+      serviceImplJavaGenerator.generate();
     }
 
     if (pomProject) {
@@ -291,7 +339,10 @@ public class SpringbootFolderGenerator {
       if (!pom.exists()) {
         this.controllerPomGenerator.generate();
       }
-      // TODO
+      pom = new File(this.servicePomGenerator.outputDir + "/pom.xml");
+      if (!pom.exists()) {
+        this.servicePomGenerator.generate();
+      }
     }
 
     if (this.zip) {
@@ -301,36 +352,6 @@ public class SpringbootFolderGenerator {
       GeneratorUtils.generateFolder(sourceFile, outputFile);
     }
 
-  }
-
-  private void checkOutput() throws IOException {
-    String voOutputDir = this.voOutput.getOutputDir();
-    String protoOutputDir = this.protoOutput.getOutputDir();
-    String controllerOutputDir = this.controllerOutput.getOutputDir();
-    String serviceOutputDir = this.serviceOutput.getOutputDir();
-
-    if (OutputType.CHECK.equals(this.outputType)) {
-
-      if (!dirEmpty(voOutputDir)) {
-        throw new UnsupportedOperationException(voOutputDir + " is not empty");
-      }
-
-      if (!dirEmpty(protoOutputDir)) {
-        throw new UnsupportedOperationException(protoOutputDir + " is not empty");
-      }
-
-      if (!dirEmpty(controllerOutputDir)) {
-        throw new UnsupportedOperationException(controllerOutputDir + " is not empty");
-      }
-
-      if (!dirEmpty(serviceOutputDir)) {
-        throw new UnsupportedOperationException(serviceOutputDir + " is not empty");
-      }
-    }
-
-    FileUtils.deleteDirectory(new File(voOutputDir + "/src"));
-    FileUtils.deleteDirectory(new File(protoOutputDir + "/src"));
-    FileUtils.deleteDirectory(new File(controllerOutputDir + "/src"));
   }
 
   private boolean dirEmpty(String dirPath) {
