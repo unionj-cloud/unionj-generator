@@ -7,7 +7,7 @@ import cloud.unionj.generator.openapi3.model.tags.Tag;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,7 +24,7 @@ public class Openapi3 {
   private Info info;
   private List<Server> servers = new ArrayList<>();
   private List<Tag> tags = new ArrayList<>();
-  private Map<String, Path> paths = new HashMap<>();
+  private Map<String, Path> paths = new LinkedHashMap<>();
   private Components components = new Components();
 
   public void servers(Server server) {

@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.*;
 import ${voPackageName}.*;
+import ${protoPackageName}.${protoName};
+import ${servicePackageName}.${serviceName};
 <#if imports??>
     <#list imports as import>
 import ${import};
