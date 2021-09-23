@@ -5,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
@@ -39,11 +41,16 @@ public class UIController {
 
   @SneakyThrows
   @GetMapping("/doc")
-  public String doc(Model model) {
+  public String doc(HttpServletRequest request, Model model) {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
     objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
     model.addAttribute("doc", objectMapper.writeValueAsString(openAPI));
+    String full = request.getRequestURL().toString();
+    String uri = request.getRequestURI();
+    String servletPath = request.getServletPath();
+    String docUrl = StringUtils.removeEnd(full, uri) + servletPath + "/unionj-cloud/openapi3.json";
+    model.addAttribute("docUrl", docUrl);
     return "index";
   }
 
