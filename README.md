@@ -30,6 +30,7 @@ and service module for spring boot backend
     - [Example](#example-2)
   - [Frontend](#frontend)
     - [Example](#example-3)
+- [Must Know](#must-know)
 - [Tutorials](#tutorials)
 - [TODO](#todo)
 
@@ -344,6 +345,11 @@ export class ExampleService extends BizService{
 
 export default ExampleService;
 ```
+
+# Must Know
+- Source code in proto package, vo package and controller package will be replaced with new code completely, 
+so don't edit any source code in these packages.
+- Existing source code in service package will be skipped and not be changed, so you can edit or add your custom code.
 
 # Tutorials
 - [unionj-generator快速上手-后端篇](https://www.jianshu.com/p/21c670ba90f1)
