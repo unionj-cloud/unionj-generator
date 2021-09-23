@@ -6,12 +6,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
@@ -25,11 +27,18 @@ import java.lang.reflect.Method;
 @RequestMapping("/unionj-cloud")
 public class UIController {
 
+  private static String entry = null;
   private static Openapi3 openAPI = new Openapi3();
 
-  static {
-    String designClass = "gen.Openapi3Designer";
-    String designMethod = "design";
+  @Value("${cloud.unionj.generator.entry:gen.Openapi3Designer.design}")
+  public void setPrivateName(String privateName) {
+    UIController.entry = privateName;
+  }
+
+  @PostConstruct
+  public void init() {
+    String designClass = UIController.entry.substring(0, UIController.entry.lastIndexOf("."));
+    String designMethod = UIController.entry.substring(UIController.entry.lastIndexOf(".") + 1);
     try {
       Class<?> designer = UIController.class.getClassLoader().loadClass(designClass);
       Method design = designer.getMethod(designMethod);
@@ -49,6 +58,9 @@ public class UIController {
     String full = request.getRequestURL().toString();
     String uri = request.getRequestURI();
     String servletPath = request.getServletPath();
+    if (servletPath.equals(uri)) {
+      servletPath = "";
+    }
     String docUrl = StringUtils.removeEnd(full, uri) + servletPath + "/unionj-cloud/openapi3.json";
     model.addAttribute("docUrl", docUrl);
     return "index";
