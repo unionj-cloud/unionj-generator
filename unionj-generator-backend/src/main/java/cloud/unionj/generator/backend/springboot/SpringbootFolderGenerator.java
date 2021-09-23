@@ -121,6 +121,7 @@ public class SpringbootFolderGenerator {
       this.servicePomGenerator.parentGroupId(parentGroupId);
       this.servicePomGenerator.groupIdAsParent();
       this.servicePomGenerator.voGroupIdAsParent();
+      this.servicePomGenerator.protoGroupIdAsParent();
       return this;
     }
 
@@ -149,16 +150,20 @@ public class SpringbootFolderGenerator {
       this.servicePomGenerator.parentVersion(parentVersion);
       this.servicePomGenerator.versionAsParent();
       this.servicePomGenerator.voVersionAsParent();
+      this.servicePomGenerator.protoVersionAsParent();
       return this;
     }
 
     public Builder pomProtoArtifactId(String protoArtifactId) {
       this.protoPomGenerator.artifactId(protoArtifactId);
+      this.servicePomGenerator.protoArtifactId(protoArtifactId);
+      this.controllerPomGenerator.protoArtifactId(protoArtifactId);
       return this;
     }
 
     public Builder pomServiceArtifactId(String serviceArtifactId) {
       this.servicePomGenerator.artifactId(serviceArtifactId);
+      this.controllerPomGenerator.serviceArtifactId(serviceArtifactId);
       return this;
     }
 
@@ -318,7 +323,7 @@ public class SpringbootFolderGenerator {
       controllerJavaGenerator.generate();
 
       ServiceJavaGenerator serviceJavaGenerator = new ServiceJavaGenerator(proto,
-          this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.voOutput.getPackageName());
+          this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.protoOutput.getPackageName());
       serviceJavaGenerator.generate();
 
       ServiceImplJavaGenerator serviceImplJavaGenerator = new ServiceImplJavaGenerator(proto,

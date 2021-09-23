@@ -19,6 +19,12 @@ public class ServicePomGenerator extends BasePomGenerator<ServicePomGenerator> {
 
   protected String voVersion;
 
+  protected String protoGroupId;
+
+  protected String protoArtifactId;
+
+  protected String protoVersion;
+
   public ServicePomGenerator() {
     super();
 
@@ -30,6 +36,10 @@ public class ServicePomGenerator extends BasePomGenerator<ServicePomGenerator> {
     this.voGroupId = this.parentGroupId;
     this.voArtifactId = this.parentArtifactId + "-vo";
     this.voVersion = this.parentVersion;
+
+    this.protoGroupId = this.parentGroupId;
+    this.protoArtifactId = this.parentArtifactId + "-proto";
+    this.protoVersion = this.parentVersion;
   }
 
   public ServicePomGenerator(String serviceDir) {
@@ -43,6 +53,10 @@ public class ServicePomGenerator extends BasePomGenerator<ServicePomGenerator> {
     this.voGroupId = this.parentGroupId;
     this.voArtifactId = this.parentArtifactId + "-vo";
     this.voVersion = this.parentVersion;
+
+    this.protoGroupId = this.parentGroupId;
+    this.protoArtifactId = this.parentArtifactId + "-proto";
+    this.protoVersion = this.parentVersion;
   }
 
   public ServicePomGenerator voGroupId(String voGroupId) {
@@ -70,6 +84,31 @@ public class ServicePomGenerator extends BasePomGenerator<ServicePomGenerator> {
     return this;
   }
 
+  public ServicePomGenerator protoGroupId(String protoGroupId) {
+    this.protoGroupId = protoGroupId;
+    return this;
+  }
+
+  public ServicePomGenerator protoGroupIdAsParent() {
+    this.protoGroupId = this.parentGroupId;
+    return this;
+  }
+
+  public ServicePomGenerator protoArtifactId(String protoArtifactId) {
+    this.protoArtifactId = protoArtifactId;
+    return this;
+  }
+
+  public ServicePomGenerator protoVersion(String protoVersion) {
+    this.protoVersion = protoVersion;
+    return this;
+  }
+
+  public ServicePomGenerator protoVersionAsParent() {
+    this.protoVersion = this.parentVersion;
+    return this;
+  }
+
   @Override
   public Map<String, Object> getInput() {
     Map<String, Object> input = super.getInput();
@@ -77,6 +116,10 @@ public class ServicePomGenerator extends BasePomGenerator<ServicePomGenerator> {
     input.put("voGroupId", voGroupId);
     input.put("voArtifactId", voArtifactId);
     input.put("voVersion", voVersion);
+
+    input.put("protoGroupId", protoGroupId);
+    input.put("protoArtifactId", protoArtifactId);
+    input.put("protoVersion", protoVersion);
 
     return input;
   }

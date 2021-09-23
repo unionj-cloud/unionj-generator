@@ -7,7 +7,7 @@ import java.util.*;
 import ${voPackageName}.*;
 <#if imports??>
     <#list imports as import>
-        import ${import};
+import ${import};
     </#list>
 </#if>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <a href="https://github.com/Tsingxiao/unionj-generator"><img alt="Union logo" src="../assets/logo.png" class="logo"></a>
+    <a href="https://github.com/unionj-cloud/unionj-generator"><img alt="Union logo" src="../assets/logo.png" class="logo"></a>
     <a href="https://github.com/mswjs/msw"><img alt="Mswjs logo" src="../assets/mswjs.png" class="logo"></a>
     <h2>Mock response from Mswjs handler</h2>
     <PetStore />

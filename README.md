@@ -1,13 +1,14 @@
 # unionj-generator
-unionj-generator is a collection of code generators with a restful api design tool(DSL) implementing
+Unionj-generator is a collection of code generators for spring boot applications with a restful api design tool(DSL) compatible with
 [OpenAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3).
 
 Including：
-- backend: Using dsl to generate VO and Proto(interface for controller or feign client to implement) for spring boot backend
+- backend: Using dsl to generate vo module, proto module(interface for controller or feign client to implement), controller module 
+and service module for spring boot backend
+- client: Using dsl or OpenAPI3 json file to generate typescript axios api clients
 - frontend: Using dsl or OpenAPI3 json file to generate typescript vue project scaffold with axios api clients built-in
-- mock: Using dsl or OpenAPI3 json file generating request handlers for [mswjs](https://github.com/mswjs/msw)
 - openapi: dsl implementing [OpenAPI 3.0.0 specification](http://spec.openapis.org/oas/v3.0.3)
-- service: Using dsl or OpenAPI3 json file generating typescript axios api clients
+- ui: OpenAPI3 documentation web UI
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -41,9 +42,9 @@ There are two steps.
 ```
 git clone git@github.com:unionj-cloud/unionj-generator.git
 ```
-- **Checkout v1.6.0**
+- **Checkout v1.6.2**
 ```
-git checkout tags/v1.6.0 -b v1.6.0
+git checkout tags/v1.6.2 -b v1.6.2
 ```
 - Install
 ```
@@ -54,27 +55,27 @@ mvn clean install -Dmaven.test.skip=true
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-frontend</artifactId>
-   <version>1.6.1</version>
+   <version>1.6.2</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-backend</artifactId>
-   <version>1.6.1</version>
+   <version>1.6.2</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-openapi</artifactId>
-   <version>1.6.1</version>
+   <version>1.6.2</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-mock</artifactId>
-   <version>1.6.1</version>
+   <version>1.6.2</version>
 </dependency>
 <dependency>
    <groupId>cloud.unionj</groupId>
    <artifactId>unionj-generator-service</artifactId>
-   <version>1.6.1</version>
+   <version>1.6.2</version>
 </dependency>
 ```
 

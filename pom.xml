@@ -9,8 +9,8 @@
   <version>1.6.2</version>
   <packaging>pom</packaging>
   <name>unionj-generator</name>
-  <description>Generate mswjs handlers from openapi documents</description>
-  <url>https://github.com/Tsingxiao/unionj-generator</url>
+  <description>Code generator compatible with OpenAPI 3.0 for spring boot applications</description>
+  <url>https://github.com/unionj-cloud/unionj-generator</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,23 +38,23 @@
 
   <licenses>
     <license>
-      <name>The Apache Software License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
       <distribution>repo</distribution>
     </license>
   </licenses>
 
   <scm>
-    <url>https://github.com/Tsingxiao/unionj-generator</url>
-    <connection>scm:git:git@github.com:Tsingxiao/unionj-generator.git</connection>
-    <developerConnection>scm:git:git@github.com:Tsingxiao/unionj-generator.git</developerConnection>
+    <url>https://github.com/unionj-cloud/unionj-generator</url>
+    <connection>scm:git:git@github.com:unionj-cloud/unionj-generator.git</connection>
+    <developerConnection>scm:git:git@github.com:unionj-cloud/unionj-generator.git</developerConnection>
   </scm>
 
   <developers>
     <developer>
-      <name>wubin</name>
+      <name>wubin1989</name>
       <email>328454505@qq.com</email>
-      <organization>Tsingxiao</organization>
+      <organization>unionj-cloud</organization>
     </developer>
   </developers>
 

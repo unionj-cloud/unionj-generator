@@ -24,14 +24,14 @@ public class ServiceJavaGenerator extends DefaultGenerator {
   private Proto proto;
   private String outputDir;
   private String packageName;
-  private String voPackageName;
+  private String protoPackageName;
   private String serviceName;
 
-  public ServiceJavaGenerator(Proto proto, String packageName, String outputDir, String voPackageName) {
+  public ServiceJavaGenerator(Proto proto, String packageName, String outputDir, String protoPackageName) {
     this.proto = proto;
     this.packageName = packageName;
     this.outputDir = outputDir + "/src/main/java/" + packageName.replace(".", "/");
-    this.voPackageName = voPackageName;
+    this.protoPackageName = protoPackageName;
     String baseName = StringUtils.removeEnd(StringUtils.capitalize(this.proto.getName()), "Proto");
     this.serviceName = baseName + "Service";
   }
@@ -41,9 +41,8 @@ public class ServiceJavaGenerator extends DefaultGenerator {
     Map<String, Object> input = new HashMap<>();
     input.put("packageName", this.packageName);
     input.put("name", this.serviceName);
-    input.put("routers", this.proto.getRouters());
-    input.put("imports", this.proto.getImports());
-    input.put("voPackageName", this.voPackageName);
+    input.put("protoName", StringUtils.capitalize(this.proto.getName()));
+    input.put("protoPackageName", this.protoPackageName);
     return input;
   }
 

@@ -46,7 +46,7 @@ public class ProtoRouter {
       router.name = operation.getOperationId();
     } else {
       if (StringUtils.isNotBlank(router.endpoint) && StringUtils.isNotBlank(router.httpMethod)) {
-        String _endpoint = router.endpoint.replaceAll("[^a-zA-Z]", "_").toLowerCase();
+        String _endpoint = router.endpoint.replaceAll("[^a-zA-Z0-9_]", "_").toLowerCase();
         _endpoint = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, _endpoint);
         router.name = router.httpMethod.toLowerCase() + _endpoint;
       }
@@ -176,7 +176,7 @@ public class ProtoRouter {
         this.name = name;
       } else {
         if (StringUtils.isNotBlank(this.endpoint) && StringUtils.isNotBlank(this.httpMethod)) {
-          String _endpoint = this.endpoint.replaceAll("[^a-zA-Z]", "_").toLowerCase();
+          String _endpoint = this.endpoint.replaceAll("[^a-zA-Z0-9_]", "_").toLowerCase();
           _endpoint = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, _endpoint);
           this.name = this.httpMethod.toLowerCase() + _endpoint;
         }
