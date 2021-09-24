@@ -41,27 +41,27 @@ and service module for spring boot backend
 <dependency>
    <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-frontend</artifactId>
-   <version>1.6.4</version>
+   <version>1.6.5</version>
 </dependency>
 <dependency>
    <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-backend</artifactId>
-   <version>1.6.4</version>
+   <version>1.6.5</version>
 </dependency>
 <dependency>
    <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-openapi</artifactId>
-   <version>1.6.4</version>
+   <version>1.6.5</version>
 </dependency>
 <dependency>
    <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-client-typescript</artifactId>
-   <version>1.6.4</version>
+   <version>1.6.5</version>
 </dependency>
 <dependency>
    <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-ui</artifactId>
-   <version>1.6.4</version>
+   <version>1.6.5</version>
 </dependency>
 ```
 

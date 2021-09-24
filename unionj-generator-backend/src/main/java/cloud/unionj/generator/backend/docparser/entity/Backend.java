@@ -153,16 +153,16 @@ public class Backend {
         }
         Path path = wrapper.getPath();
         if (path.getGet() != null) {
-          routers.add(ProtoRouter.of(key, "get", path.getGet()));
+          routers.add(ProtoRouter.of(key, "get", path.getGet(), schemas));
         }
         if (path.getPost() != null) {
-          routers.add(ProtoRouter.of(key, "post", path.getPost()));
+          routers.add(ProtoRouter.of(key, "post", path.getPost(), schemas));
         }
         if (path.getPut() != null) {
-          routers.add(ProtoRouter.of(key, "put", path.getPut()));
+          routers.add(ProtoRouter.of(key, "put", path.getPut(), schemas));
         }
         if (path.getDelete() != null) {
-          routers.add(ProtoRouter.of(key, "delete", path.getDelete()));
+          routers.add(ProtoRouter.of(key, "delete", path.getDelete(), schemas));
         }
       }
 

@@ -38,7 +38,7 @@ public class ProtoRouter {
   private ProtoRouter() {
   }
 
-  public static ProtoRouter of(String endpoint, String httpMethod, Operation operation) {
+  public static ProtoRouter of(String endpoint, String httpMethod, Operation operation, Map<String, Schema> schemas) {
     ProtoRouter router = new ProtoRouter();
     router.endpoint = endpoint;
     router.httpMethod = httpMethod;
@@ -67,23 +67,28 @@ public class ProtoRouter {
         } else if (content.getMultipartFormData() != null) {
           MediaType formData = content.getMultipartFormData();
           Schema schema = formData.getSchema();
+          if (schema.getRef() != null) {
+            String typeByRef = schema.getTypeByRef(schema.getRef());
+            schema = schemas.get(typeByRef);
+          }
+          List<String> required = schema.getRequired();
           schema.getProperties().forEach((k, v) -> {
             if (k.contains("file")) {
               if (v.getType().equals("array")) {
-                router.setFile(ProtoProperty.UPLOAD_FILES_BUILDER.required(schema.getRequired().contains(k)).build());
+                router.setFile(ProtoProperty.UPLOAD_FILES_BUILDER.required(required.contains(k)).build());
               } else {
-                router.setFile(ProtoProperty.UPLOAD_FILE_BUILDER.required(schema.getRequired().contains(k)).build());
+                router.setFile(ProtoProperty.UPLOAD_FILE_BUILDER.required(required.contains(k)).build());
               }
             } else {
               if (v.getType().equals("array") && v.getItems().equals(SchemaHelper.file)) {
-                router.setFile(new ProtoProperty.Builder("MultipartFile[]").name(k).required(schema.getRequired().contains(k)).build());
+                router.setFile(new ProtoProperty.Builder("MultipartFile[]").name(k).required(required.contains(k)).build());
               } else if (v.equals(SchemaHelper.file)) {
-                router.setFile(new ProtoProperty.Builder("MultipartFile").name(k).required(schema.getRequired().contains(k)).build());
+                router.setFile(new ProtoProperty.Builder("MultipartFile").name(k).required(required.contains(k)).build());
               } else {
                 queryParams.add(new ProtoProperty.Builder(v)
                     .name(k)
                     .in("formData")
-                    .required(schema.getRequired().contains(k))
+                    .required(required.contains(k))
                     .defaultValue(Optional.ofNullable(v.getDefaultValue()).orElse("").toString())
                     .build());
               }
