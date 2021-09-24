@@ -15,6 +15,7 @@ and service module for spring boot backend
 ### TOC
 
 - [Installation](#installation)
+- [OpenAPI3 Web UI Screenshot](#openapi3-web-ui-screenshot)
 - [Usage](#usage)
   - [Demo project](#demo-project)
   - [Recommend project structure](#recommend-project-structure)
@@ -64,6 +65,9 @@ and service module for spring boot backend
    <version>1.6.5</version>
 </dependency>
 ```
+
+# OpenAPI3 Web UI Screenshot
+![web-ui.png](web-ui.png)
 
 # Usage
 
