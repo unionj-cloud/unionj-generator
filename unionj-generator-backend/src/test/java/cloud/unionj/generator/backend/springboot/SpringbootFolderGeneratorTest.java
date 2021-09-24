@@ -48,7 +48,29 @@ public class SpringbootFolderGeneratorTest {
     });
 
     Backend backend = BackendDocParser.parse(openAPI3);
-    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).mode(Mode.BASIC).build();
+    SpringbootFolderGenerator.Builder builder = new SpringbootFolderGenerator.Builder(backend)
+        .pomProject(true)
+        .pomParentGroupId("com.github.myproject")
+        .pomParentArtifactId("myproject")
+        .pomParentVersion("1.0.1-SNAPSHOT");
+
+    builder.protoOutput(new OutputConfig("com.github.myproject.myproto",
+        "myproject-proto"));
+    builder.pomProtoArtifactId("myproject-proto");
+
+    builder.voOutput(new OutputConfig("com.github.myproject.vo",
+        "myproject-vo"));
+    builder.pomVoArtifactId("myproject-vo");
+
+    builder.controllerOutput(new OutputConfig("com.github.myproject.controller",
+        "myproject-controller"));
+    builder.pomControllerArtifactId("myproject-controller");
+
+    builder.serviceOutput(new OutputConfig("com.github.myproject.service",
+        "myproject-service"));
+    builder.pomServiceArtifactId("myproject-service");
+
+    SpringbootFolderGenerator springbootFolderGenerator = builder.build();
     springbootFolderGenerator.generate();
   }
 

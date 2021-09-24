@@ -229,25 +229,25 @@ public class SpringbootFolderGenerator {
 
     public Builder protoOutput(OutputConfig protoOutput) {
       this.protoOutput = protoOutput;
-      this.protoPomGenerator = new ProtoPomGenerator(protoOutput.getOutputDir());
+      this.protoPomGenerator.outputDir(protoOutput.getOutputDir());
       return this;
     }
 
     public Builder controllerOutput(OutputConfig controllerOutput) {
       this.controllerOutput = controllerOutput;
-      this.controllerPomGenerator = new ControllerPomGenerator(controllerOutput.getOutputDir());
+      this.controllerPomGenerator.outputDir(controllerOutput.getOutputDir());
       return this;
     }
 
     public Builder serviceOutput(OutputConfig serviceOutput) {
       this.serviceOutput = serviceOutput;
-      this.servicePomGenerator = new ServicePomGenerator(serviceOutput.getOutputDir());
+      this.servicePomGenerator.outputDir(serviceOutput.getOutputDir());
       return this;
     }
 
     public Builder voOutput(OutputConfig voOutput) {
       this.voOutput = voOutput;
-      this.voPomGenerator = new VoPomGenerator(voOutput.getOutputDir());
+      this.voPomGenerator.outputDir(voOutput.getOutputDir());
       return this;
     }
 
