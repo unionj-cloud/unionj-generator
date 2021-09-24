@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <parent>
-    <groupId>cloud.unionj</groupId>
+    <groupId>io.github.unionj-cloud</groupId>
     <artifactId>unionj-generator-client</artifactId>
     <version>1.6.2</version>
   </parent>
@@ -13,12 +13,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>cloud.unionj</groupId>
+      <groupId>io.github.unionj-cloud</groupId>
       <artifactId>unionj-generator-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>cloud.unionj</groupId>
+      <groupId>io.github.unionj-cloud</groupId>
       <artifactId>unionj-generator-openapi</artifactId>
       <version>${project.version}</version>
     </dependency>

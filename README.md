@@ -54,27 +54,27 @@ mvn clean install -Dmaven.test.skip=true
 - Copy the following code to your project pom.xml
 ```
 <dependency>
-   <groupId>cloud.unionj</groupId>
+   <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-frontend</artifactId>
    <version>1.6.2</version>
 </dependency>
 <dependency>
-   <groupId>cloud.unionj</groupId>
+   <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-backend</artifactId>
    <version>1.6.2</version>
 </dependency>
 <dependency>
-   <groupId>cloud.unionj</groupId>
+   <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-openapi</artifactId>
    <version>1.6.2</version>
 </dependency>
 <dependency>
-   <groupId>cloud.unionj</groupId>
+   <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-mock</artifactId>
    <version>1.6.2</version>
 </dependency>
 <dependency>
-   <groupId>cloud.unionj</groupId>
+   <groupId>io.github.unionj-cloud</groupId>
    <artifactId>unionj-generator-service</artifactId>
    <version>1.6.2</version>
 </dependency>

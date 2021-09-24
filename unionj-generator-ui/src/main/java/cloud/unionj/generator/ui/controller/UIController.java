@@ -19,9 +19,8 @@ import java.lang.reflect.Method;
 
 /**
  * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.ui
- * @date:2021/8/16
+ * cloud.unionj.generator.ui
+ * 2021/8/16
  */
 @Controller
 @RequestMapping("/unionj-cloud")

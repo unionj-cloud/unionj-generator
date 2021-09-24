@@ -31,17 +31,4 @@ public class ServiceTsGeneratorTest {
       }
     }
   }
-
-  @Test
-  public void generate2() throws IOException {
-    try (BufferedInputStream is = new BufferedInputStream(new FileInputStream("/home/qylz/workspace/treeyee_openapi3.json"))) {
-      BizServer bizServer = ServiceDocParser.parse(is);
-      for (BizService bizService : bizServer.getServices()) {
-        ServiceTsGenerator serviceTsGenerator = new ServiceTsGenerator(bizService);
-        String outputFile = serviceTsGenerator.generate();
-        File file = new File(outputFile);
-        Assert.assertTrue(file.exists());
-      }
-    }
-  }
 }

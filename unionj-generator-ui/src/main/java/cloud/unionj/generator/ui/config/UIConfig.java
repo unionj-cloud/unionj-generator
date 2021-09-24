@@ -5,9 +5,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @author: created by wubin
- * @version: v0.1
- * @description: cloud.unionj.generator.ui.config
- * @date:2021/8/16
+ * cloud.unionj.generator.ui.config
+ * 2021/8/16
  */
 @Configuration
 @ComponentScan(basePackages = {"cloud.unionj.generator.ui"})

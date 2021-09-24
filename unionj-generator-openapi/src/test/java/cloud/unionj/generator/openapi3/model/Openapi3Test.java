@@ -57,14 +57,4 @@ public class Openapi3Test {
         });
         System.out.println(avatar.equals(SchemaHelper.file));
     }
-
-    @Test
-    public void parseFromYapi() throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-        Openapi3 openapi3 = objectMapper.readValue(new File("/home/qylz/workspace/treeyee_openapi3.json"), Openapi3.class);
-        System.out.println(openapi3);
-    }
 }

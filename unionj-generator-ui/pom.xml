@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>cloud.unionj</groupId>
+    <groupId>io.github.unionj-cloud</groupId>
     <artifactId>unionj-generator</artifactId>
     <version>1.6.2</version>
   </parent>
@@ -24,12 +24,12 @@
       <version>2.2.5.RELEASE</version>
     </dependency>
     <dependency>
-      <groupId>cloud.unionj</groupId>
+      <groupId>io.github.unionj-cloud</groupId>
       <artifactId>unionj-generator-core</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>cloud.unionj</groupId>
+      <groupId>io.github.unionj-cloud</groupId>
       <artifactId>unionj-generator-openapi</artifactId>
       <version>${project.version}</version>
     </dependency>
