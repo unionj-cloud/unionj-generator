@@ -137,8 +137,6 @@ public class ProtoRouter {
     queryParams.stream().forEach(protoProperty -> {
       if (protoProperty.getSchemaType().equals("array")) {
         protoProperty.setRequestParam(protoProperty.getName() + "[]");
-      } else {
-        protoProperty.setRequestParam(protoProperty.getName());
       }
     });
     router.setQueryParams(queryParams);

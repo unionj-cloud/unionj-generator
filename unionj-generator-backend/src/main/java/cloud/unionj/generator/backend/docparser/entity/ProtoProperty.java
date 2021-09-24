@@ -36,6 +36,7 @@ public class ProtoProperty {
     private boolean required = true;
     private String defaultValue;
     private String schemaType;
+    private String requestParam;
 
     public Builder(String type) {
       this.type = type;
@@ -48,6 +49,7 @@ public class ProtoProperty {
 
     public Builder name(String name) {
       this.name = name;
+      this.requestParam = name;
       return this;
     }
 
@@ -76,6 +78,7 @@ public class ProtoProperty {
       property.required = this.required;
       property.defaultValue = this.defaultValue;
       property.schemaType = this.schemaType;
+      property.requestParam = this.requestParam;
       return property;
     }
   }
