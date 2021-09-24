@@ -342,19 +342,16 @@ so don't edit any source code in these packages.
 - [unionj-generator快速上手-后端篇](https://www.jianshu.com/p/21c670ba90f1)
 
 # TODO
+Please reference [unionj-generator kanban](https://github.com/unionj-cloud/unionj-generator/projects/1)
 
-- [x] Java generic support
-- [x] Typescript service comment and type comment generation
-- [x] maven plugin for directly generating server side code from dsl [unionj-generator-maven-plugin](https://github.com/unionj-cloud/unionj-generator-maven-plugin)
-- [ ] Integrate springdoc-openapi-ui and generate swagger v3 annotation in code
-  for providing request parameters and request body validation feature  
-  ~~- [ ] Java proto and vo code generation from OpenAPI3 json file~~: give up
-- [ ] Java proto comment and vo comment generation
-- [ ] CI & CD support
-- [ ] React project scaffold generation
-- [ ] Angular project scaffold generation
-- [ ] Nodejs client generation
-- [ ] Go client generation
-- [ ] Add more unit tests
-- [ ] Add more tutorials
+# Community
+
+Welcome to contribute to unionj-generator by forking it and submitting pr or issues. If you like unionj-generator, please give it a star!
+
+Welcome to contact me from 
+- facebook: [https://www.facebook.com/bin.wu.94617999/](https://www.facebook.com/bin.wu.94617999/) 
+- twitter: [https://twitter.com/BINWU49205513](https://twitter.com/BINWU49205513) 
+- email: 328454505@qq.com
+- wechat:  
+![qrcode.png](qrcode.png) 
 
