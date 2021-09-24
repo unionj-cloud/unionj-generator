@@ -242,7 +242,8 @@ public class SpringbootFolderGeneratorTest {
         .pomProtoArtifactId("myproject-proto")
         .pomVoArtifactId("myproject-vo")
         .pomControllerArtifactId("myproject-controller")
-        .mode(Mode.BASIC)
+        .pomControllerArtifactId("myproject-service")
+//        .mode(Mode.BASIC)
         .build();
     springbootFolderGenerator.generate();
   }
