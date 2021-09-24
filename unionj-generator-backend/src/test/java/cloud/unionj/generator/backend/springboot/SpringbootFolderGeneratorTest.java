@@ -122,7 +122,7 @@ public class SpringbootFolderGeneratorTest {
 
     backend.setProtoList(protoList);
 
-    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).mode(Mode.BASIC).build();
     springbootFolderGenerator.generate();
   }
 
@@ -242,6 +242,7 @@ public class SpringbootFolderGeneratorTest {
         .pomProtoArtifactId("myproject-proto")
         .pomVoArtifactId("myproject-vo")
         .pomControllerArtifactId("myproject-controller")
+        .mode(Mode.BASIC)
         .build();
     springbootFolderGenerator.generate();
   }

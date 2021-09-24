@@ -37,21 +37,6 @@ and service module for spring boot backend
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Installation
-
-There are two steps.
-- Clone this repository
-```
-git clone git@github.com:unionj-cloud/unionj-generator.git
-```
-- **Checkout v1.6.2**
-```
-git checkout tags/v1.6.2 -b v1.6.2
-```
-- Install
-```
-mvn clean install -Dmaven.test.skip=true
-```
-- Copy the following code to your project pom.xml
 ```
 <dependency>
    <groupId>io.github.unionj-cloud</groupId>
@@ -70,17 +55,15 @@ mvn clean install -Dmaven.test.skip=true
 </dependency>
 <dependency>
    <groupId>io.github.unionj-cloud</groupId>
-   <artifactId>unionj-generator-mock</artifactId>
+   <artifactId>unionj-generator-client-typescript</artifactId>
    <version>1.6.2</version>
 </dependency>
 <dependency>
    <groupId>io.github.unionj-cloud</groupId>
-   <artifactId>unionj-generator-service</artifactId>
+   <artifactId>unionj-generator-ui</artifactId>
    <version>1.6.2</version>
 </dependency>
 ```
-
-
 
 # Usage
 

@@ -46,6 +46,8 @@ public class SpringbootFolderGenerator {
   private ControllerPomGenerator controllerPomGenerator;
   private ServicePomGenerator servicePomGenerator;
 
+  private Mode mode;
+
   public static final class Builder {
     private Backend backend;
     private String outputDir;
@@ -67,6 +69,8 @@ public class SpringbootFolderGenerator {
     private VoPomGenerator voPomGenerator;
     private ControllerPomGenerator controllerPomGenerator;
     private ServicePomGenerator servicePomGenerator;
+
+    private Mode mode;
 
     public Builder(Backend backend) {
       this.backend = backend;
@@ -93,10 +97,17 @@ public class SpringbootFolderGenerator {
       this.voPomGenerator = new VoPomGenerator();
       this.controllerPomGenerator = new ControllerPomGenerator();
       this.servicePomGenerator = new ServicePomGenerator();
+
+      this.mode = Mode.FULL;
     }
 
     public Builder zip(boolean zip) {
       this.zip = zip;
+      return this;
+    }
+
+    public Builder mode(Mode mode) {
+      this.mode = mode;
       return this;
     }
 
@@ -287,6 +298,8 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.controllerPomGenerator = this.controllerPomGenerator;
       backendFolderGenerator.servicePomGenerator = this.servicePomGenerator;
 
+      backendFolderGenerator.mode = this.mode;
+
       return backendFolderGenerator;
     }
 
@@ -302,7 +315,9 @@ public class SpringbootFolderGenerator {
   public void generate() throws IOException {
     FileUtils.deleteDirectory(new File(this.voOutput.getOutputDir() + "/src"));
     FileUtils.deleteDirectory(new File(this.protoOutput.getOutputDir() + "/src"));
-    FileUtils.deleteDirectory(new File(this.controllerOutput.getOutputDir() + "/src"));
+    if (this.mode == Mode.FULL) {
+      FileUtils.deleteDirectory(new File(this.controllerOutput.getOutputDir() + "/src"));
+    }
 
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
@@ -317,18 +332,20 @@ public class SpringbootFolderGenerator {
           this.protoOutput.getPackageName(), this.protoOutput.getOutputDir(), this.voOutput.getPackageName());
       protoJavaGenerator.generate();
 
-      ControllerJavaGenerator controllerJavaGenerator = new ControllerJavaGenerator(proto,
-          this.controllerOutput.getPackageName(), this.controllerOutput.getOutputDir(),
-          this.voOutput.getPackageName(), this.protoOutput.getPackageName(), this.serviceOutput.getPackageName());
-      controllerJavaGenerator.generate();
+      if (this.mode == Mode.FULL) {
+        ControllerJavaGenerator controllerJavaGenerator = new ControllerJavaGenerator(proto,
+            this.controllerOutput.getPackageName(), this.controllerOutput.getOutputDir(),
+            this.voOutput.getPackageName(), this.protoOutput.getPackageName(), this.serviceOutput.getPackageName());
+        controllerJavaGenerator.generate();
 
-      ServiceJavaGenerator serviceJavaGenerator = new ServiceJavaGenerator(proto,
-          this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.protoOutput.getPackageName());
-      serviceJavaGenerator.generate();
+        ServiceJavaGenerator serviceJavaGenerator = new ServiceJavaGenerator(proto,
+            this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.protoOutput.getPackageName());
+        serviceJavaGenerator.generate();
 
-      ServiceImplJavaGenerator serviceImplJavaGenerator = new ServiceImplJavaGenerator(proto,
-          this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.voOutput.getPackageName());
-      serviceImplJavaGenerator.generate();
+        ServiceImplJavaGenerator serviceImplJavaGenerator = new ServiceImplJavaGenerator(proto,
+            this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.voOutput.getPackageName());
+        serviceImplJavaGenerator.generate();
+      }
     }
 
     if (pomProject) {
@@ -340,13 +357,15 @@ public class SpringbootFolderGenerator {
       if (!pom.exists()) {
         this.voPomGenerator.generate();
       }
-      pom = new File(this.controllerPomGenerator.outputDir + "/pom.xml");
-      if (!pom.exists()) {
-        this.controllerPomGenerator.generate();
-      }
-      pom = new File(this.servicePomGenerator.outputDir + "/pom.xml");
-      if (!pom.exists()) {
-        this.servicePomGenerator.generate();
+      if (this.mode == Mode.FULL) {
+        pom = new File(this.controllerPomGenerator.outputDir + "/pom.xml");
+        if (!pom.exists()) {
+          this.controllerPomGenerator.generate();
+        }
+        pom = new File(this.servicePomGenerator.outputDir + "/pom.xml");
+        if (!pom.exists()) {
+          this.servicePomGenerator.generate();
+        }
       }
     }
 
