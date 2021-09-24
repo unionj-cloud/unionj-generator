@@ -285,8 +285,10 @@ public class SpringbootFolderGenerator {
 
       this.protoOutput.validate();
       this.voOutput.validate();
-      this.controllerOutput.validate();
-      this.serviceOutput.validate();
+      if (this.mode == Mode.FULL) {
+        this.controllerOutput.validate();
+        this.serviceOutput.validate();
+      }
 
       backendFolderGenerator.protoOutput = this.protoOutput;
       backendFolderGenerator.voOutput = this.voOutput;

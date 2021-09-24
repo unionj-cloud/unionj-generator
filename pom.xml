@@ -6,7 +6,7 @@
 
   <groupId>io.github.unionj-cloud</groupId>
   <artifactId>unionj-generator</artifactId>
-  <version>1.6.3</version>
+  <version>1.6.4</version>
   <packaging>pom</packaging>
   <name>unionj-generator</name>
   <description>Code generator compatible with OpenAPI 3.0 for spring boot applications</description>
