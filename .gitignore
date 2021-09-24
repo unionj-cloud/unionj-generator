@@ -75,3 +75,6 @@ node_modules
 /unionj-generator-service/services
 /unionj-generator-frontend/vue/
 /unionj-generator-frontend/__MACOSX/
+/unionj-generator-backend/myproject-controller/
+/unionj-generator-backend/myproject-proto/
+/unionj-generator-backend/myproject-vo/
