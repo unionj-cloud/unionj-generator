@@ -2,6 +2,7 @@ package cloud.unionj.generator.backend.springboot;
 
 import cloud.unionj.generator.backend.docparser.BackendDocParser;
 import cloud.unionj.generator.backend.docparser.entity.*;
+import cloud.unionj.generator.backend.springboot.export.ExportProto;
 import cloud.unionj.generator.backend.springboot.user.UserProto;
 import cloud.unionj.generator.openapi3.dsl.PathHelper;
 import cloud.unionj.generator.openapi3.model.Openapi3;
@@ -45,6 +46,7 @@ public class SpringbootFolderGeneratorTest {
       });
 
       PathHelper.doImport(UserProto.class);
+      PathHelper.doImport(ExportProto.class);
     });
 
     Backend backend = BackendDocParser.parse(openAPI3);

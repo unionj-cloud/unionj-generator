@@ -134,6 +134,13 @@ public class ProtoRouter {
         queryParams.addAll(query);
       }
     }
+    queryParams.stream().forEach(protoProperty -> {
+      if (protoProperty.getSchemaType().equals("array")) {
+        protoProperty.setRequestParam(protoProperty.getName() + "[]");
+      } else {
+        protoProperty.setRequestParam(protoProperty.getName());
+      }
+    });
     router.setQueryParams(queryParams);
 
     Responses responses = operation.getResponses();

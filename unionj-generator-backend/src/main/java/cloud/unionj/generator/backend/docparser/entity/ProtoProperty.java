@@ -19,6 +19,8 @@ public class ProtoProperty {
   public static final ProtoProperty STREAM = new Builder("ResponseEntity<byte[]>").build();
 
   private String name;
+  private String requestParam;
+  private String schemaType;
   private String in;
   private String type;
   private boolean required;
@@ -33,6 +35,7 @@ public class ProtoProperty {
     private String type;
     private boolean required = true;
     private String defaultValue;
+    private String schemaType;
 
     public Builder(String type) {
       this.type = type;
@@ -40,6 +43,7 @@ public class ProtoProperty {
 
     public Builder(Schema type) {
       this.type = type.javaType().replaceAll(SchemaHelper.LEFT_ARROW, "<").replaceAll(SchemaHelper.RIGHT_ARROW, ">");
+      this.schemaType = type.getType();
     }
 
     public Builder name(String name) {
@@ -71,6 +75,7 @@ public class ProtoProperty {
       property.in = this.in;
       property.required = this.required;
       property.defaultValue = this.defaultValue;
+      property.schemaType = this.schemaType;
       return property;
     }
   }

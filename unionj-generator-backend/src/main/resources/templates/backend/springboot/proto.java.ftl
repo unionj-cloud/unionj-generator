@@ -27,7 +27,7 @@ public interface ${name} {
             </#if>
             <#if router.queryParams??>
                 <#list router.queryParams as queryParam>
-        <#if queryParam.required>@RequestParam("${queryParam.name}")<#elseif queryParam.defaultValue??>@RequestParam(value="${queryParam.name}", required=false, defaultValue="${queryParam.defaultValue}")<#else>@RequestParam(value="${queryParam.name}", required=false)</#if> ${queryParam.type} ${queryParam.name},
+        <#if queryParam.required>@RequestParam("${queryParam.requestParam}")<#elseif queryParam.defaultValue??>@RequestParam(value="${queryParam.requestParam}", required=false, defaultValue="${queryParam.defaultValue}")<#else>@RequestParam(value="${queryParam.requestParam}", required=false)</#if> ${queryParam.type} ${queryParam.name},
                 </#list>
             </#if>
             <#if router.reqBody??>
