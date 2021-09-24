@@ -78,3 +78,4 @@ node_modules
 /unionj-generator-backend/myproject-controller/
 /unionj-generator-backend/myproject-proto/
 /unionj-generator-backend/myproject-vo/
+unionj-generator-backend/myproject-service/
