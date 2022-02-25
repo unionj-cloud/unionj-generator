@@ -54,24 +54,37 @@ export class ${name} extends BizService{
     if(this.axios.$${router.httpMethod?lower_case}) {
       client = this.axios.$${router.httpMethod?lower_case}
     }
+    <#if router.urlSearchParams??>
+      const urlSearchParams = new URLSearchParams();
+      <#list router.urlSearchParams as urlSearchParam>
+        <#if !urlSearchParam.required>params.${urlSearchParam.name} !== undefined &&</#if> urlSearchParams.append('${urlSearchParam.name}', params.${urlSearchParam.name});
+      </#list>
+    </#if>
     return client(this.addPrefix(`${router.endpoint}`),
         <#if router.reqBody??>
           ${router.reqBody.name},
+        <#elseif router.urlSearchParams??>
+          urlSearchParams,
         <#elseif router.httpMethod?lower_case == "post" || router.httpMethod?lower_case == "put">
           null,
         </#if>
-        <#if router.queryParams??>
           {
+            <#if router.queryParams??>
             params: {
             <#list router.queryParams as queryParam>
               ${queryParam.name}: params.${queryParam.name},
             </#list>
             },
+            </#if>
+            <#if router.urlSearchParams??>
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            </#if>
             <#if router.respData.type == "Blob">
             responseType: 'blob',
             </#if>
           }
-        </#if>
         )
   }
 

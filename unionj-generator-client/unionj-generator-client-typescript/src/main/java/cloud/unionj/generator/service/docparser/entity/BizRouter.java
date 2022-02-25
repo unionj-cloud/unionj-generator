@@ -40,9 +40,12 @@ public class BizRouter {
   @Setter
   @Getter
   private List<BizProperty> queryParams;
+  @Setter
+  @Getter
+  private List<BizProperty> urlSearchParams;
 
   /**
-   * pathParams + queryParams
+   * pathParams + queryParams + urlSearchParams
    */
   @Setter
   @Getter
@@ -110,6 +113,28 @@ public class BizRouter {
             bizProperty.setType(TsTypeConstants.FORMDATA);
             bizRouter.setReqBody(bizProperty);
           }
+        } else if (content.getApplicationXWwwFormUrlencoded() != null) {
+          MediaType formUrlencoded = content.getApplicationXWwwFormUrlencoded();
+          if (formUrlencoded.getSchema() != null) {
+            Schema formUrlencodedSchema = formUrlencoded.getSchema();
+            if (StringUtils.isNotBlank(formUrlencodedSchema.getRef())) {
+              String key = StringUtils.removeStart(formUrlencodedSchema.getRef(), "#/components/schemas/");
+              formUrlencodedSchema = components.getSchemas().get(key);
+            }
+            List<String> required = formUrlencodedSchema.getRequired();
+            List<BizProperty> urlSearchParams = formUrlencodedSchema.getProperties().entrySet().stream().map(item -> {
+              BizProperty property = new BizProperty();
+              String propName = item.getKey();
+              Schema propSchema = item.getValue();
+              property.setDoc(propSchema.getDescription());
+              property.setIn("requestBody");
+              property.setName(propName);
+              property.setType(propSchema);
+              property.setRequired(CollectionUtils.containsAny(required, propName));
+              return property;
+            }).collect(Collectors.toList());
+            bizRouter.setUrlSearchParams(urlSearchParams);
+          }
         } else if (content.getTextPlain() != null) {
           MediaType mediaType = content.getTextPlain();
           if (mediaType.getSchema() != null) {
@@ -132,24 +157,21 @@ public class BizRouter {
 
     Set<BizProperty> bizPropertySet = Sets.newLinkedHashSet();
     if (CollectionUtils.isNotEmpty(operation.getParameters())) {
-      LinkedHashSet<BizProperty> bizProperties = operation.getParameters().stream()
-          .map(para -> {
-            BizProperty bizProperty = new BizProperty();
-            bizProperty.setIn(para.getIn().toString());
-            bizProperty.setName(para.getName());
-            bizProperty.setType(para.getSchema());
-            bizProperty.setRequired(para.isRequired());
-            bizProperty.setDoc(para.getDescription());
-            return bizProperty;
-          })
-          .collect(Collectors.toCollection(LinkedHashSet::new));
+      LinkedHashSet<BizProperty> bizProperties = operation.getParameters().stream().map(para -> {
+        BizProperty bizProperty = new BizProperty();
+        bizProperty.setIn(para.getIn().toString());
+        bizProperty.setName(para.getName());
+        bizProperty.setType(para.getSchema());
+        bizProperty.setRequired(para.isRequired());
+        bizProperty.setDoc(para.getDescription());
+        return bizProperty;
+      }).collect(Collectors.toCollection(LinkedHashSet::new));
       if (bizProperties != null) {
         bizPropertySet.addAll(bizProperties);
       }
     }
     if (CollectionUtils.isNotEmpty(bizPropertySet)) {
-      Map<String, List<BizProperty>> bizPropertyGroupByIn = bizPropertySet.stream()
-          .collect(Collectors.groupingBy(BizProperty::getIn, Collectors.toList()));
+      Map<String, List<BizProperty>> bizPropertyGroupByIn = bizPropertySet.stream().collect(Collectors.groupingBy(BizProperty::getIn, Collectors.toList()));
       bizRouter.setPathParams(bizPropertyGroupByIn.get("path"));
       bizRouter.setQueryParams(bizPropertyGroupByIn.get("query"));
 
@@ -158,6 +180,13 @@ public class BizRouter {
       List<BizProperty> optionalParams = bizProperties.stream().filter(bizProperty -> !bizProperty.isRequired()).collect(Collectors.toList());
       requiredParams.addAll(optionalParams);
       bizRouter.setAllParams(requiredParams);
+    }
+
+    if (CollectionUtils.isNotEmpty(bizRouter.getUrlSearchParams())) {
+      if (bizRouter.getAllParams() == null) {
+        bizRouter.setAllParams(new ArrayList<>());
+      }
+      bizRouter.getAllParams().addAll(bizRouter.getUrlSearchParams());
     }
 
     Map<String, Response> responsesMap = components.getResponses();

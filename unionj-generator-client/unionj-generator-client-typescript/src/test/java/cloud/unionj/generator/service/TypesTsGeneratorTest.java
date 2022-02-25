@@ -48,6 +48,17 @@ public class TypesTsGeneratorTest {
   }
 
   @Test
+  public void generate4() throws IOException {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("usersvc_openapi3.json"))) {
+      BizServer bizServer = ServiceDocParser.parse(is);
+      TypesTsGenerator typesTsGenerator = new TypesTsGenerator(bizServer.getTypes());
+      String outputFile = typesTsGenerator.generate();
+      File file = new File(outputFile);
+      Assert.assertTrue(file.exists());
+    }
+  }
+
+  @Test
   public void generate1() throws IOException {
     Openapi3 openapi3 = openapi3(ob -> {
       info(ib -> {

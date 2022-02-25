@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 /**
@@ -22,6 +21,19 @@ public class ServiceTsGeneratorTest {
   @Test
   public void generate() throws IOException {
     try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("userservice_openapi3.json"))) {
+      BizServer bizServer = ServiceDocParser.parse(is);
+      for (BizService bizService : bizServer.getServices()) {
+        ServiceTsGenerator serviceTsGenerator = new ServiceTsGenerator(bizService);
+        String outputFile = serviceTsGenerator.generate();
+        File file = new File(outputFile);
+        Assert.assertTrue(file.exists());
+      }
+    }
+  }
+
+  @Test
+  public void generate2() throws IOException {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("usersvc_openapi3.json"))) {
       BizServer bizServer = ServiceDocParser.parse(is);
       for (BizService bizService : bizServer.getServices()) {
         ServiceTsGenerator serviceTsGenerator = new ServiceTsGenerator(bizService);

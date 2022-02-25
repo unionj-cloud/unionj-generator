@@ -49,7 +49,7 @@ public class BizServer {
     }
     String redundantPort = "";
     for (String port : redundantPorts) {
-      if (host.endsWith(port)) {
+      if (StringUtils.isNotBlank(host) && host.endsWith(port)) {
         redundantPort = port;
         break;
       }
