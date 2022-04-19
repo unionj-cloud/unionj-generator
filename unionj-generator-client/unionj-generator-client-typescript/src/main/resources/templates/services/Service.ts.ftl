@@ -57,7 +57,7 @@ export class ${name} extends BizService{
     <#if router.urlSearchParams??>
       const urlSearchParams = new URLSearchParams();
       <#list router.urlSearchParams as urlSearchParam>
-        <#if !urlSearchParam.required>params.${urlSearchParam.name} !== undefined &&</#if> urlSearchParams.append('${urlSearchParam.name}', params.${urlSearchParam.name});
+        <#if !urlSearchParam.required>params.${urlSearchParam.name} !== undefined &&</#if> urlSearchParams.append('${urlSearchParam.name}', '' + params.${urlSearchParam.name});
       </#list>
     </#if>
     return client(this.addPrefix(`${router.endpoint}`),

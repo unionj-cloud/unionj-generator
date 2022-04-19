@@ -303,7 +303,7 @@ public class SpringbootFolderGeneratorTest {
 
   @Test
   public void generateByDoc() throws IOException {
-    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("corpus_openapi3.json"))) {
+    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("openapi.json"))) {
       Backend backend = BackendDocParser.parse(is);
       SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
       springbootFolderGenerator.generate();
