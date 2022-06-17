@@ -4,6 +4,7 @@
 *
 * @module ${module}
 */
+import { CreateAxiosOptions } from "pullcode/src/httputil/axiosTransform";
 import BizService from "./BizService";
 <#if types?has_content>
 import type {
@@ -15,8 +16,8 @@ import type {
 
 export class ${name} extends BizService{
 
-  constructor(axios: any) {
-    super(axios);
+  constructor(options?: Partial<CreateAxiosOptions>) {
+    super(options);
   }
 
 <#list routers as router>
@@ -50,17 +51,13 @@ export class ${name} extends BizService{
     },
   </#if>
   ) :Promise<${(router.respData.type=="Blob")?then("any",router.respData.type)}> {
-    let client = this.axios.${router.httpMethod?lower_case}
-    if(this.axios.$${router.httpMethod?lower_case}) {
-      client = this.axios.$${router.httpMethod?lower_case}
-    }
     <#if router.urlSearchParams??>
       const urlSearchParams = new URLSearchParams();
       <#list router.urlSearchParams as urlSearchParam>
         <#if !urlSearchParam.required>params.${urlSearchParam.name} !== undefined &&</#if> urlSearchParams.append('${urlSearchParam.name}', '' + params.${urlSearchParam.name});
       </#list>
     </#if>
-    return client(this.addPrefix(`${router.endpoint}`),
+    return this.getAxios().${router.httpMethod?lower_case}(`${router.endpoint}`,
         <#if router.reqBody??>
           ${router.reqBody.name},
         <#elseif router.urlSearchParams??>
@@ -92,4 +89,10 @@ export class ${name} extends BizService{
 }
 
 export default ${name};
+  
+export function create${name}(opt?: Partial<CreateAxiosOptions>) {
+  return new ${name}(opt);
+}
+
+export const ${name?uncap_first} = create${name}();
 
