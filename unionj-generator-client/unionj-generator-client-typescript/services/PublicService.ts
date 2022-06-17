@@ -4,6 +4,7 @@
 *
 * @module Public
 */
+import { CreateAxiosOptions } from "pullcode/src/httputil/axiosTransform";
 import BizService from "./BizService";
 import type {
   PublicLogInResp,
@@ -13,20 +14,20 @@ import type {
 
 export class PublicService extends BizService{
 
-  constructor(axios: any) {
-    super(axios);
+  constructor(options?: Partial<CreateAxiosOptions>) {
+    super(options);
   }
 
   /**
   * GET /public/download/avatar
   *
-  * GetPublicDownloadAvatar ä¸‹è½½å¤´åƒæ¥å£
-  * å±•ç¤ºå¦‚ä½•å®šä¹‰æ–‡ä»¶ä¸‹è½½æ¥å£
-  * å‡½æ•°ç­¾åçš„å‡ºå‚é‡Œå¿…é¡»æœ‰ä¸”åªæœ‰ä¸€ä¸ª*os.Fileç±»å‹çš„å‚æ•°
+  * GetPublicDownloadAvatar ÏÂÔØÍ·Ïñ½Ó¿Ú
+  * Õ¹Ê¾ÈçºÎ¶¨ÒåÎÄ¼şÏÂÔØ½Ó¿Ú
+  * º¯ÊıÇ©ÃûµÄ³ö²ÎÀï±ØĞëÓĞÇÒÖ»ÓĞÒ»¸ö*os.FileÀàĞÍµÄ²ÎÊı
   * GetPublicDownloadAvatar is avatar download api
   * demo how to define file download api
   * NOTE: there must be one and at most one *os.File output parameter
-  * @param userId ç”¨æˆ·ID
+  * @param userId ÓÃ»§ID
 user id
   * @returns Promise<any> 
   */
@@ -35,11 +36,7 @@ user id
       userId: number,
     },
   ) :Promise<any> {
-    let client = this.axios.get
-    if(this.axios.$get) {
-      client = this.axios.$get
-    }
-    return client(this.addPrefix(`/public/download/avatar`),
+    return this.getAxios().get(`/public/download/avatar`,
           {
             params: {
               userId: params.userId,
@@ -52,13 +49,13 @@ user id
   /**
   * POST /public/log/in
   *
-  * PublicLogIn ç”¨æˆ·ç™»å½•æ¥å£
-  * å±•ç¤ºå¦‚ä½•é‰´æƒå¹¶è¿”å›token
+  * PublicLogIn ÓÃ»§µÇÂ¼½Ó¿Ú
+  * Õ¹Ê¾ÈçºÎ¼øÈ¨²¢·µ»Øtoken
   * PublicLogIn is user login api
   * demo how to do authentication and issue token
-  * @param password å¯†ç 
+  * @param password ÃÜÂë
 password
-  * @param username ç”¨æˆ·å
+  * @param username ÓÃ»§Ãû
 username
   * @returns Promise<PublicLogInResp> 
   */
@@ -68,14 +65,10 @@ username
       username: string,
     },
   ) :Promise<PublicLogInResp> {
-    let client = this.axios.post
-    if(this.axios.$post) {
-      client = this.axios.$post
-    }
       const urlSearchParams = new URLSearchParams();
-         urlSearchParams.append('password', params.password);
-         urlSearchParams.append('username', params.username);
-    return client(this.addPrefix(`/public/log/in`),
+         urlSearchParams.append('password', '' + params.password);
+         urlSearchParams.append('username', '' + params.username);
+    return this.getAxios().post(`/public/log/in`,
           urlSearchParams,
           {
             headers: {
@@ -88,15 +81,15 @@ username
   /**
   * POST /public/sign/up
   *
-  * PublicSignUp ç”¨æˆ·æ³¨å†Œæ¥å£
-  * å±•ç¤ºå¦‚ä½•å®šä¹‰POSTè¯·æ±‚ä¸”Content-Typeæ˜¯application/x-www-form-urlencodedçš„æ¥å£
+  * PublicSignUp ÓÃ»§×¢²á½Ó¿Ú
+  * Õ¹Ê¾ÈçºÎ¶¨ÒåPOSTÇëÇóÇÒContent-TypeÊÇapplication/x-www-form-urlencodedµÄ½Ó¿Ú
   * PublicSignUp is user signup api
   * demo how to define post request api which accepts application/x-www-form-urlencoded content-type
-  * @param code å›¾å½¢éªŒè¯ç 
+  * @param code Í¼ĞÎÑéÖ¤Âë
 image code
-  * @param password å¯†ç 
+  * @param password ÃÜÂë
 password
-  * @param username ç”¨æˆ·å
+  * @param username ÓÃ»§Ãû
 username
   * @returns Promise<PublicSignUpResp> 
   */
@@ -107,15 +100,11 @@ username
       username: string,
     },
   ) :Promise<PublicSignUpResp> {
-    let client = this.axios.post
-    if(this.axios.$post) {
-      client = this.axios.$post
-    }
       const urlSearchParams = new URLSearchParams();
-        params.code !== undefined && urlSearchParams.append('code', params.code);
-         urlSearchParams.append('password', params.password);
-         urlSearchParams.append('username', params.username);
-    return client(this.addPrefix(`/public/sign/up`),
+        params.code !== undefined && urlSearchParams.append('code', '' + params.code);
+         urlSearchParams.append('password', '' + params.password);
+         urlSearchParams.append('username', '' + params.username);
+    return this.getAxios().post(`/public/sign/up`,
           urlSearchParams,
           {
             headers: {
@@ -128,8 +117,8 @@ username
   /**
   * POST /public/token/validate
   *
-  * PublicTokenValidate tokenæ ¡éªŒæ¥å£
-  * å¦‚æœtokenæœ‰æ•ˆï¼Œè¿”å›ç”¨æˆ·ä¿¡æ¯
+  * PublicTokenValidate tokenĞ£Ñé½Ó¿Ú
+  * Èç¹ûtokenÓĞĞ§£¬·µ»ØÓÃ»§ĞÅÏ¢
   * PublicTokenValidate validates token string
   * if token is valid, return user information
   * @param token 
@@ -140,13 +129,9 @@ username
       token: string,
     },
   ) :Promise<PublicTokenValidateResp> {
-    let client = this.axios.post
-    if(this.axios.$post) {
-      client = this.axios.$post
-    }
       const urlSearchParams = new URLSearchParams();
-         urlSearchParams.append('token', params.token);
-    return client(this.addPrefix(`/public/token/validate`),
+         urlSearchParams.append('token', '' + params.token);
+    return this.getAxios().post(`/public/token/validate`,
           urlSearchParams,
           {
             headers: {
@@ -159,4 +144,10 @@ username
 }
 
 export default PublicService;
+  
+export function createPublicService(opt?: Partial<CreateAxiosOptions>) {
+  return new PublicService(opt);
+}
+
+export const publicService = createPublicService();
 

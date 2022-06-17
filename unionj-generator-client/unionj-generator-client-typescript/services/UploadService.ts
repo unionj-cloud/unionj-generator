@@ -4,6 +4,7 @@
 *
 * @module Upload
 */
+import { CreateAxiosOptions } from "pullcode/src/httputil/axiosTransform";
 import BizService from "./BizService";
 import type {
   UploadAvatarResp,
@@ -11,16 +12,16 @@ import type {
 
 export class UploadService extends BizService{
 
-  constructor(axios: any) {
-    super(axios);
+  constructor(options?: Partial<CreateAxiosOptions>) {
+    super(options);
   }
 
   /**
   * POST /upload/avatar
   *
-  * UploadAvatar ä¸Šä¼ å¤´åƒæ¥å£
-  * å±•ç¤ºå¦‚ä½•å®šä¹‰æ–‡ä»¶ä¸Šä¼ æ¥å£
-  * å‡½æ•°ç­¾åçš„å…¥å‚é‡Œå¿…é¡»è¦æœ‰è‡³å°‘ä¸€ä¸ª[]*v3.FileModelæˆ–è€…*v3.FileModelç±»å‹çš„å‚æ•°
+  * UploadAvatar ÉÏ´«Í·Ïñ½Ó¿Ú
+  * Õ¹Ê¾ÈçºÎ¶¨ÒåÎÄ¼şÉÏ´«½Ó¿Ú
+  * º¯ÊıÇ©ÃûµÄÈë²ÎÀï±ØĞëÒªÓĞÖÁÉÙÒ»¸ö[]*v3.FileModel»òÕß*v3.FileModelÀàĞÍµÄ²ÎÊı
   * UploadAvatar is avatar upload api
   * demo how to define file upload api
   * NOTE: there must be at least one []*v3.FileModel or *v3.FileModel input parameter
@@ -30,11 +31,7 @@ export class UploadService extends BizService{
   postUploadAvatar(
     formData: FormData,
   ) :Promise<UploadAvatarResp> {
-    let client = this.axios.post
-    if(this.axios.$post) {
-      client = this.axios.$post
-    }
-    return client(this.addPrefix(`/upload/avatar`),
+    return this.getAxios().post(`/upload/avatar`,
           formData,
           {
           }
@@ -44,4 +41,10 @@ export class UploadService extends BizService{
 }
 
 export default UploadService;
+  
+export function createUploadService(opt?: Partial<CreateAxiosOptions>) {
+  return new UploadService(opt);
+}
+
+export const uploadService = createUploadService();
 

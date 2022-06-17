@@ -4,6 +4,7 @@
 *
 * @module User
 */
+import { CreateAxiosOptions } from "pullcode/src/httputil/axiosTransform";
 import BizService from "./BizService";
 import type {
   GetUserResp,
@@ -11,18 +12,18 @@ import type {
 
 export class UserService extends BizService{
 
-  constructor(axios: any) {
-    super(axios);
+  constructor(options?: Partial<CreateAxiosOptions>) {
+    super(options);
   }
 
   /**
   * GET /user
   *
-  * GetUser 鐢ㄦ埛璇︽儏鎺ュ彛
-  * 灞曠ず濡備綍瀹氫箟甯︽煡璇㈠瓧绗︿覆鍙傛暟鐨凣ET璇锋眰鎺ュ彛
+  * GetUser 用户详情接口
+  * 展示如何定义带查询字符串参数的GET请求接口
   * GetUser is user detail api
   * demo how to define get http request with query string parameters
-  * @param userId 鐢ㄦ埛ID
+  * @param userId 用户ID
 user id
   * @returns Promise<GetUserResp> 
   */
@@ -31,11 +32,7 @@ user id
       userId: number,
     },
   ) :Promise<GetUserResp> {
-    let client = this.axios.get
-    if(this.axios.$get) {
-      client = this.axios.$get
-    }
-    return client(this.addPrefix(`/user`),
+    return this.getAxios().get(`/user`,
           {
             params: {
               userId: params.userId,
@@ -47,4 +44,10 @@ user id
 }
 
 export default UserService;
+  
+export function createUserService(opt?: Partial<CreateAxiosOptions>) {
+  return new UserService(opt);
+}
+
+export const userService = createUserService();
 

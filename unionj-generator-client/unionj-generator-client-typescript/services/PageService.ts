@@ -4,6 +4,7 @@
 *
 * @module Page
 */
+import { CreateAxiosOptions } from "pullcode/src/httputil/axiosTransform";
 import BizService from "./BizService";
 import type {
   PageQuery,
@@ -12,15 +13,15 @@ import type {
 
 export class PageService extends BizService{
 
-  constructor(axios: any) {
-    super(axios);
+  constructor(options?: Partial<CreateAxiosOptions>) {
+    super(options);
   }
 
   /**
   * POST /page/users
   *
-  * PageUsers ç”¨æˆ·åˆ†é¡µæ¥å£
-  * å±•ç¤ºå¦‚ä½•å®šä¹‰POSTè¯·æ±‚ä¸”Content-Typeä¸ºapplication/jsonçš„æ¥å£
+  * PageUsers ÓÃ»§·ÖÒ³½Ó¿Ú
+  * Õ¹Ê¾ÈçºÎ¶¨ÒåPOSTÇëÇóÇÒContent-TypeÎªapplication/jsonµÄ½Ó¿Ú
   * PageUsers is user pagination api
   * demo how to define post request api which accepts application/json content-type
   * @param payload 
@@ -29,11 +30,7 @@ export class PageService extends BizService{
   postPageUsers(
     payload: PageQuery,
   ) :Promise<PageUsersResp> {
-    let client = this.axios.post
-    if(this.axios.$post) {
-      client = this.axios.$post
-    }
-    return client(this.addPrefix(`/page/users`),
+    return this.getAxios().post(`/page/users`,
           payload,
           {
           }
@@ -43,4 +40,10 @@ export class PageService extends BizService{
 }
 
 export default PageService;
+  
+export function createPageService(opt?: Partial<CreateAxiosOptions>) {
+  return new PageService(opt);
+}
+
+export const pageService = createPageService();
 

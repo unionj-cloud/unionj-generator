@@ -4,6 +4,7 @@
 *
 * @module Me
 */
+import { CreateAxiosOptions } from "pullcode/src/httputil/axiosTransform";
 import BizService from "./BizService";
 import type {
   GetMeResp,
@@ -11,24 +12,20 @@ import type {
 
 export class MeService extends BizService{
 
-  constructor(axios: any) {
-    super(axios);
+  constructor(options?: Partial<CreateAxiosOptions>) {
+    super(options);
   }
 
   /**
   * GET /me
   *
-  * GetMe 鑾峰彇褰撳墠鐧诲綍鐢ㄦ埛璇︽儏鎺ュ彛
+  * GetMe 获取当前登录用户详情接口
   * GetMe is used for getting user info from token in header.
   * @returns Promise<GetMeResp> 
   */
   getMe(
   ) :Promise<GetMeResp> {
-    let client = this.axios.get
-    if(this.axios.$get) {
-      client = this.axios.$get
-    }
-    return client(this.addPrefix(`/me`),
+    return this.getAxios().get(`/me`,
           {
           }
         )
@@ -37,4 +34,10 @@ export class MeService extends BizService{
 }
 
 export default MeService;
+  
+export function createMeService(opt?: Partial<CreateAxiosOptions>) {
+  return new MeService(opt);
+}
+
+export const meService = createMeService();
 

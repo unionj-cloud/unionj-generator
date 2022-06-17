@@ -4,6 +4,7 @@
 *
 * @module Attachment
 */
+import { CreateAxiosOptions } from "pullcode/src/httputil/axiosTransform";
 import BizService from "./BizService";
 import type {
   ResultDTOString,
@@ -11,14 +12,14 @@ import type {
 
 export class OssService extends BizService{
 
-  constructor(axios: any) {
-    super(axios);
+  constructor(options?: Partial<CreateAxiosOptions>) {
+    super(options);
   }
 
   /**
   * POST /oss/upload
   *
-  * 涓婁紶闄勪欢
+  * 上传附件
   * @param formData 
   * @param returnKey 
   * @returns Promise<ResultDTOString> 
@@ -29,11 +30,7 @@ export class OssService extends BizService{
       returnKey?: boolean,
     },
   ) :Promise<ResultDTOString> {
-    let client = this.axios.post
-    if(this.axios.$post) {
-      client = this.axios.$post
-    }
-    return client(this.addPrefix(`/oss/upload`),
+    return this.getAxios().post(`/oss/upload`,
           formData,
           {
             params: {
@@ -46,7 +43,7 @@ export class OssService extends BizService{
   /**
   * GET /oss/get
   *
-  * 鑾峰彇闄勪欢
+  * 获取附件
   * @param key 
   * @param style 
   * @returns Promise<any> 
@@ -57,11 +54,7 @@ export class OssService extends BizService{
       style?: string,
     },
   ) :Promise<any> {
-    let client = this.axios.get
-    if(this.axios.$get) {
-      client = this.axios.$get
-    }
-    return client(this.addPrefix(`/oss/get`),
+    return this.getAxios().get(`/oss/get`,
           {
             params: {
               key: params.key,
@@ -75,4 +68,10 @@ export class OssService extends BizService{
 }
 
 export default OssService;
+  
+export function createOssService(opt?: Partial<CreateAxiosOptions>) {
+  return new OssService(opt);
+}
+
+export const ossService = createOssService();
 

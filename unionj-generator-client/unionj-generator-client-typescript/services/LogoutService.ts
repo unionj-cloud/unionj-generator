@@ -4,6 +4,7 @@
 *
 * @module Logout
 */
+import { CreateAxiosOptions } from "pullcode/src/httputil/axiosTransform";
 import BizService from "./BizService";
 import type {
   GetLogoutResp,
@@ -11,25 +12,21 @@ import type {
 
 export class LogoutService extends BizService{
 
-  constructor(axios: any) {
-    super(axios);
+  constructor(options?: Partial<CreateAxiosOptions>) {
+    super(options);
   }
 
   /**
   * GET /logout
   *
-  * GetLogout æ³¨é”€token
+  * GetLogout ×¢Ïútoken
   * GetLogout is used for revoking a token
   * https://github.com/dgrijalva/jwt-go/issues/214
   * @returns Promise<GetLogoutResp> 
   */
   getLogout(
   ) :Promise<GetLogoutResp> {
-    let client = this.axios.get
-    if(this.axios.$get) {
-      client = this.axios.$get
-    }
-    return client(this.addPrefix(`/logout`),
+    return this.getAxios().get(`/logout`,
           {
           }
         )
@@ -38,4 +35,10 @@ export class LogoutService extends BizService{
 }
 
 export default LogoutService;
+  
+export function createLogoutService(opt?: Partial<CreateAxiosOptions>) {
+  return new LogoutService(opt);
+}
+
+export const logoutService = createLogoutService();
 

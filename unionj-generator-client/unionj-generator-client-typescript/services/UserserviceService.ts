@@ -4,6 +4,7 @@
 *
 * @module Userservice
 */
+import { CreateAxiosOptions } from "pullcode/src/httputil/axiosTransform";
 import BizService from "./BizService";
 import type {
   LogInForm,
@@ -16,8 +17,8 @@ import type {
 
 export class UserserviceService extends BizService{
 
-  constructor(axios: any) {
-    super(axios);
+  constructor(options?: Partial<CreateAxiosOptions>) {
+    super(options);
   }
 
   /**
@@ -29,11 +30,7 @@ export class UserserviceService extends BizService{
   postUserserviceLogin(
     payload: LogInForm,
   ) :Promise<Auth> {
-    let client = this.axios.post
-    if(this.axios.$post) {
-      client = this.axios.$post
-    }
-    return client(this.addPrefix(`/userservice/login`),
+    return this.getAxios().post(`/userservice/login`,
           payload,
           {
           }
@@ -49,11 +46,7 @@ export class UserserviceService extends BizService{
   postUserservicePageusers(
     payload: PageQuery,
   ) :Promise<PageRet> {
-    let client = this.axios.post
-    if(this.axios.$post) {
-      client = this.axios.$post
-    }
-    return client(this.addPrefix(`/userservice/pageusers`),
+    return this.getAxios().post(`/userservice/pageusers`,
           payload,
           {
           }
@@ -69,11 +62,7 @@ export class UserserviceService extends BizService{
   postUserserviceSignup(
     payload: SignUpForm,
   ) :Promise<number> {
-    let client = this.axios.post
-    if(this.axios.$post) {
-      client = this.axios.$post
-    }
-    return client(this.addPrefix(`/userservice/signup`),
+    return this.getAxios().post(`/userservice/signup`,
           payload,
           {
           }
@@ -103,11 +92,7 @@ export class UserserviceService extends BizService{
       f?: number,
     },
   ) :Promise<UserVo> {
-    let client = this.axios.get
-    if(this.axios.$get) {
-      client = this.axios.$get
-    }
-    return client(this.addPrefix(`/userservice/user/${params.b}/${params.id}`),
+    return this.getAxios().get(`/userservice/user/${params.b}/${params.id}`,
           {
             params: {
               a: params.a,
@@ -123,4 +108,10 @@ export class UserserviceService extends BizService{
 }
 
 export default UserserviceService;
+  
+export function createUserserviceService(opt?: Partial<CreateAxiosOptions>) {
+  return new UserserviceService(opt);
+}
+
+export const userserviceService = createUserserviceService();
 
