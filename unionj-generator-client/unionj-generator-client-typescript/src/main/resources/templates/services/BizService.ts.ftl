@@ -4,11 +4,13 @@
 */
 import { merge } from 'lodash-es';
 import { CreateAxiosOptions, VAxios } from 'pullcode/src/httputil/Axios';
+import { RequestOptions } from 'pullcode/src/types/axios';
 
-const defaultOptions = {
+const defaultOptions: CreateAxiosOptions = {
   requestOptions: {
-    apiUrl: "${serverName!}",
-  },
+    apiUrl: '', // same as baseUrl
+    urlPrefix: '',
+  } as RequestOptions,
 }
 
 export class BizService extends VAxios {
