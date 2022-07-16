@@ -4,10 +4,13 @@ import cloud.unionj.generator.GeneratorUtils;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.docparser.entity.Proto;
 import cloud.unionj.generator.backend.docparser.entity.Vo;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import static cloud.unionj.generator.backend.springboot.Constants.*;
 
@@ -53,6 +56,11 @@ public class SpringbootFolderGenerator {
 
   private String serviceId;
   private String serviceBaseUrlKey;
+  private List<Package> packages;
+
+  public enum Package {
+    PROTO, CONTROLLER, VO, FEIGN, SERVICE
+  }
 
   public static final class Builder {
     private Backend backend;
@@ -81,6 +89,7 @@ public class SpringbootFolderGenerator {
 
     private String serviceId;
     private String serviceBaseUrlKey;
+    private List<Package> packages;
 
     private Mode mode;
 
@@ -92,17 +101,18 @@ public class SpringbootFolderGenerator {
       this.controllerOutputType = OutputType.OVERWRITE;
       this.serviceOutputType = OutputType.CHECK;
       this.feignOutputType = OutputType.OVERWRITE;
+      this.packages = new ArrayList<>();
 
       this.protoOutput = new OutputConfig(PACKAGE_NAME + DOT + DEFAULT_PROTO_PACKAGE,
-          OUTPUT_DIR + File.separator + DEFAULT_PROTO_PACKAGE);
+                                          OUTPUT_DIR + File.separator + DEFAULT_PROTO_PACKAGE);
       this.voOutput = new OutputConfig(PACKAGE_NAME + DOT + DEFAULT_VO_PACKAGE,
-          OUTPUT_DIR + File.separator + DEFAULT_VO_PACKAGE);
+                                       OUTPUT_DIR + File.separator + DEFAULT_VO_PACKAGE);
       this.controllerOutput = new OutputConfig(PACKAGE_NAME + DOT + DEFAULT_CONTROLLER_PACKAGE,
-          OUTPUT_DIR + File.separator + DEFAULT_CONTROLLER_PACKAGE);
+                                               OUTPUT_DIR + File.separator + DEFAULT_CONTROLLER_PACKAGE);
       this.serviceOutput = new OutputConfig(PACKAGE_NAME + DOT + DEFAULT_SERVICE_PACKAGE,
-          OUTPUT_DIR + File.separator + DEFAULT_SERVICE_PACKAGE);
+                                            OUTPUT_DIR + File.separator + DEFAULT_SERVICE_PACKAGE);
       this.feignOutput = new OutputConfig(PACKAGE_NAME + DOT + DEFAULT_FEIGN_PACKAGE,
-          OUTPUT_DIR + File.separator + DEFAULT_FEIGN_PACKAGE);
+                                          OUTPUT_DIR + File.separator + DEFAULT_FEIGN_PACKAGE);
 
       this.protoPomGenerator = new ProtoPomGenerator();
       this.voPomGenerator = new VoPomGenerator();
@@ -130,6 +140,11 @@ public class SpringbootFolderGenerator {
 
     public Builder mode(Mode mode) {
       this.mode = mode;
+      return this;
+    }
+
+    public Builder pkg(Package pkg) {
+      this.packages.add(pkg);
       return this;
     }
 
@@ -364,7 +379,7 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.mode = this.mode;
       backendFolderGenerator.serviceId = this.serviceId;
       backendFolderGenerator.serviceBaseUrlKey = this.serviceBaseUrlKey;
-
+      backendFolderGenerator.packages = this.packages;
       return backendFolderGenerator;
     }
 
@@ -377,96 +392,131 @@ public class SpringbootFolderGenerator {
     return GeneratorUtils.getOutputDir(this.outputDir);
   }
 
-  public void generate() throws Exception {
-    if (StringUtils.isEmpty(this.serviceId)) {
-      throw new Exception("missing serviceId attribute");
-    }
+  public void generateVo() throws Exception {
     FileUtils.deleteDirectory(new File(this.voOutput.getOutputDir() + "/src"));
-    FileUtils.deleteDirectory(new File(this.protoOutput.getOutputDir() + "/src"));
-    FileUtils.deleteDirectory(new File(this.feignOutput.getOutputDir() + "/src"));
-    if (this.mode == Mode.FULL) {
-      FileUtils.deleteDirectory(new File(this.controllerOutput.getOutputDir() + "/src"));
-    }
-
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
         VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.voOutput.getPackageName(),
-            this.voOutput.getOutputDir());
+                                                              this.voOutput.getOutputDir());
         voJavaGenerator.generate();
       }
     }
-
-    for (Proto proto : backend.getProtoList()) {
-      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(proto, this.protoOutput.getPackageName(),
-          this.protoOutput.getOutputDir(), this.voOutput.getPackageName());
-      protoJavaGenerator.generate();
-
-      FeignJavaGenerator feignJavaGenerator = new FeignJavaGenerator(proto, this.feignOutput.getPackageName(),
-          this.feignOutput.getOutputDir(), this.voOutput.getPackageName(), this.serviceId, this.serviceBaseUrlKey);
-      feignJavaGenerator.generate();
-
-      if (this.mode == Mode.FULL) {
-        ControllerJavaGenerator controllerJavaGenerator = new ControllerJavaGenerator(proto,
-            this.controllerOutput.getPackageName(), this.controllerOutput.getOutputDir(),
-            this.voOutput.getPackageName(), this.protoOutput.getPackageName(), this.serviceOutput.getPackageName());
-        controllerJavaGenerator.generate();
-
-        ServiceJavaGenerator serviceJavaGenerator = new ServiceJavaGenerator(proto,
-            this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.protoOutput.getPackageName());
-        serviceJavaGenerator.generate();
-
-        ServiceImplJavaGenerator serviceImplJavaGenerator = new ServiceImplJavaGenerator(proto,
-            this.serviceOutput.getPackageName(), this.serviceOutput.getOutputDir(), this.voOutput.getPackageName());
-        serviceImplJavaGenerator.generate();
+    if (pomProject) {
+      File pom = new File(this.voPomGenerator.outputDir + "/pom.xml");
+      if (!pom.exists()) {
+        this.voPomGenerator.generate();
       }
     }
+  }
 
+  public void generateProto() throws Exception {
+    FileUtils.deleteDirectory(new File(this.protoOutput.getOutputDir() + "/src"));
+    for (Proto proto : backend.getProtoList()) {
+      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(proto, this.protoOutput.getPackageName(),
+                                                                     this.protoOutput.getOutputDir(),
+                                                                     this.voOutput.getPackageName());
+      protoJavaGenerator.generate();
+    }
     if (pomProject) {
       File pom = new File(this.protoPomGenerator.outputDir + "/pom.xml");
       if (!pom.exists()) {
         this.protoPomGenerator.generate();
       }
-      pom = new File(this.feignPomGenerator.outputDir + "/pom.xml");
+    }
+  }
+
+  public void generateController() throws Exception {
+    FileUtils.deleteDirectory(new File(this.controllerOutput.getOutputDir() + "/src"));
+    for (Proto proto : backend.getProtoList()) {
+      ControllerJavaGenerator controllerJavaGenerator = new ControllerJavaGenerator(proto,
+                                                                                    this.controllerOutput.getPackageName(),
+                                                                                    this.controllerOutput.getOutputDir(),
+                                                                                    this.voOutput.getPackageName(),
+                                                                                    this.protoOutput.getPackageName(),
+                                                                                    this.serviceOutput.getPackageName());
+      controllerJavaGenerator.generate();
+    }
+    if (pomProject) {
+      File pom = new File(this.controllerPomGenerator.outputDir + "/pom.xml");
+      if (!pom.exists()) {
+        this.controllerPomGenerator.generate();
+      }
+    }
+  }
+
+  public void generateFeign() throws Exception {
+    FileUtils.deleteDirectory(new File(this.feignOutput.getOutputDir() + "/src"));
+    for (Proto proto : backend.getProtoList()) {
+      FeignJavaGenerator feignJavaGenerator = new FeignJavaGenerator(proto, this.feignOutput.getPackageName(),
+                                                                     this.feignOutput.getOutputDir(),
+                                                                     this.voOutput.getPackageName(), this.serviceId,
+                                                                     this.serviceBaseUrlKey);
+      feignJavaGenerator.generate();
+    }
+    if (pomProject) {
+      File pom = new File(this.feignPomGenerator.outputDir + "/pom.xml");
       if (!pom.exists()) {
         this.feignPomGenerator.generate();
       }
-      pom = new File(this.voPomGenerator.outputDir + "/pom.xml");
+    }
+  }
+
+  public void generateService() throws Exception {
+    for (Proto proto : backend.getProtoList()) {
+      ServiceJavaGenerator serviceJavaGenerator = new ServiceJavaGenerator(proto, this.serviceOutput.getPackageName(),
+                                                                           this.serviceOutput.getOutputDir(),
+                                                                           this.protoOutput.getPackageName());
+      serviceJavaGenerator.generate();
+
+      ServiceImplJavaGenerator serviceImplJavaGenerator = new ServiceImplJavaGenerator(proto,
+                                                                                       this.serviceOutput.getPackageName(),
+                                                                                       this.serviceOutput.getOutputDir(),
+                                                                                       this.voOutput.getPackageName());
+      serviceImplJavaGenerator.generate();
+    }
+    if (pomProject) {
+      File pom = new File(this.servicePomGenerator.outputDir + "/pom.xml");
       if (!pom.exists()) {
-        this.voPomGenerator.generate();
-      }
-      if (this.mode == Mode.FULL) {
-        pom = new File(this.controllerPomGenerator.outputDir + "/pom.xml");
-        if (!pom.exists()) {
-          this.controllerPomGenerator.generate();
-        }
-        pom = new File(this.servicePomGenerator.outputDir + "/pom.xml");
-        if (!pom.exists()) {
-          this.servicePomGenerator.generate();
-        }
+        this.servicePomGenerator.generate();
       }
     }
+  }
 
+  public void generate() throws Exception {
+    if (StringUtils.isEmpty(this.serviceId)) {
+      throw new Exception("missing serviceId attribute");
+    }
+    if (CollectionUtils.isNotEmpty(this.packages)) {
+      for (Package pkg : this.packages) {
+        switch (pkg) {
+          case VO:
+            generateVo();
+            break;
+          case FEIGN:
+            generateFeign();
+            break;
+          case PROTO:
+            generateProto();
+            break;
+          case SERVICE:
+            generateService();
+            break;
+          case CONTROLLER:
+            generateController();
+            break;
+        }
+      }
+    } else {
+      generateVo();
+      generateProto();
+      generateController();
+      generateService();
+      generateFeign();
+    }
     if (this.zip) {
-      // TODO gen zip file
       String outputFile = this.outputDir + ".zip";
       String sourceFile = getOutputFile();
       GeneratorUtils.generateFolder(sourceFile, outputFile);
     }
-
   }
-
-  private boolean dirEmpty(String dirPath) {
-    File dir = new File(dirPath);
-    if (dir.exists() && !dir.isDirectory()) {
-      throw new UnsupportedOperationException("not dir: " + dirPath);
-    }
-
-    String[] list = dir.list();
-    if (list == null) {
-      return true;
-    }
-
-    return list.length <= 0;
-  }
-
 }

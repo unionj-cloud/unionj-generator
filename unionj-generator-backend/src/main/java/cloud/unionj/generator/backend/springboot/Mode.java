@@ -9,7 +9,7 @@ public enum Mode {
   /**
    * Only generate proto and vo packages
    */
-  BASIC,
+  @Deprecated BASIC,
   /**
    * Generate proto, vo, controller and service packages
    */

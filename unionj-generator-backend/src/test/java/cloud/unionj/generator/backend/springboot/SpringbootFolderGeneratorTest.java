@@ -50,8 +50,11 @@ public class SpringbootFolderGeneratorTest {
     });
 
     Backend backend = BackendDocParser.parse(openAPI3);
-    SpringbootFolderGenerator.Builder builder =
-        new SpringbootFolderGenerator.Builder(backend).pomProject(true).pomParentGroupId("com.github.myproject").pomParentArtifactId("myproject").pomParentVersion("1.0.1-SNAPSHOT");
+    SpringbootFolderGenerator.Builder builder = new SpringbootFolderGenerator.Builder(backend)
+        .pomProject(true)
+        .pomParentGroupId("com.github.myproject")
+        .pomParentArtifactId("myproject")
+        .pomParentVersion("1.0.1-SNAPSHOT");
 
     builder.protoOutput(new OutputConfig("com.github.myproject.myproto", "myproject-proto"));
     builder.pomProtoArtifactId("myproject-proto");
@@ -76,12 +79,15 @@ public class SpringbootFolderGeneratorTest {
     Vo vo = new Vo();
     vo.setName("PetVo");
     List<VoProperty> voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()),
-        new VoProperty("name", "name", String.class.getSimpleName()), new VoProperty("category", "category",
-            "CategoryVo"), new VoProperty("photoUrls", "photoUrls", "List<String" + ">"), new VoProperty("tags",
-            "tags", "List<TagVo>"), new VoProperty("status", "status", "StatusEnum"));
+                                                         new VoProperty("name", "name", String.class.getSimpleName()),
+                                                         new VoProperty("category", "category", "CategoryVo"),
+                                                         new VoProperty("photoUrls", "photoUrls", "List<String" + ">"),
+                                                         new VoProperty("tags", "tags", "List<TagVo>"),
+                                                         new VoProperty("status", "status", "StatusEnum"));
     vo.setProperties(voPropertyList);
-    List<VoEnumType> enumTypeList = Lists.newArrayList(new VoEnumType(Lists.newArrayList(new VoEnum("AVAILABLE",
-        "available"), new VoEnum("PENDING", "pending"), new VoEnum("SOLD", "sold")), "StatusEnum"));
+    List<VoEnumType> enumTypeList = Lists.newArrayList(new VoEnumType(
+        Lists.newArrayList(new VoEnum("AVAILABLE", "available"), new VoEnum("PENDING", "pending"),
+                           new VoEnum("SOLD", "sold")), "StatusEnum"));
     vo.setEnumTypes(enumTypeList);
     vo.setImports(Lists.newArrayList(List.class.getName()));
     voList.add(vo);
@@ -89,23 +95,23 @@ public class SpringbootFolderGeneratorTest {
 
     vo = new Vo();
     vo.setName("CategoryVo");
-    voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()), new VoProperty("name"
-        , "name", String.class.getSimpleName()));
+    voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()),
+                                        new VoProperty("name", "name", String.class.getSimpleName()));
     vo.setProperties(voPropertyList);
     voList.add(vo);
 
     vo = new Vo();
     vo.setName("TagVo");
-    voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()), new VoProperty("name"
-        , "name", String.class.getSimpleName()));
+    voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()),
+                                        new VoProperty("name", "name", String.class.getSimpleName()));
     vo.setProperties(voPropertyList);
     voList.add(vo);
 
     vo = new Vo();
     vo.setName("ApiResponse");
     voPropertyList = Lists.newArrayList(new VoProperty("code", "code", Integer.class.getSimpleName()),
-        new VoProperty("type", "type", String.class.getSimpleName()), new VoProperty("message", "message",
-            String.class.getSimpleName()));
+                                        new VoProperty("type", "type", String.class.getSimpleName()),
+                                        new VoProperty("message", "message", String.class.getSimpleName()));
     vo.setProperties(voPropertyList);
     voList.add(vo);
 
@@ -115,20 +121,56 @@ public class SpringbootFolderGeneratorTest {
     List<Proto> protoList = new ArrayList<>();
     Proto proto = new Proto();
     proto.setName("PetProto");
-    proto.setImports(Lists.newArrayList(List.class.getName(), VO_PACKAGE_NAME + ".PetVo", VO_PACKAGE_NAME +
-        ".ApiResponse"));
-    List<ProtoRouter> routers =
-        Lists.newArrayList(new ProtoRouter.Builder("/pet", "addPet", "post").reqBody(new ProtoProperty.Builder("PetVo"
-            ).name("body").build()).respData(new ProtoProperty.Builder("ResponseEntity<Void>").build()).build(),
-            new ProtoRouter.Builder("/pet/{petId}", "updatePetWithForm", "post").respData(new ProtoProperty.Builder(
-                "ResponseEntity<Void>").build()).pathParams(Lists.newArrayList(new ProtoProperty.Builder(Long.class.getSimpleName()).name("petId").build())).queryParams(Lists.newArrayList(new ProtoProperty.Builder(String.class.getSimpleName()).name("name").required(false).build(), new ProtoProperty.Builder(String.class.getSimpleName()).name("status").required(false).build())).build(), new ProtoRouter.Builder("/pet/{petId}/uploadImage", "uploadFile", "post").file(ProtoProperty.UPLOAD_FILE_BUILDER.required(false).build()).respData(new ProtoProperty.Builder("ApiResponse").build()).pathParams(Lists.newArrayList(new ProtoProperty.Builder(Long.class.getSimpleName()).name("petId").build())).queryParams(Lists.newArrayList(new ProtoProperty.Builder(String.class.getSimpleName()).name("additionalMetadata").required(false).build())).build());
+    proto.setImports(
+        Lists.newArrayList(List.class.getName(), VO_PACKAGE_NAME + ".PetVo", VO_PACKAGE_NAME + ".ApiResponse"));
+    List<ProtoRouter> routers = Lists.newArrayList(new ProtoRouter.Builder("/pet", "addPet", "post")
+                                                       .reqBody(new ProtoProperty.Builder("PetVo")
+                                                                    .name("body")
+                                                                    .build())
+                                                       .respData(
+                                                           new ProtoProperty.Builder("ResponseEntity<Void>").build())
+                                                       .build(), new ProtoRouter.Builder("/pet/{petId}",
+                                                                                         "updatePetWithForm", "post")
+                                                       .respData(
+                                                           new ProtoProperty.Builder("ResponseEntity<Void>").build())
+                                                       .pathParams(Lists.newArrayList(new ProtoProperty.Builder(
+                                                           Long.class.getSimpleName())
+                                                                                          .name("petId")
+                                                                                          .build()))
+                                                       .queryParams(Lists.newArrayList(new ProtoProperty.Builder(
+                                                                                           String.class.getSimpleName())
+                                                                                           .name("name")
+                                                                                           .required(false)
+                                                                                           .build(),
+                                                                                       new ProtoProperty.Builder(
+                                                                                           String.class.getSimpleName())
+                                                                                           .name("status")
+                                                                                           .required(false)
+                                                                                           .build()))
+                                                       .build(), new ProtoRouter.Builder("/pet/{petId}/uploadImage",
+                                                                                         "uploadFile", "post")
+                                                       .file(ProtoProperty.UPLOAD_FILE_BUILDER
+                                                                 .required(false)
+                                                                 .build())
+                                                       .respData(new ProtoProperty.Builder("ApiResponse").build())
+                                                       .pathParams(Lists.newArrayList(new ProtoProperty.Builder(
+                                                           Long.class.getSimpleName())
+                                                                                          .name("petId")
+                                                                                          .build()))
+                                                       .queryParams(Lists.newArrayList(new ProtoProperty.Builder(
+                                                           String.class.getSimpleName())
+                                                                                           .name("additionalMetadata")
+                                                                                           .required(false)
+                                                                                           .build()))
+                                                       .build());
     proto.setRouters(routers);
     protoList.add(proto);
 
     backend.setProtoList(protoList);
 
-    SpringbootFolderGenerator springbootFolderGenerator =
-        new SpringbootFolderGenerator.Builder(backend).mode(Mode.BASIC).build();
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
+        .mode(Mode.BASIC)
+        .build();
     springbootFolderGenerator.generate();
   }
 
@@ -139,12 +181,15 @@ public class SpringbootFolderGeneratorTest {
     Vo vo = new Vo();
     vo.setName("PetVo");
     List<VoProperty> voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()),
-        new VoProperty("name", "name", String.class.getSimpleName()), new VoProperty("category", "category",
-            "CategoryVo"), new VoProperty("photoUrls", "photoUrls", "List<String" + ">"), new VoProperty("tags",
-            "tags", "List<TagVo>"), new VoProperty("status", "status", "StatusEnum"));
+                                                         new VoProperty("name", "name", String.class.getSimpleName()),
+                                                         new VoProperty("category", "category", "CategoryVo"),
+                                                         new VoProperty("photoUrls", "photoUrls", "List<String" + ">"),
+                                                         new VoProperty("tags", "tags", "List<TagVo>"),
+                                                         new VoProperty("status", "status", "StatusEnum"));
     vo.setProperties(voPropertyList);
-    List<VoEnumType> enumTypeList = Lists.newArrayList(new VoEnumType(Lists.newArrayList(new VoEnum("AVAILABLE",
-        "available"), new VoEnum("PENDING", "pending"), new VoEnum("SOLD", "sold")), "StatusEnum"));
+    List<VoEnumType> enumTypeList = Lists.newArrayList(new VoEnumType(
+        Lists.newArrayList(new VoEnum("AVAILABLE", "available"), new VoEnum("PENDING", "pending"),
+                           new VoEnum("SOLD", "sold")), "StatusEnum"));
     vo.setEnumTypes(enumTypeList);
     vo.setImports(Lists.newArrayList(List.class.getName()));
     voList.add(vo);
@@ -152,23 +197,23 @@ public class SpringbootFolderGeneratorTest {
 
     vo = new Vo();
     vo.setName("CategoryVo");
-    voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()), new VoProperty("name"
-        , "name", String.class.getSimpleName()));
+    voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()),
+                                        new VoProperty("name", "name", String.class.getSimpleName()));
     vo.setProperties(voPropertyList);
     voList.add(vo);
 
     vo = new Vo();
     vo.setName("TagVo");
-    voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()), new VoProperty("name"
-        , "name", String.class.getSimpleName()));
+    voPropertyList = Lists.newArrayList(new VoProperty("id", "id", Long.class.getSimpleName()),
+                                        new VoProperty("name", "name", String.class.getSimpleName()));
     vo.setProperties(voPropertyList);
     voList.add(vo);
 
     vo = new Vo();
     vo.setName("ApiResponse");
     voPropertyList = Lists.newArrayList(new VoProperty("code", "code", Integer.class.getSimpleName()),
-        new VoProperty("type", "type", String.class.getSimpleName()), new VoProperty("message", "message",
-            String.class.getSimpleName()));
+                                        new VoProperty("type", "type", String.class.getSimpleName()),
+                                        new VoProperty("message", "message", String.class.getSimpleName()));
     vo.setProperties(voPropertyList);
     voList.add(vo);
 
@@ -178,24 +223,69 @@ public class SpringbootFolderGeneratorTest {
     List<Proto> protoList = new ArrayList<>();
     Proto proto = new Proto();
     proto.setName("PetProto");
-    proto.setImports(Lists.newArrayList(List.class.getName(), VO_PACKAGE_NAME + ".PetVo", VO_PACKAGE_NAME +
-        ".ApiResponse"));
-    List<ProtoRouter> routers =
-        Lists.newArrayList(new ProtoRouter.Builder("/pet", "addPet", "post").reqBody(new ProtoProperty.Builder("PetVo"
-            ).name("body").build()).respData(new ProtoProperty.Builder("ResponseEntity<Void>").build()).build(),
-            new ProtoRouter.Builder("/pet/{petId}", "updatePetWithForm", "post").respData(new ProtoProperty.Builder(
-                "ResponseEntity<Void>").build()).pathParams(Lists.newArrayList(new ProtoProperty.Builder(Long.class.getSimpleName()).name("petId").build())).queryParams(Lists.newArrayList(new ProtoProperty.Builder(String.class.getSimpleName()).name("name").required(false).build(), new ProtoProperty.Builder(String.class.getSimpleName()).name("status").required(false).build())).build(), new ProtoRouter.Builder("/pet/{petId}/uploadImage", "uploadFile", "post").file(ProtoProperty.UPLOAD_FILE_BUILDER.required(false).build()).respData(new ProtoProperty.Builder("ApiResponse").build()).pathParams(Lists.newArrayList(new ProtoProperty.Builder(Long.class.getSimpleName()).name("petId").build())).queryParams(Lists.newArrayList(new ProtoProperty.Builder(String.class.getSimpleName()).name("additionalMetadata").required(false).build())).build());
+    proto.setImports(
+        Lists.newArrayList(List.class.getName(), VO_PACKAGE_NAME + ".PetVo", VO_PACKAGE_NAME + ".ApiResponse"));
+    List<ProtoRouter> routers = Lists.newArrayList(new ProtoRouter.Builder("/pet", "addPet", "post")
+                                                       .reqBody(new ProtoProperty.Builder("PetVo")
+                                                                    .name("body")
+                                                                    .build())
+                                                       .respData(
+                                                           new ProtoProperty.Builder("ResponseEntity<Void>").build())
+                                                       .build(), new ProtoRouter.Builder("/pet/{petId}",
+                                                                                         "updatePetWithForm", "post")
+                                                       .respData(
+                                                           new ProtoProperty.Builder("ResponseEntity<Void>").build())
+                                                       .pathParams(Lists.newArrayList(new ProtoProperty.Builder(
+                                                           Long.class.getSimpleName())
+                                                                                          .name("petId")
+                                                                                          .build()))
+                                                       .queryParams(Lists.newArrayList(new ProtoProperty.Builder(
+                                                                                           String.class.getSimpleName())
+                                                                                           .name("name")
+                                                                                           .required(false)
+                                                                                           .build(),
+                                                                                       new ProtoProperty.Builder(
+                                                                                           String.class.getSimpleName())
+                                                                                           .name("status")
+                                                                                           .required(false)
+                                                                                           .build()))
+                                                       .build(), new ProtoRouter.Builder("/pet/{petId}/uploadImage",
+                                                                                         "uploadFile", "post")
+                                                       .file(ProtoProperty.UPLOAD_FILE_BUILDER
+                                                                 .required(false)
+                                                                 .build())
+                                                       .respData(new ProtoProperty.Builder("ApiResponse").build())
+                                                       .pathParams(Lists.newArrayList(new ProtoProperty.Builder(
+                                                           Long.class.getSimpleName())
+                                                                                          .name("petId")
+                                                                                          .build()))
+                                                       .queryParams(Lists.newArrayList(new ProtoProperty.Builder(
+                                                           String.class.getSimpleName())
+                                                                                           .name("additionalMetadata")
+                                                                                           .required(false)
+                                                                                           .build()))
+                                                       .build());
     proto.setRouters(routers);
     protoList.add(proto);
 
     backend.setProtoList(protoList);
 
 
-    SpringbootFolderGenerator springbootFolderGenerator =
-        new SpringbootFolderGenerator.Builder(backend).protoOutput(new OutputConfig("com.github.myproject.myproto",
-                "myproject-proto")).voOutput(new OutputConfig("com.github.myproject.vo", "myproject-vo")).controllerOutput(new OutputConfig("com.github.myproject.controller", "myproject-controller")).serviceOutput(new OutputConfig("com.github.myproject.service", "myproject-service")).pomProject(true).pomParentGroupId("com.github.myproject").pomParentArtifactId("myproject").pomParentVersion("1.0.1-SNAPSHOT").pomProtoArtifactId("myproject-proto").pomVoArtifactId("myproject-vo").pomControllerArtifactId("myproject-controller").pomControllerArtifactId("myproject-service")
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
+        .protoOutput(new OutputConfig("com.github.myproject.myproto", "myproject-proto"))
+        .voOutput(new OutputConfig("com.github.myproject.vo", "myproject-vo"))
+        .controllerOutput(new OutputConfig("com.github.myproject.controller", "myproject-controller"))
+        .serviceOutput(new OutputConfig("com.github.myproject.service", "myproject-service"))
+        .pomProject(true)
+        .pomParentGroupId("com.github.myproject")
+        .pomParentArtifactId("myproject")
+        .pomParentVersion("1.0.1-SNAPSHOT")
+        .pomProtoArtifactId("myproject-proto")
+        .pomVoArtifactId("myproject-vo")
+        .pomControllerArtifactId("myproject-controller")
+        .pomControllerArtifactId("myproject-service")
 //        .mode(Mode.BASIC)
-            .build();
+        .build();
     springbootFolderGenerator.generate();
   }
 
@@ -203,8 +293,10 @@ public class SpringbootFolderGeneratorTest {
   public void generateByDoc() throws Exception {
     try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("petstore3.json"))) {
       Backend backend = BackendDocParser.parse(is);
-      SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).serviceId(
-          "petStore").serviceBaseUrlKey("petStore.baseUrl").build();
+      SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
+          .serviceId("petStore")
+          .serviceBaseUrlKey("petStore.baseUrl")
+          .build();
       springbootFolderGenerator.generate();
     }
   }
@@ -213,8 +305,13 @@ public class SpringbootFolderGeneratorTest {
   public void generateByDocPom() throws Exception {
     try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("petstore3.json"))) {
       Backend backend = BackendDocParser.parse(is);
-      SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).serviceId(
-          "petStore").serviceBaseUrlKey("petStore.baseUrl").pomProject(true).build();
+      SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
+          .serviceId("petStore")
+          .serviceBaseUrlKey("petStore.baseUrl")
+          .pkg(SpringbootFolderGenerator.Package.FEIGN)
+          .pkg(SpringbootFolderGenerator.Package.VO)
+          .pomProject(true)
+          .build();
       springbootFolderGenerator.generate();
     }
   }
