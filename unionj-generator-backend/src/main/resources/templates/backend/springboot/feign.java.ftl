@@ -9,6 +9,7 @@ package ${packageName};
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.cloud.openfeign.FeignClient;
 import java.util.*;
 import ${voPackageName}.*;
 <#if imports??>
@@ -17,9 +18,7 @@ import ${import};
     </#list>
 </#if>
 
-<#if base??>
-@RequestMapping("${base}")
-</#if>
+@FeignClient(contextId = "${name?uncap_first}", value = "${serviceId}"<#if serviceBaseUrlKey??>, url = "${r"${"}${serviceBaseUrlKey}${r":http://"}${serviceId}${r"}"}"</#if>)
 public interface ${name} {
 
     <#list routers as router>

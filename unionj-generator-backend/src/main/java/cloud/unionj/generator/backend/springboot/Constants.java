@@ -17,6 +17,7 @@ public class Constants {
   public static final String DEFAULT_VO_PACKAGE = "vo";
   public static final String DEFAULT_CONTROLLER_PACKAGE = "controller";
   public static final String DEFAULT_SERVICE_PACKAGE = "service";
+  public static final String DEFAULT_FEIGN_PACKAGE = "feign";
   public static final String DOT = ".";
 
 }
