@@ -39,7 +39,9 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.List;
 
 @Mojo(name = "codegen", defaultPhase = LifecyclePhase.COMPILE, requiresDependencyResolution = ResolutionScope.COMPILE)
@@ -109,23 +111,19 @@ public class Codegen extends AbstractMojo {
   private ClassLoader getClassLoader(MavenProject project) {
     try {
       List classpathElements = project.getCompileClasspathElements();
-      classpathElements.add(project
-                                .getBuild()
-                                .getOutputDirectory());
-      classpathElements.add(project
-                                .getBuild()
-                                .getTestOutputDirectory());
+      classpathElements.add(project.getBuild()
+                                   .getOutputDirectory());
+      classpathElements.add(project.getBuild()
+                                   .getTestOutputDirectory());
       URL urls[] = new URL[classpathElements.size()];
       for (int i = 0; i < classpathElements.size(); ++i) {
         urls[i] = new File((String) classpathElements.get(i)).toURL();
       }
-      return new URLClassLoader(urls, this
-          .getClass()
-          .getClassLoader());
+      return new URLClassLoader(urls, this.getClass()
+                                          .getClassLoader());
     } catch (Exception e) {
-      return this
-          .getClass()
-          .getClassLoader();
+      return this.getClass()
+                 .getClassLoader();
     }
   }
 
@@ -139,7 +137,13 @@ public class Codegen extends AbstractMojo {
     }
     Backend backend;
     if (StringUtils.isNotEmpty(this.docUrl)) {
-      try (BufferedInputStream in = new BufferedInputStream(new URL(this.docUrl).openStream())) {
+      URL url = new URL(this.docUrl);
+      URLConnection uc = url.openConnection();
+      String basicAuth = "Basic " + new String(Base64.getEncoder()
+                                                     .encode(url.getUserInfo()
+                                                                .getBytes()));
+      uc.setRequestProperty("Authorization", basicAuth);
+      try (BufferedInputStream in = new BufferedInputStream(uc.getInputStream())) {
         backend = BackendDocParser.parse(in);
       }
     } else {
@@ -149,11 +153,15 @@ public class Codegen extends AbstractMojo {
         designClass = StringUtils.substring(this.entry, 0, StringUtils.lastIndexOf(this.entry, "."));
         designMethod = StringUtils.substring(this.entry, StringUtils.lastIndexOf(this.entry, ".") + 1);
       }
-      Class<?> designer = this
-          .getClassLoader(project)
-          .loadClass(designClass);
-      Method design = designer.getMethod(designMethod);
-      Openapi3 openAPI = (Openapi3) design.invoke(null);
+      Openapi3 openAPI = null;
+      try {
+        Class<?> designer = this.getClassLoader(project)
+                                .loadClass(designClass);
+        Method design = designer.getMethod(designMethod);
+        openAPI = (Openapi3) design.invoke(null);
+      } catch (Exception e) {
+        return;
+      }
       ObjectMapper objectMapper = new ObjectMapper();
       objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
       objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -162,11 +170,13 @@ public class Codegen extends AbstractMojo {
                                   StandardCharsets.UTF_8.name());
       backend = BackendDocParser.parse(openAPI);
     }
-    SpringbootFolderGenerator.Builder builder = new SpringbootFolderGenerator.Builder(backend)
-        .pomProject(true)
-        .pomParentGroupId(parentGroupId)
-        .pomParentArtifactId(parentArtifactId)
-        .pomParentVersion(parentVersion);
+    SpringbootFolderGenerator.Builder builder = new SpringbootFolderGenerator.Builder(backend).pomProject(true)
+                                                                                              .pomParentGroupId(
+                                                                                                  parentGroupId)
+                                                                                              .pomParentArtifactId(
+                                                                                                  parentArtifactId)
+                                                                                              .pomParentVersion(
+                                                                                                  parentVersion);
 
     String protoArtifactId = null;
     String voArtifactId = null;
@@ -207,10 +217,9 @@ public class Codegen extends AbstractMojo {
     for (SpringbootFolderGenerator.Package pkg : this.packages) {
       builder.pkg(pkg);
     }
-    SpringbootFolderGenerator springbootFolderGenerator = builder
-        .serviceId(this.serviceId)
-        .serviceBaseUrlKey(this.serviceBaseUrlKey)
-        .build();
+    SpringbootFolderGenerator springbootFolderGenerator = builder.serviceId(this.serviceId)
+                                                                 .serviceBaseUrlKey(this.serviceBaseUrlKey)
+                                                                 .build();
     springbootFolderGenerator.generate();
     getLog().info("Code generated");
   }

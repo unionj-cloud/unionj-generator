@@ -912,5 +912,4 @@ public class PathTest {
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).build();
     springbootFolderGenerator.generate();
   }
-
 }
