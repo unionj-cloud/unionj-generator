@@ -1,41 +1,28 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>io.github.unionj-cloud</groupId>
-  <artifactId>unionj-generator</artifactId>
+  <artifactId>unionj-generator-maven-plugin</artifactId>
   <version>1.6.7-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>unionj-generator</name>
-  <description>Code generator compatible with OpenAPI 3.0 for spring boot applications</description>
-  <url>https://github.com/unionj-cloud/unionj-generator</url>
+  <packaging>maven-plugin</packaging>
+  <name>unionj-generator-maven-plugin Maven Plugin</name>
+  <description>unionj-generator-maven-plugin Maven Plugin</description>
+  <url>https://github.com/unionj-cloud/unionj-generator-maven-plugin</url>
+
+  <organization>
+    <name>UnionjCloud</name>
+    <url>https://unionj.cloud/</url>
+  </organization>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <unionj-generator.version>1.6.7-SNAPSHOT</unionj-generator.version>
+    <git-commit-id-plugin.version>4.0.0</git-commit-id-plugin.version>
     <gpg.keyname>0x9B39A6C7</gpg.keyname>
-    <!--    <gpg.keyname>0xAD14B34C</gpg.keyname>-->
   </properties>
-
-  <modules>
-    <module>unionj-generator-core</module>
-    <module>unionj-generator-backend</module>
-    <module>unionj-generator-openapi</module>
-    <module>unionj-generator-ui</module>
-    <module>unionj-generator-maven-plugin</module>
-  </modules>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
 
   <licenses>
     <license>
@@ -46,9 +33,9 @@
   </licenses>
 
   <scm>
-    <url>https://github.com/unionj-cloud/unionj-generator</url>
-    <connection>scm:git:git@github.com:unionj-cloud/unionj-generator.git</connection>
-    <developerConnection>scm:git:git@github.com:unionj-cloud/unionj-generator.git</developerConnection>
+    <url>https://github.com/unionj-cloud/unionj-generator-maven-plugin</url>
+    <connection>scm:git:git@github.com:unionj-cloud/unionj-generator-maven-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:unionj-cloud/unionj-generator-maven-plugin.git</developerConnection>
   </scm>
 
   <developers>
@@ -59,8 +46,73 @@
     </developer>
   </developers>
 
+  <dependencies>
+    <dependency>
+      <groupId>io.github.unionj-cloud</groupId>
+      <artifactId>unionj-generator-backend</artifactId>
+      <version>${unionj-generator.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>3.6.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.plugin-tools</groupId>
+      <artifactId>maven-plugin-annotations</artifactId>
+      <version>3.6.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-artifact</artifactId>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.twdata.maven</groupId>
+      <artifactId>mojo-executor</artifactId>
+      <version>2.3.0</version>
+    </dependency>
+  </dependencies>
+
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.6.1</version>
+        <configuration>
+          <goalPrefix>unionj-generator</goalPrefix>
+          <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+        </configuration>
+        <executions>
+          <execution>
+            <id>mojo-descriptor</id>
+            <goals>
+              <goal>descriptor</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>help-goal</id>
+            <goals>
+              <goal>helpmojo</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>versions-maven-plugin</artifactId>
@@ -110,6 +162,24 @@
       </plugins>
     </pluginManagement>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>3.6.1</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>report</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+
   <profiles>
     <profile>
       <id>release</id>

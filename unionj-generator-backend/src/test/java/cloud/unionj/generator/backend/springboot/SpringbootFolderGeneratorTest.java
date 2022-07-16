@@ -169,7 +169,6 @@ public class SpringbootFolderGeneratorTest {
     backend.setProtoList(protoList);
 
     SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
-        .mode(Mode.BASIC)
         .build();
     springbootFolderGenerator.generate();
   }

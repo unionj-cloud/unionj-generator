@@ -52,8 +52,6 @@ public class SpringbootFolderGenerator {
   private ServicePomGenerator servicePomGenerator;
   private FeignPomGenerator feignPomGenerator;
 
-  private Mode mode;
-
   private String serviceId;
   private String serviceBaseUrlKey;
   private List<Package> packages;
@@ -91,8 +89,6 @@ public class SpringbootFolderGenerator {
     private String serviceBaseUrlKey;
     private List<Package> packages;
 
-    private Mode mode;
-
     public Builder(Backend backend) {
       this.backend = backend;
       this.outputDir = OUTPUT_DIR;
@@ -102,7 +98,6 @@ public class SpringbootFolderGenerator {
       this.serviceOutputType = OutputType.CHECK;
       this.feignOutputType = OutputType.OVERWRITE;
       this.packages = new ArrayList<>();
-
       this.protoOutput = new OutputConfig(PACKAGE_NAME + DOT + DEFAULT_PROTO_PACKAGE,
                                           OUTPUT_DIR + File.separator + DEFAULT_PROTO_PACKAGE);
       this.voOutput = new OutputConfig(PACKAGE_NAME + DOT + DEFAULT_VO_PACKAGE,
@@ -113,14 +108,11 @@ public class SpringbootFolderGenerator {
                                             OUTPUT_DIR + File.separator + DEFAULT_SERVICE_PACKAGE);
       this.feignOutput = new OutputConfig(PACKAGE_NAME + DOT + DEFAULT_FEIGN_PACKAGE,
                                           OUTPUT_DIR + File.separator + DEFAULT_FEIGN_PACKAGE);
-
       this.protoPomGenerator = new ProtoPomGenerator();
       this.voPomGenerator = new VoPomGenerator();
       this.controllerPomGenerator = new ControllerPomGenerator();
       this.servicePomGenerator = new ServicePomGenerator();
       this.feignPomGenerator = new FeignPomGenerator();
-
-      this.mode = Mode.FULL;
     }
 
     public Builder zip(boolean zip) {
@@ -135,11 +127,6 @@ public class SpringbootFolderGenerator {
 
     public Builder serviceBaseUrlKey(String serviceBaseUrlKey) {
       this.serviceBaseUrlKey = serviceBaseUrlKey;
-      return this;
-    }
-
-    public Builder mode(Mode mode) {
-      this.mode = mode;
       return this;
     }
 
@@ -218,10 +205,8 @@ public class SpringbootFolderGenerator {
       return this;
     }
 
-    public Builder pomFeignArtifactId(String protoArtifactId) {
-      this.feignPomGenerator.artifactId(protoArtifactId);
-      this.servicePomGenerator.protoArtifactId(protoArtifactId);
-      this.controllerPomGenerator.protoArtifactId(protoArtifactId);
+    public Builder pomFeignArtifactId(String feignArtifactId) {
+      this.feignPomGenerator.artifactId(feignArtifactId);
       return this;
     }
 
@@ -356,10 +341,30 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.controllerOutputType = this.controllerOutputType;
       backendFolderGenerator.serviceOutputType = this.serviceOutputType;
 
-      this.protoOutput.validate();
-      this.feignOutput.validate();
-      this.voOutput.validate();
-      if (this.mode == Mode.FULL) {
+      if (CollectionUtils.isNotEmpty(this.packages)) {
+        for (Package pkg : this.packages) {
+          switch (pkg) {
+            case VO:
+              this.voOutput.validate();
+              break;
+            case FEIGN:
+              this.feignOutput.validate();
+              break;
+            case PROTO:
+              this.protoOutput.validate();
+              break;
+            case SERVICE:
+              this.serviceOutput.validate();
+              break;
+            case CONTROLLER:
+              this.controllerOutput.validate();
+              break;
+          }
+        }
+      } else {
+        this.protoOutput.validate();
+        this.feignOutput.validate();
+        this.voOutput.validate();
         this.controllerOutput.validate();
         this.serviceOutput.validate();
       }
@@ -376,7 +381,6 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.controllerPomGenerator = this.controllerPomGenerator;
       backendFolderGenerator.servicePomGenerator = this.servicePomGenerator;
 
-      backendFolderGenerator.mode = this.mode;
       backendFolderGenerator.serviceId = this.serviceId;
       backendFolderGenerator.serviceBaseUrlKey = this.serviceBaseUrlKey;
       backendFolderGenerator.packages = this.packages;
@@ -484,7 +488,7 @@ public class SpringbootFolderGenerator {
 
   public void generate() throws Exception {
     if (StringUtils.isEmpty(this.serviceId)) {
-      throw new Exception("missing serviceId attribute");
+      throw new Exception("serviceId required");
     }
     if (CollectionUtils.isNotEmpty(this.packages)) {
       for (Package pkg : this.packages) {
