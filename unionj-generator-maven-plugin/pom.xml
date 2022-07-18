@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.github.unionj-cloud</groupId>
     <artifactId>unionj-generator</artifactId>
-    <version>1.6.7-SNAPSHOT</version>
+    <version>1.6.7</version>
   </parent>
   <artifactId>unionj-generator-maven-plugin</artifactId>
   <packaging>maven-plugin</packaging>
