@@ -42,17 +42,17 @@ Including：
   <dependency>
      <groupId>io.github.unionj-cloud</groupId>
      <artifactId>unionj-generator-backend</artifactId>
-     <version>1.6.7-SNAPSHOT</version>
+     <version>1.6.7</version>
   </dependency>
   <dependency>
      <groupId>io.github.unionj-cloud</groupId>
      <artifactId>unionj-generator-openapi</artifactId>
-     <version>1.6.7-SNAPSHOT</version>
+     <version>1.6.7</version>
   </dependency>
   <dependency>
      <groupId>io.github.unionj-cloud</groupId>
      <artifactId>unionj-generator-ui</artifactId>
-     <version>1.6.7-SNAPSHOT</version>
+     <version>1.6.7</version>
   </dependency>
 </dependencies>
 ```
@@ -63,7 +63,7 @@ Including：
     <plugin>
       <groupId>io.github.unionj-cloud</groupId>
       <artifactId>unionj-generator-maven-plugin</artifactId>
-      <version>1.6.7-SNAPSHOT</version>
+      <version>1.6.7</version>
       <inherited>false</inherited>
       <executions>
         <execution>
