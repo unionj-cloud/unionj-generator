@@ -17,7 +17,7 @@ import ${import};
     </#list>
 </#if>
 
-@FeignClient(contextId = "${name?uncap_first}", value = "${serviceId}"<#if serviceBaseUrlKey??>, url = "${r"${"}${serviceBaseUrlKey}${r":http://"}${serviceId}${r"}"}"</#if>)
+@FeignClient(contextId = "${name?uncap_first}", value = "${serviceId}"<#if serviceBaseUrlKey??>, url = "${r"${"}${serviceBaseUrlKey}${r":}"}"</#if>)
 public interface ${name} {
 
     <#list routers as router>
