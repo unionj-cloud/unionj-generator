@@ -14,7 +14,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <unionj-generator.version>1.6.7-SNAPSHOT</unionj-generator.version>
+    <unionj-generator.version>1.6.7</unionj-generator.version>
   </properties>
 
   <dependencies>
