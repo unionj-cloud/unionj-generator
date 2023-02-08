@@ -91,6 +91,7 @@ public abstract class BasePomGenerator<T> extends DefaultGenerator {
   }
 
   protected BasePomGenerator() {
+    super(false);
     this.outputDir = OUTPUT_DIR;
     this.hasParent = false;
     this.parentGroupId = "cloud.unionj.demo";

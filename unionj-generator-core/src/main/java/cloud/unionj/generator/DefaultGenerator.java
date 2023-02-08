@@ -5,6 +5,7 @@ import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.Version;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,6 +19,33 @@ import java.util.Locale;
  *  date 2020/11/21
  */
 public abstract class DefaultGenerator implements Generator {
+
+  protected boolean noDefaultComment;
+  protected String parentArtifactId;
+  protected String companyName;
+  protected String baseName;
+  protected String author;
+  protected String createDate;
+  protected String parentVersion;
+  protected String year;
+  protected String copyright;
+
+  public DefaultGenerator(boolean noDefaultComment) {
+    this.noDefaultComment = noDefaultComment;
+  }
+
+  public DefaultGenerator(boolean noDefaultComment, String parentArtifactId, String companyName, String baseName,
+      String author, String createDate, String parentVersion, String year, String copyright) {
+    this.noDefaultComment = noDefaultComment;
+    this.parentArtifactId = ObjectUtils.defaultIfNull(parentArtifactId, "");
+    this.companyName = ObjectUtils.defaultIfNull(companyName, "");
+    this.baseName = ObjectUtils.defaultIfNull(baseName, "");
+    this.author = ObjectUtils.defaultIfNull(author, "");
+    this.createDate = ObjectUtils.defaultIfNull(createDate, "");
+    this.parentVersion = ObjectUtils.defaultIfNull(parentVersion, "");
+    this.year = ObjectUtils.defaultIfNull(year, "");
+    this.copyright = ObjectUtils.defaultIfNull(copyright, "");
+  }
 
   @SneakyThrows
   @Override

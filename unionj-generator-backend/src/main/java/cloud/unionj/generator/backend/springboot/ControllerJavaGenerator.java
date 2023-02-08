@@ -28,7 +28,9 @@ public class ControllerJavaGenerator extends DefaultGenerator {
   private String controllerName;
   private String serviceName;
 
-  public ControllerJavaGenerator(Proto proto, String packageName, String outputDir, String voPackageName, String protoPackageName, String servicePackageName) {
+  public ControllerJavaGenerator(Proto proto, String packageName, String outputDir, String voPackageName,
+      String protoPackageName, String servicePackageName, boolean noDefaultComment) {
+    super(noDefaultComment);
     this.proto = proto;
     this.packageName = packageName;
     this.outputDir = outputDir + "/src/main/java/" + packageName.replace(".", "/");
@@ -36,6 +38,22 @@ public class ControllerJavaGenerator extends DefaultGenerator {
     this.protoPackageName = protoPackageName;
     this.servicePackageName = servicePackageName;
     String baseName = StringUtils.removeEnd(StringUtils.capitalize(this.proto.getName()), "Proto");
+    this.controllerName = baseName + "Controller";
+    this.serviceName = baseName + "Service";
+  }
+
+  public ControllerJavaGenerator(boolean noDefaultComment, String parentArtifactId, String companyName, String author,
+      String createDate, String parentVersion, String year, String copyright, Proto proto, String outputDir,
+      String packageName, String voPackageName, String protoPackageName, String servicePackageName) {
+    super(noDefaultComment, parentArtifactId, companyName,
+          StringUtils.removeEnd(StringUtils.capitalize(proto.getName()), "Proto"), author, createDate, parentVersion,
+          year, copyright);
+    this.proto = proto;
+    this.packageName = packageName;
+    this.outputDir = outputDir + "/src/main/java/" + packageName.replace(".", "/");
+    this.voPackageName = voPackageName;
+    this.protoPackageName = protoPackageName;
+    this.servicePackageName = servicePackageName;
     this.controllerName = baseName + "Controller";
     this.serviceName = baseName + "Service";
   }
@@ -52,6 +70,15 @@ public class ControllerJavaGenerator extends DefaultGenerator {
     input.put("protoName", StringUtils.capitalize(this.proto.getName()));
     input.put("serviceName", this.serviceName);
     input.put("routers", this.proto.getRouters());
+    input.put("noDefaultComment", this.noDefaultComment);
+    input.put("parentArtifactId", this.parentArtifactId);
+    input.put("companyName", this.companyName);
+    input.put("baseName", this.baseName);
+    input.put("author", this.author);
+    input.put("createDate", this.createDate);
+    input.put("parentVersion", this.parentVersion);
+    input.put("year", this.year);
+    input.put("copyright", this.copyright);
     return input;
   }
 

@@ -27,12 +27,27 @@ public class ServiceJavaGenerator extends DefaultGenerator {
   private String protoPackageName;
   private String serviceName;
 
-  public ServiceJavaGenerator(Proto proto, String packageName, String outputDir, String protoPackageName) {
+  public ServiceJavaGenerator(Proto proto, String packageName, String outputDir, String protoPackageName,
+      boolean noDefaultComment) {
+    super(noDefaultComment);
     this.proto = proto;
     this.packageName = packageName;
     this.outputDir = outputDir + "/src/main/java/" + packageName.replace(".", "/");
     this.protoPackageName = protoPackageName;
     String baseName = StringUtils.removeEnd(StringUtils.capitalize(this.proto.getName()), "Proto");
+    this.serviceName = baseName + "Service";
+  }
+
+  public ServiceJavaGenerator(boolean noDefaultComment, String parentArtifactId, String companyName, String author,
+      String createDate, String parentVersion, String year, String copyright, Proto proto, String outputDir,
+      String packageName, String protoPackageName) {
+    super(noDefaultComment, parentArtifactId, companyName,
+          StringUtils.removeEnd(StringUtils.capitalize(proto.getName()), "Proto"), author, createDate, parentVersion,
+          year, copyright);
+    this.proto = proto;
+    this.packageName = packageName;
+    this.outputDir = outputDir + "/src/main/java/" + packageName.replace(".", "/");
+    this.protoPackageName = protoPackageName;
     this.serviceName = baseName + "Service";
   }
 
@@ -43,6 +58,15 @@ public class ServiceJavaGenerator extends DefaultGenerator {
     input.put("name", this.serviceName);
     input.put("protoName", StringUtils.capitalize(this.proto.getName()));
     input.put("protoPackageName", this.protoPackageName);
+    input.put("noDefaultComment", this.noDefaultComment);
+    input.put("parentArtifactId", this.parentArtifactId);
+    input.put("companyName", this.companyName);
+    input.put("baseName", this.baseName);
+    input.put("author", this.author);
+    input.put("createDate", this.createDate);
+    input.put("parentVersion", this.parentVersion);
+    input.put("year", this.year);
+    input.put("copyright", this.copyright);
     return input;
   }
 

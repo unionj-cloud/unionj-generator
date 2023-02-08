@@ -7,6 +7,10 @@ import cloud.unionj.generator.backend.docparser.entity.Vo;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -33,6 +37,15 @@ public class SpringbootFolderGenerator {
 
   private boolean zip;
   private boolean pomProject;
+  private boolean noDefaultComment;
+
+  protected String parentArtifactId;
+  protected String companyName;
+  protected String author;
+  protected String parentVersion;
+  protected String copyright;
+  protected String createDate;
+  protected String year;
 
   private OutputType protoOutputType;
   private OutputType voOutputType;
@@ -66,6 +79,13 @@ public class SpringbootFolderGenerator {
 
     private boolean zip = false;
     private boolean pomProject = false;
+    private boolean noDefaultComment = false;
+
+    protected String parentArtifactId;
+    protected String companyName;
+    protected String author;
+    protected String parentVersion;
+    protected String copyright;
 
     private OutputType protoOutputType;
     private OutputType voOutputType;
@@ -120,6 +140,26 @@ public class SpringbootFolderGenerator {
       return this;
     }
 
+    public Builder noDefaultComment(boolean noDefaultComment) {
+      this.noDefaultComment = noDefaultComment;
+      return this;
+    }
+
+    public Builder companyName(String companyName) {
+      this.companyName = companyName;
+      return this;
+    }
+
+    public Builder author(String author) {
+      this.author = author;
+      return this;
+    }
+
+    public Builder copyright(String copyright) {
+      this.copyright = copyright;
+      return this;
+    }
+
     public Builder serviceId(String serviceId) {
       this.serviceId = serviceId;
       return this;
@@ -170,6 +210,7 @@ public class SpringbootFolderGenerator {
       this.voPomGenerator.parentArtifactId(parentArtifactId);
       this.controllerPomGenerator.parentArtifactId(parentArtifactId);
       this.servicePomGenerator.parentArtifactId(parentArtifactId);
+      this.parentArtifactId = parentArtifactId;
 
       return this;
     }
@@ -195,6 +236,8 @@ public class SpringbootFolderGenerator {
       this.servicePomGenerator.versionAsParent();
       this.servicePomGenerator.voVersionAsParent();
       this.servicePomGenerator.protoVersionAsParent();
+
+      this.parentVersion = parentVersion;
       return this;
     }
 
@@ -334,6 +377,20 @@ public class SpringbootFolderGenerator {
       backendFolderGenerator.outputDir = this.outputDir;
 
       backendFolderGenerator.zip = this.zip;
+      backendFolderGenerator.noDefaultComment = this.noDefaultComment;
+      backendFolderGenerator.parentArtifactId = this.parentArtifactId;
+      backendFolderGenerator.companyName = this.companyName;
+      backendFolderGenerator.author = this.author;
+      backendFolderGenerator.parentVersion = this.parentVersion;
+      backendFolderGenerator.copyright = this.copyright;
+
+      // 2023/2/8 4:25 PM
+      DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern("yyyy/M/d H:mma")
+                                                          .withZone(DateTimeZone.forID("Asia/Shanghai"));
+      DateTime now = DateTime.now();
+      backendFolderGenerator.createDate = dateTimeFormatter.print(now);
+      backendFolderGenerator.year = String.valueOf(now.getYear());
+
       backendFolderGenerator.pomProject = this.pomProject;
       backendFolderGenerator.protoOutputType = this.protoOutputType;
       backendFolderGenerator.feignOutputType = this.feignOutputType;
@@ -400,8 +457,11 @@ public class SpringbootFolderGenerator {
     FileUtils.deleteDirectory(new File(this.voOutput.getOutputDir() + "/src"));
     for (Vo vo : backend.getVoList()) {
       if (vo.isOutput()) {
-        VoJavaGenerator voJavaGenerator = new VoJavaGenerator(vo, this.voOutput.getPackageName(),
-                                                              this.voOutput.getOutputDir());
+        VoJavaGenerator voJavaGenerator = new VoJavaGenerator(this.noDefaultComment, this.parentArtifactId,
+                                                              this.companyName, this.author, this.createDate,
+                                                              this.parentVersion, this.year, this.copyright, vo,
+                                                              this.voOutput.getOutputDir(),
+                                                              this.voOutput.getPackageName());
         voJavaGenerator.generate();
       }
     }
@@ -416,8 +476,11 @@ public class SpringbootFolderGenerator {
   public void generateProto() throws Exception {
     FileUtils.deleteDirectory(new File(this.protoOutput.getOutputDir() + "/src"));
     for (Proto proto : backend.getProtoList()) {
-      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(proto, this.protoOutput.getPackageName(),
-                                                                     this.protoOutput.getOutputDir(),
+      ProtoJavaGenerator protoJavaGenerator = new ProtoJavaGenerator(this.noDefaultComment, this.parentArtifactId,
+                                                                     this.companyName, this.author, this.createDate,
+                                                                     this.parentVersion, this.year, this.copyright,
+                                                                     proto, this.protoOutput.getOutputDir(),
+                                                                     this.protoOutput.getPackageName(),
                                                                      this.voOutput.getPackageName());
       protoJavaGenerator.generate();
     }
@@ -432,9 +495,13 @@ public class SpringbootFolderGenerator {
   public void generateController() throws Exception {
     FileUtils.deleteDirectory(new File(this.controllerOutput.getOutputDir() + "/src"));
     for (Proto proto : backend.getProtoList()) {
-      ControllerJavaGenerator controllerJavaGenerator = new ControllerJavaGenerator(proto,
-                                                                                    this.controllerOutput.getPackageName(),
+      ControllerJavaGenerator controllerJavaGenerator = new ControllerJavaGenerator(this.noDefaultComment,
+                                                                                    this.parentArtifactId,
+                                                                                    this.companyName, this.author,
+                                                                                    this.createDate, this.parentVersion,
+                                                                                    this.year, this.copyright, proto,
                                                                                     this.controllerOutput.getOutputDir(),
+                                                                                    this.controllerOutput.getPackageName(),
                                                                                     this.voOutput.getPackageName(),
                                                                                     this.protoOutput.getPackageName(),
                                                                                     this.serviceOutput.getPackageName());
@@ -451,8 +518,11 @@ public class SpringbootFolderGenerator {
   public void generateFeign() throws Exception {
     FileUtils.deleteDirectory(new File(this.feignOutput.getOutputDir() + "/src"));
     for (Proto proto : backend.getProtoList()) {
-      FeignJavaGenerator feignJavaGenerator = new FeignJavaGenerator(proto, this.feignOutput.getPackageName(),
-                                                                     this.feignOutput.getOutputDir(),
+      FeignJavaGenerator feignJavaGenerator = new FeignJavaGenerator(this.noDefaultComment, this.parentArtifactId,
+                                                                     this.companyName, this.author, this.createDate,
+                                                                     this.parentVersion, this.year, this.copyright,
+                                                                     proto, this.feignOutput.getOutputDir(),
+                                                                     this.feignOutput.getPackageName(),
                                                                      this.voOutput.getPackageName(), this.serviceId,
                                                                      this.serviceBaseUrlKey);
       feignJavaGenerator.generate();
@@ -467,14 +537,23 @@ public class SpringbootFolderGenerator {
 
   public void generateService() throws Exception {
     for (Proto proto : backend.getProtoList()) {
-      ServiceJavaGenerator serviceJavaGenerator = new ServiceJavaGenerator(proto, this.serviceOutput.getPackageName(),
+      ServiceJavaGenerator serviceJavaGenerator = new ServiceJavaGenerator(this.noDefaultComment, this.parentArtifactId,
+                                                                           this.companyName, this.author,
+                                                                           this.createDate, this.parentVersion,
+                                                                           this.year, this.copyright, proto,
                                                                            this.serviceOutput.getOutputDir(),
+                                                                           this.serviceOutput.getPackageName(),
                                                                            this.protoOutput.getPackageName());
       serviceJavaGenerator.generate();
 
-      ServiceImplJavaGenerator serviceImplJavaGenerator = new ServiceImplJavaGenerator(proto,
-                                                                                       this.serviceOutput.getPackageName(),
+      ServiceImplJavaGenerator serviceImplJavaGenerator = new ServiceImplJavaGenerator(this.noDefaultComment,
+                                                                                       this.parentArtifactId,
+                                                                                       this.companyName, this.author,
+                                                                                       this.createDate,
+                                                                                       this.parentVersion, this.year,
+                                                                                       this.copyright, proto,
                                                                                        this.serviceOutput.getOutputDir(),
+                                                                                       this.serviceOutput.getPackageName(),
                                                                                        this.voOutput.getPackageName());
       serviceImplJavaGenerator.generate();
     }

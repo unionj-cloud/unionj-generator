@@ -24,7 +24,21 @@ public class ProtoJavaGenerator extends DefaultGenerator {
   private String packageName;
   private String voPackageName;
 
-  public ProtoJavaGenerator(Proto proto, String packageName, String outputDir, String voPackageName) {
+  public ProtoJavaGenerator(Proto proto, String packageName, String outputDir, String voPackageName,
+      boolean noDefaultComment) {
+    super(noDefaultComment);
+    this.proto = proto;
+    this.packageName = packageName;
+    this.outputDir = outputDir + "/src/main/java/" + packageName.replace(".", "/");
+    this.voPackageName = voPackageName;
+  }
+
+  public ProtoJavaGenerator(boolean noDefaultComment, String parentArtifactId, String companyName, String author,
+      String createDate, String parentVersion, String year, String copyright, Proto proto, String outputDir,
+      String packageName, String voPackageName) {
+    super(noDefaultComment, parentArtifactId, companyName,
+          StringUtils.removeEnd(StringUtils.capitalize(proto.getName()), "Proto"), author, createDate, parentVersion,
+          year, copyright);
     this.proto = proto;
     this.packageName = packageName;
     this.outputDir = outputDir + "/src/main/java/" + packageName.replace(".", "/");
@@ -40,6 +54,15 @@ public class ProtoJavaGenerator extends DefaultGenerator {
     input.put("routers", this.proto.getRouters());
     input.put("imports", this.proto.getImports());
     input.put("voPackageName", this.voPackageName);
+    input.put("noDefaultComment", this.noDefaultComment);
+    input.put("parentArtifactId", this.parentArtifactId);
+    input.put("companyName", this.companyName);
+    input.put("baseName", this.baseName);
+    input.put("author", this.author);
+    input.put("createDate", this.createDate);
+    input.put("parentVersion", this.parentVersion);
+    input.put("year", this.year);
+    input.put("copyright", this.copyright);
     return input;
   }
 
@@ -50,7 +73,8 @@ public class ProtoJavaGenerator extends DefaultGenerator {
 
   @Override
   public String getOutputFile() {
-    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + StringUtils.capitalize(this.proto.getName()) + ".java";
+    return GeneratorUtils.getOutputDir(this.outputDir) + File.separator + StringUtils.capitalize(
+        this.proto.getName()) + ".java";
   }
 
 }

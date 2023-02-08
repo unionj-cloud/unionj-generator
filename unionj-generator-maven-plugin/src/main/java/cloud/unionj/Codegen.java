@@ -108,6 +108,18 @@ public class Codegen extends AbstractMojo {
   @Parameter(property = "docUrl")
   String docUrl;
 
+  @Parameter(property = "noDefaultComment")
+  boolean noDefaultComment;
+
+  @Parameter(property = "companyName")
+  String companyName;
+
+  @Parameter(property = "author")
+  String author;
+
+  @Parameter(property = "copyright")
+  String copyright;
+
   private ClassLoader getClassLoader(MavenProject project) {
     try {
       List classpathElements = project.getCompileClasspathElements();
@@ -177,7 +189,6 @@ public class Codegen extends AbstractMojo {
                                                                                                   parentArtifactId)
                                                                                               .pomParentVersion(
                                                                                                   parentVersion);
-
     String protoArtifactId = null;
     String voArtifactId = null;
     String controllerArtifactId = null;
@@ -217,6 +228,12 @@ public class Codegen extends AbstractMojo {
     for (SpringbootFolderGenerator.Package pkg : this.packages) {
       builder.pkg(pkg);
     }
+    if (this.noDefaultComment) {
+      builder.noDefaultComment(this.noDefaultComment);
+    }
+    builder.companyName(this.companyName);
+    builder.author(this.author);
+    builder.copyright(this.copyright);
     SpringbootFolderGenerator springbootFolderGenerator = builder.serviceId(this.serviceId)
                                                                  .serviceBaseUrlKey(this.serviceBaseUrlKey)
                                                                  .build();
