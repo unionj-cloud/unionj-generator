@@ -15,6 +15,7 @@ import java.util.List;
 public class Vo {
 
   private String name;
+  private String description;
   private List<VoProperty> properties;
   private List<VoEnumType> enumTypes;
   private List<String> imports;

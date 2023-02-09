@@ -23,6 +23,8 @@ public class ProtoRouter {
 
   private String endpoint;
   private String name;
+  private String summary;
+  private String description;
   private String httpMethod;
   private ProtoProperty reqBody;
   private ProtoProperty file;
@@ -42,11 +44,14 @@ public class ProtoRouter {
     ProtoRouter router = new ProtoRouter();
     router.endpoint = endpoint;
     router.httpMethod = httpMethod;
+    router.summary = operation.getSummary();
+    router.description = operation.getDescription();
     if (StringUtils.isNotBlank(operation.getOperationId())) {
       router.name = operation.getOperationId();
     } else {
       if (StringUtils.isNotBlank(router.endpoint) && StringUtils.isNotBlank(router.httpMethod)) {
-        String _endpoint = router.endpoint.replaceAll("[^a-zA-Z0-9_]", "_").toLowerCase();
+        String _endpoint = router.endpoint.replaceAll("[^a-zA-Z0-9_]", "_")
+                                          .toLowerCase();
         _endpoint = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, _endpoint);
         router.name = router.httpMethod.toLowerCase() + _endpoint;
       }
@@ -60,10 +65,13 @@ public class ProtoRouter {
         if (content.getApplicationJson() != null) {
           MediaType mediaType = content.getApplicationJson();
           if (mediaType.getSchema() != null) {
-            router.setReqBody(new ProtoProperty.Builder(mediaType.getSchema()).name("body").required(requestBody.isRequired()).build());
+            router.setReqBody(new ProtoProperty.Builder(mediaType.getSchema()).name("body")
+                                                                              .required(requestBody.isRequired())
+                                                                              .build());
           }
         } else if (content.getApplicationOctetStream() != null) {
-          router.setFile(ProtoProperty.UPLOAD_FILE_BUILDER.required(requestBody.isRequired()).build());
+          router.setFile(ProtoProperty.UPLOAD_FILE_BUILDER.required(requestBody.isRequired())
+                                                          .build());
         } else if (content.getMultipartFormData() != null) {
           MediaType formData = content.getMultipartFormData();
           Schema schema = formData.getSchema();
@@ -72,32 +80,50 @@ public class ProtoRouter {
             schema = schemas.get(typeByRef);
           }
           List<String> required = schema.getRequired();
-          schema.getProperties().forEach((k, v) -> {
-            if (k.contains("file")) {
-              if (v.getType().equals("array")) {
-                router.setFile(ProtoProperty.UPLOAD_FILES_BUILDER.required(required.contains(k)).build());
-              } else {
-                router.setFile(ProtoProperty.UPLOAD_FILE_BUILDER.required(required.contains(k)).build());
-              }
-            } else {
-              if (v.getType().equals("array") && v.getItems().equals(SchemaHelper.file)) {
-                router.setFile(new ProtoProperty.Builder("MultipartFile[]").name(k).required(required.contains(k)).build());
-              } else if (v.equals(SchemaHelper.file)) {
-                router.setFile(new ProtoProperty.Builder("MultipartFile").name(k).required(required.contains(k)).build());
-              } else {
-                queryParams.add(new ProtoProperty.Builder(v)
-                    .name(k)
-                    .in("formData")
-                    .required(required.contains(k))
-                    .defaultValue(Optional.ofNullable(v.getDefaultValue()).orElse("").toString())
-                    .build());
-              }
-            }
-          });
+          schema.getProperties()
+                .forEach((k, v) -> {
+                  if (k.contains("file")) {
+                    if (v.getType()
+                         .equals("array")) {
+                      router.setFile(ProtoProperty.UPLOAD_FILES_BUILDER.required(required.contains(k))
+                                                                       .description(v.getDescription())
+                                                                       .build());
+                    } else {
+                      router.setFile(ProtoProperty.UPLOAD_FILE_BUILDER.required(required.contains(k))
+                                                                      .description(v.getDescription())
+                                                                      .build());
+                    }
+                  } else {
+                    if (v.getType()
+                         .equals("array") && v.getItems()
+                                              .equals(SchemaHelper.file)) {
+                      router.setFile(new ProtoProperty.Builder("MultipartFile[]").name(k)
+                                                                                 .required(required.contains(k))
+                                                                                 .description(v.getDescription())
+                                                                                 .build());
+                    } else if (v.equals(SchemaHelper.file)) {
+                      router.setFile(new ProtoProperty.Builder("MultipartFile").name(k)
+                                                                               .required(required.contains(k))
+                                                                               .description(v.getDescription())
+                                                                               .build());
+                    } else {
+                      queryParams.add(new ProtoProperty.Builder(v).name(k)
+                                                                  .in("formData")
+                                                                  .required(required.contains(k))
+                                                                  .defaultValue(Optional.ofNullable(v.getDefaultValue())
+                                                                                        .orElse("")
+                                                                                        .toString())
+                                                                  .description(v.getDescription())
+                                                                  .build());
+                    }
+                  }
+                });
         } else if (content.getTextPlain() != null) {
           MediaType mediaType = content.getTextPlain();
           if (mediaType.getSchema() != null) {
-            router.setReqBody(new ProtoProperty.Builder(mediaType.getSchema()).name("body").required(requestBody.isRequired()).build());
+            router.setReqBody(new ProtoProperty.Builder(mediaType.getSchema()).name("body")
+                                                                              .required(requestBody.isRequired())
+                                                                              .build());
           }
         }
       }
@@ -107,38 +133,56 @@ public class ProtoRouter {
     Set<ProtoProperty> protoPropertySet = Sets.newLinkedHashSet();
     if (CollectionUtils.isNotEmpty(parameters)) {
       LinkedHashSet<ProtoProperty> protoProperties = parameters.stream()
-          .map(para -> {
-            ProtoProperty property;
-            if (para.getIn() == Parameter.InEnum.QUERY) {
-              property = new ProtoProperty.Builder(para.getSchema())
-                  .name(para.getName())
-                  .in(para.getIn().toString())
-                  .required(para.isRequired())
-                  .defaultValue(Optional.ofNullable(para.getSchema().getDefaultValue()).orElse("").toString())
-                  .build();
-            } else {
-              property = new ProtoProperty.Builder(para.getSchema()).name(para.getName()).in(para.getIn().toString()).required(para.isRequired()).build();
-            }
-            return property;
-          })
-          .collect(Collectors.toCollection(LinkedHashSet::new));
+                                                               .map(para -> {
+                                                                 ProtoProperty property;
+                                                                 if (para.getIn() == Parameter.InEnum.QUERY) {
+                                                                   property = new ProtoProperty.Builder(
+                                                                       para.getSchema()).name(para.getName())
+                                                                                        .in(para.getIn()
+                                                                                                .toString())
+                                                                                        .required(para.isRequired())
+                                                                                        .defaultValue(
+                                                                                            Optional.ofNullable(
+                                                                                                        para.getSchema()
+                                                                                                            .getDefaultValue())
+                                                                                                    .orElse("")
+                                                                                                    .toString())
+                                                                                        .description(para.getDescription())
+                                                                                        .build();
+                                                                 } else {
+                                                                   property = new ProtoProperty.Builder(
+                                                                       para.getSchema()).name(para.getName())
+                                                                                        .in(para.getIn()
+                                                                                                .toString())
+                                                                                        .required(para.isRequired())
+                                                                                        .description(para.getDescription())
+                                                                                        .build();
+                                                                 }
+                                                                 return property;
+                                                               })
+                                                               .collect(Collectors.toCollection(LinkedHashSet::new));
       if (protoProperties != null) {
         protoPropertySet.addAll(protoProperties);
       }
     }
     if (CollectionUtils.isNotEmpty(protoPropertySet)) {
-      Map<String, List<ProtoProperty>> protoPropertyMap = protoPropertySet.stream().collect(Collectors.groupingBy(ProtoProperty::getIn, Collectors.toList()));
+      Map<String, List<ProtoProperty>> protoPropertyMap = protoPropertySet.stream()
+                                                                          .collect(Collectors.groupingBy(
+                                                                              ProtoProperty::getIn,
+                                                                              Collectors.toList()));
       router.setPathParams(protoPropertyMap.get("path"));
       List<ProtoProperty> query = protoPropertyMap.get("query");
       if (query != null) {
         queryParams.addAll(query);
       }
     }
-    queryParams.stream().forEach(protoProperty -> {
-      if (protoProperty.getSchemaType().equals("array")) {
-        protoProperty.setRequestParam(protoProperty.getName() + "[]");
-      }
-    });
+    queryParams.stream()
+               .forEach(protoProperty -> {
+                 if (protoProperty.getSchemaType()
+                                  .equals("array")) {
+                   protoProperty.setRequestParam(protoProperty.getName() + "[]");
+                 }
+               });
     router.setQueryParams(queryParams);
 
     Responses responses = operation.getResponses();
@@ -172,6 +216,8 @@ public class ProtoRouter {
   public static class Builder {
     private String endpoint;
     private String name;
+    private String summary;
+    private String description;
     private String httpMethod;
     private ProtoProperty reqBody;
     private ProtoProperty file;
@@ -186,7 +232,8 @@ public class ProtoRouter {
         this.name = name;
       } else {
         if (StringUtils.isNotBlank(this.endpoint) && StringUtils.isNotBlank(this.httpMethod)) {
-          String _endpoint = this.endpoint.replaceAll("[^a-zA-Z0-9_]", "_").toLowerCase();
+          String _endpoint = this.endpoint.replaceAll("[^a-zA-Z0-9_]", "_")
+                                          .toLowerCase();
           _endpoint = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, _endpoint);
           this.name = this.httpMethod.toLowerCase() + _endpoint;
         }
@@ -218,6 +265,16 @@ public class ProtoRouter {
       return this;
     }
 
+    public Builder summary(String summary) {
+      this.summary = summary;
+      return this;
+    }
+
+    public Builder description(String description) {
+      this.description = description;
+      return this;
+    }
+
     public ProtoRouter build() {
       ProtoRouter router = new ProtoRouter();
       router.endpoint = this.endpoint;
@@ -228,6 +285,8 @@ public class ProtoRouter {
       router.respData = this.respData;
       router.pathParams = this.pathParams;
       router.queryParams = this.queryParams;
+      router.summary = this.summary;
+      router.description = this.description;
       return router;
     }
   }

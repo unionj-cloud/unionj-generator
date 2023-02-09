@@ -39,25 +39,29 @@ public class Backend {
   public static Backend convert(Openapi3 openAPI) {
     Backend backend = new Backend();
     List<Vo> voList = new ArrayList<>();
-    Map<String, Schema> schemas = openAPI.getComponents().getSchemas();
+    Map<String, Schema> schemas = openAPI.getComponents()
+                                         .getSchemas();
     for (Map.Entry<String, Schema> schemaEntry : schemas.entrySet()) {
       Vo vo = new Vo();
       Schema schema = schemaEntry.getValue();
+      vo.setDescription(schema.getDescription());
       if (schema instanceof Generic || schema.isDummy()) {
         vo.setDummy(schema.getDummy());
         vo.setOutput(false);
       }
       String name = schemaEntry.getKey();
       List<String> genericPropertyList = new ArrayList<>();
-      schema.getProperties().forEach((k, v) -> {
-        if (v.equals(SchemaHelper.T) || v.equals(SchemaHelper.ListT) || v.equals(SchemaHelper.SetT)) {
-          genericPropertyList.add(k);
-        }
-      });
+      schema.getProperties()
+            .forEach((k, v) -> {
+              if (v.equals(SchemaHelper.T) || v.equals(SchemaHelper.ListT) || v.equals(SchemaHelper.SetT)) {
+                genericPropertyList.add(k);
+              }
+            });
       if (CollectionUtils.isNotEmpty(genericPropertyList)) {
         name += "<T>";
       } else {
-        name = name.replaceAll(SchemaHelper.LEFT_ARROW, "<").replaceAll(SchemaHelper.RIGHT_ARROW, ">");
+        name = name.replaceAll(SchemaHelper.LEFT_ARROW, "<")
+                   .replaceAll(SchemaHelper.RIGHT_ARROW, ">");
       }
 
       vo.setName(name);
@@ -73,7 +77,10 @@ public class Backend {
           String type = StringUtils.capitalize(property.getKey()) + "Enum";
           voProperty = new VoProperty(property.getKey(), property.getKey(), type);
 
-          List<VoEnum> voEnumList = value.getEnumValue().stream().map(item -> new VoEnum(item.toUpperCase(), item)).collect(Collectors.toList());
+          List<VoEnum> voEnumList = value.getEnumValue()
+                                         .stream()
+                                         .map(item -> new VoEnum(item.toUpperCase(), item))
+                                         .collect(Collectors.toList());
           VoEnumType voEnumType = new VoEnumType(voEnumList, type);
           enumTypeList.add(voEnumType);
         } else {
@@ -95,6 +102,9 @@ public class Backend {
             }
           }
           voProperty = new VoProperty(property.getKey(), property.getKey(), value);
+        }
+        if (voProperty != null) {
+          voProperty.setDescription(value.getDescription());
         }
         voPropertyList.add(voProperty);
       }
@@ -169,10 +179,10 @@ public class Backend {
       proto.setRouters(routers);
 
       Set<String> dummies = voList.stream()
-          .filter(vo -> vo != null)
-          .filter(Vo::isDummy)
-          .map(Vo::getDummy)
-          .collect(Collectors.toSet());
+                                  .filter(vo -> vo != null)
+                                  .filter(Vo::isDummy)
+                                  .map(Vo::getDummy)
+                                  .collect(Collectors.toSet());
       proto.setImports(Lists.newArrayList(dummies));
       protoList.add(proto);
     }

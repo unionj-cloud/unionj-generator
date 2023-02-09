@@ -44,6 +44,7 @@ public class VoJavaGenerator extends DefaultGenerator {
     Map<String, Object> input = new HashMap<>();
     input.put("packageName", this.packageName);
     input.put("name", StringUtils.capitalize(this.vo.getName()));
+    input.put("description", this.vo.getDescription());
     input.put("properties", this.vo.getProperties());
     input.put("enumTypes", this.vo.getEnumTypes());
     input.put("imports", this.vo.getImports());

@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 public class VoProperty {
   private String name;
+  private String description;
   private String jsonProperty;
   private String type;
 
@@ -22,9 +23,27 @@ public class VoProperty {
     this.type = type;
   }
 
+  public VoProperty(String name, String jsonProperty, String type, String description) {
+    this.name = name;
+    this.jsonProperty = jsonProperty;
+    this.type = type;
+    this.description = description;
+  }
+
   public VoProperty(String name, String jsonProperty, Schema type) {
     this.name = name;
     this.jsonProperty = jsonProperty;
-    this.type = type.javaType().replaceAll(SchemaHelper.LEFT_ARROW, "<").replaceAll(SchemaHelper.RIGHT_ARROW, ">");
+    this.type = type.javaType()
+                    .replaceAll(SchemaHelper.LEFT_ARROW, "<")
+                    .replaceAll(SchemaHelper.RIGHT_ARROW, ">");
+  }
+
+  public VoProperty(String name, String jsonProperty, Schema type, String description) {
+    this.name = name;
+    this.jsonProperty = jsonProperty;
+    this.type = type.javaType()
+                    .replaceAll(SchemaHelper.LEFT_ARROW, "<")
+                    .replaceAll(SchemaHelper.RIGHT_ARROW, ">");
+    this.description = description;
   }
 }

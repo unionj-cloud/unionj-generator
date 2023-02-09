@@ -1,5 +1,6 @@
 package cloud.unionj.generator;
 
+import com.google.googlejavaformat.java.Formatter;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateExceptionHandler;
@@ -7,9 +8,11 @@ import freemarker.template.Version;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.ObjectUtils;
 
-import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Locale;
 
 /**
@@ -76,12 +79,17 @@ public abstract class DefaultGenerator implements Generator {
     Template template = cfg.getTemplate(getTemplate());
 
     // 2.3. Generate the output
-    Writer fileWriter = new FileWriter(new File(getOutputFile()));
+    Writer fileWriter = new FileWriter(getOutputFile());
     try {
       template.process(getInput(), fileWriter);
     } finally {
       fileWriter.close();
     }
+    Path path = Paths.get(getOutputFile());
+    String sourceString = new String(Files.readAllBytes(path));
+    String formattedSource = new Formatter().formatSource(sourceString);
+    byte[] strToBytes = formattedSource.getBytes();
+    Files.write(path, strToBytes);
     return getOutputFile();
   }
 
