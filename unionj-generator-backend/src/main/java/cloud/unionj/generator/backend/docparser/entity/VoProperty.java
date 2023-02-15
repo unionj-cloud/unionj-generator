@@ -3,6 +3,7 @@ package cloud.unionj.generator.backend.docparser.entity;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author created by wubin
@@ -18,7 +19,7 @@ public class VoProperty {
   private String type;
 
   public VoProperty(String name, String jsonProperty, String type) {
-    this.name = name;
+    this.name = StringUtils.trim(name);
     this.jsonProperty = jsonProperty;
     this.type = type;
   }
@@ -27,7 +28,7 @@ public class VoProperty {
     this.name = name;
     this.jsonProperty = jsonProperty;
     this.type = type;
-    this.description = description;
+    this.description = StringUtils.replaceAll(StringUtils.trim(description), "\n", "");
   }
 
   public VoProperty(String name, String jsonProperty, Schema type) {
@@ -44,6 +45,6 @@ public class VoProperty {
     this.type = type.javaType()
                     .replaceAll(SchemaHelper.LEFT_ARROW, "<")
                     .replaceAll(SchemaHelper.RIGHT_ARROW, ">");
-    this.description = description;
+    this.description = StringUtils.replaceAll(StringUtils.trim(description), "\n", "");
   }
 }

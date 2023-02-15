@@ -51,8 +51,7 @@ public abstract class DefaultGenerator implements Generator {
   }
 
   @SneakyThrows
-  @Override
-  public String generate() {
+  public void doGenerate() {
     // 1. Configure FreeMarker
     //
     // You should do this ONLY ONCE, when your application starts,
@@ -85,6 +84,19 @@ public abstract class DefaultGenerator implements Generator {
     } finally {
       fileWriter.close();
     }
+  }
+
+  @SneakyThrows
+  @Override
+  public String generate() {
+    this.doGenerate();
+    return getOutputFile();
+  }
+
+  @SneakyThrows
+  @Override
+  public String generateFormat() {
+    this.doGenerate();
     Path path = Paths.get(getOutputFile());
     String sourceString = new String(Files.readAllBytes(path));
     String formattedSource = new Formatter().formatSource(sourceString);

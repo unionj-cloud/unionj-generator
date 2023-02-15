@@ -44,7 +44,7 @@ public class Backend {
     for (Map.Entry<String, Schema> schemaEntry : schemas.entrySet()) {
       Vo vo = new Vo();
       Schema schema = schemaEntry.getValue();
-      vo.setDescription(schema.getDescription());
+      vo.setDescription(StringUtils.replaceAll(StringUtils.trim(schema.getDescription()), "\n", " "));
       if (schema instanceof Generic || schema.isDummy()) {
         vo.setDummy(schema.getDummy());
         vo.setOutput(false);
@@ -64,7 +64,7 @@ public class Backend {
                    .replaceAll(SchemaHelper.RIGHT_ARROW, ">");
       }
 
-      vo.setName(name);
+      vo.setName(StringUtils.trim(name));
 
       List<VoProperty> voPropertyList = new ArrayList<>();
       Map<String, Schema> properties = schema.getProperties();
@@ -104,7 +104,7 @@ public class Backend {
           voProperty = new VoProperty(property.getKey(), property.getKey(), value);
         }
         if (voProperty != null) {
-          voProperty.setDescription(value.getDescription());
+          voProperty.setDescription(StringUtils.replaceAll(StringUtils.trim(value.getDescription()), "\n", ""));
         }
         voPropertyList.add(voProperty);
       }

@@ -87,6 +87,6 @@ public class ServiceJavaGenerator extends DefaultGenerator {
       log.info(file + " already exists, skip generating");
       return getOutputFile();
     }
-    return super.generate();
+    return super.generateFormat();
   }
 }

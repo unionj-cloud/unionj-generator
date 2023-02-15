@@ -16,6 +16,8 @@ public interface Generator {
 
   String getOutputFile();
 
+  String generateFormat();
+
   String generate();
 
 }

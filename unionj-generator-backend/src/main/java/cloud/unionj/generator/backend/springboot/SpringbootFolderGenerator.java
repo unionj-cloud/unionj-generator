@@ -462,7 +462,7 @@ public class SpringbootFolderGenerator {
                                                               this.parentVersion, this.year, this.copyright, vo,
                                                               this.voOutput.getOutputDir(),
                                                               this.voOutput.getPackageName());
-        voJavaGenerator.generate();
+        voJavaGenerator.generateFormat();
       }
     }
     if (pomProject) {
@@ -482,7 +482,7 @@ public class SpringbootFolderGenerator {
                                                                      proto, this.protoOutput.getOutputDir(),
                                                                      this.protoOutput.getPackageName(),
                                                                      this.voOutput.getPackageName());
-      protoJavaGenerator.generate();
+      protoJavaGenerator.generateFormat();
     }
     if (pomProject) {
       File pom = new File(this.protoPomGenerator.outputDir + "/pom.xml");
@@ -505,7 +505,7 @@ public class SpringbootFolderGenerator {
                                                                                     this.voOutput.getPackageName(),
                                                                                     this.protoOutput.getPackageName(),
                                                                                     this.serviceOutput.getPackageName());
-      controllerJavaGenerator.generate();
+      controllerJavaGenerator.generateFormat();
     }
     if (pomProject) {
       File pom = new File(this.controllerPomGenerator.outputDir + "/pom.xml");
@@ -525,7 +525,7 @@ public class SpringbootFolderGenerator {
                                                                      this.feignOutput.getPackageName(),
                                                                      this.voOutput.getPackageName(), this.serviceId,
                                                                      this.serviceBaseUrlKey);
-      feignJavaGenerator.generate();
+      feignJavaGenerator.generateFormat();
     }
     if (pomProject) {
       File pom = new File(this.feignPomGenerator.outputDir + "/pom.xml");
@@ -544,7 +544,7 @@ public class SpringbootFolderGenerator {
                                                                            this.serviceOutput.getOutputDir(),
                                                                            this.serviceOutput.getPackageName(),
                                                                            this.protoOutput.getPackageName());
-      serviceJavaGenerator.generate();
+      serviceJavaGenerator.generateFormat();
 
       ServiceImplJavaGenerator serviceImplJavaGenerator = new ServiceImplJavaGenerator(this.noDefaultComment,
                                                                                        this.parentArtifactId,
@@ -555,7 +555,7 @@ public class SpringbootFolderGenerator {
                                                                                        this.serviceOutput.getOutputDir(),
                                                                                        this.serviceOutput.getPackageName(),
                                                                                        this.voOutput.getPackageName());
-      serviceImplJavaGenerator.generate();
+      serviceImplJavaGenerator.generateFormat();
     }
     if (pomProject) {
       File pom = new File(this.servicePomGenerator.outputDir + "/pom.xml");

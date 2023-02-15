@@ -302,7 +302,8 @@ public class SpringbootFolderGeneratorTest {
 
   @Test
   public void generateByDocPom() throws Exception {
-    try (BufferedInputStream is = new BufferedInputStream(ClassLoader.getSystemResourceAsStream("swagger-bao.json"))) {
+    try (BufferedInputStream is = new BufferedInputStream(
+        ClassLoader.getSystemResourceAsStream("gin2doudou2_openapi3.json"))) {
       Backend backend = BackendDocParser.parse(is);
       SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend)
           .serviceId("petStore")
