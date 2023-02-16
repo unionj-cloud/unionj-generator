@@ -877,6 +877,7 @@ public class PathTest {
     sb.type("object");
     sb.title("OptLogPageCondition");
     sb.properties("id", string("表ID", "Long", ""));
+    sb.properties("ids", stringArray("表ID数组", "List<Long>"));
     sb.properties("startTime", dateTime("开始时间"));
     sb.properties("endTime", dateTime("结束时间"));
     sb.properties("keyword", string("关键字搜索"));

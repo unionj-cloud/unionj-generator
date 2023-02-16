@@ -302,7 +302,8 @@ public class SchemaHelper {
     });
   }
 
-  public static cloud.unionj.generator.openapi3.model.Schema string(String description, String javaType, String example) {
+  public static cloud.unionj.generator.openapi3.model.Schema string(String description, String javaType,
+      String example) {
     return schema(string -> {
       string.type("string");
       string.description(description);
@@ -352,6 +353,15 @@ public class SchemaHelper {
       array.description(description);
       array.items(string(description));
       array.example(example);
+    });
+  }
+
+  public static cloud.unionj.generator.openapi3.model.Schema stringArray(String description, String javaType) {
+    return schema(array -> {
+      array.type("array");
+      array.description(description);
+      array.items(string(description));
+      array.javaType(javaType);
     });
   }
 
@@ -417,7 +427,8 @@ public class SchemaHelper {
     });
   }
 
-  public static cloud.unionj.generator.openapi3.model.Schema refArray(String description, String ref, Object[] example) {
+  public static cloud.unionj.generator.openapi3.model.Schema refArray(String description, String ref,
+      Object[] example) {
     return schema(array -> {
       array.type("array");
       array.description(description);
