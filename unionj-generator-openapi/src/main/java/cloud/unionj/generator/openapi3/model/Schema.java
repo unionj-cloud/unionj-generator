@@ -38,6 +38,9 @@ public class Schema implements IGeneric {
   @JsonProperty("x-tree")
   private boolean tree;
 
+  @JsonProperty("x-java-type")
+  private String javaType;
+
   @Deprecated
   @JsonProperty("x-dummies")
   private List<String> dummies = new ArrayList<>();
@@ -57,7 +60,6 @@ public class Schema implements IGeneric {
   private String title;
 
   private String type;
-  private String javaType;
   private Map<String, Schema> properties = new LinkedHashMap<>();
   private String format;
   private Schema items;
@@ -138,6 +140,9 @@ public class Schema implements IGeneric {
     if (this instanceof Generic) {
       return this.xTitle;
     }
+    if (StringUtils.isNotEmpty(this.javaType)) {
+      return this.javaType;
+    }
     return this.deepSetType();
   }
 
@@ -158,7 +163,8 @@ public class Schema implements IGeneric {
       case "object": {
         if (additionalProperties != null) {
           String valueType = additionalProperties.deepSetType();
-          javaType = "Map" + SchemaHelper.LEFT_ARROW + String.class.getSimpleName() + ", " + valueType + SchemaHelper.RIGHT_ARROW;
+          javaType =
+              "Map" + SchemaHelper.LEFT_ARROW + String.class.getSimpleName() + ", " + valueType + SchemaHelper.RIGHT_ARROW;
         } else if (format != null && format.equals("T")) {
           javaType = "T";
         } else {
@@ -231,17 +237,24 @@ public class Schema implements IGeneric {
     String json = objectMapper.writeValueAsString(this);
     Generic deepCopy = objectMapper.readValue(json, Generic.class);
     deepCopy.setSchemaFinder(schemaFinder);
-    deepCopy.getProperties().forEach((k, v) -> {
-      if (v.equals(SchemaHelper.T)) {
-        deepCopy.properties(k, schema);
-      } else if (v.equals(SchemaHelper.ListT)) {
-        deepCopy.properties(k, new SchemaBuilder(null).type("array").items(schema).build());
-      } else if (v.equals(SchemaHelper.SetT)) {
-        deepCopy.properties(k, new SchemaBuilder(null).type("array").items(schema).uniqueItems(true).build());
-      }
-    });
+    deepCopy.getProperties()
+            .forEach((k, v) -> {
+              if (v.equals(SchemaHelper.T)) {
+                deepCopy.properties(k, schema);
+              } else if (v.equals(SchemaHelper.ListT)) {
+                deepCopy.properties(k, new SchemaBuilder(null).type("array")
+                                                              .items(schema)
+                                                              .build());
+              } else if (v.equals(SchemaHelper.SetT)) {
+                deepCopy.properties(k, new SchemaBuilder(null).type("array")
+                                                              .items(schema)
+                                                              .uniqueItems(true)
+                                                              .build());
+              }
+            });
     if (StringUtils.isNotBlank(schema.getxTitle())) {
-      deepCopy.setxTitle(deepCopy.getxTitle() + SchemaHelper.LEFT_ARROW + schema.getxTitle() + SchemaHelper.RIGHT_ARROW);
+      deepCopy.setxTitle(
+          deepCopy.getxTitle() + SchemaHelper.LEFT_ARROW + schema.getxTitle() + SchemaHelper.RIGHT_ARROW);
     } else {
       String type = schema.javaType();
       deepCopy.setxTitle(deepCopy.getxTitle() + SchemaHelper.LEFT_ARROW + type + SchemaHelper.RIGHT_ARROW);
@@ -250,20 +263,25 @@ public class Schema implements IGeneric {
       String typeByRef = schema.getTypeByRef(schema.getRef());
       Schema typeByRefSchema = schemaFinder.find(typeByRef);
       if (typeByRefSchema.isDummy()) {
-        deepCopy.getDummies().add(typeByRefSchema.getDummy());
+        deepCopy.getDummies()
+                .add(typeByRefSchema.getDummy());
       } else if (typeByRefSchema instanceof Generic) {
         Generic genericValue = (Generic) typeByRefSchema;
-        deepCopy.getDummies().addAll(genericValue.getDummies());
+        deepCopy.getDummies()
+                .addAll(genericValue.getDummies());
       }
     } else {
       if (schema.isDummy()) {
-        deepCopy.getDummies().add(schema.getDummy());
+        deepCopy.getDummies()
+                .add(schema.getDummy());
       } else if (schema instanceof Generic) {
-        deepCopy.getDummies().addAll(schema.getDummies());
+        deepCopy.getDummies()
+                .addAll(schema.getDummies());
       }
     }
     if (deepCopy.isDummy()) {
-      deepCopy.getDummies().add(deepCopy.getDummy());
+      deepCopy.getDummies()
+              .add(deepCopy.getDummy());
       deepCopy.setDummy(null);
     }
     return deepCopy;
@@ -271,8 +289,7 @@ public class Schema implements IGeneric {
 
   @Override
   public String toString() {
-    return new ToStringBuilder(this)
-        .toString();
+    return new ToStringBuilder(this).toString();
   }
 
   public boolean isDummy() {
@@ -287,11 +304,23 @@ public class Schema implements IGeneric {
 
     Schema schema = (Schema) o;
 
-    return new EqualsBuilder().append(ref, schema.ref).append(xTitle, schema.xTitle).append(type, schema.type).append(properties, schema.properties).append(format, schema.format).append(items, schema.items).isEquals();
+    return new EqualsBuilder().append(ref, schema.ref)
+                              .append(xTitle, schema.xTitle)
+                              .append(type, schema.type)
+                              .append(properties, schema.properties)
+                              .append(format, schema.format)
+                              .append(items, schema.items)
+                              .isEquals();
   }
 
   @Override
   public int hashCode() {
-    return new HashCodeBuilder(17, 37).append(ref).append(xTitle).append(type).append(properties).append(format).append(items).toHashCode();
+    return new HashCodeBuilder(17, 37).append(ref)
+                                      .append(xTitle)
+                                      .append(type)
+                                      .append(properties)
+                                      .append(format)
+                                      .append(items)
+                                      .toHashCode();
   }
 }

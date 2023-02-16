@@ -302,6 +302,15 @@ public class SchemaHelper {
     });
   }
 
+  public static cloud.unionj.generator.openapi3.model.Schema string(String description, String javaType, String example) {
+    return schema(string -> {
+      string.type("string");
+      string.description(description);
+      string.example(example);
+      string.javaType(javaType);
+    });
+  }
+
   public static cloud.unionj.generator.openapi3.model.Schema bool(String description, boolean example) {
     return schema(bool -> {
       bool.type("boolean");
