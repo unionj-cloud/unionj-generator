@@ -1,6 +1,7 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
 import cloud.unionj.generator.backend.springboot.Constants;
+import cloud.unionj.generator.backend.utils.Utils;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Generic;
 import cloud.unionj.generator.openapi3.model.Openapi3;
@@ -74,7 +75,7 @@ public class Backend {
         Schema value = property.getValue();
         VoProperty voProperty;
         if (CollectionUtils.isNotEmpty(value.getEnumValue())) {
-          String type = StringUtils.capitalize(property.getKey()) + "Enum";
+          String type = Utils.cleanClassName(property.getKey()) + "Enum";
           voProperty = new VoProperty(property.getKey(), property.getKey(), type);
 
           List<VoEnum> voEnumList = value.getEnumValue()
@@ -135,9 +136,9 @@ public class Backend {
       List<String> tags = pathEntryValue.returnTags();
       String protoName;
       if (CollectionUtils.isNotEmpty(tags) && tags.size() > 1 && StringUtils.isNotBlank(tags.get(1))) {
-        protoName = StringUtils.capitalize(tags.get(1)) + "Proto";
+        protoName = Utils.cleanClassName(tags.get(1)) + "Proto";
       } else {
-        protoName = StringUtils.capitalize(split[0]) + "Proto";
+        protoName = Utils.cleanClassName(split[0]) + "Proto";
       }
       wrapper.setProtoName(protoName);
 

@@ -1,5 +1,6 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
+import cloud.unionj.generator.backend.utils.Utils;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
@@ -45,9 +46,9 @@ public class ProtoProperty {
     }
 
     public Builder(Schema type) {
-      this.type = type.javaType()
-                      .replaceAll(SchemaHelper.LEFT_ARROW, "<")
-                      .replaceAll(SchemaHelper.RIGHT_ARROW, ">");
+      this.type = Utils.cleanClassName(type.javaType()
+                                           .replaceAll(SchemaHelper.LEFT_ARROW, "<")
+                                           .replaceAll(SchemaHelper.RIGHT_ARROW, ">"));
       this.schemaType = type.getType();
     }
 

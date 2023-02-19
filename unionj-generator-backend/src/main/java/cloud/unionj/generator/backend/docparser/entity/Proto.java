@@ -1,5 +1,6 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
+import cloud.unionj.generator.backend.utils.Utils;
 import lombok.Data;
 
 import java.util.List;
@@ -14,6 +15,11 @@ import java.util.List;
 public class Proto {
 
   private List<String> imports;
+
+  public void setName(String name) {
+    this.name = Utils.cleanClassName(name);
+  }
+
   private String name;
   private List<ProtoRouter> routers;
 

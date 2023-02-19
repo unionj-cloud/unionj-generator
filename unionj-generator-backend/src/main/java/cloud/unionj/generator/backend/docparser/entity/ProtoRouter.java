@@ -1,9 +1,9 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
+import cloud.unionj.generator.backend.utils.Utils;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Schema;
 import cloud.unionj.generator.openapi3.model.paths.*;
-import com.google.common.base.CaseFormat;
 import com.google.common.collect.Sets;
 import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
@@ -46,15 +46,8 @@ public class ProtoRouter {
     router.httpMethod = httpMethod;
     router.summary = operation.getSummary();
     router.description = operation.getDescription();
-    if (StringUtils.isNotBlank(operation.getOperationId())) {
-      router.name = operation.getOperationId();
-    } else {
-      if (StringUtils.isNotBlank(router.endpoint) && StringUtils.isNotBlank(router.httpMethod)) {
-        String _endpoint = router.endpoint.replaceAll("[^a-zA-Z0-9_]", "_")
-                                          .toLowerCase();
-        _endpoint = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, _endpoint);
-        router.name = router.httpMethod.toLowerCase() + _endpoint;
-      }
+    if (StringUtils.isNotBlank(router.endpoint) && StringUtils.isNotBlank(router.httpMethod)) {
+      router.name = router.httpMethod.toLowerCase() + Utils.cleanClassName(router.endpoint);
     }
 
     List<ProtoProperty> queryParams = new ArrayList<>();
@@ -125,6 +118,13 @@ public class ProtoRouter {
                                                                               .required(requestBody.isRequired())
                                                                               .build());
           }
+        } else if (content.getDefaultMediaType() != null) {
+          MediaType mediaType = content.getDefaultMediaType();
+          if (mediaType.getSchema() != null) {
+            router.setReqBody(new ProtoProperty.Builder(mediaType.getSchema()).name("body")
+                                                                              .required(requestBody.isRequired())
+                                                                              .build());
+          }
         }
       }
     }
@@ -147,7 +147,8 @@ public class ProtoRouter {
                                                                                                             .getDefaultValue())
                                                                                                     .orElse("")
                                                                                                     .toString())
-                                                                                        .description(para.getDescription())
+                                                                                        .description(
+                                                                                            para.getDescription())
                                                                                         .build();
                                                                  } else {
                                                                    property = new ProtoProperty.Builder(
@@ -155,7 +156,8 @@ public class ProtoRouter {
                                                                                         .in(para.getIn()
                                                                                                 .toString())
                                                                                         .required(para.isRequired())
-                                                                                        .description(para.getDescription())
+                                                                                        .description(
+                                                                                            para.getDescription())
                                                                                         .build();
                                                                  }
                                                                  return property;
@@ -199,6 +201,9 @@ public class ProtoRouter {
           } else if (content.getTextPlain() != null) {
             MediaType mediaType = content.getTextPlain();
             router.setRespData(new ProtoProperty.Builder(mediaType.getSchema()).build());
+          } else if (content.getDefaultMediaType() != null) {
+            MediaType mediaType = content.getDefaultMediaType();
+            router.setRespData(new ProtoProperty.Builder(mediaType.getSchema()).build());
           } else {
             router.setRespData(new ProtoProperty.Builder("void").build());
           }
@@ -232,10 +237,7 @@ public class ProtoRouter {
         this.name = name;
       } else {
         if (StringUtils.isNotBlank(this.endpoint) && StringUtils.isNotBlank(this.httpMethod)) {
-          String _endpoint = this.endpoint.replaceAll("[^a-zA-Z0-9_]", "_")
-                                          .toLowerCase();
-          _endpoint = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.UPPER_CAMEL, _endpoint);
-          this.name = this.httpMethod.toLowerCase() + _endpoint;
+          this.name = this.httpMethod.toLowerCase() + Utils.cleanClassName(this.endpoint);
         }
       }
     }

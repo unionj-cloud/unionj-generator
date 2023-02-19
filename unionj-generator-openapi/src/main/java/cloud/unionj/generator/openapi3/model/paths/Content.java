@@ -68,7 +68,6 @@ public class Content {
   @JsonProperty("multipart/form-data")
   private MediaType multipartFormData;
 
-  // TODO
   @JsonProperty("*/*")
   private MediaType defaultMediaType;
 

@@ -3,10 +3,16 @@ package cloud.unionj.generator.openapi3.parser;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.parser.OpenAPIParser;
+import io.swagger.v3.parser.core.models.SwaggerParseResult;
+import lombok.SneakyThrows;
+import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author created by wubin
@@ -16,31 +22,48 @@ import java.net.URL;
  */
 public class Openapi3Parser {
 
-  public Openapi3 parse(File doc) throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
+  private static ObjectMapper objectMapper;
+
+  static {
+    objectMapper = new ObjectMapper();
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+  }
+
+  public Openapi3 parse(File doc) throws IOException {
     try (BufferedInputStream is = new BufferedInputStream(new FileInputStream(doc))) {
-      Openapi3 openapi3 = objectMapper.readValue(is, Openapi3.class);
-      return openapi3;
+      return parse(is);
     }
   }
 
   public Openapi3 parse(URL doc) throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     try (BufferedInputStream is = new BufferedInputStream(doc.openStream())) {
-      Openapi3 openapi3 = objectMapper.readValue(is, Openapi3.class);
-      return openapi3;
+      return parse(is);
     }
   }
 
-  public Openapi3 parse(InputStream doc) throws IOException {
-    ObjectMapper objectMapper = new ObjectMapper();
-    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-    objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    Openapi3 openapi3 = objectMapper.readValue(doc, Openapi3.class);
+  public Openapi3 parse(InputStream is) throws IOException {
+    String doc = IOUtils.toString(is, StandardCharsets.UTF_8.name());
+    JsonNode jsonNode = objectMapper.readValue(doc, JsonNode.class);
+    Openapi3 openapi3;
+    if (jsonNode.hasNonNull("openapi")) {
+      openapi3 = objectMapper.readValue(doc, Openapi3.class);
+    } else {
+      String parsed = parse(doc);
+      openapi3 = objectMapper.readValue(parsed, Openapi3.class);
+    }
     return openapi3;
+  }
+
+  @SneakyThrows
+  private String parse(String inputAsString) {
+    SwaggerParseResult output = new OpenAPIParser().readContents(inputAsString, null, null);
+    if (output == null) {
+      throw new Exception("Invalid Swagger/OpenAPI specification!");
+    }
+    if (output.getOpenAPI() == null) {
+      throw new Exception("Invalid Swagger/OpenAPI specification!");
+    }
+    return objectMapper.writeValueAsString(output.getOpenAPI());
   }
 }

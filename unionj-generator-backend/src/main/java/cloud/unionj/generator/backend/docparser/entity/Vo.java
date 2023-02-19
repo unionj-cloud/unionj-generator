@@ -1,5 +1,6 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
+import cloud.unionj.generator.backend.utils.Utils;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
@@ -13,6 +14,10 @@ import java.util.List;
  */
 @Data
 public class Vo {
+
+  public void setName(String name) {
+    this.name = Utils.cleanClassName(name);
+  }
 
   private String name;
   private String description;
