@@ -36,6 +36,7 @@ import org.apache.maven.project.MavenProject;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -86,10 +87,6 @@ public class Codegen extends AbstractMojo {
   @Parameter(property = "parentVersion")
   String parentVersion;
 
-  @Parameter(property = "mode")
-  @Deprecated
-  String mode;
-
   @Parameter(property = "feignPkg")
   String feignPkg;
 
@@ -107,6 +104,9 @@ public class Codegen extends AbstractMojo {
 
   @Parameter(property = "docUrl")
   String docUrl;
+
+  @Parameter(property = "docFile")
+  String docFile;
 
   @Parameter(property = "noDefaultComment")
   boolean noDefaultComment;
@@ -156,6 +156,10 @@ public class Codegen extends AbstractMojo {
                                                                 .getBytes()));
       uc.setRequestProperty("Authorization", basicAuth);
       try (BufferedInputStream in = new BufferedInputStream(uc.getInputStream())) {
+        backend = BackendDocParser.parse(in);
+      }
+    } else if (StringUtils.isNotEmpty(this.docFile)) {
+      try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(this.docFile))) {
         backend = BackendDocParser.parse(in);
       }
     } else {
