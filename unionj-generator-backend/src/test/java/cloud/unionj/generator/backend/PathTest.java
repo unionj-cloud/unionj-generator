@@ -885,8 +885,10 @@ public class PathTest {
     sb.properties("eventType", string("事件类型"));
   });
 
-  public static Schema PageResultVOOptLogVO = generic(gb -> gb.generic(PageResultVO, reference(rb -> rb.ref(OptLogVO.getTitle()))));
-  public static Schema ResultDTOPageResultVOOptLogVO = generic(gb -> gb.generic(ResultDTO, reference(rb -> rb.ref(PageResultVOOptLogVO.getTitle()))));
+  public static Schema PageResultVOOptLogVO = generic(
+      gb -> gb.generic(PageResultVO, reference(rb -> rb.ref(OptLogVO.getTitle()))));
+  public static Schema ResultDTOPageResultVOOptLogVO = generic(
+      gb -> gb.generic(ResultDTO, reference(rb -> rb.ref(PageResultVOOptLogVO.getTitle()))));
 
   @SneakyThrows
   @Test
@@ -902,16 +904,23 @@ public class PathTest {
       });
 
       PathHelper.post("/admin/opt/log/list", PathConfig.builder()
-          .summary("操作日志")
-          .tags(new String[]{"admin_operate_log", "AdminOperateLog"})
-          .reqSchema(OptLogPageCondition)
-          .respSchema(ResultDTOPageResultVOOptLogVO)
-          .build()
-      );
+                                                       .summary("操作日志")
+                                                       .tags(new String[]{"admin_operate_log", "AdminOperateLog"})
+                                                       .reqSchema(OptLogPageCondition)
+                                                       .respSchema(ResultDTOPageResultVOOptLogVO)
+                                                       .build());
+
+      PathHelper.get("/admin/opt/log/list", PathConfig.builder()
+                                                       .summary("操作日志")
+                                                       .tags(new String[]{"admin_operate_log", "AdminOperateLog"})
+                                                       .respSchema(ResultDTOPageResultVOOptLogVO)
+                                                       .build());
 
     });
     Backend backend = BackendDocParser.parse(openAPI3);
-    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).serviceId("test").build();
+    SpringbootFolderGenerator springbootFolderGenerator = new SpringbootFolderGenerator.Builder(backend).serviceId(
+                                                                                                            "test")
+                                                                                                        .build();
     springbootFolderGenerator.generate();
   }
 }

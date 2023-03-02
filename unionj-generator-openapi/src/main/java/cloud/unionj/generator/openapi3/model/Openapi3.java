@@ -1,10 +1,13 @@
 package cloud.unionj.generator.openapi3.model;
 
+import cloud.unionj.generator.openapi3.NullAwareBeanUtilsBean;
 import cloud.unionj.generator.openapi3.model.info.Info;
 import cloud.unionj.generator.openapi3.model.paths.Path;
 import cloud.unionj.generator.openapi3.model.servers.Server;
 import cloud.unionj.generator.openapi3.model.tags.Tag;
 import lombok.Data;
+import lombok.SneakyThrows;
+import org.apache.commons.beanutils.BeanUtilsBean;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -35,7 +38,13 @@ public class Openapi3 {
     this.tags.add(tag);
   }
 
+  @SneakyThrows
   public void paths(Path path) {
+    Path origin = this.paths.get(path.getEndpoint());
+    if (origin != null) {
+      BeanUtilsBean notNull = new NullAwareBeanUtilsBean();
+      notNull.copyProperties(path, origin);
+    }
     this.paths.put(path.getEndpoint(), path);
   }
 
