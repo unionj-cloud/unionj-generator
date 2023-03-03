@@ -1,5 +1,6 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
+import cloud.unionj.generator.Utils;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Schema;
 import lombok.Data;
@@ -19,20 +20,20 @@ public class VoProperty {
   private String type;
 
   public VoProperty(String name, String jsonProperty, String type) {
-    this.name = StringUtils.trim(name);
+    this.name = Utils.cleanPropName(name);
     this.jsonProperty = jsonProperty;
     this.type = type;
   }
 
   public VoProperty(String name, String jsonProperty, String type, String description) {
-    this.name = name;
+    this.name = Utils.cleanPropName(name);
     this.jsonProperty = jsonProperty;
     this.type = type;
     this.description = StringUtils.replaceAll(StringUtils.trim(description), "\n", "");
   }
 
   public VoProperty(String name, String jsonProperty, Schema type) {
-    this.name = name;
+    this.name = Utils.cleanPropName(name);
     this.jsonProperty = jsonProperty;
     this.type = type.javaType()
                     .replaceAll(SchemaHelper.LEFT_ARROW, "<")
@@ -40,7 +41,7 @@ public class VoProperty {
   }
 
   public VoProperty(String name, String jsonProperty, Schema type, String description) {
-    this.name = name;
+    this.name = Utils.cleanPropName(name);
     this.jsonProperty = jsonProperty;
     this.type = type.javaType()
                     .replaceAll(SchemaHelper.LEFT_ARROW, "<")

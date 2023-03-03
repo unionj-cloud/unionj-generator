@@ -1,5 +1,6 @@
 package cloud.unionj.generator.openapi3.model;
 
+import cloud.unionj.generator.Utils;
 import cloud.unionj.generator.openapi3.dsl.IGeneric;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.expression.ISchemaFinder;
@@ -164,7 +165,7 @@ public class Schema implements IGeneric {
         if (additionalProperties != null) {
           String valueType = additionalProperties.deepSetType();
           javaType =
-              "Map" + SchemaHelper.LEFT_ARROW + String.class.getSimpleName() + ", " + valueType + SchemaHelper.RIGHT_ARROW;
+              "Map" + SchemaHelper.LEFT_ARROW + String.class.getSimpleName() + ", " + Utils.cleanClassName(valueType) + SchemaHelper.RIGHT_ARROW;
         } else if (format != null && format.equals("T")) {
           javaType = "T";
         } else {
@@ -212,7 +213,7 @@ public class Schema implements IGeneric {
           } else {
             elementType = items.deepSetType();
           }
-          javaType = "List" + SchemaHelper.LEFT_ARROW + elementType + SchemaHelper.RIGHT_ARROW;
+          javaType = "List" + SchemaHelper.LEFT_ARROW + Utils.cleanClassName(elementType) + SchemaHelper.RIGHT_ARROW;
         } else {
           String elementType;
           if (StringUtils.isNotBlank(items.getRef())) {
@@ -220,7 +221,7 @@ public class Schema implements IGeneric {
           } else {
             elementType = items.deepSetType();
           }
-          javaType = "Set" + SchemaHelper.LEFT_ARROW + elementType + SchemaHelper.RIGHT_ARROW;
+          javaType = "Set" + SchemaHelper.LEFT_ARROW + Utils.cleanClassName(elementType) + SchemaHelper.RIGHT_ARROW;
         }
         break;
       }

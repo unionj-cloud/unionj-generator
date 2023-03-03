@@ -1,6 +1,6 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
-import cloud.unionj.generator.backend.utils.Utils;
+import cloud.unionj.generator.Utils;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Schema;
 import lombok.Data;

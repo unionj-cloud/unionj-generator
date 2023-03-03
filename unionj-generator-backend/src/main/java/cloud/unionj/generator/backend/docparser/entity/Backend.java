@@ -1,7 +1,7 @@
 package cloud.unionj.generator.backend.docparser.entity;
 
 import cloud.unionj.generator.backend.springboot.Constants;
-import cloud.unionj.generator.backend.utils.Utils;
+import cloud.unionj.generator.Utils;
 import cloud.unionj.generator.openapi3.dsl.SchemaHelper;
 import cloud.unionj.generator.openapi3.model.Generic;
 import cloud.unionj.generator.openapi3.model.Openapi3;
