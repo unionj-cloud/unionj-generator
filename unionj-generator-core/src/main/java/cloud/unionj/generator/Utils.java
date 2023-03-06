@@ -17,7 +17,7 @@ import java.util.Arrays;
 public class Utils {
   public static String cleanClassName(String name) {
     return Arrays.asList(StringUtils.trim(name)
-                                    .split("[^a-zA-Z0-9_<>«»]"))
+                                    .split("[^a-zA-Z0-9_<>]"))
                  .stream()
                  .filter(StringUtils::isNotBlank)
                  .map(key -> {

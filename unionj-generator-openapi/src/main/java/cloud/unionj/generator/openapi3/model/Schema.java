@@ -152,7 +152,9 @@ public class Schema implements IGeneric {
     if (StringUtils.isBlank(key)) {
       key = Object.class.getSimpleName();
     }
-    key = Utils.cleanClassName(key);
+    if (StringUtils.contains(key, ".")) {
+      key = Utils.cleanClassName(key);
+    }
     return key;
   }
 
