@@ -169,6 +169,8 @@ public class Codegen extends AbstractMojo {
         designClass = StringUtils.substring(this.entry, 0, StringUtils.lastIndexOf(this.entry, "."));
         designMethod = StringUtils.substring(this.entry, StringUtils.lastIndexOf(this.entry, ".") + 1);
       }
+      System.out.println(designClass);
+      System.out.println(designMethod);
       Openapi3 openAPI = null;
       try {
         Class<?> designer = this.getClassLoader(project)
@@ -176,6 +178,7 @@ public class Codegen extends AbstractMojo {
         Method design = designer.getMethod(designMethod);
         openAPI = (Openapi3) design.invoke(null);
       } catch (Exception e) {
+        e.printStackTrace();
         return;
       }
       ObjectMapper objectMapper = new ObjectMapper();
