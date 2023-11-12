@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class MapperLoader {
 
-  List<MapperInfo> load(String prefix) {
+  public List<MapperInfo> load(String prefix) {
     List<MapperInfo> mapperInfos = new ArrayList<>();
     Reflections reflections = new Reflections(prefix);
     Set<Class<?>> types = reflections
