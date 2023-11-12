@@ -11,4 +11,6 @@ public interface ProductMapper {
   void insert(Product product);
 
   List<Product> selectByIds(List<Long> ids, Boolean isDeleted);
+
+  int deletequalityByPrimaryKey(int id);
 }

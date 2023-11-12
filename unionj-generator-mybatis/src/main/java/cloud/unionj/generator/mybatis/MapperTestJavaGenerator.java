@@ -3,15 +3,13 @@ package cloud.unionj.generator.mybatis;
 import cloud.unionj.generator.DefaultGenerator;
 import cloud.unionj.generator.GeneratorUtils;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static cloud.unionj.generator.mybatis.Constants.OUTPUT_DIR;
 
@@ -48,7 +46,9 @@ public class MapperTestJavaGenerator extends DefaultGenerator {
     Map<String, Object> input = new HashMap<>();
     input.put("packageName", this.mapperInfo.getMapperPackage());
     input.put("mainClassName", this.mainClassName);
-    input.put("imports", this.mapperInfo.getImports());
+    Set<String> imports = Sets.newHashSet(this.mainClassReferenceName);
+    imports.addAll(this.mapperInfo.getImports());
+    input.put("imports", imports);
     input.put("mapperName", this.mapperInfo.getMapperName());
     input.put("methods", this.mapperInfo.getMethods());
     input.put("noDefaultComment", this.noDefaultComment);
@@ -80,6 +80,12 @@ public class MapperTestJavaGenerator extends DefaultGenerator {
       log.info(file + " already exists, skip generating");
       return getOutputFile();
     }
-    return super.generateFormat();
+    try {
+      return super.generateFormat();
+    } catch (Exception ex) {
+      log.error(ex.getMessage());
+      log.error(this.mapperInfo.getMapperPackage() + "." + this.mapperInfo.getMapperName());
+    }
+    return getOutputFile();
   }
 }

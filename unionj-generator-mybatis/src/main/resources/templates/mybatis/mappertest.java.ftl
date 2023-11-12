@@ -6,21 +6,22 @@
 
 </#if>package ${packageName};
 
-import org.junit.Before;
+import cn.hutool.core.util.StrUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
+import lombok.extern.slf4j.Slf4j;
 <#if imports??>
     <#list imports as import>
         import ${import};
     </#list>
 </#if>
 
+@Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {${mainClassName}.class})
 public class ${mapperName}Test {
@@ -37,6 +38,7 @@ public class ${mapperName}Test {
                     <#list method.parameters as parameter>
                         ${parameter.fullType} arg${parameter?index} = factory.manufacturePojo(<#list parameter.types as atype><#if !atype?is_first>, </#if>${atype}.class</#list>);
                         <#assign params = params + [ "arg${parameter?index}" ] />
+                        log.debug(StrUtil.format("{}", arg${parameter?index}));
                     </#list>
                     mapper.${method.methodName}(<#list params as param><#if !param?is_first>, </#if>${param}</#list>);
                 <#else>

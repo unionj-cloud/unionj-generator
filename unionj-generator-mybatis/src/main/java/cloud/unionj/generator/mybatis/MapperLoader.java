@@ -30,7 +30,7 @@ public class MapperLoader {
       List<String> imports = new ArrayList<>();
       imports.add(next.getName());
       List<MethodInfo> methodInfos = new ArrayList<>();
-      Method[] methods = next.getMethods();
+      Method[] methods = next.getDeclaredMethods();
       for (int i = 0; i < methods.length; i++) {
         Method method = methods[i];
         MethodInfo methodInfo = new MethodInfo();
@@ -54,8 +54,12 @@ public class MapperLoader {
             }
           } else if (genericParameterType instanceof Class) {
             Class genericParameterClazz = (Class) genericParameterType;
-            imports.add(genericParameterClazz.getName());
-            argTypes.add(StringUtils.substringAfterLast(genericParameterClazz.getName(), "."));
+            if(genericParameterClazz.getName().contains(".")){
+              imports.add(genericParameterClazz.getName());
+              argTypes.add(StringUtils.substringAfterLast(genericParameterClazz.getName(), "."));
+            } else {
+              argTypes.add(genericParameterClazz.getName());
+            }
           } else {
             throw new RuntimeException("unknown parameter type");
           }
