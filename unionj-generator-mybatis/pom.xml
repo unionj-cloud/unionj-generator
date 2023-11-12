@@ -9,8 +9,8 @@
     <artifactId>unionj-generator</artifactId>
     <version>1.6.8-SNAPSHOT</version>
   </parent>
-  <artifactId>unionj-generator-backend</artifactId>
-  <name>unionj-generator-backend</name>
+  <artifactId>unionj-generator-mybatis</artifactId>
+  <name>unionj-generator-mybatis</name>
 
   <dependencies>
     <dependency>
@@ -19,9 +19,9 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>io.github.unionj-cloud</groupId>
-      <artifactId>unionj-generator-openapi</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.mybatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.5.13</version>
     </dependency>
     <dependency>
       <groupId>uk.co.jemos.podam</groupId>
@@ -31,6 +31,11 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
+      <version>1.7.25</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
       <version>1.7.25</version>
     </dependency>
   </dependencies>

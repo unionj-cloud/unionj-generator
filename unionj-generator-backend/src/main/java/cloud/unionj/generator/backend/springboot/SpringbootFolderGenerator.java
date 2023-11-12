@@ -535,7 +535,7 @@ public class SpringbootFolderGenerator {
     }
   }
 
-  public void generateService() throws Exception {
+  public void generateService() {
     for (Proto proto : backend.getProtoList()) {
       ServiceJavaGenerator serviceJavaGenerator = new ServiceJavaGenerator(this.noDefaultComment, this.parentArtifactId,
                                                                            this.companyName, this.author,

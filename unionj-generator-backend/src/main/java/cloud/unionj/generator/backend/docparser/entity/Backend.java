@@ -88,6 +88,9 @@ public class Backend {
           if (StringUtils.isBlank(value.getType())) {
             String typeByRef = value.getTypeByRef(value.getRef());
             Schema typeByRefSchema = schemas.get(typeByRef);
+            if(typeByRefSchema == null) {
+              System.out.println(123);
+            }
             if (typeByRefSchema.isDummy()) {
               importList.add(typeByRefSchema.getDummy());
             } else if (typeByRefSchema instanceof Generic) {

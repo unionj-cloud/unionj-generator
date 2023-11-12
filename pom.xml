@@ -22,6 +22,7 @@
   <modules>
     <module>unionj-generator-core</module>
     <module>unionj-generator-backend</module>
+    <module>unionj-generator-mybatis</module>
     <module>unionj-generator-openapi</module>
     <module>unionj-generator-ui</module>
     <module>unionj-generator-maven-plugin</module>

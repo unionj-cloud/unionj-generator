@@ -13,7 +13,7 @@
   <name>unionj-generator-core</name>
 
   <properties>
-    <google-java-format.version>1.13.0</google-java-format.version>
+    <google-java-format.version>1.7</google-java-format.version>
   </properties>
 
   <dependencies>

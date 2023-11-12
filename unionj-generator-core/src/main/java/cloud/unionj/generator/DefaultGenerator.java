@@ -18,8 +18,8 @@ import java.util.Locale;
 /**
  * @author created by wubin
  * @version v0.1
- *   cloud.unionj.generator
- *  date 2020/11/21
+ * cloud.unionj.generator
+ * date 2020/11/21
  */
 public abstract class DefaultGenerator implements Generator {
 
@@ -38,7 +38,7 @@ public abstract class DefaultGenerator implements Generator {
   }
 
   public DefaultGenerator(boolean noDefaultComment, String parentArtifactId, String companyName, String baseName,
-      String author, String createDate, String parentVersion, String year, String copyright) {
+                          String author, String createDate, String parentVersion, String year, String copyright) {
     this.noDefaultComment = noDefaultComment;
     this.parentArtifactId = ObjectUtils.defaultIfNull(parentArtifactId, "");
     this.companyName = ObjectUtils.defaultIfNull(companyName, "");
