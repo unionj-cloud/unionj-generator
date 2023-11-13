@@ -60,12 +60,19 @@ public class MapperLoader {
           } else if (genericParameterType instanceof Class) {
             Class genericParameterClazz = (Class) genericParameterType;
             if (genericParameterClazz.getName().contains(".")) {
-              imports.add(genericParameterClazz.getName());
-              if(genericParameterClazz.getName().startsWith("[L")) {
-                argTypes.add(StringUtils.removeEnd(StringUtils.substringAfterLast(genericParameterClazz.getName(), "."), ";") + "[]");
+              if (genericParameterClazz.getName().contains("$")) {
+                imports.add(StringUtils.substringBeforeLast(genericParameterClazz.getName(), "$"));
               } else {
-                argTypes.add(StringUtils.substringAfterLast(genericParameterClazz.getName(), "."));
+                imports.add(genericParameterClazz.getName());
               }
+              String s;
+              if (genericParameterClazz.getName().startsWith("[L")) {
+                s = StringUtils.removeEnd(StringUtils.substringAfterLast(genericParameterClazz.getName(), "."), ";") + "[]";
+              } else {
+                s = StringUtils.substringAfterLast(genericParameterClazz.getName(), ".");
+              }
+              s = StringUtils.replace(s, "$", ".");
+              argTypes.add(s);
             } else {
               argTypes.add(genericParameterClazz.getName());
             }

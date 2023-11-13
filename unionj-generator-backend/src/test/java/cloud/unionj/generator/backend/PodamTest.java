@@ -7,6 +7,10 @@ import java.util.List;
 
 public class PodamTest {
 
+  public enum RoleType {
+    PRODUCT_MEMBER;
+  }
+
   public static void main(String[] args) {
     PodamFactory factory = new PodamFactoryImpl();
     Long aLong = factory.manufacturePojo(Long.class);
@@ -21,5 +25,8 @@ public class PodamTest {
 
     String[] strings = factory.manufacturePojo(String[].class);
     System.out.println(strings);
+
+    RoleType roleType = factory.manufacturePojo(RoleType.class);
+    System.out.println(roleType);
   }
 }
