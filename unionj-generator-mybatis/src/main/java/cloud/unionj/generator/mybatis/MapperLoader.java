@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 
 public class MapperLoader {
 
-  public List<MapperInfo> load(String prefix, boolean includeInherited) {
+  public List<MapperInfo> load(String prefix, boolean includeInherited, ClassLoader classLoader) {
     List<MapperInfo> mapperInfos = new ArrayList<>();
-    Reflections reflections = new Reflections(prefix);
+    Reflections reflections = new Reflections(prefix, classLoader);
     Set<Class<?>> types = reflections
         .getTypesAnnotatedWith(Mapper.class);
     Iterator<Class<?>> iterator = types.iterator();
@@ -101,5 +101,9 @@ public class MapperLoader {
       mapperInfos.add(mapperInfo);
     }
     return mapperInfos;
+  }
+
+  public List<MapperInfo> load(String prefix, boolean includeInherited) {
+    return this.load(prefix, includeInherited, this.getClass().getClassLoader());
   }
 }

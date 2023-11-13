@@ -20,6 +20,9 @@ import cloud.unionj.generator.backend.docparser.BackendDocParser;
 import cloud.unionj.generator.backend.docparser.entity.Backend;
 import cloud.unionj.generator.backend.springboot.OutputConfig;
 import cloud.unionj.generator.backend.springboot.SpringbootFolderGenerator;
+import cloud.unionj.generator.mybatis.MapperInfo;
+import cloud.unionj.generator.mybatis.MapperLoader;
+import cloud.unionj.generator.mybatis.MapperTestJavaGenerator;
 import cloud.unionj.generator.openapi3.model.Openapi3;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -120,22 +123,31 @@ public class Codegen extends AbstractMojo {
   @Parameter(property = "copyright")
   String copyright;
 
+  @Parameter(property = "mapperPackage")
+  String mapperPackage;
+
+  @Parameter(property = "includeInherited")
+  boolean includeInherited;
+
+  @Parameter(property = "mainClassReferenceName")
+  String mainClassReferenceName;
+
   private ClassLoader getClassLoader(MavenProject project) {
     try {
       List classpathElements = project.getCompileClasspathElements();
       classpathElements.add(project.getBuild()
-                                   .getOutputDirectory());
+          .getOutputDirectory());
       classpathElements.add(project.getBuild()
-                                   .getTestOutputDirectory());
+          .getTestOutputDirectory());
       URL urls[] = new URL[classpathElements.size()];
       for (int i = 0; i < classpathElements.size(); ++i) {
         urls[i] = new File((String) classpathElements.get(i)).toURL();
       }
       return new URLClassLoader(urls, this.getClass()
-                                          .getClassLoader());
+          .getClassLoader());
     } catch (Exception e) {
       return this.getClass()
-                 .getClassLoader();
+          .getClassLoader();
     }
   }
 
@@ -152,8 +164,8 @@ public class Codegen extends AbstractMojo {
       URL url = new URL(this.docUrl);
       URLConnection uc = url.openConnection();
       String basicAuth = "Basic " + new String(Base64.getEncoder()
-                                                     .encode(url.getUserInfo()
-                                                                .getBytes()));
+          .encode(url.getUserInfo()
+              .getBytes()));
       uc.setRequestProperty("Authorization", basicAuth);
       try (BufferedInputStream in = new BufferedInputStream(uc.getInputStream())) {
         backend = BackendDocParser.parse(in);
@@ -162,6 +174,17 @@ public class Codegen extends AbstractMojo {
       try (BufferedInputStream in = new BufferedInputStream(new FileInputStream(this.docFile))) {
         backend = BackendDocParser.parse(in);
       }
+    } else if (StringUtils.isNotEmpty(this.mapperPackage) && StringUtils.isNotEmpty(this.mainClassReferenceName)) {
+      ClassLoader classLoader = this.getClassLoader(project);
+      MapperLoader mapperLoader = new MapperLoader();
+      List<MapperInfo> mapperInfos = mapperLoader.load(this.mapperPackage, this.includeInherited, classLoader);
+      for (int i = 0; i < mapperInfos.size(); i++) {
+        MapperInfo mapperInfo = mapperInfos.get(i);
+        MapperTestJavaGenerator mapperTestJavaGenerator = new MapperTestJavaGenerator(this.project.getBasedir().getCanonicalPath(), this.mainClassReferenceName, mapperInfo, this.noDefaultComment);
+        String generate = mapperTestJavaGenerator.generate();
+        System.out.println(generate);
+      }
+      return;
     } else {
       String designClass = "gen.Openapi3Designer";
       String designMethod = "design";
@@ -174,7 +197,7 @@ public class Codegen extends AbstractMojo {
       Openapi3 openAPI = null;
       try {
         Class<?> designer = this.getClassLoader(project)
-                                .loadClass(designClass);
+            .loadClass(designClass);
         Method design = designer.getMethod(designMethod);
         openAPI = (Openapi3) design.invoke(null);
       } catch (Exception e) {
@@ -186,16 +209,16 @@ public class Codegen extends AbstractMojo {
       objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
       File oas3SpecFile = new File("openapi3.json");
       FileUtils.writeStringToFile(oas3SpecFile, objectMapper.writeValueAsString(openAPI),
-                                  StandardCharsets.UTF_8.name());
+          StandardCharsets.UTF_8.name());
       backend = BackendDocParser.parse(openAPI);
     }
     SpringbootFolderGenerator.Builder builder = new SpringbootFolderGenerator.Builder(backend).pomProject(true)
-                                                                                              .pomParentGroupId(
-                                                                                                  parentGroupId)
-                                                                                              .pomParentArtifactId(
-                                                                                                  parentArtifactId)
-                                                                                              .pomParentVersion(
-                                                                                                  parentVersion);
+        .pomParentGroupId(
+            parentGroupId)
+        .pomParentArtifactId(
+            parentArtifactId)
+        .pomParentVersion(
+            parentVersion);
     String protoArtifactId = null;
     String voArtifactId = null;
     String controllerArtifactId = null;
@@ -242,8 +265,8 @@ public class Codegen extends AbstractMojo {
     builder.author(this.author);
     builder.copyright(this.copyright);
     SpringbootFolderGenerator springbootFolderGenerator = builder.serviceId(this.serviceId)
-                                                                 .serviceBaseUrlKey(this.serviceBaseUrlKey)
-                                                                 .build();
+        .serviceBaseUrlKey(this.serviceBaseUrlKey)
+        .build();
     springbootFolderGenerator.generate();
     getLog().info("Code generated");
   }
