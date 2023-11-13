@@ -18,5 +18,8 @@ public class PodamTest {
     @SuppressWarnings("unchecked")
     List<String> list = factory.manufacturePojo(List.class, String.class);
     System.out.println(list);
+
+    String[] strings = factory.manufacturePojo(String[].class);
+    System.out.println(strings);
   }
 }

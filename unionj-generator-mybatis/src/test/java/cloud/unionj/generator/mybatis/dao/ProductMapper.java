@@ -1,16 +1,18 @@
 package cloud.unionj.generator.mybatis.dao;
 
-import cloud.unionj.generator.mybatis.entity.Product;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import java.util.Set;
 
 @Mapper
 public interface ProductMapper {
 
-  void insert(Product product);
+//  void insert(Product product);
+//
+//  List<Product> selectByIds(List<Long> ids, Boolean isDeleted);
+//
+//  int deletequalityByPrimaryKey(int id);
 
-  List<Product> selectByIds(List<Long> ids, Boolean isDeleted);
-
-  int deletequalityByPrimaryKey(int id);
+  Set<Long> getTaskByVersion(@Param("versions") String[] versions, @Param("versionsIds") Set<Long> versionsIds, @Param("projectId") Long projectId);
 }
