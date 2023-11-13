@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 public class MapperLoader {
 
-  public List<MapperInfo> load(String prefix) {
+  public List<MapperInfo> load(String prefix, boolean includeInherited) {
     List<MapperInfo> mapperInfos = new ArrayList<>();
     Reflections reflections = new Reflections(prefix);
     Set<Class<?>> types = reflections
@@ -30,7 +30,12 @@ public class MapperLoader {
       List<String> imports = new ArrayList<>();
       imports.add(next.getName());
       List<MethodInfo> methodInfos = new ArrayList<>();
-      Method[] methods = next.getDeclaredMethods();
+      Method[] methods = null;
+      if (includeInherited) {
+        methods = next.getMethods();
+      } else {
+        methods = next.getDeclaredMethods();
+      }
       for (int i = 0; i < methods.length; i++) {
         Method method = methods[i];
         MethodInfo methodInfo = new MethodInfo();
@@ -54,7 +59,7 @@ public class MapperLoader {
             }
           } else if (genericParameterType instanceof Class) {
             Class genericParameterClazz = (Class) genericParameterType;
-            if(genericParameterClazz.getName().contains(".")){
+            if (genericParameterClazz.getName().contains(".")) {
               imports.add(genericParameterClazz.getName());
               argTypes.add(StringUtils.substringAfterLast(genericParameterClazz.getName(), "."));
             } else {

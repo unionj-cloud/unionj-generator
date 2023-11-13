@@ -5,7 +5,7 @@ import java.util.List;
 public class MainTest {
   public static void main(String[] args) {
     MapperLoader mapperLoader = new MapperLoader();
-    List<MapperInfo> mapperInfos = mapperLoader.load("cloud.unionj.generator.mybatis.dao");
+    List<MapperInfo> mapperInfos = mapperLoader.load("cloud.unionj.generator.mybatis.dao", false);
     System.out.println(mapperInfos);
 
     for (int i = 0; i < mapperInfos.size(); i++) {
